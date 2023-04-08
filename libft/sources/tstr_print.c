@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   tstr.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/08 18:10:56 by nsainton         ###   ########.fr       */
+/*   Created: 2022/12/28 07:08:18 by nsainton          #+#    #+#             */
+/*   Updated: 2022/12/28 21:58:46 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+void	tstr_print(t_str *str)
 {
-	ft_printf("Minishell\n");
-	return (0);
+	write(STDOUT_FILENO, str->str, str->len);
+}
+
+void	tstr_print_fd(t_str *str, int fd)
+{
+	write(fd, str->str, str->len);
 }

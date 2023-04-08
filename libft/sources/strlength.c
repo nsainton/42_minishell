@@ -1,19 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   strlength.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/08 18:10:56 by nsainton         ###   ########.fr       */
+/*   Created: 2022/10/08 11:17:59 by nsainton          #+#    #+#             */
+/*   Updated: 2023/01/14 22:44:08 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+size_t	ft_strlen(const char *s)
 {
-	ft_printf("Minishell\n");
-	return (0);
+	const char	*ptr;
+
+	ptr = s;
+	while (*ptr)
+		ptr ++;
+	return (ptr - s);
+}
+
+size_t	ft_strnlen(const char *s, size_t maxlen)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < maxlen && *(s + i))
+		i ++;
+	return (i);
 }

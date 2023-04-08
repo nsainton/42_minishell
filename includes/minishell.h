@@ -1,19 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/08 18:10:56 by nsainton         ###   ########.fr       */
+/*   Created: 2023/04/08 18:11:12 by nsainton          #+#    #+#             */
+/*   Updated: 2023/04/08 18:14:08 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	main(void)
-{
-	ft_printf("Minishell\n");
-	return (0);
-}
+#ifndef MINISHELL_H
+# define MINISHELL_H
+# include "minishell_int.h"
+#endif

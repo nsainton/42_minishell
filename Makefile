@@ -6,11 +6,13 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/04/08 17:49:37 by nsainton         ###   ########.fr        #
+#    Updated: 2023/04/08 18:10:10 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .DEFAULT_GOAL:= all
+
+MK:= mkdir -p
 
 NAME:= minishell
 
@@ -71,18 +73,20 @@ export LIBRARY_PATH=$(LFT_DIR)
 
 all:
 	$(MAKE) -C $(LFT_DIR)
-	$(MAKE) -C $(MLX_DIR)
 	$(MAKE) $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) | $(DEPS_DIR)
 	$(CC) $(CFLAGS) $(GG) $(OPT) $(PROG) $(OBJS) \
 	-MD -MF $(DEPS_DIR)/$(NAME).d $(ABBRS) -o $(NAME)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(LFT)
-	[ -d $(@D) ] || mkdir -p $(@D)
+	[ -d $(@D) ] || $(MK) $(@D)
 	arg="$$(dirname $(DEPS_DIR)/$*)"; \
-	[ -d $$arg ] || mkdir -p $$arg
+	[ -d $$arg ] || $(MK) $$arg
 	$(CC) $(CFLAGS) $(GG) $(OPT) -MD -MF $(DEPS_DIR)/$*.d -c $< -o $@
+
+$(DEPS_DIR):
+	$(MK) $(DEPS_DIR)
 
 .PHONY: clean
 clean:

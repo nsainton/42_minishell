@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/08 18:10:56 by nsainton         ###   ########.fr       */
+/*   Created: 2022/10/14 16:09:12 by nsainton          #+#    #+#             */
+/*   Updated: 2022/11/09 12:12:43 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+void	ft_striteri(char *s, void (*f) (unsigned int, char *))
 {
-	ft_printf("Minishell\n");
-	return (0);
+	unsigned int	i;
+
+	if (s == NULL)
+		return ;
+	i = 0;
+	while (*(s + i))
+	{
+		f(i, s + i);
+		i ++;
+	}
 }

@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   lft_enums.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/08 18:10:56 by nsainton         ###   ########.fr       */
+/*   Created: 2022/12/23 18:35:26 by nsainton          #+#    #+#             */
+/*   Updated: 2023/01/01 05:36:44 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef LFT_ENUMS_H
+# define LFT_ENUMS_H
 
-int	main(void)
+typedef enum e_pflags
 {
-	ft_printf("Minishell\n");
-	return (0);
-}
+	SHARP = 1 << 0,
+	SPACE = 1 << 1,
+	PLUS = 1 << 2,
+	DASH = 1 << 3,
+	ZERO = 1 << 4,
+	DOT = 1 << 5
+}				t_pflags;
+
+#endif

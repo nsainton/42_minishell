@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/08 18:10:56 by nsainton         ###   ########.fr       */
+/*   Created: 2022/10/13 11:53:02 by nsainton          #+#    #+#             */
+/*   Updated: 2023/01/31 05:28:39 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+char	*ft_strdup(const char *s)
 {
-	ft_printf("Minishell\n");
-	return (0);
+	size_t	i;
+	char	*ns;
+
+	i = ft_strlen(s);
+	ns = ft_calloc(i + 1, sizeof * ns);
+	if (ns == NULL)
+		return (NULL);
+	ft_memmove(ns, s, i + 1);
+	return (ns);
 }
