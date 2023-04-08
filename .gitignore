@@ -1,0 +1,14 @@
+# Vim Swap files #
+*.swp
+
+# Objects files #
+*.o
+
+# Dependancies files #
+*.d
+
+# Mac debug folder #
+*.dsYM
+
+# Executables #
+*.out
