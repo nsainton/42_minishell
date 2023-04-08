@@ -12,3 +12,6 @@
 
 # Executables #
 *.out
+
+# Minishell executable #
+minishell
