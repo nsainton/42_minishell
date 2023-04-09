@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/29 21:53:38 by nsainton          #+#    #+#              #
-#    Updated: 2023/01/15 01:15:46 by nsainton         ###   ########.fr        #
+#    Updated: 2023/04/09 09:44:39 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CLIENT= client
 
 C_PROG= $(CLIENT).c
 
-LIBFT_DIR= ../Libft
+LIBFT_DIR= ../libft
 
 LIBFT_NAME= libft.a
 
