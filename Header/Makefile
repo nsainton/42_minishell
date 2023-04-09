@@ -5,16 +5,12 @@
 #                                                     +:+ +:+         +:+      #
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/04/09 10:02:31 by nsainton         ###   ########.fr        #
+#    Created: 2023/03/30 11:32:59 by nsainton          #+#    #+#              #
+#    Updated: 2023/04/09 10:01:21 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.DEFAULT_GOAL:= all
-
-MK:= mkdir -p
-
-NAME:= minishell
+NAME:= header
 
 PROG:= $(NAME).c
 
@@ -26,72 +22,57 @@ SRCS_NAMES:= $(subst $(SRCS_DIR)/,, $(foreach dir, $(SRCS_SUBDIRS), $(wildcard $
 
 SRCS:= $(addprefix $(SRCS_DIR)/, $(SRCS_NAMES))
 
+INCS_DIR:= includes
+
 OBJS_DIR:= objects
 
 OBJS_NAMES:= $(SRCS_NAMES:.c=.o)
 
 OBJS:= $(addprefix $(OBJS_DIR)/, $(OBJS_NAMES))
 
-INCS_DIR:= includes
-
-INCS:= $(wildcard $(INCS_DIR)/*)
-
 DEPS_DIR:= dependencies
 
 DEPS:= $(patsubst %.c, $(DEPS_DIR)/%.d, $(SRCS_NAMES) $(PROG))
 
-LFT_DIR:= libft
+CC= clang
 
-LFT_NAME:= libft.a
+CFLAGS= -Wall -Wextra -Werror
 
-LFT_ABBR:= -lft
+GITADD= --all
 
-LFT:= $(addprefix $(LFT_DIR)/, $(LFT_NAME))
+LFT_DIR:= ../libft
 
-ABBRS:= $(LFT_ABBR) 
+ARCHITECTURE= $(shell uname)
 
-CC:= clang
+export C_INCLUDE_PATH= $(INCS_DIR):$(LFT_DIR)/$(INCS_DIR)
+export LIBRARY_PATH= $(LFT_DIR)
 
-CFLAGS:= -Wall -Wextra -Werror
+.DEFAULT_GOAL := all
 
-HEADER_SCRIPT_DIR:= Header
-
-HEADER_EXEC:= header
-
-HEADER_SCRIPT:= $(addprefix $(HEADER_SCRIPT_DIR)/, $(HEADER_EXEC))
-
-HEADER_NAME:= $(NAME).h
-
-FUNCS_HEADER:= $(addprefix $(INCS_DIR)/, $(HEADER_NAME))
-
-GIT_ADD:= --all
-
-export C_INCLUDE_PATH=$(INCS_DIR):$(LFT_DIR)/$(INCS_DIR)
-export LIBRARY_PATH=$(LFT_DIR)
-
-.PHONY: all
+makedebug:
+	@echo $(DEPS)
 
 all:
 	$(MAKE) -C $(LFT_DIR)
 	$(MAKE) $(NAME)
 
 $(NAME): $(OBJS) | $(DEPS_DIR)
-	$(CC) $(CFLAGS) $(GG) $(OPT) $(PROG) $(OBJS) \
-	-MD -MF $(DEPS_DIR)/$(NAME).d $(ABBRS) -o $(NAME)
-
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(LFT)
-	[ -d $(@D) ] || $(MK) $(@D)
-	arg="$$(dirname $(DEPS_DIR)/$*)"; \
-	[ -d $$arg ] || $(MK) $$arg
-	$(CC) $(CFLAGS) $(GG) $(OPT) -MD -MF $(DEPS_DIR)/$*.d -c $< -o $@
+	$(CC) $(CFLAGS) $(OPT) $(GG) $(OBJS) $(PROG) -MD -MF $(DEPS_DIR)/$(PROG:.c=.d) -lft -o $(NAME)
 
 $(DEPS_DIR):
-	$(MK) $(DEPS_DIR)
+	mkdir $(DEPS_DIR)
+
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c Makefile
+	[ -d $(@D) ] || mkdir -p $(@D)
+	arg="$$(dirname $(DEPS_DIR)/$*)"; \
+	[ -d $$arg ] || mkdir -p $$arg
+	$(CC) $(CFLAGS) $(OPT) $(GG) -MD -MF $(DEPS_DIR)/$*.d -c $< -o $@
 
 .PHONY: clean
 clean:
-	$(RM) -r $(OBJS_DIR)
 	$(RM) -r $(DEPS_DIR)
+	$(RM) -r $(OBJS_DIR)
+	[ "$(ARCHITECTURE)" = "Darwin" ] && $(RM) -r *.dSYM || true
 
 .PHONY: oclean
 oclean:
@@ -110,30 +91,12 @@ re:
 .PHONY: debug
 debug:
 	$(MAKE) fclean
-	$(MAKE) GG=-g3 OPT=-O0 CC=gcc
+	$(MAKE) CC=gcc GG=-g3 OPT=-O0
 
 .PHONY: git
 git:
-	git add $(GIT_ADD)
+	git add $(GITADD)
 	git commit
 	git push
-
-.PHONY: makedebug
-makedebug:
-	@echo $(DEPS)
-	@echo GIT_ADD : $(GIT_ADD)
-
-.PHONY: header
-
-ifndef HEADER_SCRIPT
-$(error HEADER_SCRIPT is not set)
-endif
-ifndef FUNCS_HEADER
-$(error FUNCS_HEADER is not set)
-endif
-
-header:
-	$(MAKE) -C $(HEADER_SCRIPT_DIR)
-	$(HEADER_SCRIPT) ./$(SRCS_DIR) $(FUNCS_HEADER)
 
 -include $(DEPS)

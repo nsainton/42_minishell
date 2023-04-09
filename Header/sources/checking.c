@@ -1,17 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   checking.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/09 10:02:58 by nsainton         ###   ########.fr       */
+/*   Created: 2023/03/30 12:02:08 by nsainton          #+#    #+#             */
+/*   Updated: 2023/04/04 14:40:54 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "minishell_int.h"
+#include "header.h"
 
-#endif
+int	space_or_tab(int c)
+{
+	return (c == ' ' || c == '\t');
+}
+
+size_t	tab_len(t_cchar *line)
+{
+	size_t	tabs;
+	size_t	len;
+
+	tabs = 0;
+	len = 0;
+	while (*(line + len))
+	{
+		tabs += (*(line + len) == '\t');
+		len ++;
+	}
+	return (len + 3 * tabs);
+}

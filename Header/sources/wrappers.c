@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   wrappers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/09 10:02:58 by nsainton         ###   ########.fr       */
+/*   Created: 2023/03/30 12:05:11 by nsainton          #+#    #+#             */
+/*   Updated: 2023/03/31 11:49:52 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "minishell_int.h"
+#include "header.h"
 
-#endif
+ssize_t	getline_tstring(t_string *str, FILE *source)
+{
+	return (getline(&str->str, &str->size, source));
+}
