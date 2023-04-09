@@ -1,0 +1,16 @@
+Faire du multi-client.
+On fait un tableau de t_str et on mets les pointeurs dedans en mettant a jour le message du client concerne
+Pb: Comment on reinitialise cette affaire ? En remettant a 0 la case dans le tableau.
+Pb: Ca prendrait assez longtemps de faire du multi-client en fonction de combien le serveur prend
+de temps pour repondre a chaque client.
+A voir si ca influe tant que ca en pratique
+Fonction multi-checker qui verifie si chacun des clients a ete update pour afficher un message avec le pid du
+client qui s'est arrete.
+Pb: plus il y a de clients avec des problemes et plus les clients attendent. Comment faire en sorte que le
+temps d'attente des clients ne depende pas du nombre de client en defaut
+Seule solution: Le serveur traite les clients les uns apres les autres. Systeme de file d'attente des clients
+dans laquelle un client entre des qu'il envoie son premier message. Cela fait le client se met en pause et attend
+la reponse du serveur. Apres quoi le ping-pong classique prends place entre le client et le serveur.
+En gros mettre le main du serveur dans le client et adapter la file d'attente. Un tableau static dans le bss
+avec des structures qui contiendraient le pid du client et le premier signal reçu. Apres le serveur bosse comme on saît
+Pas beaucoup de choses à adapter en soit, simplement bouger un peu le fonctionnement de update_byte mais rien de mechant
