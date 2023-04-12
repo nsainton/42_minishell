@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:09:05 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/12 17:54:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/12 19:32:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,19 @@ static int	write_functions(t_cchar *src_path, t_cint dst_fd, int *max)
 	ssize_t		n_read;
 	int			distance;
 
-	dprintf(STDERR_FILENO, "In function : %s\n", __func__);
+	//dprintf(STDERR_FILENO, "In function : %s\n", __func__);
 	if (! (src = fopen(src_path, "r")))
 	{
 		perror(src_path);
 		return (1);
 	}
-	dprintf(STDERR_FILENO, "The source has been opened : %s\n", src_path);
+	//dprintf(STDERR_FILENO, "The source has been opened : %s\n", src_path);
 	line.str = NULL;
 	line.size = 0;
 	distance = 0;
 	while ((n_read = getline_tstring(&line, src)) > 0)
 	{
-		dprintf(STDERR_FILENO, "This is the line : %s", line.str);
+		//dprintf(STDERR_FILENO, "This is the line : %s", line.str);
 		distance = is_func_prototype(line.str);
 		*max = (distance > *max) * distance + (distance <= *max) * *max;
 		if (distance && write_function(&line, n_read, dst_fd) < 1)
@@ -118,7 +118,7 @@ int	write_to_file(t_cchar *src_path, t_cint fd)
 	int			max_distance;
 
 	max_distance = 0;
-	dprintf(STDERR_FILENO, "In function : %s\n", __func__);
+	//dprintf(STDERR_FILENO, "In function : %s\n", __func__);
 	if (write_functions(src_path, fd, &max_distance))
 	{
 		dprintf(STDERR_FILENO, "The function write_functions has returned an error on the file : %s\n", src_path);
