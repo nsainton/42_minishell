@@ -6,14 +6,14 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/09 09:11:52 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/12 11:00:50 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //includes
 #ifndef MINISHELL_INT_H
 # define MINISHELL_INT_H
-
+# include "libft.h"
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -39,6 +39,32 @@ struct s_arg
 	enum e_types	type;
 };
 
+struct	s_command
+{
+	char	*command;
+	t_list	*options;
+	t_list	*args;
+	t_uint	last;
+	t_uint	pipeline;
+	int		in;
+	int		out;
+	int		err;
+};
+
+struct	s_gc
+{
+	void	**memzones;
+	size_t	len;
+	size_t	size;
+};
+
+typedef enum e_types		t_types;
+
+typedef struct s_command	t_command;
+
+typedef struct s_arg		t_arg;
+
+typedef struct s_gc			t_gc;
 /* struct	s_data
 {
 	t_list	*args;
