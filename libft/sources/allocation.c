@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:50:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/01 09:00:43 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:51:05 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (nptr);
 }
 
-void	*ft_realloc(void *memzone, size_t old_size, size_t new_size)
+void	*ft_reallocf(void *memzone, t_csizet old_size, size_t new_size)
 {
 	size_t	end_of_copy;
 	void	*newzone;
@@ -39,6 +39,20 @@ void	*ft_realloc(void *memzone, size_t old_size, size_t new_size)
 		free(memzone);
 		return (NULL);
 	}
+	ft_memmove(newzone, memzone, end_of_copy);
+	free(memzone);
+	return (newzone);
+}
+
+void	*ft_realloc(void *memzone, t_csizet old_size, t_csizet new_size)
+{
+	size_t	end_of_copy;
+	void	*newzone;
+
+	end_of_copy = ft_minst(old_size, new_size);
+	newzone = malloc(new_size);
+	if (newzone == NULL)
+		return (NULL);
 	ft_memmove(newzone, memzone, end_of_copy);
 	free(memzone);
 	return (newzone);

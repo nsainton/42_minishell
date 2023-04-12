@@ -1,15 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gc_alloc.c                                         :+:      :+:    :+:   */
+/*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 10:45:03 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/12 17:45:58 by nsainton         ###   ########.fr       */
+/*   Created: 2023/04/12 17:58:28 by nsainton          #+#    #+#             */
+/*   Updated: 2023/04/12 17:59:20 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "header.h"
 
-
+void	print(void *string)
+{
+	ft_printf("This is the content : %s\n", string);
+}

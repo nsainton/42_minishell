@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 19:53:03 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/04 17:32:16 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/12 18:25:32 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int ac, char **av)
 		ft_lstclear(&entries, free);
 		return (EXIT_FAILURE);
 	}
+	ft_lstiter(entries, print);
 	*max = 0;
 	while (entries)
 	{
@@ -51,6 +52,7 @@ int	main(int ac, char **av)
 		filename = filename + (filename != NULL);
 		if (! filename)
 			filename = (char *)entries->content;
+		print_color_string(entries->content, GRN, STDERR_FILENO);
 		dprintf(desc.tmp, "//Functions from file : %s\n", filename);
 		*(max + 1) = write_to_file((char *)entries->content, desc.tmp);
 		if (*(max + 1) > *max)

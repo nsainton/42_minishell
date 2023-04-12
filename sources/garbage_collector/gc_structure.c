@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 10:53:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/12 12:41:29 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/12 17:50:49 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ t_gc	*getgc(void)
 
 	if (collector.memzones)
 		return (&collector);
-	collector.memzones = malloc(sizeof * collector.memzones * TRASH_SIZE);
+	if (! TRASH_SIZE)
+		return (NULL);
+	collector.memzones = ft_calloc(TRASH_SIZE, sizeof * collector.memzones);
 	if (! collector.memzones)
 	{
 		ft_bzero(&collector, sizeof collector);
@@ -53,13 +55,39 @@ int	gc_realloc(void)
 	t_gc	*collector;
 	void	*newzone;
 	size_t	newsize;
+	size_t	elemsize;
 
 	collector = getgc();
 	if (! collector)
+		return (NO_COLLECTOR);
+	newsize = 2 * collector->size;
+	if (newsize < collector->size)
+		return (OVERFLOW);
+	elemsize = sizeof * collector->memzones;
+	newzone = ft_realloc(collector->memzones, \
+	collector->size * elemsize, newsize * elemsize);
+	if (! newzone)
 		return (ALLOCATION_ERROR);
-	newzone = ft_realloc(new
+	ft_bzero(newzone + collector->size, (newsize - collector->size) * elemsize);
+	collector->memzones = newzone;
+	collector->size = newsize;
+	return (0);
 }
+
 int	gc_add(void *ptr)
 {
-	t_gc	*gc
+	t_gc	*collector;
+	int		error;
+
+	collector = getgc();
+	if (! collector)
+		return (NO_COLLECTOR);
+	error = 0;
+	if (collector->len == collector->size)
+		error = gc_realloc();
+	if (error)
+		return (free_gc(error));
+	*(collector->memzones + collector->len) = ptr;
+	collector->len ++;
+	return (0);
 }
