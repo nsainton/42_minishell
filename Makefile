@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/04/12 11:07:19 by nsainton         ###   ########.fr        #
+#    Updated: 2023/04/12 12:11:24 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ LFT:= $(addprefix $(LFT_DIR)/, $(LFT_NAME))
 
 ABBRS:= $(LFT_ABBR) -lreadline
 
-CC:= clang
+CC:= cc
 
 CFLAGS:= -Wall -Wextra -Werror
 

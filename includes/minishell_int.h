@@ -6,13 +6,14 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/12 11:00:50 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:27:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //includes
 #ifndef MINISHELL_INT_H
 # define MINISHELL_INT_H
+// Preprocessor includes
 # include "libft.h"
 # include <signal.h>
 # include <stdio.h>
@@ -20,18 +21,37 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 //Compile the executable with libreadline (-lreadline)
+//End of Prepocessor includes
 
+// Preprocessor defines
+# define TRASH_SIZE 50
+// ENUM Declarations
+
+/*
+METACHARACTERS : Any metacharacter except ;
+PIPE : Designates a | or a \n
+EXIT_STATUS : For the variable $?
+*/
 enum e_types
 {
-	METACHARACTERS = 1 << 0, //Any metacharacter except ;
-	PIPE = 1 << 1, // | and newline
+	METACHARACTERS = 1 << 0,
+	PIPE = 1 << 1,
 	OUTPUT_REDIRECTION = 1 << 2,
 	INPUT_REDIRECTION = 1 << 3,
 	DOUBLE_INPUT_REDIR = 1 << 4,
 	APPEND_REDIRECTION = 1 << 5,
 	ENV_VARIABLE = 1 << 6,
-	EXIT_STATUS = 1 << 7, // $?
+	EXIT_STATUS = 1 << 7,
 };
+
+enum e_minierrors
+{
+	ALLOCATION_ERROR = 20,
+	NO_COLLECTOR,
+};
+// End of ENUM Declarations
+
+//Structures declarations
 
 struct s_arg
 {
@@ -58,13 +78,6 @@ struct	s_gc
 	size_t	size;
 };
 
-typedef enum e_types		t_types;
-
-typedef struct s_command	t_command;
-
-typedef struct s_arg		t_arg;
-
-typedef struct s_gc			t_gc;
 /* struct	s_data
 {
 	t_list	*args;
@@ -72,5 +85,20 @@ typedef struct s_gc			t_gc;
 	t_list	*outfiles;
 	t_list	*commands;
 } */
+
+//End of structures declarations
+
+//Type definitions
+typedef enum e_types		t_types;
+
+typedef enum e_minierrors	t_minierrors;
+
+typedef struct s_command	t_command;
+
+typedef struct s_arg		t_arg;
+
+typedef struct s_gc			t_gc;
+
+//End of type definitions
 
 #endif
