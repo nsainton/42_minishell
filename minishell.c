@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/08 19:54:45 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/12 10:19:18 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(void)
 {
 	char	*line;
 
-	sigaction(SIGINT, sig_handler);
+	//sigaction(SIGINT, sig_handler);
 	while (1)
 	{
 		line = readline("minishell>");
