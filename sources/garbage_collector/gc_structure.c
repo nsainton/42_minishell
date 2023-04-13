@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 10:53:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/12 17:50:49 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:52:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,7 @@ t_gc	*getgc(void)
 	return (&collector);
 }
 
-int	free_gc(t_cint errcode)
-{
-	t_gc	*collector;
-	size_t	index;
-
-	collector = getgc();
-	if (! collector)
-		return (errcode);
-	index = 0;
-	while (index < collector->len)
-	{
-		free(*(collector->memzones + index));
-		index ++;
-	}
-	free(collector->memzones);
-	ft_bzero(collector, sizeof * collector);
-	return (errcode);
-}
-
-int	gc_realloc(void)
+static int	gc_realloc(void)
 {
 	t_gc	*collector;
 	void	*newzone;
@@ -58,8 +39,6 @@ int	gc_realloc(void)
 	size_t	elemsize;
 
 	collector = getgc();
-	if (! collector)
-		return (NO_COLLECTOR);
 	newsize = 2 * collector->size;
 	if (newsize < collector->size)
 		return (OVERFLOW);
@@ -80,13 +59,11 @@ int	gc_add(void *ptr)
 	int		error;
 
 	collector = getgc();
-	if (! collector)
-		return (NO_COLLECTOR);
 	error = 0;
 	if (collector->len == collector->size)
 		error = gc_realloc();
 	if (error)
-		return (free_gc(error));
+		return (error);
 	*(collector->memzones + collector->len) = ptr;
 	collector->len ++;
 	return (0);
