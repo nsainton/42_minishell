@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/13 18:18:37 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/13 19:13:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,20 @@ int	main(void)
 		//parse_line(line);
 	}
 	*/
-	line = gcmalloc(strlen("Test\n") + 1);
-	*line = 0;
-	size_t	len = gc_len();
-	ft_printf("This is the len : %u\n", len);
-	int error = free_nodes(1, 0);
+	for (int index = 0; index < TRASH_SIZE + 10; index ++)
+	{
+		line = gcmalloc(1);
+		if (! line)
+			break ;
+	}
+	ft_printf("This is the len : %u\n", gc_len());
+	print_collector();
+	int error = free_nodes(gc_len() / 2, 0);
 	if (error)
 		ft_printf("This is the error : %d\n", error);
 	else
 		ft_printf("This is the len : %u\n", gc_len());
+	print_collector();
 	free_gc(0);
 	return (0);
 }

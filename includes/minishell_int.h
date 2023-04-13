@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/12 17:17:03 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/13 19:41:41 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 
 // Preprocessor defines
 # define TRASH_SIZE 50
+# define ENTER "Entering function : %s\n"
+# define LEAVE "Leaving function : %s\n"
+# define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);
+# define LPRINT ft_dprintf(STDERR_FILENO, LEAVE, __func__);
 // ENUM Declarations
 
 /*

@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/13 18:10:04 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/13 19:12:31 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 //Functions from file : gc_helpers.c
 size_t	gc_len();
+
+void	print_collector();
 
 //Functions from file : gc_alloc.c
 void	*gcmalloc(size_t size);
