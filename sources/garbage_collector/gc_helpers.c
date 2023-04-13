@@ -1,43 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gc_alloc.c                                         :+:      :+:    :+:   */
+/*   gc_helpers.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/12 10:45:03 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/13 17:17:10 by nsainton         ###   ########.fr       */
+/*   Created: 2023/04/13 17:17:28 by nsainton          #+#    #+#             */
+/*   Updated: 2023/04/13 17:19:58 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	*gcmalloc(size_t size)
+size_t	gc_len()
 {
-	void	*ptr;
 	t_gc	*collector;
 
 	collector = getgc();
 	if (! collector)
-		return (NULL);
-	ptr = malloc(size);
-	if (! (ptr && gc_add(ptr)))
-		return (ptr);
-	free(ptr);
-	return (NULL);
-}
-
-void	*gccalloc(size_t nmemb, size_t size)
-{
-	void	*ptr;
-	t_gc	*collector;
-
-	collector = getgc();
-	if (! collector)
-		return (NULL);
-	ptr = ft_calloc(nmemb, size);
-	if (! (ptr && gc_add(ptr)))
-		return (ptr);
-	free(ptr);
-	return (NULL);
+		return (0);
+	return (collector->len);
 }
