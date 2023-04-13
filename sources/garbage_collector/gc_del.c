@@ -6,7 +6,7 @@
 /*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:29:21 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/13 11:45:14 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:55:24 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	free_nodes(t_csizet number, t_cint errcode)
 	t_gc	*collector;
 	size_t	index;
 	size_t	newsize;
-	void	*newzone;
+	void	**newzone;
 
 	collector = getgc();
 	if (! collector)
