@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/14 14:15:13 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:08:07 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_env	*get_my_env(char **envp)
 	else
 		my_env->is_empty = 0;
 	my_env->list_env = copy_env(envp);
-	print_list(my_env->list_env);
 	return (my_env);
 }
 

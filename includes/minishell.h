@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/14 14:19:08 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:05:14 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 //Functions from file : export.c
 void	export_env(t_env *my_env, char *arg);
+int	is_valid_export(char *arg);
 
 //Functions from file : utils.c
 void	print_list(t_list *lst);

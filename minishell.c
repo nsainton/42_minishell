@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/14 13:45:03 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:04:26 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	main(int argc, char **argv, char **envp)
 		printf("%s\n", line);
 		//parse_line(line);
 	} */
-
+	export_env(my_env, "fneuwof");
 	free_gc(1);
-	return (0);
+	return (errno);
 
 }
