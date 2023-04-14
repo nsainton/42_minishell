@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/13 19:41:41 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/14 12:16:29 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,13 @@ struct	s_gc
 	size_t	size;
 };
 
+struct s_env
+{
+	t_list	*list_env;
+	char	*path;
+	int		is_empty;
+};
+
 /* struct	s_data
 {
 	t_list	*args;
@@ -103,6 +110,8 @@ typedef struct s_command	t_command;
 typedef struct s_arg		t_arg;
 
 typedef struct s_gc			t_gc;
+
+typedef struct s_env		t_env;
 
 //End of type definitions
 
