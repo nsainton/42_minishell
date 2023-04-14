@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/13 19:12:31 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/14 09:54:27 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 # include "minishell_int.h"
 
 //Functions from file : gc_helpers.c
-size_t	gc_len();
+size_t	gc_len(void);
 
-void	print_collector();
+void	print_collector(void);
 
 //Functions from file : gc_alloc.c
 void	*gcmalloc(size_t size);

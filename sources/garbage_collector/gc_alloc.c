@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 10:45:03 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/13 19:08:44 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/14 09:58:17 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	*gcmalloc(size_t size)
 	void	*ptr;
 	t_gc	*collector;
 
-	EPRINT
+	//EPRINT
 	collector = getgc();
 	if (! collector)
 		return (NULL);
 	ptr = malloc(size);
-	LPRINT
+	//LPRINT
 	if (! (ptr && gc_add(ptr)))
 		return (ptr);
 	free(ptr);

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/13 19:13:38 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/14 09:59:01 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,5 @@ int	main(void)
 	else
 		ft_printf("This is the len : %u\n", gc_len());
 	print_collector();
-	free_gc(0);
-	return (0);
+	return (free_gc(0));
 }
