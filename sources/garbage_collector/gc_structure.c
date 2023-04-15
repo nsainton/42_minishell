@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 10:53:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/15 18:53:42 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/15 19:16:04 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	gc_realloc(void)
 	print_collector();
 	LPRINT
 	*/
-	return (0);
+	return (NO_ERROR);
 }
 
 int	gc_add(void *ptr)
@@ -101,7 +101,7 @@ int	gc_add(void *ptr)
 	ft_dprintf(STDERR_FILENO, "This is the new size : %u\n", collector->size);
 	LPRINT
 	*/
-	return (0);
+	return (NO_ERROR);
 }
 
 int	gc_replace(void *old_ptr, void *new_ptr)
@@ -122,5 +122,5 @@ int	gc_replace(void *old_ptr, void *new_ptr)
 	}
 	if (index == collector->len)
 		return (NOT_IN_COLLECTOR);
-	return (0);
+	return (NO_ERROR);
 }
