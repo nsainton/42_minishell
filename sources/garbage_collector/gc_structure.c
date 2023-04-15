@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 10:53:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/14 09:57:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/15 18:53:42 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,26 @@ int	gc_add(void *ptr)
 	ft_dprintf(STDERR_FILENO, "This is the new size : %u\n", collector->size);
 	LPRINT
 	*/
+	return (0);
+}
+
+int	gc_replace(void *old_ptr, void *new_ptr)
+{
+	t_gc	*collector;
+	size_t	index;
+
+	collector = getgc();
+	index = 0;
+	while (index < collector->len)
+	{
+		if (*(collector->memzones + index) == old_ptr)
+		{
+			*(collector->memzones + index) = new_ptr;
+			break ;
+		}
+		index ++;
+	}
+	if (index == collector->len)
+		return (NOT_IN_COLLECTOR);
 	return (0);
 }

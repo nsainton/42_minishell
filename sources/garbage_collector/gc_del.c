@@ -6,7 +6,7 @@
 /*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:29:21 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/14 09:55:51 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/15 18:53:25 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	free_gc(t_cint errcode)
 	while (index < collector->len)
 	{
 		//ft_dprintf(STDERR_FILENO, "This is the index : %u\n", index);
-		free(*(collector->memzones + index));
+		if (*(collector->memzones + index))
+			free(*(collector->memzones + index));
 		index ++;
 	}
 	free(collector->memzones);
@@ -45,7 +46,7 @@ int	free_nodes(t_csizet number, t_cint errcode)
 	//EPRINT
 	collector = getgc();
 	if (! collector)
-		return (NO_COLLECTOR);
+		return (errcode);
 	if (collector->len <= number)
 		return (free_gc(errcode));
 	//ft_dprintf(STDERR_FILENO, "This is the len : %u\n", collector->len);
@@ -61,5 +62,31 @@ int	free_nodes(t_csizet number, t_cint errcode)
 	}
 	collector->len = newsize;
 	//LPRINT
+	return (errcode);
+}
+
+int	free_node(void *node, t_cint errcode)
+{
+	t_gc	*collector;
+	size_t	index;
+
+	collector = getgc();
+	if (! collector)
+		return (errcode);
+	index = 0;
+	if (collector->len < 1)
+		return (free_gc(errcode));
+	while (index < collector->len)
+	{
+		if (*(collector->memzones + index) == node)
+			break ;
+		index ++;
+	}
+	if (index == collector->len)
+		return (errcode);
+	*(collector->memzones + index) = *(collector->memzones + collector->len - 1);
+	*(collector->memzones + collector->len - 1) = NULL;
+	collector->len --;
+	free(node);
 	return (errcode);
 }
