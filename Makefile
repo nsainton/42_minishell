@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/04/13 18:16:34 by nsainton         ###   ########.fr        #
+#    Updated: 2023/04/16 18:26:42 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,8 @@ HEADER_NAME:= $(NAME).h
 FUNCS_HEADER:= $(addprefix $(INCS_DIR)/, $(HEADER_NAME))
 
 GIT_ADD:= --all
+
+VALGRIND_OPTIONS:= --leak-check=full --show-leak-kinds=all --suppressions=rl_suppressions.supp
 
 export C_INCLUDE_PATH=$(INCS_DIR):$(LFT_DIR)/$(INCS_DIR)
 export LIBRARY_PATH=$(LFT_DIR)
@@ -155,6 +157,10 @@ debug:
 	$(MAKE) debug -C $(LFT_DIR)
 	$(MAKE) fclean
 	$(MAKE) GG=-g3 OPT=-O0 CC=gcc
+
+.PHONY: leaks
+leaks:
+	$(MAKE) debug && valgrind $(VALGRIND_OPTIONS) ./$(NAME)
 
 .PHONY: git
 git:
