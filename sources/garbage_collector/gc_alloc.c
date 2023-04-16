@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 10:45:03 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/15 18:56:38 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/16 10:10:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	*gcrealloc(void *pointer, size_t old_size, size_t new_size)
 	if (! collector)
 		return (NULL);
 	ptr = ft_realloc(pointer, old_size, new_size);
-	free(pointer);
 	if (! (ptr && gc_replace(pointer, ptr)))
 		return (ptr);
 	free(ptr);
