@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/16 13:33:23 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/16 13:41:59 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(void)
 		return (free_gc(NOT_IN_COLLECTOR));
 	print_collector();
 	print_array(strings_array, 20);
-	free_array_strings(strings_array, 20, 0);
+	free_array_strings_size(strings_array, 20, 0);
 	print_collector();
 	return (free_gc(0));
 }
