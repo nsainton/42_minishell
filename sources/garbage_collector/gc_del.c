@@ -6,7 +6,7 @@
 /*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:29:21 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/15 18:53:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/16 11:40:35 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ int	free_node(void *node, t_cint errcode)
 
 	collector = getgc();
 	if (! collector)
-		return (errcode);
+		return (NO_COLLECTOR);
 	index = 0;
-	if (collector->len < 1)
+	if (! collector->len)
 		return (free_gc(errcode));
 	while (index < collector->len)
 	{
@@ -83,7 +83,7 @@ int	free_node(void *node, t_cint errcode)
 		index ++;
 	}
 	if (index == collector->len)
-		return (errcode);
+		return (NOT_IN_COLLECTOR);
 	*(collector->memzones + index) = *(collector->memzones + collector->len - 1);
 	*(collector->memzones + collector->len - 1) = NULL;
 	collector->len --;

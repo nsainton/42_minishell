@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 17:17:28 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/14 09:56:26 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/16 12:53:03 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,13 @@ void	print_collector(void)
 		return ;
 	index = 0;
 	size = collector->size;
+	ft_dprintf(STDERR_FILENO, "Printing collector\n");
 	while (index < size)
 	{
 		ft_dprintf(STDERR_FILENO, "This is the pointer #%u : %p\n", \
 		index, *(collector->memzones + index));
 		index ++;
 	}
+	ft_dprintf(STDERR_FILENO, "Collector Printed\n");
 	//LPRINT
 }
