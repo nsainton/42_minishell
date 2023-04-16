@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/15 19:14:46 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/16 15:11:16 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ enum e_minierrors
 	NOT_IN_COLLECTOR
 };
 // End of ENUM Declarations
+
+enum e_states
+{
+	NO_STATE,
+	S_QUOTES,
+	D_QUOTES
+};
 
 //Structures declarations
 
