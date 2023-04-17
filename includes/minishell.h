@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/17 16:23:27 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:41:27 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@
 t_gc	*getgc(void);
 
 int		gc_realloc(void);
-
-//Functions from file : lst.c
-t_list	*gc_lstnew(void *content);
-
-t_list	*gc_lstnew_cpy(t_cvoid *content, size_t size);
-
-void	gc_lstdelone(t_list *lst, void (*del) (void *));
-
-void	gc_lstclear(t_list **lst, void (*del) (void *));
 
 //Functions from file : strs.c
 char	*gc_strdup(t_cchar *s);
@@ -65,6 +56,18 @@ void	*gcmalloc(size_t size);
 void	*gccalloc(size_t nmemb, size_t size);
 
 void	*gcrealloc(void *pointer, size_t old_size, size_t new_size);
+
+//Functions from file : lst_add.c
+t_list	*gc_lstnew(void *content);
+
+t_list	*gc_lstnew_cpy(t_cvoid *content, size_t size);
+
+//Functions from file : lst_free.c
+void	gc_lstdelone(t_list *lst, void (*del) (void *));
+
+void	gc_lstclear(t_list **lst, void (*del) (void *));
+
+void	gc_lstdel_front(t_list **lst, void (*del) (void *));
 
 //Functions from file : gc_helpers.c
 size_t	gc_len(void);

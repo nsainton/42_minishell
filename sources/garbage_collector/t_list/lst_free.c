@@ -1,47 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst.c                                              :+:      :+:    :+:   */
+/*   lst_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/17 15:43:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/17 16:24:10 by nsainton         ###   ########.fr       */
+/*   Created: 2023/04/17 16:32:16 by nsainton          #+#    #+#             */
+/*   Updated: 2023/04/17 16:41:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*gc_lstnew(void *content)
-{
-	t_list	*new_elem;
-
-	new_elem = ft_lstnew(content);
-	if (! (new_elem && gc_add(new_elem)))
-		return (new_elem);
-	free(new_elem);
-	return (NULL);
-}
-
-t_list	*gc_lstnew_cpy(t_cvoid *content, size_t size)
-{
-	t_list	*new_elem;
-	void	*new_content;
-
-	new_content = gcmalloc(size);
-	if (! new_content)
-		return (new_content);
-	ft_memcpy(new_content, content, size);
-	new_elem = gc_lstnew(new_content);
-	if (! new_elem)
-		free_nodes(1);
-	return (new_elem);
-}
-
 void	gc_lstdelone(t_list *lst, void (*del) (void *))
 {
 	del(lst->content);
 	return (free_node(lst));
+}
+
+static void	gc_lstfreenodes(t_list **lst)
+{
+	t_list	*p;
+	t_list	*q;
+
+	p = *lst;
+	while (p->next)
+	{
+		q = p->next;
+		free_node(p);
+		p = q;
+	}
+	free_node(p);
+	*lst = NULL;
 }
 
 void	gc_lstclear(t_list **lst, void (*del) (void *))
@@ -52,6 +42,8 @@ void	gc_lstclear(t_list **lst, void (*del) (void *))
 	p = *lst;
 	if (p == NULL)
 		return ;
+	if (! del)
+		return (gc_lstfreenodes(lst));
 	while (p->next != NULL)
 	{
 		q = p->next;
@@ -62,4 +54,17 @@ void	gc_lstclear(t_list **lst, void (*del) (void *))
 	*lst = NULL;
 	del(p->content);
 	free_node(p);
+}
+
+void	gc_lstdel_front(t_list **lst, void (*del) (void *))
+{
+	t_list *tmp;
+
+	if (*lst == NULL)
+		return ;
+	tmp = *lst;
+	*lst = (*lst)->next;
+	if (del)
+		return (gc_lstdelone(tmp, del));
+	free_node(tmp);
 }
