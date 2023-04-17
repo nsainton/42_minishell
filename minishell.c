@@ -6,13 +6,37 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 17:48:11 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:20:05 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**allocate_strings_array(t_csizet size)
+int	main(int argc, char **argv, char **envp)
+{
+	char	*line;
+	char	**args;
+	t_env	*my_env;
+
+	if (argc > 1 || !argv)
+		return (1);
+	//sigaction(SIGINT, sig_handler);
+	my_env = get_my_env(envp);
+	while (1)
+	{
+		line = readline("minishell> ");
+		if (line[0])
+		{
+			args = ft_split(line, ' ');
+			which_builtin(args[0], &args[1], my_env);
+		}
+	}
+	free_gc();
+	return (errno);
+}
+
+
+/* char	**allocate_strings_array(t_csizet size)
 {
 	char	**array;
 	size_t	index;
@@ -54,17 +78,17 @@ void print_strings(char *const *array)
 		index ++;
 	}
 }
+*/
 
 //int	main(int ac, char **av)
+/*
 int	main(void)
 {
 	char	*line;
 	char	*trimmed;
-	/*
 	char	**strings_array;
 	void	*node;
 	void	*rnode;
-	*/
 	//char	**split;
 
 	//sigaction(SIGINT, sig_handler);
@@ -92,6 +116,7 @@ int	main(void)
 		}
 		//parse_line(line);
 	}
+	*/
 	/*
 	for (size_t index = 0; index < 10 * TRASH_SIZE + 10; index ++)
 	{
@@ -125,8 +150,6 @@ int	main(void)
 	print_array(strings_array, 20);
 	free_array_strings_size(strings_array, 20, 0);
 	print_collector();
-	*/
-	/*
 	if (ac < 3)
 		return (NO_ERROR);
 	print_collector();
@@ -139,7 +162,9 @@ int	main(void)
 	}
 	print_strings(split);
 	*/
+	/*
 	print_collector();
 	free_gc();
 	return (EXIT_SUCCESS);
 }
+*/
