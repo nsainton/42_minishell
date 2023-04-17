@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 16:28:06 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:48:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	print_array(char *const*array, t_csizet size)
 	ft_printf("array : %p\n", array);
 }
 
-static void print_strings(char *const *array)
+void print_strings(char *const *array)
 {
 	size_t	index;
 
@@ -55,27 +55,43 @@ static void print_strings(char *const *array)
 	}
 }
 
-int	main(int ac, char **av)
+//int	main(int ac, char **av)
+int	main(void)
 {
-	/*
 	char	*line;
+	char	*trimmed;
+	/*
 	char	**strings_array;
 	void	*node;
 	void	*rnode;
 	*/
-	char	**split;
+	//char	**split;
 
 	//sigaction(SIGINT, sig_handler);
-	/*
-	while (1)
+	line = readline("minishell>");
+	if (! line)
+		return (EXIT_FAILURE);
+	if (ft_strlen(line) < 2 || gc_add(line))
 	{
-		line = readline("minishell>");
-		if (!line)
+		free(line);
+		return (EXIT_FAILURE);
+	}
+	while (ft_strlen(line) > 1)
+	{
+		if (! line)
 			break ;
-		printf("%s\n", line);
+		ft_printf("%s\n", line);
+		if (! (trimmed = gc_strtrim(line, " ")))
+			break ;
+		ft_printf("Trimmed line : %s\n", trimmed);
+		line = readline("minishell>");
+		if (gc_add(line))
+		{
+			free(line);
+			break ;
+		}
 		//parse_line(line);
 	}
-	*/
 	/*
 	for (size_t index = 0; index < 10 * TRASH_SIZE + 10; index ++)
 	{
@@ -110,6 +126,7 @@ int	main(int ac, char **av)
 	free_array_strings_size(strings_array, 20, 0);
 	print_collector();
 	*/
+	/*
 	if (ac < 3)
 		return (NO_ERROR);
 	print_collector();
@@ -121,6 +138,8 @@ int	main(int ac, char **av)
 		return (ALLOCATION_ERROR);
 	}
 	print_strings(split);
+	*/
+	print_collector();
 	free_gc();
 	return (EXIT_SUCCESS);
 }

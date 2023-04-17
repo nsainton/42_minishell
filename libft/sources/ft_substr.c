@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 11:56:16 by nsainton          #+#    #+#             */
-/*   Updated: 2022/10/13 12:14:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:31:18 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	i;
 	char	*ns;
 
-	if (s == NULL)
-		return (NULL);
 	size = ft_min(s, start, len);
 	ns = (char *)malloc((size + 1) * sizeof(*ns));
 	if (ns == NULL)
