@@ -1,46 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strs.c                                             :+:      :+:    :+:   */
+/*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/16 19:10:01 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/17 13:30:44 by nsainton         ###   ########.fr       */
+/*   Created: 2023/04/17 13:31:31 by nsainton          #+#    #+#             */
+/*   Updated: 2023/04/17 14:29:40 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*gc_strdup(t_cchar *s)
+char	**gc_split(t_cchar *s, char c)
 {
-	char	*ns;
+	char	**ns;
+	size_t	index;
 
-	ns = ft_strdup(s);
-	if (! (ns && gc_add(ns)))
+	ns = ft_split(s, c);
+	if (! (ns && gc_add_array((void **)ns)))
 		return (ns);
-	free(ns);
-	return (NULL);
-}
-
-char	*gc_strtrim(t_cchar *s1, t_cchar *set)
-{
-	char	*ns;
-
-	ns = ft_strtrim(s1, set);
-	if (! (ns && gc_add(ns)))
-		return (ns);
-	free(ns);
-	return (NULL);
-}
-
-char	*gc_strjoin(t_cchar *s1, t_cchar *s2)
-{
-	char	*ns;
-
-	ns = ft_strjoin(s1, s2);
-	if (! (ns && gc_add(ns)))
-		return (ns);
+	index = 0;
+	while (*(ns + index))
+	{
+		free(*(ns + index));
+		index ++;
+	}
 	free(ns);
 	return (NULL);
 }

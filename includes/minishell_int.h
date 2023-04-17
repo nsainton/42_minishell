@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/15 19:14:46 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 13:52:48 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ enum e_minierrors
 	ALLOCATION_ERROR = 20,
 	NO_COLLECTOR,
 	OVERFLOW,
-	NOT_IN_COLLECTOR
+	NOT_IN_COLLECTOR,
+	ADD_ERROR
 };
 // End of ENUM Declarations
 
