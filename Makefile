@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/04/16 18:26:42 by nsainton         ###   ########.fr        #
+#    Updated: 2023/04/17 15:06:22 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -160,7 +160,7 @@ debug:
 
 .PHONY: leaks
 leaks:
-	$(MAKE) debug && valgrind $(VALGRIND_OPTIONS) ./$(NAME)
+	$(MAKE) debug && valgrind $(VALGRIND_OPTIONS) ./$(NAME) $(OPT_ARGS)
 
 .PHONY: git
 git:
@@ -172,6 +172,7 @@ git:
 makedebug:
 	@echo $(DEPS)
 	@echo GIT_ADD : $(GIT_ADD)
+	@echo $(OPT_ARGS)
 
 .PHONY: header
 
