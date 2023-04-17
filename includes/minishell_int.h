@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 16:15:22 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:35:21 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,21 @@ enum e_types
 
 enum e_minierrors
 {
+	NO_ERROR = 0,
 	ALLOCATION_ERROR = 20,
 	NO_COLLECTOR,
-	OVERFLOW
+	OVERFLOW,
+	NOT_IN_COLLECTOR,
+	ADD_ERROR
 };
 // End of ENUM Declarations
+
+enum e_states
+{
+	NO_STATE,
+	S_QUOTES,
+	D_QUOTES
+};
 
 //Structures declarations
 

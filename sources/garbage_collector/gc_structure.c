@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 10:53:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/14 09:57:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 13:34:45 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_gc	*getgc(void)
 	return (&collector);
 }
 
-static int	gc_realloc(void)
+int	gc_realloc(void)
 {
 	t_gc	*collector;
 	void	**newzone;
@@ -75,31 +75,5 @@ static int	gc_realloc(void)
 	print_collector();
 	LPRINT
 	*/
-	return (0);
-}
-
-int	gc_add(void *ptr)
-{
-	t_gc	*collector;
-	int		error;
-
-	//EPRINT
-	collector = getgc();
-	error = 0;
-	/*
-	ft_dprintf(STDERR_FILENO, "This is the len : %u\n", collector->len);
-	ft_dprintf(STDERR_FILENO, "This is the size : %u\n", collector->size);
-	*/
-	if (collector->len == collector->size)
-		error = gc_realloc();
-	if (error)
-		return (error);
-	*(collector->memzones + collector->len) = ptr;
-	collector->len ++;
-	/*
-	ft_dprintf(STDERR_FILENO, "This is the new len : %u\n", collector->len);
-	ft_dprintf(STDERR_FILENO, "This is the new size : %u\n", collector->size);
-	LPRINT
-	*/
-	return (0);
+	return (NO_ERROR);
 }
