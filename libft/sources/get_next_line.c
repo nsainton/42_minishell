@@ -6,7 +6,7 @@
 /*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 06:11:30 by nsainton          #+#    #+#             */
-/*   Updated: 2022/12/23 19:20:51 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:58:29 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	read_line(t_gline *line, char buf[BUFFER_SIZE + 1], const int fd)
 	{
 		if (parse_line(line, buf, (const size_t)n_read))
 			return (1);
-		line->line = ft_realloc(line->line, line->line_index + 1, \
+		line->line = ft_reallocf(line->line, line->line_index + 1, \
 		line->line_index + BUFFER_SIZE + 1);
 		if (line->line == NULL)
 			return (0);
@@ -82,7 +82,7 @@ static int	read_line(t_gline *line, char buf[BUFFER_SIZE + 1], const int fd)
 	{
 		if (parse_line(line, buf, (const size_t)n_read))
 			return (1);
-		line->line = ft_realloc(line->line, line->line_index + 1, \
+		line->line = ft_reallocf(line->line, line->line_index + 1, \
 		line->line_index + BUFFER_SIZE + 1);
 		if (line->line == NULL)
 			return (0);
@@ -123,9 +123,10 @@ char	*get_next_line(int fd)
 	line.line_index = 0;
 	*(line.line) = 0;
 	if (fill_line(&line, buf[fd]))
-		line.line = ft_realloc(line.line, BUFFER_SIZE + 1, line.line_index + 1);
+		line.line = ft_reallocf(line.line, \
+		BUFFER_SIZE + 1, line.line_index + 1);
 	else if (read_line(&line, buf[fd], fd))
-		line.line = ft_realloc(line.line, line.line_index + 1, \
+		line.line = ft_reallocf(line.line, line.line_index + 1, \
 		line.line_index + 1);
 	else
 		line.line = NULL;

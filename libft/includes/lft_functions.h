@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 06:26:12 by nsainton          #+#    #+#             */
-/*   Updated: 2023/03/28 16:34:24 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:50:34 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ be declared as const
 
 void		put_address(t_pbuffer *buf, va_list *ap, char flags[128]);
 
-//Functions from allocation.c [       2 functions]
+//Functions from allocation.c [       3 functions]
 
 void		*ft_calloc(size_t nmemb, size_t size);
+
+void		*ft_reallocf(void *memzone, size_t old_size, size_t new_size);
 
 void		*ft_realloc(void *memzone, size_t old_size, size_t new_size);
 

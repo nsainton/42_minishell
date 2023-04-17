@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/30 11:32:59 by nsainton          #+#    #+#              #
-#    Updated: 2023/04/09 10:01:21 by nsainton         ###   ########.fr        #
+#    Updated: 2023/04/13 17:25:30 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ DEPS_DIR:= dependencies
 
 DEPS:= $(patsubst %.c, $(DEPS_DIR)/%.d, $(SRCS_NAMES) $(PROG))
 
-CC= clang
+CC= cc
 
 CFLAGS= -Wall -Wextra -Werror
 

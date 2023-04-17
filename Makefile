@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/04/12 10:18:56 by nsainton         ###   ########.fr        #
+#    Updated: 2023/04/17 15:06:22 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ LFT:= $(addprefix $(LFT_DIR)/, $(LFT_NAME))
 
 ABBRS:= $(LFT_ABBR) -lreadline
 
-CC:= clang
+CC:= cc
 
 CFLAGS:= -Wall -Wextra -Werror
 
@@ -66,10 +66,50 @@ FUNCS_HEADER:= $(addprefix $(INCS_DIR)/, $(HEADER_NAME))
 
 GIT_ADD:= --all
 
+VALGRIND_OPTIONS:= --leak-check=full --show-leak-kinds=all --suppressions=rl_suppressions.supp
+
 export C_INCLUDE_PATH=$(INCS_DIR):$(LFT_DIR)/$(INCS_DIR)
 export LIBRARY_PATH=$(LFT_DIR)
 
+#Color codes for pretty printing
+BEGIN=\033[
+BLACK=30
+RED=31
+GREEN=32
+BROWN=33
+BLUE=34
+PURPLE=35
+CYAN=36
+NORMAL=0
+BOLD=1
+UNDERLINED=4
+BLINKING=5
+REVERSE=7
+END=\033[0m
+
+#Here is the definition of an ascii code
+#double backslash at the end of lines to ensure that it is not interpreted
+#as line continuation. One could also have added a space after the backslash
+#The export directive makes the header available to each submake
+#Font used is Isometric1
+define minishell_header
+      ___                       ___                       ___           ___           ___           ___       ___ 
+     /\__\          ___        /\__\          ___        /\  \         /\__\         /\  \         /\__\     /\__\\
+    /::|  |        /\  \      /::|  |        /\  \      /::\  \       /:/  /        /::\  \       /:/  /    /:/  /
+   /:|:|  |        \:\  \    /:|:|  |        \:\  \    /:/\ \  \     /:/__/        /:/\:\  \     /:/  /    /:/  / 
+  /:/|:|__|__      /::\__\  /:/|:|  |__      /::\__\  _\:\~\ \  \   /::\  \ ___   /::\~\:\  \   /:/  /    /:/  /  
+ /:/ |::::\__\  __/:/\/__/ /:/ |:| /\__\  __/:/\/__/ /\ \:\ \ \__\ /:/\:\  /\__\ /:/\:\ \:\__\ /:/__/    /:/__/   
+ \/__/~~/:/  / /\/:/  /    \/__|:|/:/  / /\/:/  /    \:\ \:\ \/__/ \/__\:\/:/  / \:\~\:\ \/__/ \:\  \    \:\  \   
+       /:/  /  \::/__/         |:/:/  /  \::/__/      \:\ \:\__\        \::/  /   \:\ \:\__\    \:\  \    \:\  \  
+      /:/  /    \:\__\         |::/  /    \:\__\       \:\/:/  /        /:/  /     \:\ \/__/     \:\  \    \:\  \ 
+     /:/  /      \/__/         /:/  /      \/__/        \::/  /        /:/  /       \:\__\        \:\__\    \:\__\\
+     \/__/                     \/__/                     \/__/         \/__/         \/__/         \/__/     \/__/
+endef
+export minishell_header
+
 .PHONY: all
+
+.SILENT:
 
 all:
 	$(MAKE) -C $(LFT_DIR)
@@ -78,6 +118,9 @@ all:
 $(NAME): $(OBJS) | $(DEPS_DIR)
 	$(CC) $(CFLAGS) $(GG) $(OPT) $(PROG) $(OBJS) \
 	-MD -MF $(DEPS_DIR)/$(NAME).d $(ABBRS) -o $(NAME)
+	echo "$(BEGIN)$(RED)m"
+	echo "$$minishell_header"
+	echo "$(END)"
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(LFT)
 	[ -d $(@D) ] || $(MK) $(@D)
@@ -92,10 +135,12 @@ $(DEPS_DIR):
 clean:
 	$(RM) -r $(OBJS_DIR)
 	$(RM) -r $(DEPS_DIR)
+	echo "$(BEGIN)$(RED)m$(NAME) objects and dependencies have been removed$(END)"
 
 .PHONY: oclean
 oclean:
 	$(RM) $(NAME)
+	echo "$(BEGIN)$(CYAN)m$(NAME) has been removed$(END)"
 
 .PHONY: fclean
 fclean:
@@ -109,8 +154,13 @@ re:
 
 .PHONY: debug
 debug:
+	$(MAKE) debug -C $(LFT_DIR)
 	$(MAKE) fclean
 	$(MAKE) GG=-g3 OPT=-O0 CC=gcc
+
+.PHONY: leaks
+leaks:
+	$(MAKE) debug && valgrind $(VALGRIND_OPTIONS) ./$(NAME) $(OPT_ARGS)
 
 .PHONY: git
 git:
@@ -122,6 +172,7 @@ git:
 makedebug:
 	@echo $(DEPS)
 	@echo GIT_ADD : $(GIT_ADD)
+	@echo $(OPT_ARGS)
 
 .PHONY: header
 
