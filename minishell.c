@@ -6,13 +6,37 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 16:28:06 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:20:05 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**allocate_strings_array(t_csizet size)
+int	main(int argc, char **argv, char **envp)
+{
+	char	*line;
+	char	**args;
+	t_env	*my_env;
+
+	if (argc > 1 || !argv)
+		return (1);
+	//sigaction(SIGINT, sig_handler);
+	my_env = get_my_env(envp);
+	while (1)
+	{
+		line = readline("minishell> ");
+		if (line[0])
+		{
+			args = ft_split(line, ' ');
+			which_builtin(args[0], &args[1], my_env);
+		}
+	}
+	free_gc();
+	return (errno);
+}
+
+
+/* char	**allocate_strings_array(t_csizet size)
 {
 	char	**array;
 	size_t	index;
@@ -42,7 +66,7 @@ void	print_array(char *const*array, t_csizet size)
 	ft_printf("array : %p\n", array);
 }
 
-static void print_strings(char *const *array)
+void print_strings(char *const *array)
 {
 	size_t	index;
 
@@ -54,25 +78,42 @@ static void print_strings(char *const *array)
 		index ++;
 	}
 }
+*/
 
-int	main(int ac, char **av)
+//int	main(int ac, char **av)
+/*
+int	main(void)
 {
-	/*
 	char	*line;
+	char	*trimmed;
 	char	**strings_array;
 	void	*node;
 	void	*rnode;
-	*/
-	char	**split;
+	//char	**split;
 
 	//sigaction(SIGINT, sig_handler);
-	/*
-	while (1)
+	line = readline("minishell>");
+	if (! line)
+		return (EXIT_FAILURE);
+	if (ft_strlen(line) < 2 || gc_add(line))
 	{
-		line = readline("minishell>");
-		if (!line)
+		free(line);
+		return (EXIT_FAILURE);
+	}
+	while (ft_strlen(line) > 1)
+	{
+		if (! line)
 			break ;
-		printf("%s\n", line);
+		ft_printf("%s\n", line);
+		if (! (trimmed = gc_strtrim(line, " ")))
+			break ;
+		ft_printf("Trimmed line : %s\n", trimmed);
+		line = readline("minishell>");
+		if (gc_add(line))
+		{
+			free(line);
+			break ;
+		}
 		//parse_line(line);
 	}
 	*/
@@ -109,7 +150,6 @@ int	main(int ac, char **av)
 	print_array(strings_array, 20);
 	free_array_strings_size(strings_array, 20, 0);
 	print_collector();
-	*/
 	if (ac < 3)
 		return (NO_ERROR);
 	print_collector();
@@ -121,6 +161,10 @@ int	main(int ac, char **av)
 		return (ALLOCATION_ERROR);
 	}
 	print_strings(split);
+	*/
+	/*
+	print_collector();
 	free_gc();
 	return (EXIT_SUCCESS);
 }
+*/

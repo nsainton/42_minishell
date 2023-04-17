@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 13:13:44 by nsainton          #+#    #+#             */
-/*   Updated: 2022/12/23 21:34:40 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:30:43 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	end;
 	size_t	i;
 
-	if (set == NULL || ! *set)
+	if (! *set)
 		return (ft_strdup(s1));
-	if (s1 == NULL)
-		return (NULL);
 	start = 0;
 	while (ft_in(*(s1 + start), set))
 		start ++;

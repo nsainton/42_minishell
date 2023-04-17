@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 15:29:22 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:22:26 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 //Compile the executable with libreadline (-lreadline)
 //End of Prepocessor includes
 
@@ -29,8 +30,10 @@
 # define LEAVE "Leaving function : %s\n"
 # define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);
 # define LPRINT ft_dprintf(STDERR_FILENO, LEAVE, __func__);
-// ENUM Declarations
+# define SUCCESS 0
+// End of Preprocessor defines
 
+// ENUM Declarations
 /*
 METACHARACTERS : Any metacharacter except ;
 PIPE : Designates a | or a \n
@@ -57,7 +60,6 @@ enum e_minierrors
 	NOT_IN_COLLECTOR,
 	ADD_ERROR
 };
-// End of ENUM Declarations
 
 enum e_states
 {
@@ -65,6 +67,8 @@ enum e_states
 	S_QUOTES,
 	D_QUOTES
 };
+
+// End of ENUM Declarations
 
 //Structures declarations
 
@@ -108,6 +112,13 @@ struct s_pipeline
 	t_list	*commands;
 };
 
+struct s_env
+{
+	t_list	*list_env;
+	char	*path;
+	int		is_empty;
+};
+
 /* struct	s_data
 {
 	t_list	*args;
@@ -128,6 +139,8 @@ typedef struct s_command	t_command;
 typedef struct s_arg		t_arg;
 
 typedef struct s_gc			t_gc;
+
+typedef struct s_env		t_env;
 
 //End of type definitions
 
