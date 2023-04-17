@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 14:35:44 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:28:06 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,11 @@ int	main(int ac, char **av)
 	split = gc_split(av[1], **(av + 2));
 	print_collector();
 	if (! split)
-		return (free_gc(ALLOCATION_ERROR));
+	{
+		free_gc();
+		return (ALLOCATION_ERROR);
+	}
 	print_strings(split);
-	return (free_gc(0));
+	free_gc();
+	return (EXIT_SUCCESS);
 }

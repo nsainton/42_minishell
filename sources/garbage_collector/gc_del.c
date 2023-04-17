@@ -6,13 +6,13 @@
 /*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:29:21 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/17 13:51:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:20:54 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	free_gc(t_cint errcode)
+void	free_gc()
 {
 	t_gc	*collector;
 	size_t	index;
@@ -20,7 +20,7 @@ int	free_gc(t_cint errcode)
 	//EPRINT
 	collector = getgc();
 	if (! collector)
-		return (errcode);
+		return ;
 	index = 0;
 	//ft_dprintf(STDERR_FILENO, "This is the len : %u\n", collector->len);
 	while (index < collector->len)
@@ -33,10 +33,9 @@ int	free_gc(t_cint errcode)
 	free(collector->memzones);
 	ft_bzero(collector, sizeof * collector);
 	//LPRINT
-	return (errcode);
 }
 
-int	free_nodes(t_csizet number, t_cint errcode)
+void	free_nodes(t_csizet number)
 {
 	t_gc	*collector;
 	size_t	index;
@@ -46,9 +45,11 @@ int	free_nodes(t_csizet number, t_cint errcode)
 	//EPRINT
 	collector = getgc();
 	if (! collector)
-		return (errcode);
+		return ;
 	if (collector->len <= number)
-		return (free_gc(errcode));
+	{
+		return (free_gc());
+	}
 	//ft_dprintf(STDERR_FILENO, "This is the len : %u\n", collector->len);
 	newsize = collector->len - number;
 	//ft_dprintf(STDERR_FILENO, "This is the new len : %u\n", newsize);
@@ -62,20 +63,19 @@ int	free_nodes(t_csizet number, t_cint errcode)
 	}
 	collector->len = newsize;
 	//LPRINT
-	return (errcode);
 }
 
-int	free_node(void *node, t_cint errcode)
+void	free_node(void *node)
 {
 	t_gc	*collector;
 	size_t	index;
 
 	collector = getgc();
 	if (! collector)
-		return (NO_COLLECTOR);
+		return ;
 	index = 0;
 	if (! collector->len)
-		return (free_gc(errcode));
+		return (free_gc());
 	while (index < collector->len)
 	{
 		if (*(collector->memzones + index) == node)
@@ -83,13 +83,12 @@ int	free_node(void *node, t_cint errcode)
 		index ++;
 	}
 	if (index == collector->len)
-		return (NOT_IN_COLLECTOR);
+		return ;
 	*(collector->memzones + index) = *(collector->memzones \
 	+ collector->len - 1);
 	*(collector->memzones + collector->len - 1) = NULL;
 	collector->len --;
 	free(node);
-	return (errcode);
 }
 
 void	remove_nodes(size_t number)
