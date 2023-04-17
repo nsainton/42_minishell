@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/17 14:27:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:23:27 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@ t_gc	*getgc(void);
 
 int		gc_realloc(void);
 
+//Functions from file : lst.c
+t_list	*gc_lstnew(void *content);
+
+t_list	*gc_lstnew_cpy(t_cvoid *content, size_t size);
+
+void	gc_lstdelone(t_list *lst, void (*del) (void *));
+
+void	gc_lstclear(t_list **lst, void (*del) (void *));
+
 //Functions from file : strs.c
 char	*gc_strdup(t_cchar *s);
 
@@ -30,11 +39,11 @@ char	*gc_strjoin(t_cchar *s1, t_cchar *s2);
 char	**gc_split(t_cchar *s, char c);
 
 //Functions from file : gc_del.c
-int		free_gc(t_cint errcode);
+void	free_gc();
 
-int		free_nodes(t_csizet number, t_cint errcode);
+void	free_nodes(t_csizet number);
 
-int		free_node(void *node, t_cint errcode);
+void	free_node(void *node);
 
 void	remove_nodes(size_t number);
 
@@ -46,10 +55,9 @@ int		gc_replace(void *old_ptr, void *new_ptr);
 int		gc_add_array(void **array);
 
 //Functions from file : gc_array.c
-int		free_array_strings_size(char **array, t_csizet size, \
-t_cint errcode);
+void	free_array_size(void **array, t_csizet size);
 
-int		free_array_strings_null(char **array, t_cint errcode);
+void	free_array_null(void **array);
 
 //Functions from file : gc_alloc.c
 void	*gcmalloc(size_t size);
