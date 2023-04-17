@@ -6,13 +6,20 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:06:33 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/14 14:18:06 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:41:33 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_list(t_list *lst)
+int	ft_error(int errno, char *msg)
+{
+	printf("error : %s\n", msg);
+	free_gc(errno);
+	exit(errno);
+}
+
+void	print_list_prefix(t_list *lst, char *prefix)
 {
 	t_list	*tmp;
 
@@ -21,7 +28,10 @@ void	print_list(t_list *lst)
 	tmp = lst;
 	while (tmp != NULL)
 	{
-		ft_printf("%s\n", (char *) tmp->content);
+		if (!prefix)
+			ft_printf("%s\n", (char *) tmp->content);
+		else
+			ft_printf("%s %s\n", prefix, (char *) tmp->content);
 		tmp = tmp->next;
 	}
 }

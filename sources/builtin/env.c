@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/14 16:08:07 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:16:27 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,39 @@ t_list	*copy_env(char **envp)
 	return (list_env);
 }
 
-void	print_env(t_env *my_env)
+int	print_env(t_env *my_env, char **args)
 {
 	if (my_env->is_empty)
 		printf("\n"); //? regarder reel comportement
+	else if (args[0])
+		printf("alice : env in minishell doesn't support arguments\n");
 	else
-		print_list(my_env->list_env);
+		print_list_prefix(my_env->list_env, NULL);
+	return (SUCCESS);
+}
+
+int	unset_env(t_env *my_env, char **args)
+{
+	int		i;
+	t_list	*tmp;
+	char	*line;
+
+	if (!args[0])
+		return (SUCCESS);
+	i = 0;
+	tmp = my_env->list_env;
+	while (args[i])
+	{
+		while (my_env->list_env)
+		{
+			line = (char *) my_env->list_env->content;
+			if (!ft_strncmp(args[i], line, ft_strlen(args[i]))
+				&& line[ft_strlen(args[i])] == '=')
+				printf("trouve !\n");
+			my_env->list_env = my_env->list_env->next;
+		}
+		i++;
+	}
+	my_env->list_env = tmp;
+	return (0);
 }

@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 15:53:59 by avedrenn         ###   ########.fr       */
+/*   Created: 2023/04/17 12:51:21 by avedrenn          #+#    #+#             */
+/*   Updated: 2023/04/17 15:52:52 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	which_builtin(char *cmd, char **args, t_env *my_env)
 {
-	char	*line;
-	char	**args;
-	t_env	*my_env;
-
-	if (argc > 1 || !argv)
-		return (1);
-	//sigaction(SIGINT, sig_handler);
-	my_env = get_my_env(envp);
-	while (1)
-	{
-		line = readline("minishell> ");
-		if (line[0])
-		{
-			args = ft_split(line, ' ');
-			which_builtin(args[0], &args[1], my_env);
-		}
-
-	}
-	free_gc(0);
-	return (errno);
+	if (!ft_strncmp(cmd, "env", 4))
+		return (print_env(my_env, args));
+	if (!ft_strncmp(cmd, "export", 6))
+		return (export_env(my_env, args));
+	if (!ft_strncmp(cmd, "unset", 5))
+		return (unset_env(my_env, args));
+	return (127);
 }
