@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 14:55:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:29:22 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ struct s_arg
 struct	s_command
 {
 	char	*command;
-	t_list	*options;
-	t_list	*args;
+	char	**options;
+	char	**args;
 	t_uint	last;
 	t_uint	pipeline;
 	int		in;
@@ -91,6 +91,21 @@ struct	s_gc
 	void	**memzones;
 	size_t	len;
 	size_t	size;
+};
+
+/*
+struct	s_command
+{
+	char	*command;
+	char	**options;
+	char	**arguments;
+	int		last;
+};
+*/
+
+struct s_pipeline
+{
+	t_list	*commands;
 };
 
 /* struct	s_data
