@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 14:55:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:35:21 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 //Compile the executable with libreadline (-lreadline)
 //End of Prepocessor includes
 
@@ -29,6 +30,7 @@
 # define LEAVE "Leaving function : %s\n"
 # define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);
 # define LPRINT ft_dprintf(STDERR_FILENO, LEAVE, __func__);
+# define SUCCESS 0
 // ENUM Declarations
 
 /*
@@ -93,6 +95,13 @@ struct	s_gc
 	size_t	size;
 };
 
+struct s_env
+{
+	t_list	*list_env;
+	char	*path;
+	int		is_empty;
+};
+
 /* struct	s_data
 {
 	t_list	*args;
@@ -113,6 +122,8 @@ typedef struct s_command	t_command;
 typedef struct s_arg		t_arg;
 
 typedef struct s_gc			t_gc;
+
+typedef struct s_env		t_env;
 
 //End of type definitions
 
