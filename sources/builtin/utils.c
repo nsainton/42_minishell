@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:06:33 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 14:41:33 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:14:28 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_list_prefix(t_list *lst, char *prefix)
 	t_list	*tmp;
 
 	if (!lst)
-		printf("List is empty ...\n");
+		printf("error : list is empty ...\n");
 	tmp = lst;
 	while (tmp != NULL)
 	{

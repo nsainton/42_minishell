@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 16:16:27 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:14:56 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	print_env(t_env *my_env, char **args)
 	if (my_env->is_empty)
 		printf("\n"); //? regarder reel comportement
 	else if (args[0])
-		printf("alice : env in minishell doesn't support arguments\n");
+		printf("env : env in minishell doesn't support arguments\n");
 	else
 		print_list_prefix(my_env->list_env, NULL);
 	return (SUCCESS);
@@ -77,11 +77,20 @@ int	unset_env(t_env *my_env, char **args)
 			line = (char *) my_env->list_env->content;
 			if (!ft_strncmp(args[i], line, ft_strlen(args[i]))
 				&& line[ft_strlen(args[i])] == '=')
-				printf("trouve !\n");
+				delete_env_line(tmp, my_env->list_env);
 			my_env->list_env = my_env->list_env->next;
 		}
 		i++;
 	}
 	my_env->list_env = tmp;
-	return (0);
+	return (SUCCESS);
+}
+
+void	delete_env_line(t_list *start, t_list *to_del)
+{
+	while (start->next != to_del)
+		start = start->next;
+	start->next = to_del->next;
+	to_del->content = 0;
+	//free to_del ? (ou gc freenode ? )
 }

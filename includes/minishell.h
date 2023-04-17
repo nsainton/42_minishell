@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/17 15:53:31 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:02:52 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define MINISHELL_H
 
 # include "minishell_int.h"
+
+//Functions from file : pwd.c
+char	*get_pwd(t_env *my_env);
+
+int		print_pwd(t_env *my_env, char **args);
+
 //Functions from file : export.c
 int		export_env(t_env *my_env, char **args);
 
@@ -36,6 +42,8 @@ t_list	*copy_env(char **envp);
 int		print_env(t_env *my_env, char **args);
 
 int		unset_env(t_env *my_env, char **args);
+
+void	delete_env_line(t_list *start, t_list *to_del);
 
 //Functions from file : builtin.c
 int		which_builtin(char *cmd, char **args, t_env *my_env);
