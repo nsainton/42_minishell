@@ -6,13 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/16 13:41:59 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:35:44 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**allocate_strings_array(t_csizet size)
+char	**allocate_strings_array(t_csizet size)
 {
 	char	**array;
 	size_t	index;
@@ -29,7 +29,7 @@ static char	**allocate_strings_array(t_csizet size)
 	return (array);
 }
 
-static void	print_array(char *const*array, t_csizet size)
+void	print_array(char *const*array, t_csizet size)
 {
 	size_t	index;
 
@@ -42,12 +42,28 @@ static void	print_array(char *const*array, t_csizet size)
 	ft_printf("array : %p\n", array);
 }
 
-int	main(void)
+static void print_strings(char *const *array)
 {
+	size_t	index;
+
+	ft_printf("This is the strings array address : %p\n", array);
+	index = 0;
+	while (*(array + index))
+	{
+		ft_printf("array[%u] : %s\n", index, *(array + index));
+		index ++;
+	}
+}
+
+int	main(int ac, char **av)
+{
+	/*
 	char	*line;
 	char	**strings_array;
 	void	*node;
 	void	*rnode;
+	*/
+	char	**split;
 
 	//sigaction(SIGINT, sig_handler);
 	/*
@@ -60,6 +76,7 @@ int	main(void)
 		//parse_line(line);
 	}
 	*/
+	/*
 	for (size_t index = 0; index < 10 * TRASH_SIZE + 10; index ++)
 	{
 		line = gcmalloc(1);
@@ -92,5 +109,14 @@ int	main(void)
 	print_array(strings_array, 20);
 	free_array_strings_size(strings_array, 20, 0);
 	print_collector();
+	*/
+	if (ac < 3)
+		return (NO_ERROR);
+	print_collector();
+	split = gc_split(av[1], **(av + 2));
+	print_collector();
+	if (! split)
+		return (free_gc(ALLOCATION_ERROR));
+	print_strings(split);
 	return (free_gc(0));
 }
