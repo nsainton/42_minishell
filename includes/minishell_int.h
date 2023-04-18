@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 19:22:26 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/18 17:55:58 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 // Preprocessor defines
 # define TRASH_SIZE 50
+# define PARSER_SIZE 50
 # define ENTER "Entering function : %s\n"
 # define LEAVE "Leaving function : %s\n"
 # define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);
@@ -119,6 +120,18 @@ struct s_env
 	int		is_empty;
 };
 
+struct s_metachar
+{
+	char	c;
+	t_uchar	state;
+};
+struct s_parser
+{
+	struct s_metachar	*meta;
+	int					state;
+	size_t				len;
+	size_t				size;
+};
 /* struct	s_data
 {
 	t_list	*args;
@@ -142,6 +155,9 @@ typedef struct s_gc			t_gc;
 
 typedef struct s_env		t_env;
 
+typedef struct s_metachar	t_metachar;
+
+typedef struct s_parser		t_parser;
 //End of type definitions
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:06:33 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 17:34:18 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:29:08 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_error(int errno, char *msg)
 {
 	printf("error : %s\n", msg);
-	free_gc(errno);
+	free_gc();
 	exit(errno);
 }
 

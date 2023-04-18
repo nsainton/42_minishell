@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/17 17:35:46 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:19:10 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# include "minishell_int.h"
 
-#include "minishell_int.h"
 //Functions from file : pwd.c
 char	*get_pwd(t_env *my_env);
 
@@ -25,6 +25,9 @@ int		export_env(t_env *my_env, char **args);
 int		is_valid_export(char *arg);
 
 int		is_valid_name(char *arg);
+
+//Functions from file : builtin.c
+int		which_builtin(char *cmd, char **args, t_env *my_env);
 
 //Functions from file : utils.c
 int		ft_error(int errno, char *msg);
@@ -44,11 +47,10 @@ int		unset_env(t_env *my_env, char **args);
 
 void	delete_env_line(t_list *start, t_list *to_del);
 
-//Functions from file : builtin.c
-int		which_builtin(char *cmd, char **args, t_env *my_env);
+//Functions from file : gc_structure.c
+t_gc	*getgc(void);
 
-//Functions from file : split.c
-char	**gc_split(t_cchar *s, char c);
+int		gc_realloc(void);
 
 //Functions from file : strs.c
 char	*gc_strdup(t_cchar *s);
@@ -57,8 +59,11 @@ char	*gc_strtrim(t_cchar *s1, t_cchar *set);
 
 char	*gc_strjoin(t_cchar *s1, t_cchar *s2);
 
+//Functions from file : split.c
+char	**gc_split(t_cchar *s, char c);
+
 //Functions from file : gc_del.c
-void	free_gc();
+void	free_gc(void);
 
 void	free_nodes(t_csizet number);
 
@@ -72,6 +77,11 @@ int		gc_add(void *ptr);
 int		gc_replace(void *old_ptr, void *new_ptr);
 
 int		gc_add_array(void **array);
+
+//Functions from file : gc_array.c
+void	free_array_size(void **array, t_csizet size);
+
+void	free_array_null(void **array);
 
 //Functions from file : gc_alloc.c
 void	*gcmalloc(size_t size);
@@ -92,19 +102,16 @@ void	gc_lstclear(t_list **lst, void (*del) (void *));
 
 void	gc_lstdel_front(t_list **lst, void (*del) (void *));
 
-//Functions from file : gc_structure.c
-t_gc	*getgc(void);
-
-int		gc_realloc(void);
-
 //Functions from file : gc_helpers.c
 size_t	gc_len(void);
 
 void	print_collector(void);
 
-//Functions from file : gc_array.c
-void	free_array_size(void **array, t_csizet size);
+//Functions from file : parser.c
+int		init_parser(t_parser *parser);
 
-void	free_array_null(void **array);
+int		add_parser(t_parser *parser, const t_metachar mc);
+
+int		add_parser_char(t_parser *parser, t_cchar c, t_cchar state);
 
 #endif
