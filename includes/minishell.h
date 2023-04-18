@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/17 17:35:46 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/18 12:55:25 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //Functions from file : pwd.c
 char	*get_pwd(t_env *my_env);
 
-int		print_pwd(t_env *my_env, char **args);
+int		print_pwd(char **args);
 
 //Functions from file : export.c
 int		export_env(t_env *my_env, char **args);

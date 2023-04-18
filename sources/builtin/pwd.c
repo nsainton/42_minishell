@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:48:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 17:17:59 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/18 13:54:26 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_pwd(t_env *my_env)
 	return (NULL);
 }
 
-int	print_pwd(t_env *my_env, char **args)
+int	print_pwd(char **args)
 {
 	char	*line;
 
@@ -35,12 +35,13 @@ int	print_pwd(t_env *my_env, char **args)
 		printf("pwd : too many arguments\n");
 		return (1);
 	}
-	line = get_pwd(my_env);
+	line = getcwd(NULL, 0);
 	if (!line)
 	{
-		printf("pwd : no pwd variable in env\n");
-		return (1);
+		printf("%s\n", strerror(errno));
+		return (errno);
 	}
 	printf("%s\n", &line[4]);
+	free(line);
 	return (SUCCESS);
 }
