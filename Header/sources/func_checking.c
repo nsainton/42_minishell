@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:06:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/03/31 13:12:39 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:53:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 static int	right_format(t_cchar *line)
 {
 	char	*main;
+	char	*st;
+	char	*par;
 
 	if (! isalpha(*line))
 		return (0);
-	if (! strncmp(line, "static", strlen("static")))
+	if (! (par = strchr(line, '(')))
 		return (0);
-	if (! strchr(line, '('))
+	if ((st = strstr(line, "static")) && st < par)
 		return (0);
 	main = strchr(line, 'm');
 	if (main && ! strncmp(main, "main", strlen("main")))
@@ -51,7 +53,7 @@ int	is_func_prototype(t_cchar *line)
 		return (0);
 	i = 0;
 	space = 0;
-	while (*(line + i) && ! space_or_tab (*(line + i)))
+	while (*(line + i) && *(line + i) != '\t')
 		i ++;
 	distance = i;
 	while (*(line + i) && space_or_tab(*(line + i)))
@@ -60,5 +62,6 @@ int	is_func_prototype(t_cchar *line)
 		distance += (*(line + i) == ' ') + 4 * (*(line + i) == '\t');
 		i ++;
 	}
+	//printf("Line : %s\nDistance : %d\n", line, distance * space);
 	return (distance * space);
 }
