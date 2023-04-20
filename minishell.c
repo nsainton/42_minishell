@@ -6,30 +6,57 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 18:20:05 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/20 18:06:34 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+_Noreturn void	interrupt(int sig, siginfo_t *info, void *ucontext)
 {
-	char	*line;
-	char	**args;
-	t_env	*my_env;
+	(void)ucontext;
+	(void)sig;
+	(void)info;
+	ft_printf("Thanks for using\n");
+	free_gc();
+	exit(0);
+}
+
+int	main(int argc, char **argv)//, char **envp)
+{
+	char				*line;
+	//char		**args;
+	t_parser			parser;
+	//t_env		*my_env;
+	struct sigaction	siga;
 
 	if (argc > 1 || !argv)
 		return (1);
-	//sigaction(SIGINT, sig_handler);
-	my_env = get_my_env(envp);
+	ft_bzero(&siga, sizeof siga);
+	siga.sa_sigaction = interrupt;
+	siga.sa_flags = SA_SIGINFO;
+	sigemptyset(&siga.sa_mask);
+	sigaddset(&siga.sa_mask, SIGINT);
+	sigaction(SIGINT, &siga, NULL);
+	//my_env = get_my_env(envp);
 	while (1)
 	{
 		line = readline("minishell> ");
+		if (gc_add(line) || parse_shell_line(line, &parser))
+			break ;
+		print_line(parser.meta, parser.len);
+		if (copy_right_chars(&parser))
+			break ;
+		print_parser(&parser);
+		free_node(parser.meta);
+		free_node(line);
+		/*
 		if (line[0])
 		{
 			args = ft_split(line, ' ');
 			which_builtin(args[0], &args[1], my_env);
 		}
+		*/
 	}
 	free_gc();
 	return (errno);
