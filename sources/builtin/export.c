@@ -6,28 +6,28 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:14:46 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 16:15:22 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:19:33 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	export_env(t_env *my_env, char **args)
+int	export_env(t_env *my_env, t_command *cmd)
 {
 	int	errnum;
 	int	i;
 
-	if (!args[0])
+	if (!cmd->args)
 	{
 		print_list_prefix(my_env->list_env, "declare -x");
 		return (SUCCESS);
 	}
 	i = 0;
 	errnum = 0;
-	while (args[i])
+	while (cmd->args[i])
 	{
-		if (is_valid_export(args[i]) == 20)
-			ft_lstadd_back(&my_env->list_env, ft_lstnew_gc(args[i]));
+		if (is_valid_export(cmd->args[i]) == 20)
+			ft_lstadd_back(&my_env->list_env, ft_lstnew_gc(cmd->args[i]));
 		else
 			errnum ++;
 		i++;

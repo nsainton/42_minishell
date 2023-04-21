@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/21 14:43:34 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:15:08 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,52 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	char	**args;
 	t_env	*my_env;
+	t_command cmd;
+	int	i;
+	int	opt;
 
 	if (argc > 1 || !argv)
 		return (1);
-	//sigaction(SIGINT, sig_handler);
+	init_sig();
 	my_env = get_my_env(envp);
+	cmd.args = gcmalloc (1000);
+	cmd.options = gcmalloc (1000);
+	ft_bzero(cmd.args, 1000);
+	ft_bzero(cmd.options, 1000);
 	while (1)
 	{
+		i = opt = 0;
 		line = readline("minishell> ");
 		if (line[0])
 		{
-			args = ft_split(line, ' ');
-			which_builtin(args[0], &args[1], my_env);
+			args = gc_split(line, ' ');
+			cmd.command = args[0];
+			if (args[1])
+			{
+				if (args[1][0] == '-')
+				{
+					cmd.options[0] = args[1];
+					opt = 1;
+				}
+				else
+					cmd.options[0] = NULL;
+				while (args[i + opt + 1])
+				{
+					cmd.args[i] = args[1 + opt + i];
+					printf("args[%d] = %s\n", i, cmd.args[i]);
+					i ++;
+				}
+				cmd.args[i] = 0;
+			}
+			else
+			{
+				cmd.args[0] = NULL;
+				cmd.options[0] = NULL;
+			}
+			which_builtin(&cmd, my_env);
+			cmd.command[0] = 0;
+			cmd.options[0] = 0;
+			cmd.args[0] = 0;
 		}
 	}
 	free_gc();

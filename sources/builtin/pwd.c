@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:48:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/21 14:41:30 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:54:27 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ char	*get_env_var(t_env *my_env, char *var)
 	return (NULL);
 }
 
-int	print_pwd(char **args)
+int	print_pwd(t_command *cmd)
 {
 	char	*line;
 
-	if (args[0])
+	if (cmd->args[0])
 	{
 		printf("pwd : too many arguments\n");
 		return (1);
