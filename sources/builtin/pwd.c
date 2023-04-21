@@ -6,21 +6,25 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:48:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/18 13:54:26 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:41:30 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_pwd(t_env *my_env)
+char	*get_env_var(t_env *my_env, char *var)
 {
 	char	*line;
+	int		len;
 
+	if (!var)
+		return (NULL);
+	len = ft_strlen(var);
 	while (my_env->list_env)
 	{
 		line = (char *) my_env->list_env->content;
-		if (!ft_strncmp("PWD", line, 3) && line[3] == '=')
-			return (line);
+		if (!ft_strncmp(var, line, len) && line[len] == '=')
+			return (&line[len + 1]);
 		my_env->list_env = my_env->list_env->next;
 	}
 	return (NULL);
@@ -41,7 +45,7 @@ int	print_pwd(char **args)
 		printf("%s\n", strerror(errno));
 		return (errno);
 	}
-	printf("%s\n", &line[4]);
+	printf("%s\n", line);
 	free(line);
 	return (SUCCESS);
 }

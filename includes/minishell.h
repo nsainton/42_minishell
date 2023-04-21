@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/18 12:55:25 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:40:09 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 # define MINISHELL_H
 
 #include "minishell_int.h"
+
 //Functions from file : pwd.c
-char	*get_pwd(t_env *my_env);
+char	*get_env_var(t_env *my_env, char *var);
 
 int		print_pwd(char **args);
 
@@ -58,7 +59,7 @@ char	*gc_strtrim(t_cchar *s1, t_cchar *set);
 char	*gc_strjoin(t_cchar *s1, t_cchar *s2);
 
 //Functions from file : gc_del.c
-void	free_gc();
+void	free_gc(void);
 
 void	free_nodes(t_csizet number);
 
