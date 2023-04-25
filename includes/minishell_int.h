@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/17 17:35:21 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:27:44 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,9 @@ struct s_arg
 struct	s_command
 {
 	char	*command;
-	t_list	*options;
-	t_list	*args;
+	char	*path;
+	char	**options;
+	char	**args;
 	t_uint	last;
 	t_uint	pipeline;
 	int		in;
