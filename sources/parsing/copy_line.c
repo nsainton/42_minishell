@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/25 17:00:01 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:44:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,53 @@ static int	change_state(int *parser, t_cchar c)
 	return (UNCHANGED);
 }
 
-static int	handle_dollar(t_str *str, size_t *index, t_cchar *line, \
-int *parser)
+static int	copy_env_variable(t_str *str, size_t *index, t_cchar *line)
 {
 	size_t	base_index;
+	char	current;
 	char	*var_name;
 	char	*var;
 
+	base_index = index;
+	current = *(line + *index);
+	while (current && (ft_isalnum(current) || current == '_'))
+	{
+		(*index)++;
+		current = *(line + *index);
+	}
+	var_name = gc_substr(line, base_index, *index - base_index);
+	if (! var_name)
+		return (ALLOCATION_ERROR);
+	var = getenv(var_name);
+	free_node(var_name);
+	if (! var)
+		return (NO_ERROR);
+	return (t_str_add_str(str, var));
+}
+/*
+Reminder : A valid name is a name beginning by an alphabetical character
+or an underscore and containing only alphanumerical characters or 
+underscores
+*/
+static int	handle_dollar(t_str *str, size_t *index, t_cchar *line, \
+int *parser)
+{
 	if (*parser == S_QUOTES)
 		return (t_str_add(str, '$'));
 	*index += 1;
+	if (*(line + *index) == '?')
+	{
+		*index += 1;
+		return (t_str_add(str, ES));
+	}
+	if (! ft_isalpha(*(line + *index)) && *(line + index) != '_')
+	{
+		*index += 1;
+		return (NO_ERROR);
+	}
+	else
+		return (copy_env_variable(str, index, line));
+}
 
 static int	handle_specials(t_str *str, size_t *index, t_cchar *line, \
 int *parser)
