@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/25 14:29:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/25 15:22:00 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,9 @@ void		gc_lstclear(t_list **lst, void (*del) (void *));
 
 void		gc_lstdel_front(t_list **lst, void (*del) (void *));
 
+//Functions from file : t_str.c
+int		t_str_alloc(t_str *str, t_csizet size);
+
 //Functions from file : gc_helpers.c
 size_t	gc_len(void);
 
@@ -119,6 +122,9 @@ int		parse_shell_line(t_cchar *line, t_parser *parser);
 int		copy_right_chars(t_parser *parser);
 
 t_list	*create_strings_array(t_parser *parser);
+
+//Functions from file : copy_line.c
+char		*copy_line(t_cchar *line);
 
 //Functions from file : debug.c
 void		print_line(t_metachar *mc, size_t size);
