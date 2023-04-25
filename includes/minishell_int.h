@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 16:56:31 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:09:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ enum e_specials
 {
 	S_PACE = -10,
 	DOLLAR,
-	ES
+	ES,
 	O_RED,
 	I_RED,
-	PIPE,
+	PIPE
 };
 
 //This enum informs me if the state of the parser has changed
