@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/21 18:15:08 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:20:12 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc > 1 || !argv)
 		return (1);
-	init_sig();
+	init_sigs();
 	my_env = get_my_env(envp);
 	cmd.args = gcmalloc (1000);
 	cmd.options = gcmalloc (1000);
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		i = opt = 0;
 		line = readline("minishell> ");
-		if (line[0])
+		if (line)
 		{
 			args = gc_split(line, ' ');
 			cmd.command = args[0];
@@ -58,14 +58,20 @@ int	main(int argc, char **argv, char **envp)
 			{
 				cmd.args[0] = NULL;
 				cmd.options[0] = NULL;
+
 			}
 			which_builtin(&cmd, my_env);
 			cmd.command[0] = 0;
 			cmd.options[0] = 0;
 			cmd.args[0] = 0;
 		}
+		else
+		{
+			free_gc();
+			exit(0);
+		}
 	}
-	free_gc();
+
 	return (errno);
 }
 

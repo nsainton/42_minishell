@@ -6,25 +6,32 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:10:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/21 18:16:10 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:24:02 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_sig(void)
+void	init_sigs(void)
 {
-	struct sigaction siga;
-
-	ft_bzero(&siga, sizeof siga);
-	siga.sa_sigaction = interrupt;
-	siga.sa_flags = SA_SIGINFO;
-	sigemptyset(&siga.sa_mask);
-	sigaddset(&siga.sa_mask, SIGINT);
-	sigaction(SIGINT, &siga, NULL);
+	init_sig(interrupt, SIGINT);
 }
 
-_Noreturn void	interrupt(int sig, siginfo_t *info, void *ucontext)
+void	init_sig(void f(int, siginfo_t*, void*), int sigid)
+{
+	struct sigaction	sig;
+
+	ft_bzero(&sig, sizeof sig);
+	sig.sa_sigaction = f;
+	sig.sa_flags = SA_SIGINFO;
+	sigemptyset(&sig.sa_mask);
+	sigaddset(&sig.sa_mask,  sigid);
+	sigaction(sigid, &sig, NULL);
+
+}
+
+
+void	interrupt(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)ucontext;
 	(void)sig;
