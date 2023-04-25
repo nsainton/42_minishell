@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 14:33:18 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:56:31 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);
 # define LPRINT ft_dprintf(STDERR_FILENO, LEAVE, __func__);
 # define SUCCESS 0
+# define SPECIALS "'\"? <>|"
 // End of Preprocessor defines
 
 // ENUM Declarations
@@ -62,6 +63,10 @@ enum e_minierrors
 	ADD_ERROR
 };
 
+/*
+This enum controls the state of the parser while looking for the
+"quoted state" of the charcters in the input line
+*/
 enum e_states
 {
 	NO_STATE,
@@ -69,11 +74,25 @@ enum e_states
 	D_QUOTES
 };
 
+/*
+This enum is used to define the replacement characters for the special ones
+in the input string
+*/
 enum e_specials
 {
 	S_PACE = -10,
 	DOLLAR,
 	ES
+	O_RED,
+	I_RED,
+	PIPE,
+};
+
+//This enum informs me if the state of the parser has changed
+enum e_changes
+{
+	UNCHANGED,
+	CHANGED
 };
 // End of ENUM Declarations
 
