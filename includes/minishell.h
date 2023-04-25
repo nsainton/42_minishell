@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/20 18:04:50 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:29:25 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ char		*gc_strtrim(t_cchar *s1, t_cchar *set);
 
 char		*gc_strjoin(t_cchar *s1, t_cchar *s2);
 
+char		*gc_substr(t_cchar *s, t_uint start, size_t len);
+
 //Functions from file : split.c
 char		**gc_split(t_cchar *s, char c);
 
@@ -107,12 +109,16 @@ size_t	gc_len(void);
 
 void		print_collector(void);
 
+void		*wrap_pointer(void *ptr);
+
 //Functions from file : quotes.c
 void		change_state(t_parser *parser, t_cchar meta);
 
 int		parse_shell_line(t_cchar *line, t_parser *parser);
 
 int		copy_right_chars(t_parser *parser);
+
+t_list	*create_strings_array(t_parser *parser);
 
 //Functions from file : debug.c
 void		print_line(t_metachar *mc, size_t size);

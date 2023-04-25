@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/20 18:06:34 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:37:49 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ _Noreturn void	interrupt(int sig, siginfo_t *info, void *ucontext)
 	exit(0);
 }
 
-int	main(int argc, char **argv)//, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char				*line;
-	//char		**args;
-	t_parser			parser;
-	//t_env		*my_env;
+	//t_parser			parser;
+	char				**args;
+	char				*var;
+	t_env				*my_env;
 	struct sigaction	siga;
 
 	if (argc > 1 || !argv)
@@ -38,25 +39,42 @@ int	main(int argc, char **argv)//, char **envp)
 	sigemptyset(&siga.sa_mask);
 	sigaddset(&siga.sa_mask, SIGINT);
 	sigaction(SIGINT, &siga, NULL);
-	//my_env = get_my_env(envp);
+	my_env = get_my_env(envp);
+	//print_env(my_env);
+	var = NULL;
 	while (1)
 	{
 		line = readline("minishell> ");
-		if (gc_add(line) || parse_shell_line(line, &parser))
+		if (gc_add(line)) //|| parse_shell_line(line, &parser))
 			break ;
+		/*
 		print_line(parser.meta, parser.len);
 		if (copy_right_chars(&parser))
 			break ;
 		print_parser(&parser);
 		free_node(parser.meta);
 		free_node(line);
-		/*
+		*/
 		if (line[0])
 		{
-			args = ft_split(line, ' ');
+			args = gc_split(line, ' ');
 			which_builtin(args[0], &args[1], my_env);
 		}
-		*/
+		//ft_printf("This is the value searched for : %s\n", *args);
+		var = getenv(*args);
+		if (! var)
+			ft_printf("Variable not in the environment\n");
+		else
+		{
+			ft_printf("Var is in the environment : %s\n", var);
+			free_node(var);
+		}
+		free_node(line);
+		line = gc_strdup("Bonjour");
+		if (!line)
+			break ;
+		ft_printf("Line : %s\n", line);
+		free_node(line);
 	}
 	free_gc();
 	return (errno);
