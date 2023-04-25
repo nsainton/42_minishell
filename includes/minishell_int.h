@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/18 17:55:58 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:33:18 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,12 @@ enum e_states
 	D_QUOTES
 };
 
+enum e_specials
+{
+	S_PACE = -10,
+	DOLLAR,
+	ES
+};
 // End of ENUM Declarations
 
 //Structures declarations
@@ -125,6 +131,7 @@ struct s_metachar
 	char	c;
 	t_uchar	state;
 };
+
 struct s_parser
 {
 	struct s_metachar	*meta;
