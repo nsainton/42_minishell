@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 17:09:12 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:05:09 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ EXIT_STATUS : For the variable $?
 enum e_types
 {
 	METACHARACTERS = 1 << 0,
-	PIPE = 1 << 1,
+	PIPES = 1 << 1,
 	OUTPUT_REDIRECTION = 1 << 2,
 	INPUT_REDIRECTION = 1 << 3,
 	DOUBLE_INPUT_REDIR = 1 << 4,
@@ -60,7 +60,8 @@ enum e_minierrors
 	NO_COLLECTOR,
 	OVERFLOW,
 	NOT_IN_COLLECTOR,
-	ADD_ERROR
+	ADD_ERROR,
+	UNKNOWN_ERROR
 };
 
 /*

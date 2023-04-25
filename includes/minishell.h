@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/25 17:56:32 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:07:29 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	print_collector(void);
 void	*wrap_pointer(void *ptr);
 
 //Functions from file : quotes.c
-void	change_state(t_parser *parser, t_cchar meta);
+void	change_pstate(t_parser *parser, t_cchar meta);
 
 int		parse_shell_line(t_cchar *line, t_parser *parser);
 

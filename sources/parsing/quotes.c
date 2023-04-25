@@ -6,13 +6,13 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 18:30:28 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/20 18:58:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:01:18 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	change_state(t_parser *parser, t_cchar meta)
+void	change_pstate(t_parser *parser, t_cchar meta)
 {
 	if (meta == '\'' && parser->state != D_QUOTES)
 		parser->state = (parser->state != S_QUOTES) * S_QUOTES;
@@ -35,7 +35,7 @@ int	parse_shell_line(t_cchar *line, t_parser *parser)
 		mc.state = set_mcstate(parser, mc.c);
 		if (add_parser(parser, mc))
 			return (ALLOCATION_ERROR);
-		change_state(parser, mc.c);
+		change_pstate(parser, mc.c);
 		index ++;
 	}
 	return (0);

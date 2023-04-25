@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/25 17:44:15 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:05:34 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	copy_env_variable(t_str *str, size_t *index, t_cchar *line)
 	char	*var_name;
 	char	*var;
 
-	base_index = index;
+	base_index = *index;
 	current = *(line + *index);
 	while (current && (ft_isalnum(current) || current == '_'))
 	{
@@ -66,7 +66,7 @@ int *parser)
 		*index += 1;
 		return (t_str_add(str, ES));
 	}
-	if (! ft_isalpha(*(line + *index)) && *(line + index) != '_')
+	if (! ft_isalpha(*(line + *index)) && *(line + *index) != '_')
 	{
 		*index += 1;
 		return (NO_ERROR);
@@ -92,8 +92,9 @@ int *parser)
 		return (t_str_add(str, O_RED));
 	else if (current == '<' && *parser)
 		return (t_str_add(str, I_RED));
-	else if (current == '|' && *parser);
+	else if (current == '|' && *parser)
 		return (t_str_add(str, PIPE));
+	return (UNKNOWN_ERROR);
 }
 char	*copy_line(t_cchar *line)
 {
@@ -107,13 +108,14 @@ char	*copy_line(t_cchar *line)
 	index = 0;
 	while (*(line + index))
 	{
-		if (! ft_strchr(SPECIALS, *(line + index)));
+		if (! ft_strchr(SPECIALS, *(line + index)))
 		{
 			if (t_str_add(&nl, *(line + index)))
 				return (NULL);
 			index ++;
 		}
-		else if (handle_specials(&nl, &index, &line, &parser);
+		else if (handle_specials(&nl, &index, line, &parser))
+			return (NULL);
 	}
 	return (nl.str);
 }
