@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 15:02:33 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/25 18:06:58 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:55:25 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,15 @@ int	t_str_add_str(t_str *str, t_cchar *toadd)
 
 	available = str->size - 1 - str->len;
 	len_to_add = ft_strlen(toadd);
+	//ft_dprintf(STDERR_FILENO, "Available  : %u\n", available);
+	//ft_dprintf(STDERR_FILENO, "Len to add : %u\n", len_to_add);
 	while (available < len_to_add)
 	{
 		error = t_str_realloc(str);
 		if (error)
 			return (error);
-		available = len_to_add;
+		available = str->size - 1 - str->len;
+		//ft_dprintf(STDERR_FILENO, "Available : %u\n", available);
 	}
 	ft_strncat(str->str, toadd, len_to_add);
 	str->len += len_to_add;
@@ -59,7 +62,7 @@ int	t_str_alloc(t_str *str, t_csizet size)
 	return (NO_ERROR);
 }
 
-int t_str_realloc(t_str *str)
+int	t_str_realloc(t_str *str)
 {
 	char	*ns;
 
