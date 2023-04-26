@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 18:05:09 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:46:34 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);
 # define LPRINT ft_dprintf(STDERR_FILENO, LEAVE, __func__);
 # define SUCCESS 0
-# define SPECIALS "'\"? <>|"
+# define SPECIALS "'\"? <>|$"
 // End of Preprocessor defines
 
 // ENUM Declarations
