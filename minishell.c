@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 14:37:49 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:38:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	//t_parser			parser;
 	char				**args;
 	char				*var;
+	char				*cpy;
 	t_env				*my_env;
 	struct sigaction	siga;
 
@@ -47,6 +48,14 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("minishell> ");
 		if (gc_add(line)) //|| parse_shell_line(line, &parser))
 			break ;
+		cpy = copy_line(line);
+		if (! cpy)
+		{
+			ft_dprintf(2, "No copy\n");
+			break ;
+		}
+		ft_printf("This is the copied line : %s\n", cpy);
+		free_node(cpy);
 		/*
 		print_line(parser.meta, parser.len);
 		if (copy_right_chars(&parser))
