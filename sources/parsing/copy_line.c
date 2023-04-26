@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/25 18:05:34 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:54:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ underscores
 static int	handle_dollar(t_str *str, size_t *index, t_cchar *line, \
 int *parser)
 {
+	*index += 1;
 	if (*parser == S_QUOTES)
 		return (t_str_add(str, '$'));
-	*index += 1;
 	if (*(line + *index) == '?')
 	{
 		*index += 1;
@@ -80,21 +80,34 @@ int *parser)
 {
 	char	current;
 
+	EPRINT
 	current = *(line + *index);
 	if (current == '$')
 		return (handle_dollar(str, index, line, parser));
 	*index += 1;
 	if (current == '\'' || current == '\"')
-			return (change_state(parser, current) && t_str_add(str, current));
+			return (! change_state(parser, current) && t_str_add(str, current));
 	else if (current == ' ' && *parser)
+	{
+		ft_printf("SPACE\n");
 		return (t_str_add(str, S_PACE));
+	}
 	else if (current == '>' && *parser)
+	{
+		ft_printf("O_RED\n");
 		return (t_str_add(str, O_RED));
+	}
 	else if (current == '<' && *parser)
+	{
+		ft_printf("I_RED\n");
 		return (t_str_add(str, I_RED));
+	}
 	else if (current == '|' && *parser)
+	{
+		ft_printf("PIPE\n");
 		return (t_str_add(str, PIPE));
-	return (UNKNOWN_ERROR);
+	}
+	return(t_str_add(str, current));
 }
 char	*copy_line(t_cchar *line)
 {
@@ -110,6 +123,7 @@ char	*copy_line(t_cchar *line)
 	{
 		if (! ft_strchr(SPECIALS, *(line + index)))
 		{
+			ft_printf("This is the char  : %c\n", *(line + index));
 			if (t_str_add(&nl, *(line + index)))
 				return (NULL);
 			index ++;
