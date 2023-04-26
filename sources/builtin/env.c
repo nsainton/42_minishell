@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/21 17:46:42 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:47:50 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ t_list	*copy_env(char **envp)
 int	print_env(t_env *my_env, t_command *cmd)
 {
 	if (my_env->is_empty)
-		printf("\n"); //? regarder reel comportement
+		ft_printf("\n"); //? regarder reel comportement
 	else if (cmd->args[0] || cmd->options[0])
-		printf("env : env in minishell doesn't support arguments or options\n");
+		ft_dprintf(2, "env : minishell doesn't support arguments or options\n");
 	else
 		print_list_prefix(my_env->list_env, NULL);
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 13:25:46 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:43:25 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	cd(t_command *cmd, t_env *my_env)
 	{
 		if (chdir(cmd->args[0]))
 		{
-			printf("cd : %s : %s\n", cmd->args[0], strerror(errno));
+			ft_dprintf(2, "cd : %s : %s\n", cmd->args[0],
+				strerror(errno));
 			return (errno);
 		}
 		errnum = set_new_pwd(my_env);
@@ -46,11 +47,11 @@ int	set_new_pwd(t_env *my_env)
 	errnum = 0;
 	old_wd = get_env_var(my_env, "PWD");
 	if (!old_wd)
-		printf("No pwd variable in env\n");
+		ft_dprintf(2, "cd : no pwd variable in env\n");
 	new_wd = getcwd(NULL, 0);
 	if (!new_wd)
 	{
-		printf("%s\n", strerror(errno));
+		ft_dprintf(2, "%s\n", strerror(errno));
 		return (errno);
 	}
 	if (old_wd && new_wd)
@@ -73,14 +74,14 @@ int	go_home(t_env *my_env, int set_old)
 	home_path = get_env_var(my_env, "HOME");
 	if (!home_path)
 	{
-		printf("error : no home path in env\n");
+		ft_dprintf(2, "error : no home path in env\n");
 		return (errnum --);
 	}
 	else
 	{
 		if (chdir(home_path))
 		{
-			printf("%s\n", strerror(errno));
+			ft_dprintf(2, "%s\n", strerror(errno));
 			return (errno);
 		}
 		if (set_old)

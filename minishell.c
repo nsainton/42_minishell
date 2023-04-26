@@ -6,18 +6,63 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 14:20:12 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:27:34 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_command	*create_cmdline(char *line)
+{
+	int			i;
+	int			opt;
+	t_command	*cmd;
+
+	i = opt = 0;
+	cmd = gcmalloc(sizeof(t_command));
+	if (!cmd)
+		return (NULL);
+	cmd->args = gcmalloc (1000);
+	cmd->options = gcmalloc (1000);
+	ft_bzero(cmd->args, 1000);
+	ft_bzero(cmd->options, 1000);
+	if (line)
+	{
+		cmd->args = gc_split(line, ' ');
+		cmd->command = cmd->args[0];
+		if (cmd->args[1])
+		{
+			if (cmd->args[1][0] == '-')
+			{
+				cmd->options[0] = cmd->args[1];
+				opt = 1;
+			}
+			else
+				cmd->options[0] = NULL;
+			while (cmd->args[i + opt + 1])
+			{
+				cmd->args[i] = cmd->args[1 + opt + i];
+				printf("args[%d] = %s\n", i, cmd->args[i]);
+				i ++;
+			}
+			cmd->args[i] = 0;
+		}
+		else
+		{
+			cmd->args[0] = NULL;
+			cmd->options[0] = NULL;
+
+		}
+	}
+	return (cmd);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	char	**args;
 	t_env	*my_env;
-	t_command cmd;
+	t_command **cmds;
 	int	i;
 	int	opt;
 
@@ -32,7 +77,9 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		i = opt = 0;
+		line = NULL;
 		line = readline("minishell> ");
+		gc_add(line); // a proteger
 		if (line)
 		{
 			args = gc_split(line, ' ');

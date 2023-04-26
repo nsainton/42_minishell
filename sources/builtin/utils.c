@@ -6,25 +6,18 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:06:33 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/21 17:20:11 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:46:46 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_error(int errno, char *msg)
-{
-	printf("error : %s\n", msg);
-	free_gc();
-	exit(errno);
-}
 
 void	print_list_prefix(t_list *lst, char *prefix)
 {
 	t_list	*tmp;
 
 	if (!lst)
-		printf("error : list is empty ...\n");
+		ft_dprintf(2, "error : list is empty ...\n");
 	tmp = lst;
 	while (tmp != NULL)
 	{

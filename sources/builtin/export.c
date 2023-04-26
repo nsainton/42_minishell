@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:14:46 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 16:22:03 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:44:22 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	is_valid_export(char *arg)
 		return (0);
 	if ((!ft_isalpha(arg[0]) && arg[0] != '_') || !is_valid_name(arg))
 	{
-		printf("export: %s : not a valid identifier\n", arg);
+		ft_dprintf(2, "export: %s : not a valid identifier\n", arg);
 		return (1);
 	}
 	return (20);
