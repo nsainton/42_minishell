@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 16:27:44 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/27 15:39:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@
 
 // Preprocessor defines
 # define TRASH_SIZE 50
+# define PARSER_SIZE 50
 # define ENTER "Entering function : %s\n"
 # define LEAVE "Leaving function : %s\n"
 # define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);
 # define LPRINT ft_dprintf(STDERR_FILENO, LEAVE, __func__);
 # define SUCCESS 0
-// ENUM Declarations
+# define SPECIALS "'\"? <>|$"
+// End of Preprocessor defines
 
+// ENUM Declarations
 /*
 METACHARACTERS : Any metacharacter except ;
 PIPE : Designates a | or a \n
@@ -41,7 +44,7 @@ EXIT_STATUS : For the variable $?
 enum e_types
 {
 	METACHARACTERS = 1 << 0,
-	PIPE = 1 << 1,
+	PIPES = 1 << 1,
 	OUTPUT_REDIRECTION = 1 << 2,
 	INPUT_REDIRECTION = 1 << 3,
 	DOUBLE_INPUT_REDIR = 1 << 4,
@@ -57,16 +60,42 @@ enum e_minierrors
 	NO_COLLECTOR,
 	OVERFLOW,
 	NOT_IN_COLLECTOR,
-	ADD_ERROR
+	ADD_ERROR,
+	UNKNOWN_ERROR
 };
-// End of ENUM Declarations
 
+/*
+This enum controls the state of the parser while looking for the
+"quoted state" of the charcters in the input line
+*/
 enum e_states
 {
 	NO_STATE,
 	S_QUOTES,
 	D_QUOTES
 };
+
+/*
+This enum is used to define the replacement characters for the special ones
+in the input string
+*/
+enum e_specials
+{
+	S_PACE = -10,
+	DOLLAR,
+	ES,
+	O_RED,
+	I_RED,
+	PIPE
+};
+
+//This enum informs me if the state of the parser has changed
+enum e_changes
+{
+	UNCHANGED,
+	CHANGED
+};
+// End of ENUM Declarations
 
 //Structures declarations
 
@@ -96,6 +125,21 @@ struct	s_gc
 	size_t	size;
 };
 
+/*
+struct	s_command
+{
+	char	*command;
+	char	**options;
+	char	**arguments;
+	int		last;
+};
+*/
+
+struct s_pipeline
+{
+	t_list	*commands;
+};
+
 struct s_env
 {
 	t_list	*list_env;
@@ -103,6 +147,19 @@ struct s_env
 	int		is_empty;
 };
 
+struct s_metachar
+{
+	char	c;
+	t_uchar	state;
+};
+
+struct s_parser
+{
+	struct s_metachar	*meta;
+	int					state;
+	size_t				len;
+	size_t				size;
+};
 /* struct	s_data
 {
 	t_list	*args;
@@ -126,6 +183,9 @@ typedef struct s_gc			t_gc;
 
 typedef struct s_env		t_env;
 
+typedef struct s_metachar	t_metachar;
+
+typedef struct s_parser		t_parser;
 //End of type definitions
 
 #endif

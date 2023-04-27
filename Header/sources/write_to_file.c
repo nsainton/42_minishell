@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:09:05 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/12 19:32:02 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:11:28 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int	write_to_file(t_cchar *src_path, t_cint fd)
 	int			max_distance;
 
 	max_distance = 0;
-	//dprintf(STDERR_FILENO, "In function : %s\n", __func__);
 	if (write_functions(src_path, fd, &max_distance))
 	{
 		dprintf(STDERR_FILENO, "The function write_functions has returned an error on the file : %s\n", src_path);
