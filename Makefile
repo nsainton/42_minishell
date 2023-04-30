@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/04/17 15:06:22 by nsainton         ###   ########.fr        #
+#    Updated: 2023/04/28 13:43:23 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -156,7 +156,7 @@ re:
 debug:
 	$(MAKE) debug -C $(LFT_DIR)
 	$(MAKE) fclean
-	$(MAKE) GG=-g3 OPT=-O0 CC=gcc
+	$(MAKE) GG="-g3 -pg" OPT=-O0 CC=gcc
 
 .PHONY: leaks
 leaks:
