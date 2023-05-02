@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 17:06:55 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:05:19 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,36 +65,51 @@ void	exec_command(t_pipex	p)
 	}
 	close_used_pipes(&p);
 }
+ */
 
-void	go_pipe(t_pipex *p)
+void	go_pipe(t_data *d)
 {
 	int	i;
 
 	i = 0;
-	while (i < p->pipes_nb)
+	while (i < d->pipes_nb)
 	{
-		if (pipe(p->pipes + i) < 0)
+		if (pipe(d->pipes + i) < 0)
 		{
-			free(p->pipes);
-			ft_error(NULL, errno);
+			free_gc();
+			exit(errno); // ?oui
 		}
 		i = i + 2;
 	}
 }
 
-int	exec_pipeline(t_command **cmds, t_env *my_env)
+int	exec_pipeline(t_data	*d)
 {
 	int		i;
 
-	get_infile(&p);
-	get_outfile(&p, argc);
-	p.cmds_nb = argc - 3 - p.here_doc;
-	p.pipes_nb = (p.cmds_nb - 1) * 2;
-	p.pipes = ft_calloc(p.pipes_nb, sizeof(int));
-	if (!p.pipes)
-		ft_error("A malloc has failed", 0);
-	go_pipe(&p);
-	i = p.here_doc - 1;
+	if (d->cmds_nb == 0)
+		return (1);
+	i = 0;
+	while (i < d->cmds_nb)
+	{
+		get_infile(d->cmds[i]);
+		get_outfile(d->cmds[i]);
+		if (d->cmds[i]->command)
+			exec_command(d);
+
+		i++;
+	}
+
+	d->pipes_nb = (d->cmds_nb - 1) * 2;
+	d->pipes = gccalloc(d->pipes_nb, sizeof(int));
+	if (!d->pipes)
+	{
+		ft_dprintf(2, "error : malloc has failed");
+		return (errno);
+	}
+	go_pipe(d);
+//	REPRENDRE ICI :
+/* 	i = p.here_doc - 1;
 	p.i = 0;
 	while (++i < p.cmds_nb + p.here_doc)
 	{
@@ -104,5 +119,5 @@ int	exec_pipeline(t_command **cmds, t_env *my_env)
 	}
 	waitpid(-1, NULL, 0);
 	free(p.pipes);
-	return (0);
-} */
+	return (0); */
+}

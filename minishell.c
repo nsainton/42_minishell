@@ -6,14 +6,61 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/02 14:20:38 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:59:27 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	ft_arrlen(void **arr)
+{
+	int	i;
+
+	if (!arr)
+		return (0);
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
+}
 
 int	main(int argc, char **argv, char **envp)
+{
+	//char		**args;
+	t_env		*my_env;
+	t_command	*cmds[3];
+
+	if (argc > 1 || !argv)
+		return (1);
+	init_sigs();
+	my_env = get_my_env(envp);
+	cmds[0]= gcmalloc(sizeof(t_command));
+	cmds[0]->args = gcmalloc (1000);
+	cmds[0]->options = gcmalloc (1000);
+	cmds[0]->command = "ls";
+	cmds[0]->is_here_doc = 0;
+	cmds[0]->limiters = NULL;
+	ft_bzero(cmds[0]->args, 1);
+	ft_bzero(cmds[0]->options, 1);
+
+	cmds[1] = gcmalloc(sizeof(t_command));
+	cmds[1]->args = gcmalloc (1000);
+	cmds[1]->options = gcmalloc (1000);
+	cmds[1]->command = "grep";
+	cmds[1]->is_here_doc = 0;
+	cmds[1]->limiters = NULL;
+	cmds[1]->args[0] = "main";
+	cmds[1]->args[1] = NULL;
+	ft_bzero(cmds[1]->options, 1);
+
+	cmds[2] = NULL;
+	exec_pipeline(cmds, my_env, ft_arrlen((void *) cmds));
+	free_gc();
+	return (errno);
+}
+
+// test here_doc
+/* int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	//char		**args;
@@ -38,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_bzero(cmds[0]->args, 1000);
 	ft_bzero(cmds[0]->options, 1000);
 
-/* 	cmds[1]= malloc(sizeof(t_command));
+ 	cmds[1]= malloc(sizeof(t_command));
 	cmds[1]->args = gcmalloc (1000);
 	cmds[1]->options = gcmalloc (1000);
 	cmds[1]->command = NULL;
@@ -48,13 +95,14 @@ int	main(int argc, char **argv, char **envp)
 	cmds[1]->limiters[1] = NULL;
 	cmds[1]->command = NULL;
 	ft_bzero(cmds[1]->args, 1000);
-	ft_bzero(cmds[1]->options, 1000); */
+	ft_bzero(cmds[1]->options, 1000);
 
 	get_infile(cmds[0]);
 	free_gc();
 	return (errno);
-}
+} */
 
+//test builtin
 /* int	main(int argc, char **argv, char **envp)
 {
 	char	*line;

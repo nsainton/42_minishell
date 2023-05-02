@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/02 13:49:47 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:03:46 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,17 @@ struct s_env
 	int		is_empty;
 };
 
-/* struct	s_data
+struct	s_data
 {
-	t_list	*args;
-	t_list	*infiles;
-	t_list	*outfiles;
-	t_list	*commands;
-} */
+	t_command	**cmds;
+	int			cmds_nb;
+	t_env		*env;
+	int			here_doc;
+	char		**limiters;
+	int			*pipes;
+	int			pipes_nb;
+	int			index;
+};
 
 //End of structures declarations
 
@@ -131,6 +135,8 @@ typedef struct s_arg		t_arg;
 typedef struct s_gc			t_gc;
 
 typedef struct s_env		t_env;
+
+typedef struct s_data		t_data;
 
 //End of type definitions
 
