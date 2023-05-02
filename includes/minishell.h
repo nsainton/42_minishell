@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/25 16:22:19 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/02 13:48:46 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int		is_valid_name(char *arg);
 int		modify_env(t_env *my_env, char *export);
 
 //Functions from file : utils.c
-int		ft_error(int errno, char *msg);
-
 void	print_list_prefix(t_list *lst, char *prefix);
 
 t_list	*ft_lstnew_gc(void *content);
@@ -65,6 +63,15 @@ int		go_home(t_env *my_env, int set_old);
 int		which_builtin(t_command *cmd, t_env *my_env);
 
 //Functions from file : check_path.c
+int		check_path(t_command *cmd, t_env *my_env);
+
+//Functions from file : files.c
+void	get_infile(t_command *c);
+
+void	get_outfile(t_command *c);
+
+void	here_doc(char **limiters, int nb);
+
 //Functions from file : signals.c
 void	init_sigs(void);
 
