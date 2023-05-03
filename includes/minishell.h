@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/02 13:48:46 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/03 13:22:03 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,23 @@ int		go_home(t_env *my_env, int set_old);
 //Functions from file : builtin.c
 int		which_builtin(t_command *cmd, t_env *my_env);
 
+//Functions from file : pipex.c
+void	sub_dup2(int read_fd, int write_fd);
+
+void	close_used_pipes(t_data *d, t_command *cmd);
+
+void	exec_command(t_data *d, t_command *cmd);
+
+char	**make_command(t_command	*cmd);
+
+int		go_pipe(t_data *d);
+
+int		exec_pipeline(t_data	*d);
+
 //Functions from file : check_path.c
 int		check_path(t_command *cmd, t_env *my_env);
+
+int		ft_arrlen(void **arr);
 
 //Functions from file : files.c
 void	get_infile(t_command *c);

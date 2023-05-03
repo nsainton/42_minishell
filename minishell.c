@@ -6,55 +6,52 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/02 14:59:27 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/03 13:35:45 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_arrlen(void **arr)
-{
-	int	i;
-
-	if (!arr)
-		return (0);
-	i = 0;
-	while (arr[i])
-		i++;
-	return (i);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
 	//char		**args;
-	t_env		*my_env;
+	t_data		d;
 	t_command	*cmds[3];
 
 	if (argc > 1 || !argv)
 		return (1);
 	init_sigs();
-	my_env = get_my_env(envp);
+	d.env = get_my_env(envp);
+	d.cmds = cmds;
+	d.here_doc = 0;
 	cmds[0]= gcmalloc(sizeof(t_command));
-	cmds[0]->args = gcmalloc (1000);
-	cmds[0]->options = gcmalloc (1000);
+	cmds[0]->args = gccalloc (10, sizeof(char*));
+	cmds[0]->options = gccalloc (10, sizeof(char*));
 	cmds[0]->command = "ls";
 	cmds[0]->is_here_doc = 0;
 	cmds[0]->limiters = NULL;
 	ft_bzero(cmds[0]->args, 1);
-	ft_bzero(cmds[0]->options, 1);
+	cmds[0]->options[0] = "-l";
+	cmds[0]->options[1] = NULL;
+	cmds[0]->in = "/dev/stdin";
+	cmds[0]->out = NULL;
 
 	cmds[1] = gcmalloc(sizeof(t_command));
-	cmds[1]->args = gcmalloc (1000);
-	cmds[1]->options = gcmalloc (1000);
+	cmds[1]->args = gccalloc (10, sizeof(char*));
+	cmds[1]->options = gccalloc (10, sizeof(char*));
 	cmds[1]->command = "grep";
 	cmds[1]->is_here_doc = 0;
 	cmds[1]->limiters = NULL;
-	cmds[1]->args[0] = "main";
+	cmds[1]->args[0] = "mini";
 	cmds[1]->args[1] = NULL;
 	ft_bzero(cmds[1]->options, 1);
+	cmds[1]->in = NULL;
+	cmds[1]->out = NULL;
 
 	cmds[2] = NULL;
-	exec_pipeline(cmds, my_env, ft_arrlen((void *) cmds));
+	d.cmds_nb = ft_arrlen((void **)cmds);
+	exec_pipeline(&d);
 	free_gc();
 	return (errno);
 }

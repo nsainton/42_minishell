@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:33:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/02 13:52:42 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/03 13:28:41 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,26 @@
 
 void	get_infile(t_command *c)
 {
-	if (c->is_here_doc)
-	{
-		here_doc(c->limiters, c->is_here_doc);
-		c->fd_in = open(".heredoc", O_RDONLY);
-		if (c->fd_in < 0)
-		{
-			unlink(".heredoc");
-			ft_dprintf(2, "heredoc unlink : %s\n", strerror(errno));
-		}
-	}
-	else
+	if (c->in)
 	{
 		c->fd_in = open(c->in, O_RDWR);
 		if (c->fd_in < 0)
 			ft_dprintf(2, "infile : %s\n", strerror(errno));
 	}
+	else
+		c->fd_in = 0;
 }
 
 void	get_outfile(t_command *c)
 {
-	c->fd_out = open(c->out, O_CREAT | O_RDWR | O_TRUNC, 0000644);
-	if (c->fd_out < 0)
-		ft_dprintf(2, "outfile : %s\n", strerror(errno));
+	if (c->out)
+	{
+		c->fd_out = open(c->out, O_CREAT | O_RDWR | O_TRUNC, 0000644);
+		if (c->fd_out < 0)
+			ft_dprintf(2, "outfile : %s\n", strerror(errno));
+	}
+	else
+		c->fd_out = 1;
 }
 
 void	here_doc(char **limiters, int nb)

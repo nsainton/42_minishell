@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/02 16:03:46 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/03 12:28:57 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 //Compile the executable with libreadline (-lreadline)
 //End of Prepocessor includes
 
@@ -111,14 +112,15 @@ struct s_env
 
 struct	s_data
 {
-	t_command	**cmds;
-	int			cmds_nb;
-	t_env		*env;
-	int			here_doc;
-	char		**limiters;
-	int			*pipes;
-	int			pipes_nb;
-	int			index;
+	struct s_command	**cmds;
+	int					cmds_nb;
+	struct s_env		*env;
+	int					here_doc;
+	char				**limiters;
+	int					*pipes;
+	int					pipes_nb;
+	int					index;
+	int					pid;
 };
 
 //End of structures declarations
