@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:43:22 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/03 15:17:17 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:39:50 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,13 @@
 int	crypt_char(t_cint c)
 {
 	if (c == ' ')
-	{
-		ft_printf("SPACE\n");
 		return (S_PACE);
-	}
 	if (c == '>')
-	{
-		ft_printf("O_RED\n");
 		return (O_RED);
-	}
 	if (c == '<')
-	{
-		ft_printf("I_RED\n");
 		return (I_RED);
-	}
 	if (c == '|')
-	{
-		ft_printf("PIPE\n");
 		return (PIPE);
-	}
 	return (c);
 }
 
