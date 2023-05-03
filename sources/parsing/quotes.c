@@ -6,12 +6,14 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 18:30:28 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/25 18:01:18 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:43:07 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//Unused code
+/*
 void	change_pstate(t_parser *parser, t_cchar meta)
 {
 	if (meta == '\'' && parser->state != D_QUOTES)
@@ -68,6 +70,7 @@ int	copy_right_chars(t_parser *parser)
 	parser->meta = mc;
 	return (NO_ERROR);
 }
+*/
 
 /*
 t_list	*create_strings_array(t_parser *parser)

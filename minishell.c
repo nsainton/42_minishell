@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 14:20:12 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:12:54 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	char	**args;
-	t_env	*my_env;
-	t_command cmd;
-	int	i;
-	int	opt;
+	char		*line;
+	char		**args;
+	t_env		*my_env;
+	t_command	cmd;
+	int			i;
+	int			opt;
+	char		*cpy;
 
 	if (argc > 1 || !argv)
 		return (1);
@@ -33,8 +34,15 @@ int	main(int argc, char **argv, char **envp)
 	{
 		i = opt = 0;
 		line = readline("minishell> ");
-		if (line)
+		if (line && ! gc_add(line))
 		{
+			if (! (cpy = copy_line(line)))
+			{
+				free_gc();
+				return (EXIT_FAILURE);
+			}
+			else
+				ft_dprintf(STDERR_FILENO, "This is the copied line : %s\n", line);
 			args = gc_split(line, ' ');
 			cmd.command = args[0];
 			if (args[1])
@@ -64,6 +72,7 @@ int	main(int argc, char **argv, char **envp)
 			cmd.command[0] = 0;
 			cmd.options[0] = 0;
 			cmd.args[0] = 0;
+			free_node(line);
 		}
 		else
 		{
