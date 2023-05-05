@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/27 15:39:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:14:51 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,22 @@ struct	s_command
 	int		err;
 };
 
+struct	s_heredoc
+{
+	char	*begin;
+	char	*end;
+};
+
+struct	s_ncommand
+{
+	char	*command;
+	char	**options;
+	char	**args;
+	t_uint	last;
+	t_list	*redirections;
+	struct s_heredoc	*heredocs;
+};
+
 struct	s_gc
 {
 	void	**memzones;
@@ -147,6 +163,7 @@ struct s_env
 	int		is_empty;
 };
 
+/*
 struct s_metachar
 {
 	char	c;
@@ -160,6 +177,7 @@ struct s_parser
 	size_t				len;
 	size_t				size;
 };
+*/
 /* struct	s_data
 {
 	t_list	*args;
@@ -186,6 +204,8 @@ typedef struct s_env		t_env;
 typedef struct s_metachar	t_metachar;
 
 typedef struct s_parser		t_parser;
+
+typedef struct s_ncommand	t_ncommand;
 //End of type definitions
 
 #endif
