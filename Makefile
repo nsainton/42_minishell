@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/05/05 15:35:29 by nsainton         ###   ########.fr        #
+#    Updated: 2023/05/05 17:55:20 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,8 @@ OBJS_NAMES:= $(SRCS_NAMES:.c=.o)
 
 OBJS:= $(addprefix $(OBJS_DIR)/, $(OBJS_NAMES))
 
+OTHER_PROJECTS := Other_projects
+
 INCS_DIR:= includes
 
 INCS:= $(wildcard $(INCS_DIR)/*)
@@ -40,7 +42,11 @@ DEPS_DIR:= dependencies
 
 DEPS:= $(patsubst %.c, $(DEPS_DIR)/%.d, $(SRCS_NAMES) $(PROG))
 
-LFT_DIR:= libft
+LIBS_DIR ?= $(addprefix $(shell pwd)/, libs)
+
+LFT_URL := git@github.com:nsainton/libft.git
+
+LFT_DIR:= $(addprefix $(LIBS_DIR)/, libft)
 
 LFT_NAME:= libft.a
 
@@ -54,7 +60,9 @@ CC:= cc
 
 CFLAGS:= -Wall -Wextra -Werror
 
-HEADER_SCRIPT_DIR:= Header
+HEADER_URL := git@github.com:nsainton/header.git
+
+HEADER_SCRIPT_DIR:= $(addprefix $(LIBS_DIR)/, header)
 
 HEADER_EXEC:= header
 
@@ -68,6 +76,7 @@ GIT_ADD:= --all
 
 VALGRIND_OPTIONS:= --leak-check=full --show-leak-kinds=all --suppressions=rl_suppressions.supp
 
+export LIBS_DIR
 export C_INCLUDE_PATH=$(INCS_DIR):$(LFT_DIR)/$(INCS_DIR)
 export LIBRARY_PATH=$(LFT_DIR)
 
@@ -111,7 +120,7 @@ export minishell_header
 
 .SILENT:
 
-all:
+all: | $(LFT_DIR)
 	$(MAKE) -C $(LFT_DIR)
 	$(MAKE) $(NAME)
 
@@ -131,6 +140,12 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(LFT)
 $(DEPS_DIR):
 	$(MK) $(DEPS_DIR)
 
+$(LFT_DIR):
+	git clone $(LFT_URL) $@
+
+$(HEADER_SCRIPT_DIR):
+	git clone $(HEADER_URL) $@
+
 .PHONY: clean
 clean:
 	$(RM) -r $(OBJS_DIR)
@@ -141,6 +156,11 @@ clean:
 oclean:
 	$(RM) $(NAME)
 	echo "$(BEGIN)$(CYAN)m$(NAME) has been removed$(END)"
+
+.PHONY: lclean
+lclean:
+	$(RM) -f $(LIBS_DIR)
+	echo "$(BEGIN)$(YELLOW)m$(LIBS_DIR) has been removed$(END)"
 
 .PHONY: fclean
 fclean:
@@ -161,6 +181,9 @@ debug:
 .PHONY: leaks
 leaks:
 	$(MAKE) debug && valgrind $(VALGRIND_OPTIONS) ./$(NAME) $(OPT_ARGS)
+
+minitalk:
+	git clone git@github.com:nsainton/minitalk.git
 
 .PHONY: git
 git:
@@ -183,7 +206,7 @@ ifndef FUNCS_HEADER
 $(error FUNCS_HEADER is not set)
 endif
 
-header:
+header: | $(HEADER_SCRIPT_DIR)
 	$(MAKE) -C $(HEADER_SCRIPT_DIR)
 	$(HEADER_SCRIPT) ./$(SRCS_DIR) $(FUNCS_HEADER)
 
