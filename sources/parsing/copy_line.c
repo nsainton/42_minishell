@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/03 15:29:13 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:29:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int *parser)
 		ft_printf("Crypted : %d\n", crypt_char(current));
 		return (t_str_add(str, crypt_char(current)));
 	}
+	if (current == ' ' && *(line + *index) == ' ')
+		return (0);
 	return(t_str_add(str, current));
 }
 /*

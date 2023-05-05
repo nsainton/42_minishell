@@ -6,12 +6,13 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:30:04 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/20 16:22:18 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:24:09 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 t_uchar	set_mcstate(const t_parser *parser, const char c)
 {
 	if (! parser->state)
@@ -22,3 +23,4 @@ t_uchar	set_mcstate(const t_parser *parser, const char c)
 		return (1);
 	return (0);
 }
+*/
