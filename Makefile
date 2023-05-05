@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/05/05 17:55:20 by nsainton         ###   ########.fr        #
+#    Updated: 2023/05/05 18:41:29 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -159,8 +159,8 @@ oclean:
 
 .PHONY: lclean
 lclean:
-	$(RM) -f $(LIBS_DIR)
-	echo "$(BEGIN)$(YELLOW)m$(LIBS_DIR) has been removed$(END)"
+	$(RM) -r $(LIBS_DIR)
+	echo "$(BEGIN)$(PURPLE)m$(notdir $(LIBS_DIR)) have been removed$(END)"
 
 .PHONY: fclean
 fclean:
