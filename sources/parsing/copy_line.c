@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/08 17:05:18 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:16:23 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	handle_dollar(t_str *str, size_t *index, t_cchar *line, \
 int *parser)
 {
 	*index += 1;
-	if (*parser == S_QUOTES || *(line + index) == ' ')
+	if (*parser == S_QUOTES || *(line + *index) == ' ')
 		return (t_str_add(str, '$'));
 	if (*(line + *index) == '?')
 	{

@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/08 16:10:18 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:16:04 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ char	*copy_line(t_cchar *line);
 int		crypt_char(t_cint c);
 
 int		decrypt_char(t_cint c);
+
+//Functions from file : valid_line.c
+int		redirect_without_spaces(char *line, size_t len);
 
 //Functions from file : debug.c
 //Functions from file : check_path.c
