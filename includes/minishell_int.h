@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/05 15:25:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:25:22 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define MINISHELL_INT_H
 // Preprocessor includes
 # include "libft.h"
+# include "libgc.h"
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -25,7 +26,6 @@
 //End of Prepocessor includes
 
 // Preprocessor defines
-# define TRASH_SIZE 50
 # define PARSER_SIZE 50
 # define ENTER "Entering function : %s\n"
 # define LEAVE "Leaving function : %s\n"
@@ -57,10 +57,7 @@ enum e_minierrors
 {
 	NO_ERROR = 0,
 	ALLOCATION_ERROR = 20,
-	NO_COLLECTOR,
 	OVERFLOW,
-	NOT_IN_COLLECTOR,
-	ADD_ERROR,
 	UNKNOWN_ERROR
 };
 
@@ -134,13 +131,6 @@ struct	s_ncommand
 	struct s_heredoc	*heredocs;
 };
 
-struct	s_gc
-{
-	void	**memzones;
-	size_t	len;
-	size_t	size;
-};
-
 /*
 struct	s_command
 {
@@ -196,8 +186,6 @@ typedef enum e_minierrors	t_minierrors;
 typedef struct s_command	t_command;
 
 typedef struct s_arg		t_arg;
-
-typedef struct s_gc			t_gc;
 
 typedef struct s_env		t_env;
 
