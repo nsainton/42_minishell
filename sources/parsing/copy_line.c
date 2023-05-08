@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/05 15:29:38 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:05:18 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	handle_dollar(t_str *str, size_t *index, t_cchar *line, \
 int *parser)
 {
 	*index += 1;
-	if (*parser == S_QUOTES)
+	if (*parser == S_QUOTES || *(line + index) == ' ')
 		return (t_str_add(str, '$'));
 	if (*(line + *index) == '?')
 	{
@@ -89,36 +89,11 @@ int *parser)
 	if (current == '\'' || current == '\"')
 			return (! change_state(parser, current) && t_str_add(str, current));
 	if (*parser)
-	{
-		ft_printf("Crypted : %d\n", crypt_char(current));
 		return (t_str_add(str, crypt_char(current)));
-	}
 	if (current == ' ' && *(line + *index) == ' ')
 		return (0);
 	return(t_str_add(str, current));
 }
-/*
-else if (current == ' ' && *parser)
-{
-	ft_printf("SPACE\n");
-	return (t_str_add(str, S_PACE));
-}
-else if (current == '>' && *parser)
-{
-	ft_printf("O_RED\n");
-	return (t_str_add(str, O_RED));
-}
-else if (current == '<' && *parser)
-{
-	ft_printf("I_RED\n");
-	return (t_str_add(str, I_RED));
-}
-else if (current == '|' && *parser)
-{
-	ft_printf("PIPE\n");
-	return (t_str_add(str, PIPE));
-}
-*/
 
 char	*copy_line(t_cchar *line)
 {
@@ -134,7 +109,6 @@ char	*copy_line(t_cchar *line)
 	{
 		if (! ft_strchr(SPECIALS, *(line + index)))
 		{
-			ft_printf("This is the char  : %c\n", *(line + index));
 			if (t_str_add(&nl, *(line + index)))
 				return (NULL);
 			index ++;
