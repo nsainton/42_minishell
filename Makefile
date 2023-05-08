@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/05/05 18:41:29 by nsainton         ###   ########.fr        #
+#    Updated: 2023/05/08 15:22:03 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,13 +48,17 @@ LFT_URL := git@github.com:nsainton/libft.git
 
 LFT_DIR:= $(addprefix $(LIBS_DIR)/, libft)
 
-LFT_NAME:= libft.a
-
 LFT_ABBR:= -lft
 
 LFT:= $(addprefix $(LFT_DIR)/, $(LFT_NAME))
 
-ABBRS:= $(LFT_ABBR) -lreadline
+LGC_URL := git@github.com:nsainton/libgc.git
+
+LGC_DIR:= $(addprefix $(LIBS_DIR)/, libgc)
+
+LGC_ABBR:= -lgc
+
+ABBRS:= $(LGC_ABBR) $(LFT_ABBR) -lreadline
 
 CC:= cc
 
@@ -77,8 +81,8 @@ GIT_ADD:= --all
 VALGRIND_OPTIONS:= --leak-check=full --show-leak-kinds=all --suppressions=rl_suppressions.supp
 
 export LIBS_DIR
-export C_INCLUDE_PATH=$(INCS_DIR):$(LFT_DIR)/$(INCS_DIR)
-export LIBRARY_PATH=$(LFT_DIR)
+export C_INCLUDE_PATH=$(INCS_DIR):$(LFT_DIR)/$(INCS_DIR):$(LGC_DIR)/$(INCS_DIR)
+export LIBRARY_PATH=$(LFT_DIR):$(LGC_DIR)
 
 #Color codes for pretty printing
 BEGIN=\033[
@@ -120,8 +124,9 @@ export minishell_header
 
 .SILENT:
 
-all: | $(LFT_DIR)
+all: | $(LFT_DIR) $(LGC_DIR)
 	$(MAKE) -C $(LFT_DIR)
+	$(MAKE) -C $(LGC_DIR)
 	$(MAKE) $(NAME)
 
 $(NAME): $(OBJS) | $(DEPS_DIR)
@@ -131,7 +136,7 @@ $(NAME): $(OBJS) | $(DEPS_DIR)
 	echo "$$minishell_header"
 	echo "$(END)"
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(LFT)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(LFT_DIR) $(LGC_DIR)
 	[ -d $(@D) ] || $(MK) $(@D)
 	arg="$$(dirname $(DEPS_DIR)/$*)"; \
 	[ -d $$arg ] || $(MK) $$arg
@@ -142,6 +147,9 @@ $(DEPS_DIR):
 
 $(LFT_DIR):
 	git clone $(LFT_URL) $@
+
+$(LGC_DIR):
+	git clone $(LGC_URL) $@
 
 $(HEADER_SCRIPT_DIR):
 	git clone $(HEADER_URL) $@
