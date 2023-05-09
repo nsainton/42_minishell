@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/08 16:51:23 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/09 09:53:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ enum e_specials
 	ES,
 	O_RED,
 	I_RED,
-	PIPE
+	PIPE,
+	BEG_VAR,
+	END_VAR,
 };
 
 //This enum informs me if the state of the parser has changed
