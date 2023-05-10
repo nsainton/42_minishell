@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/03 12:28:57 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:23:15 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ struct	s_data
 	int					pipes_nb;
 	int					index;
 	int					pid;
+	int					errnum;
 };
 
 //End of structures declarations

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/03 13:37:43 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:50:56 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ void	exec_command(t_data *d, t_command *cmd)
 			sub_dup2(d->pipes[d->index - 2], cmd->fd_out);
 		else
 			sub_dup2(d->pipes[d->index - 2], d->pipes[d->index + 1]);
-		if (execve(cmd->path, (char *const *)make_command(cmd), NULL)) //env a gerer
-			ft_dprintf(2, "error : %s", strerror(errno));
+		d->errnum = execve(cmd->path, (char *const *)make_command(cmd),
+				envlist_to_arr(d->env->list_env));
+		if (d->errnum)
+			ft_dprintf(2, "%s : %s\n", cmd->command, strerror(errno));
+		exit(d->errnum);
 	}
 	close_used_pipes(d, cmd);
 }
@@ -81,7 +84,7 @@ char	**make_command(t_command	*cmd)
 	full_cmd[j] = NULL;
 	i = 0;
 	while (full_cmd[i])
-		ft_dprintf(2,"full_cmd : %s\n", full_cmd[i++]);
+		ft_dprintf(2, "full_cmd : %s\n", full_cmd[i++]);
 	return (full_cmd);
 }
 
@@ -100,10 +103,7 @@ int	go_pipe(t_data *d)
 	while (i < d->pipes_nb)
 	{
 		if (pipe(d->pipes + i) < 0)
-		{
-			free_gc();
 			return (errno); // ?oui
-		}
 		i = i + 2;
 	}
 	return (0);
@@ -116,7 +116,9 @@ int	exec_pipeline(t_data	*d)
 	if (d->cmds_nb == 0)
 		return (1);
 	d->pipes_nb = (d->cmds_nb - 1) * 2;
-	go_pipe(d);
+	d->errnum = go_pipe(d);
+	if (d->errnum)
+		return (d->errnum);
 	i = 0;
 	d->index = 0;
 	if (d->here_doc)
@@ -126,18 +128,20 @@ int	exec_pipeline(t_data	*d)
 		{
 			unlink(".heredoc");
 			ft_dprintf(2, "heredoc unlink : %s\n", strerror(errno));
+			d->errnum = errno;
 		}
 	}
 	while (i < d->cmds_nb)
 	{
-		if (which_builtin(d->cmds[i], d->env) == 127)
+		if (which_builtin(d->cmds[i], d) == 127)
 		{
 			get_infile(d->cmds[i]);
 			get_outfile(d->cmds[i]);
 			if (d->cmds[i]->command)
 			{
-				check_path(d->cmds[i], d->env);
-				exec_command(d, d->cmds[i]);
+				d->errnum = check_path(d->cmds[i], d->env);
+				if (!d->errnum)
+					exec_command(d, d->cmds[i]);
 			}
 		}
 		d->index += 2;

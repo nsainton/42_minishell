@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/03 13:22:03 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:40:05 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		update_env_line(t_env *my_env, char *name, char *new_line);
 t_list	*get_env_line(t_env *my_env, char *var);
 
 //Functions from file : export.c
-int		export_env(t_env *my_env, t_command *cmd);
+int		export_env(t_data *d, t_command *cmd);
 
 int		is_valid_export(char *arg);
 
@@ -38,17 +38,21 @@ void	print_list_prefix(t_list *lst, char *prefix);
 
 t_list	*ft_lstnew_gc(void *content);
 
+char	**envlist_to_arr(t_list *env);
+
 //Functions from file : echo.c
-int		print_echo(t_command *cmd);
+int		print_echo(t_data *d, t_command *cmd);
+
+int		print_exit_status(t_data *d, t_command *cmd);
 
 //Functions from file : env.c
 t_env	*get_my_env(char **envp);
 
 t_list	*copy_env(char **envp);
 
-int		print_env(t_env *my_env, t_command *cmd);
+int		print_env(t_data *d, t_command *cmd);
 
-int		unset_env(t_env *my_env, t_command *cmd);
+int		unset_env(t_data *d, t_command *cmd);
 
 void	delete_env_line(t_list *start, t_list *to_del);
 
@@ -60,7 +64,7 @@ int		set_new_pwd(t_env *my_env);
 int		go_home(t_env *my_env, int set_old);
 
 //Functions from file : builtin.c
-int		which_builtin(t_command *cmd, t_env *my_env);
+int		which_builtin(t_command *cmd, t_data *d);
 
 //Functions from file : pipex.c
 void	sub_dup2(int read_fd, int write_fd);
@@ -105,7 +109,7 @@ char	*gc_strtrim(t_cchar *s1, t_cchar *set);
 char	*gc_strjoin(t_cchar *s1, t_cchar *s2);
 
 //Functions from file : gc_del.c
-void	free_gc();
+void	free_gc(void);
 
 void	free_nodes(t_csizet number);
 

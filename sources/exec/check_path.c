@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:39:48 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/03 13:21:57 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:52:31 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	check_path(t_command *cmd, t_env *my_env)
 	cmd->path = NULL;
 	path = gc_split(get_env_var(my_env, "PATH"), ':');
 	if (!path)
-		return (0);
+	{
+		ft_dprintf(2, "%s : No such file or directory\n", cmd->command);
+		return (1);
+	}
 	while (path[++i])
 	{
 		tmp = gc_strjoin(path[i], "/");
@@ -32,11 +35,12 @@ int	check_path(t_command *cmd, t_env *my_env)
 		if (!access(path[i], F_OK))
 		{
 			cmd->path = path[i];
-			return (1);
+			return (0);
 		}
 	}
 	free_node(path);
-	return (0);
+	ft_dprintf(2, "%s : Command not found\n", cmd->command);
+	return (125);
 }
 
 int	ft_arrlen(void **arr)

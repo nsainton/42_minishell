@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   gc_del.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:29:21 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/17 16:20:54 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:57:35 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_gc()
+void	free_gc(void)
 {
 	t_gc	*collector;
 	size_t	index;

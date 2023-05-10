@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/03 13:35:45 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:48:54 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ int	main(int argc, char **argv, char **envp)
 	d.env = get_my_env(envp);
 	d.cmds = cmds;
 	d.here_doc = 0;
+	d.errnum = 0;
 	cmds[0]= gcmalloc(sizeof(t_command));
 	cmds[0]->args = gccalloc (10, sizeof(char*));
 	cmds[0]->options = gccalloc (10, sizeof(char*));
-	cmds[0]->command = "ls";
+	cmds[0]->command = "los";
 	cmds[0]->is_here_doc = 0;
 	cmds[0]->limiters = NULL;
 	ft_bzero(cmds[0]->args, 1);
@@ -40,14 +41,14 @@ int	main(int argc, char **argv, char **envp)
 	cmds[1] = gcmalloc(sizeof(t_command));
 	cmds[1]->args = gccalloc (10, sizeof(char*));
 	cmds[1]->options = gccalloc (10, sizeof(char*));
-	cmds[1]->command = "grep";
+	cmds[1]->command = "$?";
 	cmds[1]->is_here_doc = 0;
 	cmds[1]->limiters = NULL;
-	cmds[1]->args[0] = "mini";
+	cmds[1]->args[0] = NULL;
 	cmds[1]->args[1] = NULL;
 	ft_bzero(cmds[1]->options, 1);
 	cmds[1]->in = NULL;
-	cmds[1]->out = NULL;
+	cmds[1]->out = "coucou";
 
 	cmds[2] = NULL;
 	d.cmds_nb = ft_arrlen((void **)cmds);
