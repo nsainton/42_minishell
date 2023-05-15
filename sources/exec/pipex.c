@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/10 17:50:56 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/11 12:11:31 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ int	exec_pipeline(t_data	*d)
 				d->errnum = check_path(d->cmds[i], d->env);
 				if (!d->errnum)
 					exec_command(d, d->cmds[i]);
+				else
+					ft_dprintf(2, "%s : %s\n", d->cmds[i]->command, strerror(d->errnum));
 			}
 		}
 		d->index += 2;

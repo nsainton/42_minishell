@@ -6,21 +6,19 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/26 13:43:25 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/11 13:23:26 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd(t_command *cmd, t_env *my_env)
+int	cd(t_command *cmd, t_data *d)
 {
-	int		errnum;
-
 	if (!cmd->args[0])
-		return (go_home(my_env, 1));
+		return (go_home(d->env, 1));
 	if (cmd->args[0][0] == '~')
 	{
-		go_home(my_env, 0);
+		go_home(d->env, 0);
 		cmd->args[0][0] = '.';
 	}
 	if (cmd->args[0][0])
@@ -29,12 +27,13 @@ int	cd(t_command *cmd, t_env *my_env)
 		{
 			ft_dprintf(2, "cd : %s : %s\n", cmd->args[0],
 				strerror(errno));
+				d->errnum = errno;
 			return (errno);
 		}
-		errnum = set_new_pwd(my_env);
-		return (errnum);
+		d->errnum = set_new_pwd(d->env);
+		return (d->errnum);
 	}
-	return (0);
+	return (d->errnum);
 }
 
 

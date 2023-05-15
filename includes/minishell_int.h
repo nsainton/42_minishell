@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/10 14:23:15 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:31:28 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+#include <string.h>
 //Compile the executable with libreadline (-lreadline)
 //End of Prepocessor includes
 
@@ -87,6 +88,7 @@ struct	s_command
 	char	**options;
 	char	**args;
 	t_uint	last;
+	int		type;
 	char	*in;
 	char	*out;
 	int		is_here_doc;

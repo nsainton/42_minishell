@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/10 17:40:05 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:55:15 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	**envlist_to_arr(t_list *env);
 //Functions from file : echo.c
 int		print_echo(t_data *d, t_command *cmd);
 
+int		is_true_optn(char *str);
+
 int		print_exit_status(t_data *d, t_command *cmd);
 
 //Functions from file : env.c
@@ -57,7 +59,7 @@ int		unset_env(t_data *d, t_command *cmd);
 void	delete_env_line(t_list *start, t_list *to_del);
 
 //Functions from file : cd.c
-int		cd(t_command *cmd, t_env *my_env);
+int		cd(t_command *cmd, t_data *d);
 
 int		set_new_pwd(t_env *my_env);
 
