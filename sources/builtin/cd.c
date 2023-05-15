@@ -6,34 +6,34 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 13:25:46 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/11 13:23:26 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd(t_command *cmd, t_env *my_env)
+int	cd(t_command *cmd, t_data *d)
 {
-	int		errnum;
-
 	if (!cmd->args[0])
-		return (go_home(my_env, 1));
+		return (go_home(d->env, 1));
 	if (cmd->args[0][0] == '~')
 	{
-		go_home(my_env, 0);
+		go_home(d->env, 0);
 		cmd->args[0][0] = '.';
 	}
 	if (cmd->args[0][0])
 	{
 		if (chdir(cmd->args[0]))
 		{
-			printf("cd : %s : %s\n", cmd->args[0], strerror(errno));
+			ft_dprintf(2, "cd : %s : %s\n", cmd->args[0],
+				strerror(errno));
+				d->errnum = errno;
 			return (errno);
 		}
-		errnum = set_new_pwd(my_env);
-		return (errnum);
+		d->errnum = set_new_pwd(d->env);
+		return (d->errnum);
 	}
-	return (0);
+	return (d->errnum);
 }
 
 
@@ -46,11 +46,11 @@ int	set_new_pwd(t_env *my_env)
 	errnum = 0;
 	old_wd = get_env_var(my_env, "PWD");
 	if (!old_wd)
-		printf("No pwd variable in env\n");
+		ft_dprintf(2, "cd : no pwd variable in env\n");
 	new_wd = getcwd(NULL, 0);
 	if (!new_wd)
 	{
-		printf("%s\n", strerror(errno));
+		ft_dprintf(2, "%s\n", strerror(errno));
 		return (errno);
 	}
 	if (old_wd && new_wd)
@@ -73,14 +73,14 @@ int	go_home(t_env *my_env, int set_old)
 	home_path = get_env_var(my_env, "HOME");
 	if (!home_path)
 	{
-		printf("error : no home path in env\n");
+		ft_dprintf(2, "error : no home path in env\n");
 		return (errnum --);
 	}
 	else
 	{
 		if (chdir(home_path))
 		{
-			printf("%s\n", strerror(errno));
+			ft_dprintf(2, "%s\n", strerror(errno));
 			return (errno);
 		}
 		if (set_old)

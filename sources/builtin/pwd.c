@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:48:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/24 15:24:39 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:46:09 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,16 @@ int	print_pwd(t_command *cmd)
 
 	if (cmd->args[0])
 	{
-		printf("pwd : too many arguments\n");
+		ft_dprintf(2, "pwd : too many arguments\n");
 		return (1);
 	}
 	line = getcwd(NULL, 0);
 	if (!line)
 	{
-		printf("%s\n", strerror(errno));
+		ft_dprintf(2, "%s\n", strerror(errno));
 		return (errno);
 	}
-	printf("%s\n", line);
+	ft_printf("%s\n", line);
 	free(line);
 	return (SUCCESS);
 }

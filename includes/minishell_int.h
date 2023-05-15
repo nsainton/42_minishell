@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/27 15:39:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:31:28 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+#include <string.h>
 //Compile the executable with libreadline (-lreadline)
 //End of Prepocessor includes
 
@@ -112,9 +117,13 @@ struct	s_command
 	char	**options;
 	char	**args;
 	t_uint	last;
-	t_uint	pipeline;
-	int		in;
-	int		out;
+	int		type;
+	char	*in;
+	char	*out;
+	int		is_here_doc;
+	char	**limiters;
+	int		fd_in;
+	int		fd_out;
 	int		err;
 };
 
@@ -124,16 +133,6 @@ struct	s_gc
 	size_t	len;
 	size_t	size;
 };
-
-/*
-struct	s_command
-{
-	char	*command;
-	char	**options;
-	char	**arguments;
-	int		last;
-};
-*/
 
 struct s_pipeline
 {
@@ -159,14 +158,21 @@ struct s_parser
 	int					state;
 	size_t				len;
 	size_t				size;
-};
-/* struct	s_data
+}
+
+struct	s_data
 {
-	t_list	*args;
-	t_list	*infiles;
-	t_list	*outfiles;
-	t_list	*commands;
-} */
+	struct s_command	**cmds;
+	int					cmds_nb;
+	struct s_env		*env;
+	int					here_doc;
+	char				**limiters;
+	int					*pipes;
+	int					pipes_nb;
+	int					index;
+	int					pid;
+	int					errnum;
+};
 
 //End of structures declarations
 
@@ -183,9 +189,12 @@ typedef struct s_gc			t_gc;
 
 typedef struct s_env		t_env;
 
+typedef struct s_data		t_data;
+
 typedef struct s_metachar	t_metachar;
 
 typedef struct s_parser		t_parser;
+
 //End of type definitions
 
 #endif

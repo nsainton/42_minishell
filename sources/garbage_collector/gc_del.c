@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   gc_del.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:29:21 by nsainton          #+#    #+#             */
 /*   Updated: 2023/04/18 18:18:42 by nsainton         ###   ########.fr       */

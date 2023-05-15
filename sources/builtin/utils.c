@@ -6,25 +6,18 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:06:33 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/27 15:40:11 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:56:20 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_error(int errno, char *msg)
-{
-	printf("error : %s\n", msg);
-	free_gc();
-	exit(errno);
-}
 
 void	print_list_prefix(t_list *lst, char *prefix)
 {
 	t_list	*tmp;
 
 	if (!lst)
-		printf("error : list is empty ...\n");
+		ft_dprintf(2, "error : list is empty ...\n");
 	tmp = lst;
 	while (tmp != NULL)
 	{
@@ -47,4 +40,31 @@ t_list	*ft_lstnew_gc(void *content)
 	new_elem->next = NULL;
 	new_elem->priority = 0;
 	return (new_elem);
+}
+
+char	**envlist_to_arr(t_list *env)
+{
+	char	**envp;
+	int		i;
+	t_list	*tmp;
+
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	envp = gcmalloc(sizeof(char *) * (i + 1));
+	if (!envp)
+		return (NULL);
+	i = 0;
+	while (env)
+	{
+		envp[i] = ft_strdup((char *) env->content);
+		env = env->next;
+		i++;
+	}
+	envp[i] = NULL;
+	return (envp);
 }

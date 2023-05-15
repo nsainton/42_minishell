@@ -6,36 +6,35 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:14:46 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 16:22:03 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:39:18 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	export_env(t_env *my_env, t_command *cmd)
+int	export_env(t_data *d, t_command *cmd)
 {
-	int	errnum;
 	int	i;
 
 	if (!cmd->args[0])
 	{
-		print_list_prefix(my_env->list_env, "declare -x");
+		print_list_prefix(d->env->list_env, "declare -x");
 		return (SUCCESS);
 	}
 	i = 0;
-	errnum = 0;
+	d->errnum = 0;
 	while (cmd->args[i])
 	{
 		if (is_valid_export(cmd->args[i]) == 20)
 		{
-			if (modify_env(my_env, cmd->args[i]) == 0)
-				ft_lstadd_back(&my_env->list_env, ft_lstnew_gc(cmd->args[i]));
+			if (modify_env(d->env, cmd->args[i]) == 0)
+				ft_lstadd_back(&d->env->list_env, ft_lstnew_gc(cmd->args[i]));
 		}
 		else
-			errnum ++;
+			d->errnum = 1;
 		i++;
 	}
-	return (errnum);
+	return (d->errnum);
 }
 
 int	is_valid_export(char *arg)
@@ -44,7 +43,7 @@ int	is_valid_export(char *arg)
 		return (0);
 	if ((!ft_isalpha(arg[0]) && arg[0] != '_') || !is_valid_name(arg))
 	{
-		printf("export: %s : not a valid identifier\n", arg);
+		ft_dprintf(2, "export: %s : not a valid identifier\n", arg);
 		return (1);
 	}
 	return (20);

@@ -6,18 +6,110 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/25 14:20:12 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:18:12 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
 int	main(int argc, char **argv, char **envp)
+{
+	//char		**args;
+	t_data		d;
+	t_command	*cmds[3];
+
+	if (argc > 1 || !argv)
+		return (1);
+	init_sigs();
+	d.env = get_my_env(envp);
+	d.cmds = cmds;
+	d.here_doc = 0;
+	d.errnum = 0;
+	cmds[0]= gcmalloc(sizeof(t_command));
+	cmds[0]->args = gccalloc (10, sizeof(char*));
+	cmds[0]->options = gccalloc (10, sizeof(char*));
+	cmds[0]->command = "grep";
+	cmds[0]->is_here_doc = 0;
+	cmds[0]->limiters = NULL;
+	ft_bzero(cmds[0]->args, 1);
+	cmds[0]->options[0] = NULL;
+	cmds[0]->in = "/dev/stdin";
+	cmds[0]->out = NULL;
+	cmds[0]->args[0] = "mini";
+	cmds[0]->args[1] = "frfr";
+	cmds[0]->args[2] = "ffsdgfr";
+	cmds[0]->args[3] = NULL;
+
+	cmds[1] = gcmalloc(sizeof(t_command));
+	cmds[1]->args = gccalloc (10, sizeof(char*));
+	cmds[1]->options = gccalloc (10, sizeof(char*));
+	cmds[1]->command = "$?";
+	cmds[1]->is_here_doc = 0;
+	cmds[1]->limiters = NULL;
+	cmds[1]->args[0] = NULL;
+	cmds[1]->args[1] = NULL;
+	ft_bzero(cmds[1]->options, 1);
+	cmds[1]->in = NULL;
+	cmds[1]->out = "coucou";
+
+	cmds[2] = NULL;
+	d.cmds_nb = ft_arrlen((void **)cmds);
+	exec_pipeline(&d);
+	free_gc();
+	return (errno);
+}
+
+// test here_doc
+/* int	main(int argc, char **argv, char **envp)
+{
+	char		*line;
+	//char		**args;
+	t_env		*my_env;
+	t_command	*cmds[2];
+
+	if (argc > 1 || !argv)
+		return (1);
+	init_sigs();
+	line = "void";
+	my_env = get_my_env(envp);
+	cmds[0]= gcmalloc(sizeof(t_command));
+	cmds[0]->args = gcmalloc (1000);
+	cmds[0]->options = gcmalloc (1000);
+	cmds[0]->command = NULL;
+	cmds[0]->is_here_doc = 2;
+	cmds[0]->limiters = gcmalloc (sizeof(char *) * 3);
+	cmds[0]->limiters[0] = line;
+	cmds[0]->limiters[1] = "coucou";
+	cmds[0]->limiters[2] = NULL;
+	cmds[0]->command = NULL;
+	ft_bzero(cmds[0]->args, 1000);
+	ft_bzero(cmds[0]->options, 1000);
+
+ 	cmds[1]= malloc(sizeof(t_command));
+	cmds[1]->args = gcmalloc (1000);
+	cmds[1]->options = gcmalloc (1000);
+	cmds[1]->command = NULL;
+	cmds[1]->is_here_doc = 1;
+	cmds[1]->limiters = gcmalloc (sizeof(char *) * 2);
+	cmds[1]->limiters[0] = "coucou";
+	cmds[1]->limiters[1] = NULL;
+	cmds[1]->command = NULL;
+	ft_bzero(cmds[1]->args, 1000);
+	ft_bzero(cmds[1]->options, 1000);
+
+	get_infile(cmds[0]);
+	free_gc();
+	return (errno);
+} */
+
+//test builtin
+/* int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	char	**args;
 	t_env	*my_env;
-	t_command cmd;
+	t_command *cmds[1];
 	int	i;
 	int	opt;
 
@@ -32,7 +124,9 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		i = opt = 0;
+		line = NULL;
 		line = readline("minishell> ");
+		gc_add(line); // a proteger
 		if (line)
 		{
 			args = gc_split(line, ' ');
@@ -73,8 +167,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 
 	return (errno);
-}
-
+} */
 
 /* char	**allocate_strings_array(t_csizet size)
 {
