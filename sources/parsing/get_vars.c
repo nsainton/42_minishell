@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 09:41:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/09 10:25:23 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/17 08:57:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,42 @@ static char	*expand_env_var(t_cchar *line, size_t index, size_t length)
 	return (var);
 }
 
+/*
+static char	*format_var(t_cchar *var, int parser)
+{
+	char	*nvar;
+	size_t	len;
+	size_t	index;
+	size_t	nindex;
+
+	len = ft_strlen(var);
+	nvar = gccalloc(len  + 1, sizeof *nvar);
+	if (! nvar)
+		return (NULL);
+	index = 0;
+	nindex = 0;
+	while (*(var + index));
+	{
+		if (parser == D_QUOTES)
+			*(nvar + nindex) = crypt_char(*(var + index));
+		else
+			*(nvar + nindex) = *(var + index);
+		index ++;
+		nindex ++;
+	}
+	return (nvar);
+}
+*/
+
 static int	add_var_tstr(t_str *str, char *var, int parser)
 {
 	int	error;
-	int	sp;
 
 	error = 0;
-	sp = 1;
 	while (*var)
 	{
-		if (*var == ' ' && sp && ! parser)
-		{
-			error = t_str_add(str, ' ');
-			sp = 0;
-		}
+		if (! parser)
+			error = t_str_add(str, *var);
 		else
 			error = t_str_add(str, crypt_char(*var));
 		if (error)
