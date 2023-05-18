@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 14:55:42 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/18 15:07:28 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,28 +110,41 @@ struct s_arg
 	enum e_types	type;
 };
 
-struct	s_command
-{
-	char	*command;
-	char	*path;
-	char	**options;
-	char	**args;
-	t_uint	last;
-	int		type;
-	char	*in;
-	char	*out;
-	int		is_here_doc;
-	char	**limiters;
-	int		fd_in;
-	int		fd_out;
-	int		err;
-};
-
 struct	s_heredoc
 {
-	char	*begin;
-	char	*end;
+	int		fd;
+	char	*limiter;
 };
+
+struct s_redir
+{
+	int		fd;
+	char	mode;
+	char	*file;
+};
+
+struct	s_command
+{
+	char				*command;
+	char				*path;
+	char				**options; //Seulement args
+	char				**args;
+	t_uint				last;
+	//int		type;
+	//Remove vars from here
+	char				*in;
+	char				*out;
+	int					is_here_doc;
+	char				**limiters;
+	//to there
+	//Replace by
+	struct s_heredoc	heredocs;
+	struct s_redir		redirs;
+	int					fd_in;
+	int					fd_out;
+	int					err;
+};
+
 
 struct	s_ncommand
 {
