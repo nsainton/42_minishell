@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/11 12:11:31 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/18 16:57:17 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,9 @@ char	**make_command(t_command	*cmd)
 
 	i = 0;
 	j = 0;
-	full_cmd = gccalloc((ft_arrlen((void **) cmd->options)
-				+ ft_arrlen((void **) cmd->args) + 2), sizeof (char *));
+	full_cmd = gccalloc(ft_arrlen(((void **) cmd->args) + 2), sizeof (char *));
 	full_cmd[j++] = gc_strdup(cmd->command);
-	while (cmd->options[i])
-	{
-		full_cmd[j++] = gc_strdup(cmd->options[i]);
-		i ++;
-	}
+
 	i = 0;
 	while (cmd->args[i])
 	{
@@ -121,7 +116,7 @@ int	exec_pipeline(t_data	*d)
 		return (d->errnum);
 	i = 0;
 	d->index = 0;
-	if (d->here_doc)
+	/* if (d->here_doc)
 	{
 		here_doc(d->limiters, d->here_doc);
 		if (open(".heredoc", O_RDONLY) < 0)
@@ -130,13 +125,15 @@ int	exec_pipeline(t_data	*d)
 			ft_dprintf(2, "heredoc unlink : %s\n", strerror(errno));
 			d->errnum = errno;
 		}
-	}
+	} */
+
 	while (i < d->cmds_nb)
 	{
 		if (which_builtin(d->cmds[i], d) == 127)
 		{
 			get_infile(d->cmds[i]);
 			get_outfile(d->cmds[i]);
+			ft_printf("exec_pipeline\n");
 			if (d->cmds[i]->command)
 			{
 				d->errnum = check_path(d->cmds[i], d->env);

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:42:11 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/15 12:21:31 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/18 16:12:02 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,8 @@ int	print_echo(t_data *d, t_command *cmd)
 	int	i;
 
 	i = 0;
-	while (cmd->options[i])
-	{
-		if (!is_true_optn(cmd->options[0]))
-		{
-			printf("%s ", cmd->options[i]);
-			d->errnum = 2;
-		}
+	while (cmd->args[i] && is_true_optn(cmd->args[i]))
 		i++;
-	}
-	i = 0;
 	while (cmd->args[i])
 	{
 		printf("%s", cmd->args[i]);
@@ -35,7 +27,7 @@ int	print_echo(t_data *d, t_command *cmd)
 		i ++;
 	}
 	d->errnum = 0;
-	if (!is_true_optn(cmd->options[0]))
+	if (!is_true_optn(cmd->args[0]))
 		printf("\n");
 	return (0);
 }

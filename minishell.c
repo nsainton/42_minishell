@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 14:56:19 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/18 16:59:49 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,40 +22,38 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 || !argv)
 		return (1);
 	init_sigs();
+
 	d.env = get_my_env(envp);
 	d.cmds = cmds;
 	d.here_doc = 0;
 	d.errnum = 0;
 	cmds[0]= gcmalloc(sizeof(t_command));
 	cmds[0]->args = gccalloc (10, sizeof(char*));
-	cmds[0]->options = gccalloc (10, sizeof(char*));
-	cmds[0]->command = "grep";
+	cmds[0]->command = "ls";
 	cmds[0]->is_here_doc = 0;
 	cmds[0]->limiters = NULL;
-	ft_bzero(cmds[0]->args, 1);
-	cmds[0]->options[0] = NULL;
-	cmds[0]->in = "/dev/stdin";
+	cmds[0]->in = NULL;
 	cmds[0]->out = NULL;
-	cmds[0]->args[0] = "mini";
-	cmds[0]->args[1] = "frfr";
-	cmds[0]->args[2] = "ffsdgfr";
-	cmds[0]->args[3] = NULL;
+ 	cmds[0]->args[0] = "-l";
+/*
+	cmds[0]->args[1] = "-n";
+	cmds[0]->args[2] = "-n"; */
+	cmds[0]->args[1] = NULL;
 
 	cmds[1] = gcmalloc(sizeof(t_command));
 	cmds[1]->args = gccalloc (10, sizeof(char*));
-	cmds[1]->options = gccalloc (10, sizeof(char*));
-	cmds[1]->command = "$?";
+	cmds[1]->command = "grep";
 	cmds[1]->is_here_doc = 0;
 	cmds[1]->limiters = NULL;
-	cmds[1]->args[0] = NULL;
+	cmds[1]->args[0] = "mini";
 	cmds[1]->args[1] = NULL;
-	ft_bzero(cmds[1]->options, 1);
 	cmds[1]->in = NULL;
-	cmds[1]->out = "coucou";
+	cmds[1]->out = NULL;
 
 	cmds[2] = NULL;
 	d.cmds_nb = ft_arrlen((void **)cmds);
-	exec_pipeline(&d);
+	printf("exec : %d\n",exec_pipeline(&d));
+	ft_printf("coucou\n");
 	free_gc();
 	return (errno);
 }

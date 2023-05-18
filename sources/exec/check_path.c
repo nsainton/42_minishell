@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:39:48 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/11 12:13:02 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/18 17:01:52 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_path(t_command *cmd, t_env *my_env)
 		}
 	}
 	free_node(path);
-	return (errno);
+	return (127);
 }
 
 int	ft_arrlen(void **arr)
