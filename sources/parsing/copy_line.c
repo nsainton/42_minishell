@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/09 10:31:50 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/18 16:09:33 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int *parser)
 {
 	char	current;
 
-	EPRINT
 	current = *(line + *index);
 	if (current == '$')
 		return (handle_dollar(str, index, line, parser));

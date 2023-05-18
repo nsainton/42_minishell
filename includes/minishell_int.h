@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 15:07:28 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/18 16:58:25 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,9 @@ typedef struct s_metachar	t_metachar;
 
 typedef struct s_parser		t_parser;
 
+typedef struct s_redir		t_redir;
+
+typedef struct s_heredoc	t_heredoc;
 //End of type definitions
 
 #endif
