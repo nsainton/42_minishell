@@ -6,13 +6,14 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 14:56:19 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/18 15:58:13 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
+/*
 int	main(int argc, char **argv, char **envp)
 {
 	//char		**args;
@@ -59,6 +60,7 @@ int	main(int argc, char **argv, char **envp)
 	free_gc();
 	return (errno);
 }
+*/
 
 // test here_doc
 /* int	main(int argc, char **argv, char **envp)
@@ -103,44 +105,24 @@ int	main(int argc, char **argv, char **envp)
 	return (errno);
 } */
 
-//test builtin
-/* int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv)//, char **envp)
 {
-	char	*line;
-	char	**args;
-	t_env	*my_env;
-	t_command *cmds[1];
-	int	i;
-	int	opt;
-=======
 	char		*line;
-	char		**args;
-	t_env		*my_env;
 	t_command	cmd;
-	int			i;
-	int			opt;
 	char		*cpy;
->>>>>>> parshing
 
 	if (argc > 1 || !argv)
 		return (1);
 	init_sigs();
-	my_env = get_my_env(envp);
+	//my_env = get_my_env(envp);
 	cmd.args = gcmalloc (1000);
 	cmd.options = gcmalloc (1000);
 	ft_bzero(cmd.args, 1000);
 	ft_bzero(cmd.options, 1000);
 	while (1)
 	{
-		i = opt = 0;
-		line = NULL;
 		line = readline("minishell> ");
-<<<<<<< HEAD
-		gc_add(line); // a proteger
-		if (line)
-=======
 		if (line && ! gc_add(line))
->>>>>>> parshing
 		{
 			if (! (cpy = copy_line(line)))
 			{
@@ -149,6 +131,7 @@ int	main(int argc, char **argv, char **envp)
 			}
 			else
 				ft_dprintf(STDERR_FILENO, "This is the copied line : %s\n", cpy);
+			/*
 			args = gc_split(cpy, ' ');
 			cmd.command = args[0];
 			if (args[1])
@@ -178,6 +161,7 @@ int	main(int argc, char **argv, char **envp)
 			cmd.command[0] = 0;
 			cmd.options[0] = 0;
 			cmd.args[0] = 0;
+			*/
 			free_node(line);
 		}
 		else
@@ -186,9 +170,8 @@ int	main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 	}
-
 	return (errno);
-} */
+}
 
 /* char	**allocate_strings_array(t_csizet size)
 {
