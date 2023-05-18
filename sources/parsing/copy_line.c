@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/26 14:54:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/09 10:31:50 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,6 @@ static int	change_state(int *parser, t_cchar c)
 	return (UNCHANGED);
 }
 
-static int	copy_env_variable(t_str *str, size_t *index, t_cchar *line)
-{
-	size_t	base_index;
-	char	current;
-	char	*var_name;
-	char	*var;
-
-	base_index = *index;
-	current = *(line + *index);
-	while (current && (ft_isalnum(current) || current == '_'))
-	{
-		(*index)++;
-		current = *(line + *index);
-	}
-	var_name = gc_substr(line, base_index, *index - base_index);
-	if (! var_name)
-		return (ALLOCATION_ERROR);
-	var = getenv(var_name);
-	free_node(var_name);
-	if (! var)
-		return (NO_ERROR);
-	return (t_str_add_str(str, var));
-}
 /*
 Reminder : A valid name is a name beginning by an alphabetical character
 or an underscore and containing only alphanumerical characters or 
@@ -58,8 +35,11 @@ underscores
 static int	handle_dollar(t_str *str, size_t *index, t_cchar *line, \
 int *parser)
 {
+	char	current;
+
 	*index += 1;
-	if (*parser == S_QUOTES)
+	current = *(line + *index);
+	if (*parser == S_QUOTES || current == ' ' || ! current)
 		return (t_str_add(str, '$'));
 	if (*(line + *index) == '?')
 	{
@@ -72,7 +52,7 @@ int *parser)
 		return (NO_ERROR);
 	}
 	else
-		return (copy_env_variable(str, index, line));
+		return (copy_env_variable(str, index, line, *parser));
 }
 
 static int	handle_specials(t_str *str, size_t *index, t_cchar *line, \
@@ -87,28 +67,13 @@ int *parser)
 	*index += 1;
 	if (current == '\'' || current == '\"')
 			return (! change_state(parser, current) && t_str_add(str, current));
-	else if (current == ' ' && *parser)
-	{
-		ft_printf("SPACE\n");
-		return (t_str_add(str, S_PACE));
-	}
-	else if (current == '>' && *parser)
-	{
-		ft_printf("O_RED\n");
-		return (t_str_add(str, O_RED));
-	}
-	else if (current == '<' && *parser)
-	{
-		ft_printf("I_RED\n");
-		return (t_str_add(str, I_RED));
-	}
-	else if (current == '|' && *parser)
-	{
-		ft_printf("PIPE\n");
-		return (t_str_add(str, PIPE));
-	}
+	if (*parser)
+		return (t_str_add(str, crypt_char(current)));
+	if (current == ' ' && *(line + *index) == ' ')
+		return (0);
 	return(t_str_add(str, current));
 }
+
 char	*copy_line(t_cchar *line)
 {
 	int		parser;
@@ -123,7 +88,6 @@ char	*copy_line(t_cchar *line)
 	{
 		if (! ft_strchr(SPECIALS, *(line + index)))
 		{
-			ft_printf("This is the char  : %c\n", *(line + index));
 			if (t_str_add(&nl, *(line + index)))
 				return (NULL);
 			index ++;
@@ -131,5 +95,7 @@ char	*copy_line(t_cchar *line)
 		else if (handle_specials(&nl, &index, line, &parser))
 			return (NULL);
 	}
+	if (redirect_without_spaces(nl.str, &nl.len))
+		return (NULL);
 	return (nl.str);
 }

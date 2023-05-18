@@ -15,6 +15,7 @@
 # define MINISHELL_INT_H
 // Preprocessor includes
 # include "libft.h"
+# include "libgc.h"
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -30,7 +31,6 @@
 //End of Prepocessor includes
 
 // Preprocessor defines
-# define TRASH_SIZE 50
 # define PARSER_SIZE 50
 # define ENTER "Entering function : %s\n"
 # define LEAVE "Leaving function : %s\n"
@@ -62,10 +62,8 @@ enum e_minierrors
 {
 	NO_ERROR = 0,
 	ALLOCATION_ERROR = 20,
-	NO_COLLECTOR,
 	OVERFLOW,
-	NOT_IN_COLLECTOR,
-	ADD_ERROR,
+	SYNTAX_ERROR,
 	UNKNOWN_ERROR
 };
 
@@ -91,7 +89,9 @@ enum e_specials
 	ES,
 	O_RED,
 	I_RED,
-	PIPE
+	PIPE,
+	BEG_VAR,
+	END_VAR,
 };
 
 //This enum informs me if the state of the parser has changed
@@ -127,11 +127,20 @@ struct	s_command
 	int		err;
 };
 
-struct	s_gc
+struct	s_heredoc
 {
-	void	**memzones;
-	size_t	len;
-	size_t	size;
+	char	*begin;
+	char	*end;
+};
+
+struct	s_ncommand
+{
+	char	*command;
+	char	**options;
+	char	**args;
+	t_uint	last;
+	t_list	*redirections;
+	struct s_heredoc	*heredocs;
 };
 
 struct s_pipeline
@@ -146,6 +155,7 @@ struct s_env
 	int		is_empty;
 };
 
+/*
 struct s_metachar
 {
 	char	c;
@@ -184,8 +194,6 @@ typedef enum e_minierrors	t_minierrors;
 typedef struct s_command	t_command;
 
 typedef struct s_arg		t_arg;
-
-typedef struct s_gc			t_gc;
 
 typedef struct s_env		t_env;
 

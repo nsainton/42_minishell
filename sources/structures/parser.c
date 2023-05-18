@@ -6,12 +6,13 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 17:29:10 by nsainton          #+#    #+#             */
-/*   Updated: 2023/04/20 18:08:41 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:25:44 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 int	init_parser(t_parser *parser)
 {
 	ft_bzero(parser, sizeof * parser);
@@ -90,3 +91,4 @@ void	print_parser(t_parser *parser)
 	ft_printf("This is the parser : %s\n", ns);
 	free_node(ns);
 }
+*/

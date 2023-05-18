@@ -6,7 +6,11 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/05/15 14:18:12 by avedrenn         ###   ########.fr       */
+=======
+/*   Updated: 2023/05/03 15:30:02 by nsainton         ###   ########.fr       */
+>>>>>>> parshing
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +19,7 @@
 
 int	main(int argc, char **argv, char **envp)
 {
+<<<<<<< HEAD
 	//char		**args;
 	t_data		d;
 	t_command	*cmds[3];
@@ -112,6 +117,15 @@ int	main(int argc, char **argv, char **envp)
 	t_command *cmds[1];
 	int	i;
 	int	opt;
+=======
+	char		*line;
+	char		**args;
+	t_env		*my_env;
+	t_command	cmd;
+	int			i;
+	int			opt;
+	char		*cpy;
+>>>>>>> parshing
 
 	if (argc > 1 || !argv)
 		return (1);
@@ -126,10 +140,21 @@ int	main(int argc, char **argv, char **envp)
 		i = opt = 0;
 		line = NULL;
 		line = readline("minishell> ");
+<<<<<<< HEAD
 		gc_add(line); // a proteger
 		if (line)
+=======
+		if (line && ! gc_add(line))
+>>>>>>> parshing
 		{
-			args = gc_split(line, ' ');
+			if (! (cpy = copy_line(line)))
+			{
+				free_gc();
+				return (EXIT_FAILURE);
+			}
+			else
+				ft_dprintf(STDERR_FILENO, "This is the copied line : %s\n", cpy);
+			args = gc_split(cpy, ' ');
 			cmd.command = args[0];
 			if (args[1])
 			{
@@ -158,6 +183,7 @@ int	main(int argc, char **argv, char **envp)
 			cmd.command[0] = 0;
 			cmd.options[0] = 0;
 			cmd.args[0] = 0;
+			free_node(line);
 		}
 		else
 		{

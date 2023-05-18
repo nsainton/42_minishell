@@ -40,21 +40,31 @@ DEPS_DIR:= dependencies
 
 DEPS:= $(patsubst %.c, $(DEPS_DIR)/%.d, $(SRCS_NAMES) $(PROG))
 
-LFT_DIR:= libft
+LIBS_DIR ?= $(addprefix $(shell pwd)/, libs)
 
-LFT_NAME:= libft.a
+LFT_URL := git@github.com:nsainton/libft.git
+
+LFT_DIR:= $(addprefix $(LIBS_DIR)/, libft)
 
 LFT_ABBR:= -lft
 
 LFT:= $(addprefix $(LFT_DIR)/, $(LFT_NAME))
 
-ABBRS:= $(LFT_ABBR) -lreadline
+LGC_URL := git@github.com:nsainton/libgc.git
+
+LGC_DIR:= $(addprefix $(LIBS_DIR)/, libgc)
+
+LGC_ABBR:= -lgc
+
+ABBRS:= $(LGC_ABBR) $(LFT_ABBR) -lreadline
 
 CC:= cc
 
 CFLAGS:= -ggdb -Wall -Wextra -Werror
 
-HEADER_SCRIPT_DIR:= Header
+HEADER_URL := git@github.com:nsainton/header.git
+
+HEADER_SCRIPT_DIR:= $(addprefix $(LIBS_DIR)/, header)
 
 HEADER_EXEC:= header
 
@@ -68,8 +78,9 @@ GIT_ADD:= --all
 
 VALGRIND_OPTIONS:= --leak-check=full --show-leak-kinds=all --suppressions=rl_suppressions.supp
 
-export C_INCLUDE_PATH=$(INCS_DIR):$(LFT_DIR)/$(INCS_DIR)
-export LIBRARY_PATH=$(LFT_DIR)
+export LIBS_DIR
+export C_INCLUDE_PATH=$(INCS_DIR):$(LFT_DIR)/$(INCS_DIR):$(LGC_DIR)/$(INCS_DIR)
+export LIBRARY_PATH=$(LFT_DIR):$(LGC_DIR)
 
 #Color codes for pretty printing
 BEGIN=\033[
@@ -111,8 +122,9 @@ export minishell_header
 
 .SILENT:
 
-all:
+all: | $(LFT_DIR) $(LGC_DIR)
 	$(MAKE) -C $(LFT_DIR)
+	$(MAKE) -C $(LGC_DIR)
 	$(MAKE) $(NAME)
 
 $(NAME): $(OBJS) | $(DEPS_DIR)
@@ -122,7 +134,7 @@ $(NAME): $(OBJS) | $(DEPS_DIR)
 	echo "$$minishell_header"
 	echo "$(END)"
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(LFT)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(LFT_DIR) $(LGC_DIR)
 	[ -d $(@D) ] || $(MK) $(@D)
 	arg="$$(dirname $(DEPS_DIR)/$*)"; \
 	[ -d $$arg ] || $(MK) $$arg
@@ -130,6 +142,15 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(LFT)
 
 $(DEPS_DIR):
 	$(MK) $(DEPS_DIR)
+
+$(LFT_DIR):
+	git clone $(LFT_URL) $@
+
+$(LGC_DIR):
+	git clone $(LGC_URL) $@
+
+$(HEADER_SCRIPT_DIR):
+	git clone $(HEADER_URL) $@
 
 .PHONY: clean
 clean:
@@ -141,6 +162,11 @@ clean:
 oclean:
 	$(RM) $(NAME)
 	echo "$(BEGIN)$(CYAN)m$(NAME) has been removed$(END)"
+
+.PHONY: lclean
+lclean:
+	$(RM) -r $(LIBS_DIR)
+	echo "$(BEGIN)$(PURPLE)m$(notdir $(LIBS_DIR)) have been removed$(END)"
 
 .PHONY: fclean
 fclean:
@@ -155,12 +181,16 @@ re:
 .PHONY: debug
 debug:
 	$(MAKE) debug -C $(LFT_DIR)
+	$(MAKE) debug -C $(LGC_DIR)
 	$(MAKE) fclean
-	$(MAKE) GG=-g3 OPT=-O0 CC=gcc
+	$(MAKE) GG="-g3" OPT=-O0 CC=gcc
 
 .PHONY: leaks
 leaks:
 	$(MAKE) debug && valgrind $(VALGRIND_OPTIONS) ./$(NAME) $(OPT_ARGS)
+
+minitalk:
+	git clone git@github.com:nsainton/minitalk.git
 
 .PHONY: git
 git:
@@ -183,7 +213,7 @@ ifndef FUNCS_HEADER
 $(error FUNCS_HEADER is not set)
 endif
 
-header:
+header: | $(HEADER_SCRIPT_DIR)
 	$(MAKE) -C $(HEADER_SCRIPT_DIR)
 	$(HEADER_SCRIPT) ./$(SRCS_DIR) $(FUNCS_HEADER)
 
