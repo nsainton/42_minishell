@@ -6,11 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/15 14:18:12 by avedrenn         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/03 15:30:02 by nsainton         ###   ########.fr       */
->>>>>>> parshing
+/*   Updated: 2023/05/18 14:56:19 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +15,6 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-<<<<<<< HEAD
 	//char		**args;
 	t_data		d;
 	t_command	*cmds[3];

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/15 14:31:28 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/18 14:55:42 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ struct s_parser
 	size_t				len;
 	size_t				size;
 }
+*/
 
 struct	s_data
 {
