@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/05/08 15:22:03 by nsainton         ###   ########.fr        #
+#    Updated: 2023/05/17 15:08:25 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -183,6 +183,7 @@ re:
 .PHONY: debug
 debug:
 	$(MAKE) debug -C $(LFT_DIR)
+	$(MAKE) debug -C $(LGC_DIR)
 	$(MAKE) fclean
 	$(MAKE) GG="-g3" OPT=-O0 CC=gcc
 
