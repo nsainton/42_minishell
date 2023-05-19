@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:02:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/19 16:58:58 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:43:16 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,20 @@ int	redirect_without_spaces(char *line, size_t *len)
 			ft_memmove(line + index, line + index + 1, *len - index);
 			(*len)--;
 		}
+	}
+	return (NO_ERROR);
+}
+
+int	invalid_operator(char *line)
+{
+	size_t	index;
+
+	index = 0;
+	while (*(line + index))
+	{
+		if (*(line + index) == '<' && check_in_redir(line, index + 1))
+			return (SYNTAX_ERROR);
+		index ++;
 	}
 	return (NO_ERROR);
 }

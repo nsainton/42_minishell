@@ -88,7 +88,10 @@ int		crypt_char(t_cint c);
 int		decrypt_char(t_cint c);
 
 //Functions from file : errors_messages.c
-void	syntax_error(char c);
+void	syntax_error(char token);
+
+//Functions from file : check_redirections.c
+int		check_in_redir(t_cchar *line, t_csizet index);
 
 //Functions from file : get_vars.c
 int		copy_env_variable(t_str *str, size_t *index, t_cchar *line, \
@@ -96,6 +99,8 @@ int parser);
 
 //Functions from file : valid_line.c
 int		redirect_without_spaces(char *line, size_t *len);
+
+int		invalid_operator(char *line);
 
 //Functions from file : debug.c
 //Functions from file : fill_command.c
