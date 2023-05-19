@@ -6,12 +6,41 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:33:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/03 13:28:41 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/18 18:04:24 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	make_redirs(t_data *d, t_command *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->redirs[i])
+	{
+		cmd->fd_in = open(cmd->in, O_RDWR);
+		if (cmd->fd_in < 0)
+		{
+			ft_dprintf(2, "infile : %s\n", strerror(errno));
+			return (1);
+		}
+	}
+	else
+		cmd->fd_in = 0;
+	if (cmd->out)
+	{
+		cmd->fd_out = open(cmd->out, O_CREAT | O_RDWR | O_TRUNC, 0000644);
+		if (cmd->fd_out < 0)
+		{
+			ft_dprintf(2, "outfile : %s\n", strerror(errno));
+			return (1);
+		}
+	}
+	else
+		cmd->fd_out = 1;
+	return (0);
+}
 void	get_infile(t_command *c)
 {
 	if (c->in)

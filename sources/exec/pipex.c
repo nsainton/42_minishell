@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 16:57:17 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/18 17:54:08 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	**make_command(t_command	*cmd)
 
 	i = 0;
 	j = 0;
-	full_cmd = gccalloc(ft_arrlen(((void **) cmd->args) + 2), sizeof (char *));
+	full_cmd = gccalloc(ft_arrlen((void **) cmd->args) + 2, sizeof (char *));
 	full_cmd[j++] = gc_strdup(cmd->command);
 
 	i = 0;

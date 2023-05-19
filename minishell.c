@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 16:59:49 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/18 17:51:27 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,34 @@ int	main(int argc, char **argv, char **envp)
 	d.errnum = 0;
 	cmds[0]= gcmalloc(sizeof(t_command));
 	cmds[0]->args = gccalloc (10, sizeof(char*));
+	cmds[0]->options = gccalloc (10, sizeof(char*));
 	cmds[0]->command = "ls";
 	cmds[0]->is_here_doc = 0;
 	cmds[0]->limiters = NULL;
-	cmds[0]->in = NULL;
+	ft_bzero(cmds[0]->args, 1);
+	cmds[0]->options[0] = NULL;
+	cmds[0]->in = "/dev/stdin";
 	cmds[0]->out = NULL;
- 	cmds[0]->args[0] = "-l";
-/*
-	cmds[0]->args[1] = "-n";
-	cmds[0]->args[2] = "-n"; */
+	cmds[0]->args[0] = "-l";
+/* 	cmds[0]->args[1] = "";
+	cmds[0]->args[2] = "ffsdgfr"; */
 	cmds[0]->args[1] = NULL;
 
 	cmds[1] = gcmalloc(sizeof(t_command));
 	cmds[1]->args = gccalloc (10, sizeof(char*));
+	cmds[1]->options = gccalloc (10, sizeof(char*));
 	cmds[1]->command = "grep";
 	cmds[1]->is_here_doc = 0;
 	cmds[1]->limiters = NULL;
 	cmds[1]->args[0] = "mini";
 	cmds[1]->args[1] = NULL;
+	ft_bzero(cmds[1]->options, 1);
 	cmds[1]->in = NULL;
-	cmds[1]->out = NULL;
+	cmds[1]->out = "coucou";
+
+	cmds[2] = NULL;
+	d.cmds_nb = ft_arrlen((void **)cmds);
+	exec_pipeline(&d);
 
 	cmds[2] = NULL;
 	d.cmds_nb = ft_arrlen((void **)cmds);
