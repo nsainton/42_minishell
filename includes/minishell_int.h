@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 16:58:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/19 16:12:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 
 // Preprocessor defines
 # define PARSER_SIZE 50
+# define SERROR "minishell: syntax error near unexpected token `"
 # define ENTER "Entering function : %s\n"
 # define LEAVE "Leaving function : %s\n"
 # define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);
@@ -198,6 +199,13 @@ struct	s_data
 	int					errnum;
 };
 
+struct	s_tab
+{
+	void	*tab;
+	size_t	elemsize;
+	size_t	len;
+	size_t	size;
+};
 //End of structures declarations
 
 //Type definitions
@@ -219,7 +227,11 @@ typedef struct s_parser		t_parser;
 
 typedef struct s_redir		t_redir;
 
+typedef struct s_redir		t_redirection;
+
 typedef struct s_heredoc	t_heredoc;
+
+typedef struct s_tab		t_tab;
 //End of type definitions
 
 #endif

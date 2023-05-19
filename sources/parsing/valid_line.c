@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:02:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/18 16:00:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/19 16:58:58 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,52 @@ static int	skip_spaces(char *line, size_t *len, size_t index, char invar)
 }
 */
 
+static int	invalid_redir(char *line, size_t index, t_cchar current)
+{
+	char	first;
+	char	second;
+
+	first = *(line + index);
+	if (current != '|' && first == ' ')
+	{
+		second = *(line + index + 1);
+		if (second == '>' || second == '<' || ! second \
+		|| second == '|')
+		{
+			syntax_error(second);
+			return (SYNTAX_ERROR);
+		}
+	}
+	if (current == '>' && first == '|')
+	{
+		if (index > 1 && *(line + index - 2) == '>')
+		{
+			syntax_error('|');
+			return (SYNTAX_ERROR);
+		}
+	}
+	return (NO_ERROR);
+}
+
 int	redirect_without_spaces(char *line, size_t *len)
 {
 	size_t		index;
 	signed char	current;
-	char		invar;
+	//char		invar;
 	//int			skipped;
 
 	index = 0;
 	current = *(line + index);
-	invar = 0;
+	//invar = 0;
 	while (index++ < *len)
 	{
-		invar = invar + (current == BEG_VAR) - (current == END_VAR);
-		if (current != '>' && current != '<')
+		//invar = invar + (current == BEG_VAR) - (current == END_VAR);
+		if (current != '>' && current != '<' && current != '|')
 		{
 			current = *(line + index);
 			continue ;
 		}
-		if (*(line + index) == ' ' && *(line + index + 1) == current && !invar)
+		if (invalid_redir(line, index, current))
 			return (SYNTAX_ERROR);
 		/*
 		ft_printf("Are we in var : %s\n", (invar == 1)?"YES":"NO");
@@ -69,7 +96,7 @@ int	redirect_without_spaces(char *line, size_t *len)
 		}
 		*/
 		current = *(line + index);
-		if (*(line + index) == ' ' && !invar)
+		if (*(line + index) == ' ')// && !invar)
 		{
 			ft_memmove(line + index, line + index + 1, *len - index);
 			(*len)--;

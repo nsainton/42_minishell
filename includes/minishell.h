@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/18 14:55:01 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:08:14 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	free_node(void *node);
 void	remove_nodes(size_t number);
 
 //Functions from file : quotes.c
+//Functions from file : redirections.c
 //Functions from file : copy_line.c
 char	*copy_line(t_cchar *line);
 
@@ -86,6 +87,9 @@ int		crypt_char(t_cint c);
 
 int		decrypt_char(t_cint c);
 
+//Functions from file : errors_messages.c
+void	syntax_error(char c);
+
 //Functions from file : get_vars.c
 int		copy_env_variable(t_str *str, size_t *index, t_cchar *line, \
 int parser);
@@ -94,6 +98,7 @@ int parser);
 int		redirect_without_spaces(char *line, size_t *len);
 
 //Functions from file : debug.c
+//Functions from file : fill_command.c
 //Functions from file : check_path.c
 int		check_path(t_command *cmd, t_env *my_env);
 
