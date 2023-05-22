@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:23:40 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/22 12:04:16 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:47:50 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	check_o_redir(char *line, t_csizet index)
 	next = *(line + index + 1);
 	if (*(line + index) == '>' && (ft_strchr(REDIRS, next) || ! next))
 	{
-		syntax_error(*(line + index));
+		syntax_error(next);
 		return (SYNTAX_ERROR);
 	}
 	if (*(line + index) == '|' && suppress_pipe(line, index))

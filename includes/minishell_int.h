@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/19 17:28:12 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:45:08 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 // Preprocessor defines
 # define PARSER_SIZE 50
-# define SERROR "minishell: syntax error near unexpected token `"
+# define SERROR "minishell : syntax error near unexpected token `"
 # define ENTER "Entering function : %s\n"
 # define LEAVE "Leaving function : %s\n"
 # define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);

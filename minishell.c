@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 15:58:13 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:42:09 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,7 @@ int	main(int argc, char **argv)//, char **envp)
 		if (line && ! gc_add(line))
 		{
 			if (! (cpy = copy_line(line)))
-			{
 				free_gc();
-				return (EXIT_FAILURE);
-			}
 			else
 				ft_dprintf(STDERR_FILENO, "This is the copied line : %s\n", cpy);
 			/*
