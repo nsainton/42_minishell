@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:02:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/19 17:43:16 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:04:54 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int	invalid_operator(char *line)
 	while (*(line + index))
 	{
 		if (*(line + index) == '<' && check_in_redir(line, index + 1))
+			return (SYNTAX_ERROR);
+		else if(*(line + index) == '>' && check_o_redir(line, index + 1))
 			return (SYNTAX_ERROR);
 		index ++;
 	}
