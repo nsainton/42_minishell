@@ -93,6 +93,8 @@ int		decrypt_char(t_cint c);
 //Functions from file : errors_messages.c
 void	syntax_error(char token);
 
+void	syntax_errors(char *token);
+
 //Functions from file : check_redirections.c
 int		check_in_redir(t_cchar *line, t_csizet index);
 
