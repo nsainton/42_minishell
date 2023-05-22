@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:02:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/22 17:06:16 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:39:16 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static int fd_and_file(char *line, t_csizet index)
 	if (nextredir == index)
 		return (NO_ERROR);
 	fd = atoi_until(line + index, DEC, &err, nextredir - index);
-	if (fd < 0 || err)
+	if (fd < 0 || err || ! *(line + nextredir))
 		return (NO_ERROR);
 	errstring = gc_substr(line, index, nextredir - index);
 	if (! errstring)
