@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:02:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/22 12:04:54 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:06:16 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,31 @@ int	redirect_without_spaces(char *line, size_t *len)
 	return (NO_ERROR);
 }
 
+
+static int fd_and_file(char *line, t_csizet index)
+{
+	size_t	nextredir;
+	int		fd;
+	int		err;
+	char	*errstring;
+
+	nextredir = index;
+	while (*(line + nextredir) \
+	&& *(line + nextredir) != '>' && *(line + nextredir) != '<')
+		nextredir ++;
+	if (nextredir == index)
+		return (NO_ERROR);
+	fd = atoi_until(line + index, DEC, &err, nextredir - index);
+	if (fd < 0 || err)
+		return (NO_ERROR);
+	errstring = gc_substr(line, index, nextredir - index);
+	if (! errstring)
+		return (SYNTAX_ERROR);
+	syntax_errors(errstring);
+	free_node(errstring);
+	return (SYNTAX_ERROR);
+}
+
 int	invalid_operator(char *line)
 {
 	size_t	index;
@@ -112,9 +137,11 @@ int	invalid_operator(char *line)
 	index = 0;
 	while (*(line + index))
 	{
-		if (*(line + index) == '<' && check_in_redir(line, index + 1))
+		if (*(line + index) == '<' && (check_in_redir(line, index + 1) \
+		|| fd_and_file(line, index + 1)))
 			return (SYNTAX_ERROR);
-		else if(*(line + index) == '>' && check_o_redir(line, index + 1))
+		else if(*(line + index) == '>' && (check_o_redir(line, index + 1) \
+		|| fd_and_file(line, index + 1)))
 			return (SYNTAX_ERROR);
 		index ++;
 	}
