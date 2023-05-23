@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 18:04:17 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:30:34 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,17 +127,8 @@ struct	s_command
 {
 	char				*command;
 	char				*path;
-	char				**options; //Seulement args
 	char				**args;
 	t_uint				last;
-	//int		type;
-	//Remove vars from here
-	char				*in;
-	char				*out;
-	int					is_here_doc;
-	char				**limiters;
-	//to there
-	//Replace by
 	struct s_heredoc	*heredocs;
 	struct s_redir		*redirs;
 	int					fd_in;
@@ -195,6 +186,8 @@ struct	s_data
 	int					pipes_nb;
 	int					index;
 	int					pid;
+	int					save_in;
+	int					save_out;
 	int					errnum;
 };
 
@@ -212,6 +205,8 @@ typedef struct s_arg		t_arg;
 typedef struct s_env		t_env;
 
 typedef struct s_data		t_data;
+
+typedef struct s_redir		t_redir;
 
 typedef struct s_metachar	t_metachar;
 

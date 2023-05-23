@@ -6,40 +6,16 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 17:54:08 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/22 18:00:12 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sub_dup2(int read_fd, int write_fd)
-{
-	dup2(read_fd, STDIN_FILENO);
-	dup2(write_fd, STDOUT_FILENO);
-}
-
-void	close_used_pipes(t_data *d, t_command *cmd)
-{
-	if (d->index - 2 >= 0 && d->index + 1 <= d->pipes_nb)
-	{
-		close(d->pipes[d->index - 2]);
-		close(d->pipes[d->index + 1]);
-	}
-	else if (d->index == 0)
-	{
-		close(cmd->fd_in);
-		close(d->pipes[d->index + 1]);
-	}
-	else if (d->index == d->pipes_nb)
-	{
-		close(d->pipes[d->index - 2]);
-		close(cmd->fd_out);
-	}
-}
-
 void	exec_command(t_data *d, t_command *cmd)
 {
 	d->pid = fork();
+
 	if (d->pid < 0)
 		ft_dprintf(2, "error : %s", strerror(errno));
 	else if (d->pid == 0)
@@ -50,6 +26,7 @@ void	exec_command(t_data *d, t_command *cmd)
 			sub_dup2(d->pipes[d->index - 2], cmd->fd_out);
 		else
 			sub_dup2(d->pipes[d->index - 2], d->pipes[d->index + 1]);
+		ft_dprintf(2, "out : %d\n", cmd->fd_out);
 		d->errnum = execve(cmd->path, (char *const *)make_command(cmd),
 				envlist_to_arr(d->env->list_env));
 		if (d->errnum)
@@ -78,8 +55,6 @@ char	**make_command(t_command	*cmd)
 	}
 	full_cmd[j] = NULL;
 	i = 0;
-	while (full_cmd[i])
-		ft_dprintf(2, "full_cmd : %s\n", full_cmd[i++]);
 	return (full_cmd);
 }
 
@@ -104,43 +79,38 @@ int	go_pipe(t_data *d)
 	return (0);
 }
 
-int	exec_pipeline(t_data	*d)
+int	set_pipeline(t_data *d)
 {
-	int		i;
-
-	if (d->cmds_nb == 0)
-		return (1);
 	d->pipes_nb = (d->cmds_nb - 1) * 2;
 	d->errnum = go_pipe(d);
 	if (d->errnum)
 		return (d->errnum);
-	i = 0;
 	d->index = 0;
-	/* if (d->here_doc)
-	{
-		here_doc(d->limiters, d->here_doc);
-		if (open(".heredoc", O_RDONLY) < 0)
-		{
-			unlink(".heredoc");
-			ft_dprintf(2, "heredoc unlink : %s\n", strerror(errno));
-			d->errnum = errno;
-		}
-	} */
+	d->save_in = dup(0);
+	d->save_out = dup(1);
+	return (0);
+}
 
+int	exec_pipeline(t_data *d)
+{
+	int		i;
+
+	i = 0;
+	if (set_pipeline(d))
+		return (d->errnum);
 	while (i < d->cmds_nb)
 	{
 		if (which_builtin(d->cmds[i], d) == 127)
 		{
-			get_infile(d->cmds[i]);
-			get_outfile(d->cmds[i]);
-			ft_printf("exec_pipeline\n");
+			make_redirs(d, d->cmds[i]);
 			if (d->cmds[i]->command)
 			{
 				d->errnum = check_path(d->cmds[i], d->env);
 				if (!d->errnum)
 					exec_command(d, d->cmds[i]);
 				else
-					ft_dprintf(2, "%s : %s\n", d->cmds[i]->command, strerror(d->errnum));
+					ft_dprintf(2, "%s : %s\n", d->cmds[i]->command,
+						strerror(d->errnum));
 			}
 		}
 		d->index += 2;

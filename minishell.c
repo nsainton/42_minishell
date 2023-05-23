@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 17:51:27 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:49:29 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	//char		**args;
 	t_data		d;
-	t_command	*cmds[3];
+	t_command	*cmds[4];
 
 	if (argc > 1 || !argv)
 		return (1);
@@ -25,43 +25,41 @@ int	main(int argc, char **argv, char **envp)
 
 	d.env = get_my_env(envp);
 	d.cmds = cmds;
-	d.here_doc = 0;
 	d.errnum = 0;
 	cmds[0]= gcmalloc(sizeof(t_command));
 	cmds[0]->args = gccalloc (10, sizeof(char*));
-	cmds[0]->options = gccalloc (10, sizeof(char*));
-	cmds[0]->command = "ls";
-	cmds[0]->is_here_doc = 0;
-	cmds[0]->limiters = NULL;
+	cmds[0]->command = "cat";
 	ft_bzero(cmds[0]->args, 1);
-	cmds[0]->options[0] = NULL;
-	cmds[0]->in = "/dev/stdin";
-	cmds[0]->out = NULL;
-	cmds[0]->args[0] = "-l";
+//	cmds[0]->args[0] = "-l";
 /* 	cmds[0]->args[1] = "";
 	cmds[0]->args[2] = "ffsdgfr"; */
 	cmds[0]->args[1] = NULL;
+	cmds[0]->redirs = gccalloc(sizeof(t_redir), 1);
+/* 	cmds[0]->redirs[0].mode = 'i';
+	cmds[0]->redirs[0].file = "test.txt";
+	cmds[0]->redirs[0].fd = 0; */
 
 	cmds[1] = gcmalloc(sizeof(t_command));
 	cmds[1]->args = gccalloc (10, sizeof(char*));
-	cmds[1]->options = gccalloc (10, sizeof(char*));
-	cmds[1]->command = "grep";
-	cmds[1]->is_here_doc = 0;
-	cmds[1]->limiters = NULL;
+	cmds[1]->command = "cat";
+/* 	cmds[1]->command = "grep";
 	cmds[1]->args[0] = "mini";
-	cmds[1]->args[1] = NULL;
-	ft_bzero(cmds[1]->options, 1);
-	cmds[1]->in = NULL;
-	cmds[1]->out = "coucou";
+	cmds[1]->args[1] = NULL; */
+	cmds[1]->args[0] = NULL;
+	cmds[1]->redirs = NULL;
 
-	cmds[2] = NULL;
+	cmds[2]= gcmalloc(sizeof(t_command));
+	cmds[2]->args = gccalloc (10, sizeof(char*));
+	cmds[2]->command = "ls";
+	ft_bzero(cmds[2]->args, 1);
+	cmds[2]->args[0] = "-l";
+/* 	cmds[2]->args[1] = "";
+	cmds[2]->args[2] = "ffsdgfr"; */
+	cmds[2]->args[1] = NULL;
+	cmds[3] = NULL;
 	d.cmds_nb = ft_arrlen((void **)cmds);
-	exec_pipeline(&d);
-
-	cmds[2] = NULL;
-	d.cmds_nb = ft_arrlen((void **)cmds);
-	printf("exec : %d\n",exec_pipeline(&d));
-	ft_printf("coucou\n");
+	if (d.cmds_nb != 0)
+		exec_pipeline(&d);
 	free_gc();
 	return (errno);
 }
