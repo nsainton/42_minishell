@@ -6,27 +6,62 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/22 18:00:12 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:48:58 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	exec_one(t_data *d)
+{
+	d->index = 1;
+	if (which_builtin(d->cmds[0], d) == 127)
+	{
+		make_redirs(d, d->cmds[0]);
+		if (d->cmds[0]->command)
+		{
+			d->errnum = check_path(d->cmds[0], d->env);
+			if (!d->errnum)
+			{
+				sub_dup2(d->cmds[0]->fd_in, d->cmds[0]->fd_out);
+				exec_command(d, d->cmds[0]);
+			}
+			else
+				ft_dprintf(2, "%s : %s\n", d->cmds[0]->command,
+					strerror(d->errnum));
+		}
+	}
+	return (d->errnum);
+}
+
 void	exec_command(t_data *d, t_command *cmd)
 {
 	d->pid = fork();
+	if (d->pid < 0)
+		ft_dprintf(2, "error : %s", strerror(errno));
+	else if (d->pid == 0)
+	{
+		d->errnum = execve(cmd->path, (char *const *)make_command(cmd),
+				envlist_to_arr(d->env->list_env));
+		if (d->errnum)
+			ft_dprintf(2, "%s : %s\n", cmd->command, strerror(errno));
+		exit(d->errnum);
+	}
+}
 
+void	exec_command_pipe(t_data *d, t_command *cmd)
+{
+	d->pid = fork();
 	if (d->pid < 0)
 		ft_dprintf(2, "error : %s", strerror(errno));
 	else if (d->pid == 0)
 	{
 		if (d->index == 0)
-			sub_dup2(cmd->fd_in, d->pipes[1]);
-		else if (d->index == d->pipes_nb)
-			sub_dup2(d->pipes[d->index - 2], cmd->fd_out);
+			sub_dup2(cmd->fd_in, d->p[1]);
+		else if (d->index == d->cmds_nb - 1)
+			sub_dup2(d->prev_pipe, cmd->fd_out);
 		else
-			sub_dup2(d->pipes[d->index - 2], d->pipes[d->index + 1]);
-		ft_dprintf(2, "out : %d\n", cmd->fd_out);
+			sub_dup2(d->prev_pipe, d->p[1]);
 		d->errnum = execve(cmd->path, (char *const *)make_command(cmd),
 				envlist_to_arr(d->env->list_env));
 		if (d->errnum)
@@ -34,89 +69,34 @@ void	exec_command(t_data *d, t_command *cmd)
 		exit(d->errnum);
 	}
 	close_used_pipes(d, cmd);
-}
 
-char	**make_command(t_command	*cmd)
-{
-	char	**full_cmd;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	full_cmd = gccalloc(ft_arrlen((void **) cmd->args) + 2, sizeof (char *));
-	full_cmd[j++] = gc_strdup(cmd->command);
-
-	i = 0;
-	while (cmd->args[i])
-	{
-		full_cmd[j++] = gc_strdup(cmd->args[i]);
-		i ++;
-	}
-	full_cmd[j] = NULL;
-	i = 0;
-	return (full_cmd);
-}
-
-
-int	go_pipe(t_data *d)
-{
-	int	i;
-
-	d->pipes = gccalloc(d->pipes_nb, sizeof(int));
-	if (!d->pipes)
-	{
-		ft_dprintf(2, "error : malloc has failed");
-		return (errno);
-	}
-	i = 0;
-	while (i < d->pipes_nb)
-	{
-		if (pipe(d->pipes + i) < 0)
-			return (errno); // ?oui
-		i = i + 2;
-	}
-	return (0);
-}
-
-int	set_pipeline(t_data *d)
-{
-	d->pipes_nb = (d->cmds_nb - 1) * 2;
-	d->errnum = go_pipe(d);
-	if (d->errnum)
-		return (d->errnum);
-	d->index = 0;
-	d->save_in = dup(0);
-	d->save_out = dup(1);
-	return (0);
 }
 
 int	exec_pipeline(t_data *d)
 {
-	int		i;
-
-	i = 0;
-	if (set_pipeline(d))
-		return (d->errnum);
-	while (i < d->cmds_nb)
+	d->prev_pipe = -1;
+	d->index = -1;
+	if (d->cmds_nb == 1)
+		exec_one(d);
+	while (++d->index < d->cmds_nb)
 	{
-		if (which_builtin(d->cmds[i], d) == 127)
+		if (pipe(d->p) == -1)
+			ft_dprintf(2, "error : %s", strerror(errno));
+		if (which_builtin(d->cmds[d->index], d) == 127)
 		{
-			make_redirs(d, d->cmds[i]);
-			if (d->cmds[i]->command)
+			make_redirs(d, d->cmds[d->index]);
+			if (d->cmds[d->index]->command)
 			{
-				d->errnum = check_path(d->cmds[i], d->env);
+				d->errnum = check_path(d->cmds[d->index], d->env);
 				if (!d->errnum)
-					exec_command(d, d->cmds[i]);
+					exec_command_pipe(d, d->cmds[d->index]);
 				else
-					ft_dprintf(2, "%s : %s\n", d->cmds[i]->command,
+					ft_dprintf(2, "%s : %s\n", d->cmds[d->index]->command,
 						strerror(d->errnum));
 			}
 		}
-		d->index += 2;
-		i++;
+		d->prev_pipe = d->p[0];
 	}
 	waitpid(-1, NULL, 0);
-	free_node(d->pipes);
 	return (0);
 }

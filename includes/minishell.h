@@ -68,24 +68,19 @@ int		go_home(t_env *my_env, int set_old);
 int		which_builtin(t_command *cmd, t_data *d);
 
 //Functions from file : pipex.c
-void	sub_dup2(int read_fd, int write_fd);
-
-void	close_used_pipes(t_data *d, t_command *cmd);
+int		exec_one(t_data *d);
 
 void	exec_command(t_data *d, t_command *cmd);
 
-char	**make_command(t_command	*cmd);
+void	exec_command_pipe(t_data *d, t_command *cmd);
 
-int		go_pipe(t_data *d);
-
-int		exec_pipeline(t_data	*d);
+int		exec_pipeline(t_data *d);
 
 //Functions from file : check_path.c
 int		check_path(t_command *cmd, t_env *my_env);
 
 int		ft_arrlen(void **arr);
 
-//Functions from file : parse.c
 //Functions from file : files.c
 int		make_redirs(t_data *d, t_command *cmd);
 
@@ -103,6 +98,13 @@ void	init_sigs(void);
 void	init_sig(void f(int, siginfo_t*, void*), int sigid);
 
 void	interrupt(int sig, siginfo_t *info, void *ucontext);
+
+//Functions from file : pipex_utils.c
+char	**make_command(t_command	*cmd);
+
+void	sub_dup2(int read_fd, int write_fd);
+
+void	close_used_pipes(t_data *d, t_command *cmd);
 
 //Functions from file : parser.c
 //Functions from file : metachar.c

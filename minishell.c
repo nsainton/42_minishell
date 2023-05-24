@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/22 17:49:29 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:50:03 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,29 @@ int	main(int argc, char **argv, char **envp)
 	cmds[0]->args = gccalloc (10, sizeof(char*));
 	cmds[0]->command = "cat";
 	ft_bzero(cmds[0]->args, 1);
-//	cmds[0]->args[0] = "-l";
+	cmds[0]->args[0] = NULL;
 /* 	cmds[0]->args[1] = "";
 	cmds[0]->args[2] = "ffsdgfr"; */
 	cmds[0]->args[1] = NULL;
 	cmds[0]->redirs = gccalloc(sizeof(t_redir), 1);
-/* 	cmds[0]->redirs[0].mode = 'i';
+	cmds[0]->redirs[0].mode = 'i';
+	cmds[0]->redirs[0].file = "test.txt";
+	cmds[0]->redirs[0].fd = 0;
+
+
+ 	cmds[1] = gcmalloc(sizeof(t_command));
+	cmds[1]->args = gccalloc (10, sizeof(char*));
+ 	cmds[1]->command = "grep";
+	cmds[1]->args[0] = "mini";
+	cmds[1]->args[1] = NULL;
+//	cmds[1]->args[0] = NULL;
+/* 	cmds[0]->redirs[0].mode = 'o';
 	cmds[0]->redirs[0].file = "test.txt";
 	cmds[0]->redirs[0].fd = 0; */
 
-	cmds[1] = gcmalloc(sizeof(t_command));
-	cmds[1]->args = gccalloc (10, sizeof(char*));
-	cmds[1]->command = "cat";
-/* 	cmds[1]->command = "grep";
-	cmds[1]->args[0] = "mini";
-	cmds[1]->args[1] = NULL; */
-	cmds[1]->args[0] = NULL;
-	cmds[1]->redirs = NULL;
-
 	cmds[2]= gcmalloc(sizeof(t_command));
 	cmds[2]->args = gccalloc (10, sizeof(char*));
-	cmds[2]->command = "ls";
+	cmds[2]->command = "wc";
 	ft_bzero(cmds[2]->args, 1);
 	cmds[2]->args[0] = "-l";
 /* 	cmds[2]->args[1] = "";
@@ -139,12 +141,9 @@ int	main(int argc, char **argv, char **envp)
 		i = opt = 0;
 		line = NULL;
 		line = readline("minishell> ");
-<<<<<<< HEAD
 		gc_add(line); // a proteger
 		if (line)
-=======
 		if (line && ! gc_add(line))
->>>>>>> parshing
 		{
 			if (! (cpy = copy_line(line)))
 			{

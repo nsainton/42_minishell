@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/22 17:30:34 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/24 15:33:35 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,8 +182,8 @@ struct	s_data
 	struct s_env		*env;
 	int					here_doc;
 	char				**limiters;
-	int					*pipes;
-	int					pipes_nb;
+	int					p[2];
+	int					prev_pipe;
 	int					index;
 	int					pid;
 	int					save_in;

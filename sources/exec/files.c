@@ -6,18 +6,11 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:33:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/22 17:45:06 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:49:42 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* struct s_redir
-{
-	int		fd;
-	char	mode;
-	char	*file;
-}; */
 
 int	make_redirs(t_data *d, t_command *cmd)
 {
@@ -43,6 +36,8 @@ int	make_redirs(t_data *d, t_command *cmd)
 
 int	get_infile(t_command *c, t_redir *r)
 {
+	if (c->fd_in != 0)
+		close(c->fd_in);
 	if (r->file)
 	{
 		c->fd_in = open(r->file, O_RDWR);
@@ -60,6 +55,9 @@ int	get_infile(t_command *c, t_redir *r)
 
 int	get_outfile_trunc(t_command *c, t_redir *r)
 {
+
+	if (c->fd_out != 1)
+		close(c->fd_out);
 	if (r->file)
 	{
 		c->fd_out = open(r->file, O_CREAT | O_RDWR | O_TRUNC, 0000644);
@@ -77,6 +75,8 @@ int	get_outfile_trunc(t_command *c, t_redir *r)
 
 int	get_outfile_append(t_command *c, t_redir *r)
 {
+	if (c->fd_out != 1)
+		close(c->fd_out);
 	if (r->file)
 	{
 		c->fd_out = open(r->file, O_CREAT | O_RDWR | O_APPEND, 0000644);
