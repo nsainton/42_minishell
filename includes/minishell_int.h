@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/24 15:33:35 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:01:34 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,8 @@ struct	s_command
 	char				*path;
 	char				**args;
 	t_uint				last;
-	struct s_heredoc	*heredocs;
-	struct s_redir		*redirs;
+	struct s_heredoc	**heredocs;
+	struct s_redir		**redirs;
 	int					fd_in;
 	int					fd_out;
 	int					err;

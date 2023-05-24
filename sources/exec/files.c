@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:33:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/24 18:49:42 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:03:13 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int	make_redirs(t_data *d, t_command *cmd)
 	cmd->fd_out = 1;
 	if (!cmd->redirs)
 		return (0);
-	while (cmd->redirs[i].mode)
+	while (cmd->redirs[i])
 	{
-		if (cmd->redirs[i].mode == 'i')
-			d->errnum = get_infile(cmd, &cmd->redirs[i]);
-		else if (cmd->redirs[i].mode == 'o')
-			d->errnum = get_outfile_trunc(cmd, &cmd->redirs[i]);
-		else if (cmd->redirs[i].mode == 'a')
-			d->errnum = get_outfile_append(cmd, &cmd->redirs[i]);
+		if (cmd->redirs[i]->mode == 'i')
+			d->errnum = get_infile(cmd, cmd->redirs[i]);
+		else if (cmd->redirs[i]->mode == 'o')
+			d->errnum = get_outfile_trunc(cmd, cmd->redirs[i]);
+		else if (cmd->redirs[i]->mode == 'a')
+			d->errnum = get_outfile_append(cmd, cmd->redirs[i]);
 		i ++;
 	}
 	return (0);
