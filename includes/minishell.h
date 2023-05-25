@@ -67,6 +67,8 @@ int		go_home(t_env *my_env, int set_old);
 //Functions from file : builtin.c
 int		which_builtin(t_command *cmd, t_data *d);
 
+int		which_builtin_exec(t_command *cmd, t_data *d);
+
 //Functions from file : pipex.c
 int		exec_one(t_data *d);
 

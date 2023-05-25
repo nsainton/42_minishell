@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:22:05 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/24 18:46:21 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:13:36 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,6 @@ void	close_used_pipes(t_data *d, t_command *cmd)
 		close(d->p[1]);
 		close(d->prev_pipe);
 	}
+	//close(d->p[0]);
+	//close(d->p[1]);
 }

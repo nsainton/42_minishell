@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/24 18:48:58 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:52:18 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 int	exec_one(t_data *d)
 {
 	d->index = 1;
+	make_redirs(d, d->cmds[0]);
 	if (which_builtin(d->cmds[0], d) == 127)
 	{
-		make_redirs(d, d->cmds[0]);
+
 		if (d->cmds[0]->command)
 		{
 			d->errnum = check_path(d->cmds[0], d->env);
@@ -62,8 +63,9 @@ void	exec_command_pipe(t_data *d, t_command *cmd)
 			sub_dup2(d->prev_pipe, cmd->fd_out);
 		else
 			sub_dup2(d->prev_pipe, d->p[1]);
-		d->errnum = execve(cmd->path, (char *const *)make_command(cmd),
-				envlist_to_arr(d->env->list_env));
+		if (which_builtin_exec(d->cmds[d->index], d) == 127)
+			d->errnum = execve(cmd->path, (char *const *)make_command(cmd),
+					envlist_to_arr(d->env->list_env));
 		if (d->errnum)
 			ft_dprintf(2, "%s : %s\n", cmd->command, strerror(errno));
 		exit(d->errnum);
@@ -82,9 +84,10 @@ int	exec_pipeline(t_data *d)
 	{
 		if (pipe(d->p) == -1)
 			ft_dprintf(2, "error : %s", strerror(errno));
+		make_redirs(d, d->cmds[d->index]);
+		printf("cmd : %s\n", d->cmds[d->index]->command);
 		if (which_builtin(d->cmds[d->index], d) == 127)
 		{
-			make_redirs(d, d->cmds[d->index]);
 			if (d->cmds[d->index]->command)
 			{
 				d->errnum = check_path(d->cmds[d->index], d->env);

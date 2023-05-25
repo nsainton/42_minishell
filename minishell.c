@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/24 19:06:27 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:52:49 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,26 @@ int	main(int argc, char **argv, char **envp)
 	d.errnum = 0;
 	cmds[0]= gcmalloc(sizeof(t_command));
 	cmds[0]->args = gccalloc (10, sizeof(char*));
-	cmds[0]->command = "cat";
+	cmds[0]->command = "env";
 	ft_bzero(cmds[0]->args, 1);
 	cmds[0]->args[0] = NULL;
-/* 	cmds[0]->args[1] = "";
-	cmds[0]->args[2] = "ffsdgfr"; */
+	cmds[0]->args[1] = NULL;
+	//cmds[0]->args[2] = "ffsdgfr"; */
 	cmds[0]->args[1] = NULL;
 	cmds[0]->redirs = gccalloc(sizeof(t_redir *), 3);
 	cmds[0]->redirs[0] = gccalloc(sizeof(t_redir), 1);
-	cmds[0]->redirs[0]->mode = 'i';
-	cmds[0]->redirs[0]->file = "test.txt";
-	cmds[0]->redirs[0]->fd = 0;
-	cmds[0]->redirs[1] = NULL;
+/* 	cmds[0]->redirs[0]->mode = 'o';
+	cmds[0]->redirs[0]->file = "out3";
+	cmds[0]->redirs[0]->fd = 0; */
+	cmds[0]->redirs[0] = NULL;
 
-
- 	cmds[1] = gcmalloc(sizeof(t_command));
+  	cmds[1] = gcmalloc(sizeof(t_command));
 	cmds[1]->args = gccalloc (10, sizeof(char*));
  	cmds[1]->command = "grep";
-	cmds[1]->args[0] = "mini";
+	cmds[1]->args[0] = "user";
 	cmds[1]->args[1] = NULL;
 	cmds[1]->redirs = NULL;
-//	cmds[1]->args[0] = NULL;
+	//cmds[1]->args[0] = NULL;
 /* 	cmds[0]->redirs[0].mode = 'o';
 	cmds[0]->redirs[0].file = "test.txt";
 	cmds[0]->redirs[0].fd = 0; */
@@ -58,8 +57,6 @@ int	main(int argc, char **argv, char **envp)
 	cmds[2]->command = "wc";
 	ft_bzero(cmds[2]->args, 1);
 	cmds[2]->args[0] = "-l";
-/* 	cmds[2]->args[1] = "";
-	cmds[2]->args[2] = "ffsdgfr"; */
 	cmds[2]->args[1] = NULL;
 	cmds[2]->redirs = NULL;
 	cmds[3] = NULL;
