@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 13:05:03 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:53:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,33 @@ int	redirections(t_tab *redirs, t_str *line)
 		{
 			if (add_redirection(redirs, line, index))
 				return (ALLOCATION_ERROR);
+		}
+		else
+			index ++;
+	}
+	return (NO_ERROR);
+}
+
+int	redirs_to_heredocs(t_tab *redirs, t_tab *heredocs)
+{
+	t_redirection	*reds;
+	t_heredoc		hd;
+	size_t			index;
+
+	if (allocate_tab(heredocs, REDIRS_SIZE, sizeof (t_heredoc)))
+		return (ALLOCATION_ERROR);
+	reds = (t_redirection *)redirs;
+	index = 0;
+	while (index < redirs->len)
+	{
+		if ((reds + index)->mode == 'h')
+		{
+			hd.fd = (reds + index)->fd;
+			hd.limiter = (reds + index)->file;
+			if (add_tab(heredocs, &hd))
+				return (ALLOCATION_ERROR);
+			ft_memmove(reds + index, reds + index + 1, sizeof *reds);
+			redirs->len -= 1;
 		}
 		else
 			index ++;

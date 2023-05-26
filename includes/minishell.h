@@ -81,6 +81,8 @@ void	remove_nodes(size_t number);
 //Functions from file : redirections.c
 int		redirections(t_tab *redirs, t_str *line);
 
+int		redirs_to_heredocs(t_tab *redirs, t_tab *heredocs);
+
 //Functions from file : get_raw_line.c
 int		get_raw_line(t_cchar *line, t_str *newline);
 
@@ -122,9 +124,19 @@ int		invalid_operator(char *line, size_t *len);
 //Functions from file : debug.c
 void	print_redir(t_redirection *redir, size_t no);
 
-void	print_redirs(t_redirection *redirs, size_t len);
+void	print_redirs(t_redirection *redirs);
+
+void	print_args(char **args);
+
+void	print_heredoc(t_heredoc *heredoc, size_t no);
+
+void	print_heredocs(t_heredoc *heredoc);
+
+void	print_command(t_command *command, size_t no);
 
 //Functions from file : fill_command.c
+int		fill_command(t_command *command, char *line);
+
 //Functions from file : finders.c
 size_t	find_next(t_cchar *line, size_t index, t_cchar *tofind);
 

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/26 13:10:09 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:54:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	main(int argc, char **argv)//, char **envp)
 			else
 			{
 				ft_dprintf(STDERR_FILENO, "This is the copied line : %s\n", cpy);
-				print_redirs((t_redirection *)redirs.tab, redirs.len);
+				print_redirs((t_redirection *)redirs.tab);
 			}
 			/*
 			args = gc_split(cpy, ' ');

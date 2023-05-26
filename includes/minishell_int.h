@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/26 13:05:20 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:51:24 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,8 @@ struct	s_command
 	char				**limiters;
 	//to there
 	//Replace by
-	struct s_heredoc	heredocs;
-	struct s_redir		redirs;
+	struct s_heredoc	*heredocs;
+	struct s_redir		*redirs;
 	int					fd_in;
 	int					fd_out;
 	int					err;
