@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:43:22 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/03 15:39:50 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:00:08 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,13 @@ int	decrypt_char(t_cint c)
 	if (c == PIPE)
 		return ('|');
 	return (c);
+}
+
+void	decrypt_string(char *str)
+{
+	while (*str)
+	{
+		*str = decrypt_char(*str);
+		str ++;
+	}
 }
