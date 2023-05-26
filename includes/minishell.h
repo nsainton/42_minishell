@@ -87,8 +87,7 @@ int		redirs_to_heredocs(t_tab *redirs, t_tab *heredocs);
 int		get_raw_line(t_cchar *line, t_str *newline);
 
 //Functions from file : clean_line.c
-void	convert_var(signed char *line, size_t *len, t_csizet beg, \
-char prev);
+void	convert_var(signed char *line, size_t *len, t_csizet beg);
 
 void	remove_var_symbols(signed char *line, size_t *len);
 

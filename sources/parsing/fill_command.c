@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:02:23 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 14:46:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 20:52:36 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	fill_command(t_command *command, char *line)
 
 	sline.str = line;
 	sline.len = strlen(line);
+	//ft_printf("Line : %s\n", line);
 	if (redirections(&redirs, &sline) || redirs_to_heredocs(&redirs, &heredocs))
 		return (ALLOCATION_ERROR);
 	split = gc_split(line, ' ');
