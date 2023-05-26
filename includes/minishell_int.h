@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/22 17:17:47 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:18:43 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define SUCCESS 0
 # define SPECIALS "'\"? <>|$"
 # define REDIRS "<>|"
+# define SEPARATORS " <>"
 // End of Preprocessor defines
 
 // ENUM Declarations

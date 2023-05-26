@@ -81,7 +81,7 @@ int		test(void);
 
 //Functions from file : quotes.c
 //Functions from file : redirections.c
-int		add_redirection(t_tab *redirs, char *line, t_csizet index);
+int		redirections(t_tab *redirs, t_str *line);
 
 //Functions from file : get_raw_line.c
 int		get_raw_line(t_cchar *line, t_str *newline);
@@ -123,6 +123,13 @@ int		invalid_operator(char *line, size_t *len);
 
 //Functions from file : debug.c
 //Functions from file : fill_command.c
+//Functions from file : finders.c
+size_t	find_next(t_cchar *line, size_t index, t_cchar *tofind);
+
+size_t	find_prev(t_cchar *line, size_t index, t_cchar *tofind);
+
+int		find_mode(t_cchar *line, t_csizet index);
+
 //Functions from file : check_path.c
 int		check_path(t_command *cmd, t_env *my_env);
 
