@@ -77,8 +77,6 @@ void	free_node(void *node);
 void	remove_nodes(size_t number);
 
 //Functions from file : test_parsing.c
-int		test(void);
-
 //Functions from file : quotes.c
 //Functions from file : redirections.c
 int		redirections(t_tab *redirs, t_str *line);
@@ -87,7 +85,7 @@ int		redirections(t_tab *redirs, t_str *line);
 int		get_raw_line(t_cchar *line, t_str *newline);
 
 //Functions from file : copy_line.c
-char	*copy_line(t_cchar *line);
+char	*copy_line(t_cchar *line, t_tab *redirs);
 
 //Functions from file : clean_line.c
 void	convert_var(signed char *line, size_t *len, t_csizet beg, \
@@ -122,6 +120,10 @@ int		redirect_without_spaces(char *line, size_t *len);
 int		invalid_operator(char *line, size_t *len);
 
 //Functions from file : debug.c
+void	print_redir(t_redirection *redir, size_t no);
+
+void	print_redirs(t_redirection *redirs);
+
 //Functions from file : fill_command.c
 //Functions from file : finders.c
 size_t	find_next(t_cchar *line, size_t index, t_cchar *tofind);

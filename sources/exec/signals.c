@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:10:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/26 12:42:10 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/26 12:09:08 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ void	interrupt(int sig, siginfo_t *info, void *ucontext)
 	(void)sig;
 	(void)info;
 	ft_printf("Thanks for using control-c\n");
-	//free_gc();
-	//exit(0);
+	free_gc();
+	exit(0);
 }

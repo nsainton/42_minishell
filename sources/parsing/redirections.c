@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 11:43:20 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 12:38:42 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ static int	push_redirection(t_tab *redirs, t_str *line, t_csizet index, int fd)
 	size_t			begredir;
 	size_t			nextspace;
 
+	/*
+	EPRINT
+	ft_printf("This is my pid : %d\n", getpid());
+	*/
 	ft_bzero(&redir, sizeof redir);
 	begredir = index;
 	if (*(line->str + index) != '<' && *(line->str + index) != '>')
@@ -29,16 +33,27 @@ static int	push_redirection(t_tab *redirs, t_str *line, t_csizet index, int fd)
 		redir.fd = fd;
 	else if (mode == 'a' || mode == 'w')
 		redir.fd = 1;
-	while (*(line->str + begredir) == '<' && *(line->str + begredir) == '>')
+	while (*(line->str + begredir) == '<' || *(line->str + begredir) == '>')
 		begredir ++;
-	nextspace = find_next(line->str, begredir, "<> ");
+	//ft_printf("Start from : %c\n", *(line->str + begredir));
+	nextspace = find_next(line->str, begredir + 1, "<> ");
 	redir.file = gc_substr(line->str, begredir, nextspace - begredir);
-	if (! redir.file || add_tab(redirs, &redir))
+	if (! redir.file)
 		return (ALLOCATION_ERROR);
-	ft_memmove(line->str + index, line->str + nextspace, nextspace - index);
-	line->len -= (nextspace - index);
 	decrypt_string(redir.file);
-	return (NO_ERROR);
+	/*
+	ft_printf("This is the file : %s\n", redir.file);
+	ft_printf("This is the line at first : %s\n", line->str + index);
+	ft_printf("Nextspace : %u -- Index : %u\n", nextspace, index);
+	*/
+	ft_memmove(line->str + index, line->str + nextspace\
+	, line->len + 1 + index - nextspace);
+	line->len -= (nextspace - index);
+	/*
+	ft_printf("And then : %s\n", line->str + index);
+	LPRINT
+	*/
+	return (add_tab(redirs, &redir));
 }
 /*
 This function assumes that for example if the line is "echo bonjour >salut"
@@ -51,9 +66,14 @@ static int	add_redirection(t_tab *redirs, t_str *line, t_csizet index)
 	int				fd;
 	size_t			space;
 
+	/*
+	EPRINT
+	ft_printf("This is the remaining : %s\n", line->str + index);
+	ft_printf("This is the index : %u\n", index);
+	*/
 	space = find_prev(line->str, index, " ");
 	err = 0;
-	fd = atoi_until(line->str + space, DEC, &err, index - space);
+	fd = atoi_until(line->str + space + 1, DEC, &err, index - space - 1);
 	if (fd < 0 || err)
 		return (push_redirection(redirs, line, index, -1));
 	else

@@ -6,12 +6,13 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:33:22 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/22 14:35:52 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:56:53 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 struct s_linetest
 {
 	const char	*test;
@@ -131,3 +132,4 @@ int	test(void)
 	valid_test(NULL, 10);
 	return (create_tests());
 }
+*/

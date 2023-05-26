@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/22 14:42:09 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 12:01:39 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	main(int argc, char **argv)//, char **envp)
 	char		*line;
 	t_command	cmd;
 	char		*cpy;
+	t_tab		redirs;
 
 	if (argc > 1 || !argv)
 		return (1);
@@ -124,10 +125,13 @@ int	main(int argc, char **argv)//, char **envp)
 		line = readline("minishell> ");
 		if (line && ! gc_add(line))
 		{
-			if (! (cpy = copy_line(line)))
+			if (! (cpy = copy_line(line, &redirs)))
 				free_gc();
 			else
+			{
 				ft_dprintf(STDERR_FILENO, "This is the copied line : %s\n", cpy);
+				//print_redirs((t_redirection *)redirs.tab);
+			}
 			/*
 			args = gc_split(cpy, ' ');
 			cmd.command = args[0];
@@ -159,7 +163,7 @@ int	main(int argc, char **argv)//, char **envp)
 			cmd.options[0] = 0;
 			cmd.args[0] = 0;
 			*/
-			free_node(line);
+			//free_node(line);
 		}
 		else
 		{

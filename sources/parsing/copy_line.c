@@ -6,13 +6,13 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 11:09:29 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:56:01 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*copy_line(t_cchar *line)
+char	*copy_line(t_cchar *line, t_tab *redirs)
 {
 	t_str	nl;
 
@@ -23,5 +23,7 @@ char	*copy_line(t_cchar *line)
 	if (invalid_operator(nl.str, &nl.len))
 		return (NULL);
 	remove_var_symbols((signed char *)nl.str, &nl.len);
+	if (redirections(redirs, &nl))
+		return (NULL);
 	return (nl.str);
 }
