@@ -122,7 +122,7 @@ int		invalid_operator(char *line, size_t *len);
 //Functions from file : debug.c
 void	print_redir(t_redirection *redir, size_t no);
 
-void	print_redirs(t_redirection *redirs);
+void	print_redirs(t_redirection *redirs, size_t len);
 
 //Functions from file : fill_command.c
 //Functions from file : finders.c

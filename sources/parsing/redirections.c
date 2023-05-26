@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 12:38:42 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:05:03 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 static int	push_redirection(t_tab *redirs, t_str *line, t_csizet index, int fd)
 {
 	t_redirection	redir;
-	char			mode;
 	size_t			begredir;
 	size_t			nextspace;
 
@@ -28,10 +27,10 @@ static int	push_redirection(t_tab *redirs, t_str *line, t_csizet index, int fd)
 	begredir = index;
 	if (*(line->str + index) != '<' && *(line->str + index) != '>')
 		begredir = find_next(line->str, index, "<>");
-	mode = find_mode(line->str, begredir);
+	redir.mode = find_mode(line->str, begredir);
 	if (fd != -1)
 		redir.fd = fd;
-	else if (mode == 'a' || mode == 'w')
+	else if (redir.mode == 'a' || redir.mode == 'w')
 		redir.fd = 1;
 	while (*(line->str + begredir) == '<' || *(line->str + begredir) == '>')
 		begredir ++;
@@ -85,7 +84,7 @@ int	redirections(t_tab *redirs, t_str *line)
 {
 	size_t	index;
 
-	if (allocate_tab(redirs, PARSER_SIZE, sizeof (t_redirection)))
+	if (allocate_tab(redirs, REDIRS_SIZE, sizeof (t_redirection)))
 		return (ALLOCATION_ERROR);
 	index = 0;
 	while (index < line->len)
