@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:16:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 13:54:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:57:36 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,13 @@ void	print_redir(t_redirection *redir, size_t no)
 void	print_redirs(t_redirection *redirs)
 {
 	size_t	index;
+	char	null[200];
 
 	index = 0;
-	while ((redirs + index)->file != NULL)
+	if (! redirs)
+		return ;
+	ft_bzero(null, 200);
+	while (ft_memcmp(redirs + index, null, sizeof *redirs))
 	{
 		print_redir(redirs + index, index + 1);
 		index ++;
@@ -71,9 +75,13 @@ void	print_heredoc(t_heredoc *heredoc, size_t no)
 void	print_heredocs(t_heredoc *heredoc)
 {
 	size_t	index;
+	char	null[200];
 
 	index = 0;
-	while ((heredoc + index)->limiter)
+	if (! heredoc)
+		return ;
+	ft_bzero(null, 200);
+	while (ft_memcmp(heredoc + index, null, sizeof * heredoc))
 	{
 		print_heredoc(heredoc + index, index + 1);
 		index ++;
@@ -87,4 +95,18 @@ void	print_command(t_command *command, size_t no)
 	print_args(command->args);
 	print_redirs(command->redirs);
 	print_heredocs(command->heredocs);
+}
+
+void	print_commands(t_command *commands)
+{
+	size_t	index;
+	char	null[200];
+
+	index = 0;
+	ft_bzero(null, 200);
+	while (ft_memcmp(commands + index, null, sizeof * commands))
+	{
+		print_command(commands + index, index + 1);
+		index ++;
+	}
 }

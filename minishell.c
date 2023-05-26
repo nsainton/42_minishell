@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/26 13:54:11 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:41:56 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,30 +108,27 @@ int	main(int argc, char **argv, char **envp)
 int	main(int argc, char **argv)//, char **envp)
 {
 	char		*line;
-	t_command	cmd;
-	char		*cpy;
-	t_tab		redirs;
+	t_command	*commands;
 
 	if (argc > 1 || !argv)
 		return (1);
 	init_sigs();
 	//my_env = get_my_env(envp);
+	/*
 	cmd.args = gcmalloc (1000);
 	cmd.options = gcmalloc (1000);
 	ft_bzero(cmd.args, 1000);
 	ft_bzero(cmd.options, 1000);
+	*/
 	while (1)
 	{
 		line = readline("minishell> ");
 		if (line && ! gc_add(line))
 		{
-			if (! (cpy = copy_line(line, &redirs)))
+			if (split_line(line, &commands))
 				free_gc();
 			else
-			{
-				ft_dprintf(STDERR_FILENO, "This is the copied line : %s\n", cpy);
-				print_redirs((t_redirection *)redirs.tab);
-			}
+				print_commands(commands);
 			/*
 			args = gc_split(cpy, ' ');
 			cmd.command = args[0];

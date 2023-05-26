@@ -86,9 +86,6 @@ int		redirs_to_heredocs(t_tab *redirs, t_tab *heredocs);
 //Functions from file : get_raw_line.c
 int		get_raw_line(t_cchar *line, t_str *newline);
 
-//Functions from file : copy_line.c
-char	*copy_line(t_cchar *line, t_tab *redirs);
-
 //Functions from file : clean_line.c
 void	convert_var(signed char *line, size_t *len, t_csizet beg, \
 char prev);
@@ -121,6 +118,9 @@ int		redirect_without_spaces(char *line, size_t *len);
 
 int		invalid_operator(char *line, size_t *len);
 
+//Functions from file : split_line.c
+int		split_line(t_cchar *line, t_command **command);
+
 //Functions from file : debug.c
 void	print_redir(t_redirection *redir, size_t no);
 
@@ -134,8 +134,10 @@ void	print_heredocs(t_heredoc *heredoc);
 
 void	print_command(t_command *command, size_t no);
 
+void	print_commands(t_command *commands);
+
 //Functions from file : fill_command.c
-int		fill_command(t_command *command, char *line);
+int		fill_commands(t_tab *command, char *line);
 
 //Functions from file : finders.c
 size_t	find_next(t_cchar *line, size_t index, t_cchar *tofind);
