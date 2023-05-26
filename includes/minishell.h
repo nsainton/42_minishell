@@ -81,14 +81,23 @@ int		test(void);
 
 //Functions from file : quotes.c
 //Functions from file : redirections.c
+int		add_redirection(t_tab *redirs, char *line, t_csizet index);
+
 //Functions from file : copy_line.c
 char	*copy_line(t_cchar *line);
 
 //Functions from file : clean_line.c
+void	convert_var(signed char *line, size_t *len, t_csizet beg, \
+char prev);
+
+void	remove_var_symbols(signed char *line, size_t *len);
+
 //Functions from file : translation.c
 int		crypt_char(t_cint c);
 
 int		decrypt_char(t_cint c);
+
+void	decrypt_string(char *s);
 
 //Functions from file : errors_messages.c
 void	syntax_error(char token);
@@ -98,7 +107,7 @@ void	syntax_errors(char *token);
 //Functions from file : check_redirections.c
 int		check_in_redir(t_cchar *line, t_csizet index);
 
-int		check_o_redir(char *line, t_csizet index);
+int		check_o_redir(char *line, size_t *len, t_csizet index);
 
 //Functions from file : get_vars.c
 int		copy_env_variable(t_str *str, size_t *index, t_cchar *line, \
@@ -107,7 +116,7 @@ int parser);
 //Functions from file : valid_line.c
 int		redirect_without_spaces(char *line, size_t *len);
 
-int		invalid_operator(char *line);
+int		invalid_operator(char *line, size_t *len);
 
 //Functions from file : debug.c
 //Functions from file : fill_command.c
