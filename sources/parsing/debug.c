@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:16:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/05 15:25:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:54:40 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,3 +26,24 @@ void	print_line(t_metachar *mc, size_t size)
 	ft_printf("\n");
 }
 */
+
+void	print_redir(t_redirection *redir, size_t no)
+{
+	ft_printf("-----------------Redirection number %u-------------------\n", no);
+	ft_printf("File descriptor : %u\n", redir->fd);
+	ft_printf("Mode : %c\n", redir->mode);
+	ft_printf("File : %s\n", redir->file);
+	ft_printf("---------------------------------------------------------\n");
+}
+
+void	print_redirs(t_redirection *redirs)
+{
+	size_t	index;
+
+	index = 0;
+	while (redirs + index)
+	{
+		print_redir(redirs + index, index + 1);
+		index ++;
+	}
+}
