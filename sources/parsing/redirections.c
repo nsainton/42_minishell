@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/22 18:19:02 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:00:29 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	find_mode(t_cchar *line, t_csizet index)
 		return ('w');
 	if (*(line + index) == '<')
 		return ('r');
-	return (00);
+	return (0);
 }
 
 static int	push_redirection(t_tab *redirs, char *line, t_csizet index, int fd)
@@ -64,13 +64,14 @@ static int	push_redirection(t_tab *redirs, char *line, t_csizet index, int fd)
 		redir.fd = fd;
 	else if (mode == 'a' || mode == 'w')
 		redir.fd = 1;
-	while (*(line + begredir) == '<' && *(line + begredir) != '>')
+	while (*(line + begredir) != '<' && *(line + begredir) != '>')
 		begredir ++;
 	nextspace = find_next_space(line, begredir);
 	redir.file = gc_substr(line, begredir, nextspace - begredir);
 	if (! redir.file || add_tab(redirs, &redir))
 		return (ALLOCATION_ERROR);
 	ft_memmove(line + index, line + nextspace, nextspace - index);
+	decrypt_string(redir.file);
 	return (NO_ERROR);
 }
 /*
