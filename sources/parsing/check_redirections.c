@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:23:40 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/22 14:47:50 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:14:31 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,9 @@ int	check_in_redir(t_cchar *line, t_csizet index)
 	return (NO_ERROR);
 }
 
-static int	suppress_pipe(char *line, t_csizet index)
+static int	suppress_pipe(char *line, size_t *len, t_csizet index)
 {
 	char	next;
-	size_t	len;
 
 	next = *(line + index + 1);
 	if (! next || ft_strchr(REDIRS, next))
@@ -48,12 +47,12 @@ static int	suppress_pipe(char *line, t_csizet index)
 		syntax_error(next);
 		return (SYNTAX_ERROR);
 	}
-	len = ft_strlen(line);
-	ft_memmove(line + index, line + index + 1, len - index);
+	ft_memmove(line + index, line + index + 1, *len - index);
+	(*len) --;
 	return (NO_ERROR);
 }
 
-int	check_o_redir(char *line, t_csizet index)
+int	check_o_redir(char *line, size_t *len, t_csizet index)
 {
 	char	next;
 
@@ -70,7 +69,7 @@ int	check_o_redir(char *line, t_csizet index)
 		syntax_error(next);
 		return (SYNTAX_ERROR);
 	}
-	if (*(line + index) == '|' && suppress_pipe(line, index))
+	if (*(line + index) == '|' && suppress_pipe(line, len, index))
 		return (SYNTAX_ERROR);
 	return (NO_ERROR);
 }

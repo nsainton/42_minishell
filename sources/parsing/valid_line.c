@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:02:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/22 17:39:16 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:15:17 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static int fd_and_file(char *line, t_csizet index)
 	return (SYNTAX_ERROR);
 }
 
-int	invalid_operator(char *line)
+int	invalid_operator(char *line, size_t *len)
 {
 	size_t	index;
 
@@ -140,7 +140,7 @@ int	invalid_operator(char *line)
 		if (*(line + index) == '<' && (check_in_redir(line, index + 1) \
 		|| fd_and_file(line, index + 1)))
 			return (SYNTAX_ERROR);
-		else if(*(line + index) == '>' && (check_o_redir(line, index + 1) \
+		else if(*(line + index) == '>' && (check_o_redir(line, len, index + 1) \
 		|| fd_and_file(line, index + 1)))
 			return (SYNTAX_ERROR);
 		index ++;
