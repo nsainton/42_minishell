@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 11:06:56 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:09:29 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ char	*copy_line(t_cchar *line)
 		return (NULL);
 	if (invalid_operator(nl.str, &nl.len))
 		return (NULL);
+	remove_var_symbols((signed char *)nl.str, &nl.len);
 	return (nl.str);
 }

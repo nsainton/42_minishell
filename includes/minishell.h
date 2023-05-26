@@ -83,6 +83,9 @@ int		test(void);
 //Functions from file : redirections.c
 int		add_redirection(t_tab *redirs, char *line, t_csizet index);
 
+//Functions from file : get_raw_line.c
+int		get_raw_line(t_cchar *line, t_str *newline);
+
 //Functions from file : copy_line.c
 char	*copy_line(t_cchar *line);
 
