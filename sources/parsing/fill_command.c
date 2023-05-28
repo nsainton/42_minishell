@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:02:23 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 20:52:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/28 13:24:43 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ static int	fill_command(t_command *command, char *line)
 		return (ALLOCATION_ERROR);
 	decrypt_tab(split);
 	command->command = *split;
-	command->args = split + 1;
+	if (! command->command)
+		command->args = NULL;
+	else
+		command->args = split + 1;
 	command->heredocs = (t_heredoc *)heredocs.tab;
 	command->redirs = (t_redirection *)redirs.tab;
 	//free_node(line);
@@ -53,6 +56,7 @@ int	fill_commands(t_tab *command, char *line)
 	size_t		index;
 
 	commands = gc_split(line, '|');
+	ft_bzero(&com, sizeof com);
 	if (! commands)
 		return (ALLOCATION_ERROR);
 	index = 0;

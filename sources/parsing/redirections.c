@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 14:17:01 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/28 13:22:58 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,21 @@ static int	push_redirection(t_tab *redirs, t_str *line, t_csizet index, int fd)
 	ft_printf("This is my pid : %d\n", getpid());
 	*/
 	ft_bzero(&redir, sizeof redir);
-	begredir = index;
-	if (*(line->str + index) != '<' && *(line->str + index) != '>')
-		begredir = find_next(line->str, index, "<>");
+	begredir = find_next(line->str, index, "<>");
+	/*
+	ft_printf("This is begredir : %u\n", begredir);
+	ft_printf("This is the char : %c\n", *(line->str + begredir));
+	*/
 	redir.mode = find_mode(line->str, begredir);
+	//ft_printf("Mode found : %c\n", redir.mode);
 	if (fd != -1)
 		redir.fd = fd;
 	else if (redir.mode == 'a' || redir.mode == 'w')
+	{
+		//ft_printf("This is the mode : %c\n", redir.mode);
 		redir.fd = 1;
+		//ft_printf("This is the file descriptor : %d\n", redir.fd);
+	}
 	while (*(line->str + begredir) == '<' || *(line->str + begredir) == '>')
 		begredir ++;
 	//ft_printf("Start from : %c\n", *(line->str + begredir));
@@ -72,7 +79,11 @@ static int	add_redirection(t_tab *redirs, t_str *line, t_csizet index)
 	*/
 	space = find_prev(line->str, index, " ");
 	err = 0;
-	fd = atoi_until(line->str + space + 1, DEC, &err, index - space - 1);
+	ft_printf("This is the line : %s\n", line->str);
+	if (index > space)
+		fd = atoi_until(line->str + space + 1, DEC, &err, index - space - 1);
+	else
+		fd = -1;
 	if (fd < 0 || err)
 		return (push_redirection(redirs, line, index, -1));
 	else

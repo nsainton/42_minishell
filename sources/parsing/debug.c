@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:16:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 14:57:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/28 12:44:01 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	print_args(char **args)
 	size_t	index;
 
 	index = 0;
+	if (! args)
+		return ;
 	while (*(args + index))
 	{
 		ft_printf("Argument[%u] : %s\n", index, *(args + index));
