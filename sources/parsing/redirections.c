@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/28 13:22:58 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/28 13:34:17 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	add_redirection(t_tab *redirs, t_str *line, t_csizet index)
 	*/
 	space = find_prev(line->str, index, " ");
 	err = 0;
-	ft_printf("This is the line : %s\n", line->str);
+	//ft_printf("This is the line : %s\n", line->str);
 	if (index > space)
 		fd = atoi_until(line->str + space + 1, DEC, &err, index - space - 1);
 	else
@@ -117,7 +117,7 @@ int	redirs_to_heredocs(t_tab *redirs, t_tab *heredocs)
 	t_heredoc		hd;
 	size_t			index;
 
-	EPRINT
+	//EPRINT
 	if (allocate_tab(heredocs, REDIRS_SIZE, sizeof (t_heredoc)))
 		return (ALLOCATION_ERROR);
 	reds = (t_redirection *)redirs->tab;
