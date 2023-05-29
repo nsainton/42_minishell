@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/29 12:52:08 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:01:53 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ int	exec_pipeline(t_data *d)
 		d->prev_pipe = d->p[0];
 	}
 	waitpid(-1, NULL, 0);
-	close(d->p[0]);
-	close(d->p[1]);
+	if (d->cmds_nb > 1)
+	{
+		close(d->p[0]);
+		close(d->p[1]);
+	}
 	return (0);
 }

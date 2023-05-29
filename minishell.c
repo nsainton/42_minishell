@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/29 14:00:14 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:00:05 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,18 @@ int	main(int argc, char **argv, char **envp)
 	return (errno);
 } */
 
-int	main(int argc, char **argv)//, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_ncommand	*commands;
+	t_data		data;
 
 	if (argc > 1 || !argv)
 		return (1);
 	init_sigs();
+	data.env = get_my_env(envp);
+    data.cmds = NULL;
+    data.errnum = 0;
 	//my_env = get_my_env(envp);
 	/*
 	cmd.args = gcmalloc (1000);
@@ -139,39 +143,21 @@ int	main(int argc, char **argv)//, char **envp)
 			if (split_line(line, &commands))
 				free_gc();
 			else
-				print_commands(commands);
-			/*
-			args = gc_split(cpy, ' ');
-			cmd.command = args[0];
-			if (args[1])
 			{
-				if (args[1][0] == '-')
+				data.cmds = get_commands_reference(commands);
+				if (! data.cmds)
 				{
-					cmd.options[0] = args[1];
-					opt = 1;
+					free_gc();
+					ft_printf("No commands in data\n");
+					continue ;
 				}
 				else
-					cmd.options[0] = NULL;
-				while (args[i + opt + 1])
 				{
-					cmd.args[i] = args[1 + opt + i];
-					printf("args[%d] = %s\n", i, cmd.args[i]);
-					i ++;
+					data.cmds_nb = ft_arrlen((void **)data.cmds);
+    				if (data.cmds_nb != 0)
+        				exec_pipeline(&data);
 				}
-				cmd.args[i] = 0;
 			}
-			else
-			{
-				cmd.args[0] = NULL;
-				cmd.options[0] = NULL;
-
-			}
-			which_builtin(&cmd, my_env);
-			cmd.command[0] = 0;
-			cmd.options[0] = 0;
-			cmd.args[0] = 0;
-			*/
-			//free_node(line);
 		}
 		else
 		{

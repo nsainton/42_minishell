@@ -6,7 +6,7 @@
 /*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 14:04:03 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/29 15:40:54 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:44:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 static void	**get_tab_references(void *original, t_csizet elemsize, int *err)
 {
-	size_t	tablen;
+	size_t	len;
 	void	**tab;
 	size_t	index;
 
-	tablen = tablen(original, elemsize);
-	if (! tablen)
+	len = tablen(original, elemsize);
+	if (! len)
 		return (NULL);
-	if (tablen == SIZE_MAX)
+	if (len == SIZE_MAX)
 	{
 		*err = 1;
 		return (NULL);
 	}
-	tab = gccalloc(tablen + 1, sizeof *tab);
+	tab = gccalloc(len + 1, sizeof *tab);
 	if (! tab)
 	{
 		*err = 1;
 		return (NULL);
 	}
 	index = 0;
-	while (index < tablen)
+	while (index < len)
 	{
 		*(tab + index) = original + index * elemsize;
 		index ++;
@@ -51,10 +51,10 @@ static int	ncommand_to_command(t_ncommand *original, t_command **command)
 	if (! command)
 		return (ALLOCATION_ERROR);
 	err = 0;
-	redirs = get_tab_references(original->redirs, sizeof original->redirs, &err);
+	redirs = (t_redirection **)get_tab_references(original->redirs, sizeof original->redirs, &err);
 	if (! redirs && err)
 		return (ALLOCATION_ERROR);
-	heredocs = get_tab_references(original->heredocs, sizeof original->heredocs, &err);
+	heredocs = (t_heredoc **)get_tab_references(original->heredocs, sizeof original->heredocs, &err);
 	if (! heredocs && err)
 		return (ALLOCATION_ERROR);
 	(*command)->command = original->command;
@@ -67,17 +67,17 @@ static int	ncommand_to_command(t_ncommand *original, t_command **command)
 t_command	**get_commands_reference(t_ncommand *original)
 {
 	t_command	**commands;
-	size_t		tablen;
+	size_t		len;
 	size_t		index;
 
-	tablen = tablen(original, elemsize);
-	if (! tablen || tablen == SIZE_MAX)
+	len = tablen(original, sizeof *original);
+	if (! len || len == SIZE_MAX)
 		return (NULL);
-	commands = gccalloc(tablen + 1, sizeof *commands);
+	commands = gccalloc(len + 1, sizeof *commands);
 	if (! commands)
 		return (NULL);
 	index = 0;
-	while (index < tablen)
+	while (index < len)
 	{
 		if (ncommand_to_command(original + index, commands + index))
 			return (NULL);
