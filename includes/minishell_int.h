@@ -131,19 +131,15 @@ struct	s_command
 {
 	char				*command;
 	char				*path;
-	char				**options; //Seulement args
 	char				**args;
 	t_uint				last;
-	//int		type;
-	//Remove vars from here
-	char				*in;
-	char				*out;
-	int					is_here_doc;
-	char				**limiters;
-	//to there
-	//Replace by
-	struct s_heredoc	*heredocs;
-	struct s_redir		*redirs;
+
+	struct s_heredoc	**heredocs;
+	struct s_redir		**redirs;
+
+//	struct s_heredoc	*heredocs;
+//	struct s_redir		*redirs;
+
 	int					fd_in;
 	int					fd_out;
 	int					err;
@@ -195,10 +191,12 @@ struct	s_data
 	struct s_env		*env;
 	int					here_doc;
 	char				**limiters;
-	int					*pipes;
-	int					pipes_nb;
+	int					p[2];
+	int					prev_pipe;
 	int					index;
 	int					pid;
+	int					save_in;
+	int					save_out;
 	int					errnum;
 };
 
@@ -216,6 +214,8 @@ typedef struct s_arg		t_arg;
 typedef struct s_env		t_env;
 
 typedef struct s_data		t_data;
+
+typedef struct s_redir		t_redir;
 
 typedef struct s_metachar	t_metachar;
 

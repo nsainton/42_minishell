@@ -6,34 +6,90 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:33:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/03 13:28:41 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:03:13 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_infile(t_command *c)
+int	make_redirs(t_data *d, t_command *cmd)
 {
-	if (c->in)
+	int	i;
+
+	i = 0;
+	cmd->fd_in = 0;
+	cmd->fd_out = 1;
+	if (!cmd->redirs)
+		return (0);
+	while (cmd->redirs[i])
 	{
-		c->fd_in = open(c->in, O_RDWR);
+		if (cmd->redirs[i]->mode == 'i')
+			d->errnum = get_infile(cmd, cmd->redirs[i]);
+		else if (cmd->redirs[i]->mode == 'o')
+			d->errnum = get_outfile_trunc(cmd, cmd->redirs[i]);
+		else if (cmd->redirs[i]->mode == 'a')
+			d->errnum = get_outfile_append(cmd, cmd->redirs[i]);
+		i ++;
+	}
+	return (0);
+}
+
+int	get_infile(t_command *c, t_redir *r)
+{
+	if (c->fd_in != 0)
+		close(c->fd_in);
+	if (r->file)
+	{
+		c->fd_in = open(r->file, O_RDWR);
 		if (c->fd_in < 0)
+		{
 			ft_dprintf(2, "infile : %s\n", strerror(errno));
+			return (errno);
+		}
 	}
 	else
 		c->fd_in = 0;
+	r->fd = c->fd_in;
+	return (0);
 }
 
-void	get_outfile(t_command *c)
+int	get_outfile_trunc(t_command *c, t_redir *r)
 {
-	if (c->out)
+
+	if (c->fd_out != 1)
+		close(c->fd_out);
+	if (r->file)
 	{
-		c->fd_out = open(c->out, O_CREAT | O_RDWR | O_TRUNC, 0000644);
+		c->fd_out = open(r->file, O_CREAT | O_RDWR | O_TRUNC, 0000644);
 		if (c->fd_out < 0)
+		{
 			ft_dprintf(2, "outfile : %s\n", strerror(errno));
+			return (errno);
+		}
 	}
 	else
 		c->fd_out = 1;
+	r->fd = c->fd_out;
+	return (0);
+}
+
+int	get_outfile_append(t_command *c, t_redir *r)
+{
+	if (c->fd_out != 1)
+		close(c->fd_out);
+	if (r->file)
+	{
+		c->fd_out = open(r->file, O_CREAT | O_RDWR | O_APPEND, 0000644);
+		if (c->fd_out < 0)
+		{
+			ft_dprintf(2, "outfile : %s\n", strerror(errno));
+			return (errno);
+		}
+	}
+	else
+		c->fd_out = 1;
+	r->fd = c->fd_out;
+	return (0);
 }
 
 void	here_doc(char **limiters, int nb)

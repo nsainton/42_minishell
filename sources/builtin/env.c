@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/10 17:36:44 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/18 15:27:13 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	print_env(t_data *d, t_command *cmd)
 	d->errnum = 0;
 	if (d->env->is_empty)
 		ft_printf("\n"); //? regarder reel comportement
-	else if (cmd->args[0] || cmd->options[0])
+	else if (cmd->args[0])
 	{
 		ft_dprintf(2, "env : minishell doesn't support arguments or options\n");
 		d->errnum = 127;
