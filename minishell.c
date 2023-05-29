@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/25 17:52:49 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/29 14:00:14 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,15 @@ int	main(int argc, char **argv, char **envp)
 	cmds[0]->args[0] = NULL;
 	cmds[0]->args[1] = NULL;
 	//cmds[0]->args[2] = "ffsdgfr"; */
+	/*
 	cmds[0]->args[1] = NULL;
 	cmds[0]->redirs = gccalloc(sizeof(t_redir *), 3);
 	cmds[0]->redirs[0] = gccalloc(sizeof(t_redir), 1);
+	*/
 /* 	cmds[0]->redirs[0]->mode = 'o';
 	cmds[0]->redirs[0]->file = "out3";
 	cmds[0]->redirs[0]->fd = 0; */
+	/*
 	cmds[0]->redirs[0] = NULL;
 
   	cmds[1] = gcmalloc(sizeof(t_command));
@@ -48,11 +51,12 @@ int	main(int argc, char **argv, char **envp)
 	cmds[1]->args[0] = "user";
 	cmds[1]->args[1] = NULL;
 	cmds[1]->redirs = NULL;
+	*/
 	//cmds[1]->args[0] = NULL;
 /* 	cmds[0]->redirs[0].mode = 'o';
 	cmds[0]->redirs[0].file = "test.txt";
 	cmds[0]->redirs[0].fd = 0; */
-
+	/*
 	cmds[2]= gcmalloc(sizeof(t_command));
 	cmds[2]->args = gccalloc (10, sizeof(char*));
 	cmds[2]->command = "wc";
@@ -115,7 +119,7 @@ int	main(int argc, char **argv, char **envp)
 int	main(int argc, char **argv)//, char **envp)
 {
 	char		*line;
-	t_command	*commands;
+	t_ncommand	*commands;
 
 	if (argc > 1 || !argv)
 		return (1);
