@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/25 17:52:18 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/29 12:52:08 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	exec_pipeline(t_data *d)
 		if (pipe(d->p) == -1)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		make_redirs(d, d->cmds[d->index]);
-		printf("cmd : %s\n", d->cmds[d->index]->command);
 		if (which_builtin(d->cmds[d->index], d) == 127)
 		{
 			if (d->cmds[d->index]->command)
@@ -101,5 +100,7 @@ int	exec_pipeline(t_data *d)
 		d->prev_pipe = d->p[0];
 	}
 	waitpid(-1, NULL, 0);
+	close(d->p[0]);
+	close(d->p[1]);
 	return (0);
 }
