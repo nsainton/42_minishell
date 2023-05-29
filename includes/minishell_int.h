@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/26 13:51:24 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:54:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,13 +133,8 @@ struct	s_command
 	char				*path;
 	char				**args;
 	t_uint				last;
-
 	struct s_heredoc	**heredocs;
 	struct s_redir		**redirs;
-
-//	struct s_heredoc	*heredocs;
-//	struct s_redir		*redirs;
-
 	int					fd_in;
 	int					fd_out;
 	int					err;
@@ -148,12 +143,10 @@ struct	s_command
 
 struct	s_ncommand
 {
-	char	*command;
-	char	**options;
-	char	**args;
-	t_uint	last;
-	t_list	*redirections;
+	char				*command;
+	char				**args;
 	struct s_heredoc	*heredocs;
+	struct s_redir		*redirs;
 };
 
 struct s_pipeline
@@ -209,13 +202,13 @@ typedef enum e_minierrors	t_minierrors;
 
 typedef struct s_command	t_command;
 
+typedef struct s_ncommand	t_ncommand;
+
 typedef struct s_arg		t_arg;
 
 typedef struct s_env		t_env;
 
 typedef struct s_data		t_data;
-
-typedef struct s_redir		t_redir;
 
 typedef struct s_metachar	t_metachar;
 

@@ -6,18 +6,18 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 14:38:34 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:56:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	split_line(t_cchar *line, t_command **command)
+int	split_line(t_cchar *line, t_ncommand **command)
 {
 	t_str	nl;
 	t_tab	com;
 
-	if (allocate_tab(&com, REDIRS_SIZE, sizeof (t_command)))
+	if (allocate_tab(&com, REDIRS_SIZE, sizeof (t_ncommand)))
 		return (ALLOCATION_ERROR);
 	if (get_raw_line(line, &nl))
 		return (ALLOCATION_ERROR);
@@ -32,6 +32,6 @@ int	split_line(t_cchar *line, t_command **command)
 	*/
 	if (fill_commands(&com, nl.str))
 		return (ALLOCATION_ERROR);
-	*command = (t_command *)com.tab;
+	*command = (t_ncommand *)com.tab;
 	return (EXIT_SUCCESS);
 }

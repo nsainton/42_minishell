@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:02:23 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/28 13:24:43 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:55:52 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	decrypt_tab(char **tab)
 }
 
 
-static int	fill_command(t_command *command, char *line)
+static int	fill_command(t_ncommand *command, char *line)
 {
 	t_tab	redirs;
 	t_tab	heredocs;
@@ -51,7 +51,7 @@ static int	fill_command(t_command *command, char *line)
 
 int	fill_commands(t_tab *command, char *line)
 {
-	t_command	com;
+	t_ncommand	com;
 	char		**commands;
 	size_t		index;
 

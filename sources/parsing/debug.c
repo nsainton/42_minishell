@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:16:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/28 12:44:01 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/29 14:00:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	print_heredocs(t_heredoc *heredoc)
 	}
 }
 
-void	print_command(t_command *command, size_t no)
+void	print_command(t_ncommand *command, size_t no)
 {
 	ft_printf("---------------Command number %u-------------------------\n", no);
 	ft_printf("Command : %s\n", command->command);
@@ -99,7 +99,7 @@ void	print_command(t_command *command, size_t no)
 	print_heredocs(command->heredocs);
 }
 
-void	print_commands(t_command *commands)
+void	print_commands(t_ncommand *commands)
 {
 	size_t	index;
 	char	null[200];
