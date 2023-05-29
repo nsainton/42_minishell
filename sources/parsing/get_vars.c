@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 09:41:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/17 08:57:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/18 16:31:34 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	add_var_tstr(t_str *str, char *var, int parser)
 	error = 0;
 	while (*var)
 	{
-		if (! parser)
+		if (! parser && (*var == ' '))
 			error = t_str_add(str, *var);
 		else
 			error = t_str_add(str, crypt_char(*var));

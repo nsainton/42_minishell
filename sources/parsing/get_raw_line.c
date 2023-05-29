@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copy_line.c                                        :+:      :+:    :+:   */
+/*   get_raw_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/09 10:31:50 by nsainton         ###   ########.fr       */
+/*   Created: 2023/05/26 11:02:53 by nsainton          #+#    #+#             */
+/*   Updated: 2023/05/26 11:07:26 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int *parser)
 {
 	char	current;
 
-	EPRINT
 	current = *(line + *index);
 	if (current == '$')
 		return (handle_dollar(str, index, line, parser));
@@ -74,28 +73,25 @@ int *parser)
 	return(t_str_add(str, current));
 }
 
-char	*copy_line(t_cchar *line)
+int	get_raw_line(t_cchar *line, t_str *newline)
 {
 	int		parser;
 	size_t	index;
-	t_str	nl;
 
 	parser = 0;
-	if (t_str_alloc(&nl, PARSER_SIZE))
-		return (NULL);
+	if (t_str_alloc(newline, PARSER_SIZE))
+		return (ALLOCATION_ERROR);
 	index = 0;
 	while (*(line + index))
 	{
 		if (! ft_strchr(SPECIALS, *(line + index)))
 		{
-			if (t_str_add(&nl, *(line + index)))
-				return (NULL);
+			if (t_str_add(newline, *(line + index)))
+				return (ALLOCATION_ERROR);
 			index ++;
 		}
-		else if (handle_specials(&nl, &index, line, &parser))
-			return (NULL);
+		else if (handle_specials(newline, &index, line, &parser))
+			return (ALLOCATION_ERROR);
 	}
-	if (redirect_without_spaces(nl.str, &nl.len))
-		return (NULL);
-	return (nl.str);
+	return (NO_ERROR);
 }

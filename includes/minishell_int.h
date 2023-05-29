@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/24 19:01:34 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:51:24 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,16 @@
 
 // Preprocessor defines
 # define PARSER_SIZE 50
+# define REDIRS_SIZE 10
+# define SERROR "minishell: syntax error near unexpected token `"
 # define ENTER "Entering function : %s\n"
 # define LEAVE "Leaving function : %s\n"
 # define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);
 # define LPRINT ft_dprintf(STDERR_FILENO, LEAVE, __func__);
 # define SUCCESS 0
 # define SPECIALS "'\"? <>|$"
+# define REDIRS "<>|"
+# define SEPARATORS " <>"
 // End of Preprocessor defines
 
 // ENUM Declarations
@@ -129,8 +133,13 @@ struct	s_command
 	char				*path;
 	char				**args;
 	t_uint				last;
+
 	struct s_heredoc	**heredocs;
 	struct s_redir		**redirs;
+
+//	struct s_heredoc	*heredocs;
+//	struct s_redir		*redirs;
+
 	int					fd_in;
 	int					fd_out;
 	int					err;
@@ -211,6 +220,12 @@ typedef struct s_redir		t_redir;
 typedef struct s_metachar	t_metachar;
 
 typedef struct s_parser		t_parser;
+
+typedef struct s_redir		t_redir;
+
+typedef struct s_redir		t_redirection;
+
+typedef struct s_heredoc	t_heredoc;
 
 //End of type definitions
 
