@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:14:46 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/10 17:39:18 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:59:17 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	export_env(t_data *d, t_command *cmd)
 		if (is_valid_export(cmd->args[i]) == 20)
 		{
 			if (modify_env(d->env, cmd->args[i]) == 0)
-				ft_lstadd_back(&d->env->list_env, ft_lstnew_gc(cmd->args[i]));
+				ft_lstadd_back(&d->env->list_env, ft_lstnew(cmd->args[i]));
 		}
 		else
 			d->errnum = 1;

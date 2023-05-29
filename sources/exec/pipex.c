@@ -105,5 +105,6 @@ int	exec_pipeline(t_data *d)
 		close(d->p[0]);
 		close(d->p[1]);
 	}
+	ft_printf("J'ai atteint la fin de exec pipeline\n");
 	return (0);
 }

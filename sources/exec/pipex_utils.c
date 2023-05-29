@@ -65,6 +65,4 @@ void	close_used_pipes(t_data *d, t_command *cmd)
 		close(d->p[1]);
 		close(d->prev_pipe);
 	}
-	//close(d->p[0]);
-	//close(d->p[1]);
 }
