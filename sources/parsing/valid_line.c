@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:02:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 10:15:17 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/29 10:43:56 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int	skip_spaces(char *line, size_t *len, size_t index, char invar)
 }
 */
 
+/*
 static int	invalid_redir(char *line, size_t index, t_cchar current)
 {
 	char	first;
@@ -65,6 +66,7 @@ static int	invalid_redir(char *line, size_t index, t_cchar current)
 	}
 	return (NO_ERROR);
 }
+*/
 
 int	redirect_without_spaces(char *line, size_t *len)
 {
@@ -79,7 +81,7 @@ int	redirect_without_spaces(char *line, size_t *len)
 	while (index++ < *len)
 	{
 		//invar = invar + (current == BEG_VAR) - (current == END_VAR);
-		if (current != '>' && current != '<' && current != '|')
+		if (! ft_strchr("<>|", current))
 		{
 			current = *(line + index);
 			continue ;

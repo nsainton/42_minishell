@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/28 13:34:17 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:00:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ static int	push_redirection(t_tab *redirs, t_str *line, t_csizet index, int fd)
 	ft_printf("This is the char : %c\n", *(line->str + begredir));
 	*/
 	redir.mode = find_mode(line->str, begredir);
-	//ft_printf("Mode found : %c\n", redir.mode);
+	ft_printf("Mode found : %c\n", redir.mode);
+	ft_printf("This is the input file descriptor : %d\n", fd);
 	if (fd != -1)
 		redir.fd = fd;
 	else if (redir.mode == 'a' || redir.mode == 'w')
 	{
-		//ft_printf("This is the mode : %c\n", redir.mode);
+		ft_printf("This is the mode : %c\n", redir.mode);
 		redir.fd = 1;
 		//ft_printf("This is the file descriptor : %d\n", redir.fd);
 	}
@@ -47,13 +48,13 @@ static int	push_redirection(t_tab *redirs, t_str *line, t_csizet index, int fd)
 	if (! redir.file)
 		return (ALLOCATION_ERROR);
 	decrypt_string(redir.file);
-	/*
 	ft_printf("This is the file : %s\n", redir.file);
 	ft_printf("This is the line at first : %s\n", line->str + index);
 	ft_printf("Nextspace : %u -- Index : %u\n", nextspace, index);
-	*/
+	ft_printf("Line_len : %u\n", line->len);
+	ft_printf("Number to move : %u\n", line->len + 1 - nextspace);
 	ft_memmove(line->str + index, line->str + nextspace\
-	, line->len + 1 + index - nextspace);
+	, line->len + 1 - nextspace);
 	line->len -= (nextspace - index);
 	/*
 	ft_printf("And then : %s\n", line->str + index);
