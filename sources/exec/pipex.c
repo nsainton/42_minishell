@@ -78,10 +78,9 @@ int	exec_pipeline(t_data *d)
 {
 	d->prev_pipe = -1;
 	d->index = -1;
-	d->save_in = dup(0);
-	d->save_out = dup(1);
-	//close(d->save_in);
-	//close(d->save_out);
+	d->pid = gc_calloc(d->cmds_nb, sizeof(int));
+	if (!d->pid)
+		return (1);
 	if (d->cmds_nb == 1)
 		exec_one(d);
 	while (++d->index < d->cmds_nb)

@@ -187,7 +187,7 @@ struct	s_data
 	int					p[2];
 	int					prev_pipe;
 	int					index;
-	int					pid;
+	int					*pid;
 	int					save_in;
 	int					save_out;
 	int					errnum;
