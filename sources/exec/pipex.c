@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/29 16:01:53 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/30 14:40:35 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ int	exec_pipeline(t_data *d)
 {
 	d->prev_pipe = -1;
 	d->index = -1;
+	d->save_in = dup(0);
+	d->save_out = dup(1);
+	//close(d->save_in);
+	//close(d->save_out);
 	if (d->cmds_nb == 1)
 		exec_one(d);
 	while (++d->index < d->cmds_nb)
@@ -99,12 +103,15 @@ int	exec_pipeline(t_data *d)
 		}
 		d->prev_pipe = d->p[0];
 	}
-	waitpid(-1, NULL, 0);
 	if (d->cmds_nb > 1)
 	{
-		close(d->p[0]);
-		close(d->p[1]);
+		ft_dprintf(2, "J'attends la fin de exec pipeline\n");
+		sub_dup2(d->save_in, d->save_out);
 	}
-	ft_printf("J'ai atteint la fin de exec pipeline\n");
+	waitpid(-1, NULL, 0);
+
+	close(d->p[0]);
+	close(d->p[1]);
+	ft_dprintf(2, "J'ai atteint la fin de exec pipeline\n");
 	return (0);
 }
