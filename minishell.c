@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/30 13:45:34 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/31 11:59:37 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("minishell> ");
-		printf("line : %s\n", line);
 		if (line && ! gc_add(line))
 		{
-			printf("line : %s\n", line);
 			if (split_line(line, &commands))
 				free_gc();
 			else

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/30 14:40:35 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/31 11:57:59 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,32 @@
 int	exec_one(t_data *d)
 {
 	d->index = 1;
-	make_redirs(d, d->cmds[0]);
-	if (which_builtin(d->cmds[0], d) == 127)
-	{
 
-		if (d->cmds[0]->command)
+	if (!is_builtin(d->cmds[0], d))
+	{
+		if (d->cmds[0]->command && !is_builtin(d->cmds[0], d))
 		{
 			d->errnum = check_path(d->cmds[0], d->env);
 			if (!d->errnum)
-			{
-				sub_dup2(d->cmds[0]->fd_in, d->cmds[0]->fd_out);
 				exec_command(d, d->cmds[0]);
-			}
 			else
 				ft_dprintf(2, "%s : %s\n", d->cmds[0]->command,
 					strerror(d->errnum));
 		}
+		else
+			exec_builtin(d->cmds[0], d);
 	}
 	return (d->errnum);
 }
 
 void	exec_command(t_data *d, t_command *cmd)
 {
-	d->pid = fork();
+	d->pid[0] = fork();
 	if (d->pid < 0)
 		ft_dprintf(2, "error : %s", strerror(errno));
 	else if (d->pid == 0)
 	{
+		make_redirs(d, d->cmds[0]);
 		d->errnum = execve(cmd->path, (char *const *)make_command(cmd),
 				envlist_to_arr(d->env->list_env));
 		if (d->errnum)
@@ -49,7 +48,7 @@ void	exec_command(t_data *d, t_command *cmd)
 		exit(d->errnum);
 	}
 }
-
+/*
 void	exec_command_pipe(t_data *d, t_command *cmd)
 {
 	d->pid = fork();
@@ -72,9 +71,9 @@ void	exec_command_pipe(t_data *d, t_command *cmd)
 	}
 	close_used_pipes(d, cmd);
 
-}
+} */
 
-int	exec_pipeline(t_data *d)
+/* int	exec_pipeline(t_data *d)
 {
 	d->prev_pipe = -1;
 	d->index = -1;
@@ -113,4 +112,4 @@ int	exec_pipeline(t_data *d)
 	close(d->p[1]);
 	ft_dprintf(2, "J'ai atteint la fin de exec pipeline\n");
 	return (0);
-}
+} */
