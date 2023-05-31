@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/31 11:57:59 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:17:35 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,40 @@ int	exec_one(t_data *d)
 {
 	d->index = 1;
 
-	if (!is_builtin(d->cmds[0], d))
+	//make_redirs(d, d->cmds[0]);
+	if (is_builtin(d->cmds[0], d))
 	{
-		if (d->cmds[0]->command && !is_builtin(d->cmds[0], d))
+		/* d->save_in = dup(STDIN_FILENO);
+		d->save_out = dup(STDOUT_FILENO); */
+		exec_builtin(d->cmds[0], d);
+	/* 	dupnclose(d->save_in, STDIN_FILENO);
+		dupnclose(d->save_out, STDOUT_FILENO); */
+	}
+	else
+	{
+		d->pid[0] = fork();
+		if (d->pid[0] < 0)
+			ft_dprintf(2, "error : %s", strerror(errno));
+		else if (d->pid[0] == 0)
 		{
-			d->errnum = check_path(d->cmds[0], d->env);
-			if (!d->errnum)
-				exec_command(d, d->cmds[0]);
-			else
-				ft_dprintf(2, "%s : %s\n", d->cmds[0]->command,
-					strerror(d->errnum));
+			if (!is_builtin(d->cmds[0], d))
+			{
+				if (check_path(d->cmds[0], d->env))
+				{
+					ft_dprintf(2, "%s : Command not found\n",
+						d->cmds[0]->command);
+					exit(1);
+				}
+				d->errnum = execve(d->cmds[0]->path,
+						(char *const *)make_command(d->cmds[0]),
+						envlist_to_arr(d->env->list_env));
+				if (d->errnum)
+				{
+					ft_dprintf(2, "%s : %s\n", d->cmds[0]->command, strerror(errno));
+					exit(d->errnum);
+				}
+			}
 		}
-		else
-			exec_builtin(d->cmds[0], d);
 	}
 	return (d->errnum);
 }
@@ -36,9 +57,9 @@ int	exec_one(t_data *d)
 void	exec_command(t_data *d, t_command *cmd)
 {
 	d->pid[0] = fork();
-	if (d->pid < 0)
+	if (d->pid[0] < 0)
 		ft_dprintf(2, "error : %s", strerror(errno));
-	else if (d->pid == 0)
+	else if (d->pid[0] == 0)
 	{
 		make_redirs(d, d->cmds[0]);
 		d->errnum = execve(cmd->path, (char *const *)make_command(cmd),

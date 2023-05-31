@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_raw_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 11:02:53 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 11:07:26 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:00:52 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	change_state(int *parser, t_cchar c)
 
 /*
 Reminder : A valid name is a name beginning by an alphabetical character
-or an underscore and containing only alphanumerical characters or 
+or an underscore and containing only alphanumerical characters or
 underscores
 */
 static int	handle_dollar(t_str *str, size_t *index, t_cchar *line, \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_vars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 09:41:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/18 16:31:34 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:00:34 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static char	*expand_env_var(t_cchar *line, size_t index, size_t length)
 	if (! var_name)
 		return (NULL);
 	var = getenv(var_name);
+	//get_env_var(var_name, d->env); besoin de 
 	free_node(var_name);
 	return (var);
 }
@@ -69,7 +70,7 @@ static int	add_var_tstr(t_str *str, char *var, int parser)
 	}
 	return (NO_ERROR);
 }
-			
+
 int	copy_env_variable(t_str *str, size_t *index, t_cchar *line, int parser)
 {
 	size_t	base_index;
