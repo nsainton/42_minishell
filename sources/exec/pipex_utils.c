@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:22:05 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/01 18:28:05 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/01 19:27:46 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void wait_for_childs(t_data	*d)
 	int status;
 
 	i = 0;
+	status = 0;
 	while (i < d->cmds_nb && d->pid[i])
 	{
 		w = waitpid(d->pid[i], &status, WUNTRACED | WCONTINUED);
