@@ -48,7 +48,7 @@ int	main(int argc, char **argv, char **envp)
 					if (data.cmds_nb != 0)
 						exec_pipeline(&data);
 					data.cmds = NULL;
-					//free_gc();
+					free_gc();
 				}
 			}
 		}
