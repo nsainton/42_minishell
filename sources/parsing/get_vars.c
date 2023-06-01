@@ -6,13 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 09:41:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/31 14:00:34 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:22:17 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*expand_env_var(t_cchar *line, size_t index, size_t length)
+static char	*expand_env_var(t_cchar *line, size_t index, size_t length, t_env *env)
 {
 	char	*var_name;
 	char	*var;
@@ -20,8 +20,8 @@ static char	*expand_env_var(t_cchar *line, size_t index, size_t length)
 	var_name = gc_substr(line, index, length);
 	if (! var_name)
 		return (NULL);
-	var = getenv(var_name);
-	//get_env_var(var_name, d->env); besoin de 
+	//var = getenv(var_name);
+	var = get_env_var(env, var_name); //besoin de 
 	free_node(var_name);
 	return (var);
 }
@@ -71,21 +71,22 @@ static int	add_var_tstr(t_str *str, char *var, int parser)
 	return (NO_ERROR);
 }
 
-int	copy_env_variable(t_str *str, size_t *index, t_cchar *line, int parser)
+int	copy_env_variable(t_str *str, t_cstr *line, int parser, t_env *env)
 {
 	size_t	base_index;
 	char	current;
 	char	*var;
 	int		error;
 
-	base_index = *index;
-	current = *(line + *index);
+	base_index = line->index;
+	current = *(line->str + line->index);
 	while (current && (ft_isalnum(current) || current == '_'))
 	{
-		(*index)++;
-		current = *(line + *index);
+		line->index ++;
+		current = *(line->str + line->index);
 	}
-	var = expand_env_var(line, base_index, *index - base_index);
+	var = expand_env_var(line->str, base_index, line->index \
+	- base_index, env);
 	if (! var)
 		return (NO_ERROR);
 	error = t_str_add(str, BEG_VAR);

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/01 16:45:37 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:22:51 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 		if (line && ! gc_add(line))
 		{
 
-			if (split_line(line, &commands))
+			if (split_line(line, &commands, data.env))
 				free_gc();
 			else
 			{
