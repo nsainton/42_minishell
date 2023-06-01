@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 11:02:53 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/31 14:00:52 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:20:58 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,65 +32,65 @@ Reminder : A valid name is a name beginning by an alphabetical character
 or an underscore and containing only alphanumerical characters or
 underscores
 */
-static int	handle_dollar(t_str *str, size_t *index, t_cchar *line, \
-int *parser)
+static int	handle_dollar(t_str *str, t_cstr *line, int *parser, t_env *env)
 {
 	char	current;
 
-	*index += 1;
-	current = *(line + *index);
+	line->index += 1;
+	current = *(line->str + line->index);
 	if (*parser == S_QUOTES || current == ' ' || ! current)
 		return (t_str_add(str, '$'));
-	if (*(line + *index) == '?')
+	if (*(line->str + line->index) == '?')
 	{
-		*index += 1;
+		line->index += 1;
 		return (t_str_add(str, ES));
 	}
-	if (! ft_isalpha(*(line + *index)) && *(line + *index) != '_')
+	if (! ft_isalpha(*(line->str + line->index)) \
+	&& *(line->str + line->index) != '_')
 	{
-		*index += 1;
+		line->index += 1;
 		return (NO_ERROR);
 	}
 	else
-		return (copy_env_variable(str, index, line, *parser));
+		return (copy_env_variable(str, line, *parser, env));
 }
 
-static int	handle_specials(t_str *str, size_t *index, t_cchar *line, \
-int *parser)
+static int	handle_specials(t_str *str, t_cstr *line, int *parser, t_env *env)
 {
 	char	current;
 
-	current = *(line + *index);
+	current = *(line->str + line->index);
 	if (current == '$')
-		return (handle_dollar(str, index, line, parser));
-	*index += 1;
+		return (handle_dollar(str, line, parser, env));
+	line->index += 1;
 	if (current == '\'' || current == '\"')
 			return (! change_state(parser, current) && t_str_add(str, current));
 	if (*parser)
 		return (t_str_add(str, crypt_char(current)));
-	if (current == ' ' && *(line + *index) == ' ')
+	if (current == ' ' && *(line->str + line->index) == ' ')
 		return (0);
 	return(t_str_add(str, current));
 }
 
-int	get_raw_line(t_cchar *line, t_str *newline)
+int	get_raw_line(t_cchar *line, t_str *newline, t_env *env)
 {
 	int		parser;
-	size_t	index;
+	t_cstr	baseline;
 
 	parser = 0;
 	if (t_str_alloc(newline, PARSER_SIZE))
 		return (ALLOCATION_ERROR);
-	index = 0;
-	while (*(line + index))
+	baseline.str = line;
+	baseline.index = 0;
+	while (*(line + baseline.index))
 	{
-		if (! ft_strchr(SPECIALS, *(line + index)))
+		if (! ft_strchr(SPECIALS, *(line + baseline.index)))
 		{
-			if (t_str_add(newline, *(line + index)))
+			if (t_str_add(newline, *(line + baseline.index)))
 				return (ALLOCATION_ERROR);
-			index ++;
+			baseline.index ++;
 		}
-		else if (handle_specials(newline, &index, line, &parser))
+		else if (handle_specials(newline, &baseline, &parser, env))
 			return (ALLOCATION_ERROR);
 	}
 	return (NO_ERROR);

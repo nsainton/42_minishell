@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/31 14:28:44 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:22:51 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 		if (line && ! gc_add(line))
 		{
 
-			if (split_line(line, &commands))
+			if (split_line(line, &commands, data.env))
 				free_gc();
 			else
 			{
@@ -48,7 +48,8 @@ int	main(int argc, char **argv, char **envp)
 					if (data.cmds_nb != 0)
 						exec_pipeline(&data);
 					data.cmds = NULL;
-					free_gc();
+					//print_collector();
+					free_from(ft_lstlast(data.env->list_env));
 				}
 			}
 		}
@@ -60,7 +61,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 	}
 
-	//ft_lstclear(&(data.env)->list_env, free);
+	//ft_lstclear(&(data.env)->list_env, NULL);
 	//free(data.env);
 	return (errno);
 }

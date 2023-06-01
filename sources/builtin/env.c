@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/29 16:58:42 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:18:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*get_my_env(char **envp)
 {
 	t_env	*my_env;
 
-	my_env = malloc (sizeof(t_env));
+	my_env = gcmalloc (sizeof(t_env));
 	if (!my_env)
 		return (NULL);
 	my_env->list_env = NULL;
@@ -38,11 +38,11 @@ t_list	*copy_env(char **envp)
 	t_list	*list_env;
 	t_list	*new;
 
-	list_env = ft_lstnew((void *) envp[0]);
+	list_env = gc_lstnew((void *) envp[0]);
 	i = 1;
 	while (envp[i])
 	{
-		new = ft_lstnew((void *) envp[i]);
+		new = gc_lstnew((void *) envp[i]);
 		ft_lstadd_back(&list_env, new);
 		i ++;
 	}

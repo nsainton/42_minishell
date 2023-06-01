@@ -6,20 +6,20 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/31 14:01:24 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:22:34 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	split_line(t_cchar *line, t_ncommand **command)
+int	split_line(t_cchar *line, t_ncommand **command, t_env *env)
 {
 	t_str	nl;
 	t_tab	com;
 
 	if (allocate_tab(&com, REDIRS_SIZE, sizeof (t_ncommand)))
 		return (ALLOCATION_ERROR);
-	if (get_raw_line(line, &nl))
+	if (get_raw_line(line, &nl, env))
 		return (ALLOCATION_ERROR);
 	if (redirect_without_spaces(nl.str, &nl.len))
 		return (SYNTAX_ERROR);
