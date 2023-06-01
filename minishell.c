@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 						exec_pipeline(&data);
 					data.cmds = NULL;
 					//print_collector();
-					free_from(ft_lstlast(data.env->list_env));
+					//free_from(ft_lstlast(data.env->list_env));
 				}
 			}
 		}

@@ -18,10 +18,7 @@ int	set_data(t_data *d)
 	d->index = -1;
 	d->pid = gccalloc(d->cmds_nb, sizeof(int));
 	if (!d->pid)
-		return (1);
-	d->cmds_nb = ft_arrlen((void *)d->cmds);
-	if (!d->cmds_nb)
-		return (1);
+		return (ft_printf("problem ici\n"));
 	return (0);
 }
 

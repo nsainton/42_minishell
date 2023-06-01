@@ -19,7 +19,7 @@ void wait_for_childs(t_data	*d)
 	int status;
 
 	i = 0;
-	while (d->pid[i])
+	while (i < d->cmds_nb && d->pid[i])
 	{
 		w = waitpid(d->pid[i], &status, WUNTRACED | WCONTINUED);
 		if (w == -1) {
