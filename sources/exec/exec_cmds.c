@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/31 11:56:10 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:05:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	set_data(t_data *d)
 	d->index = -1;
 	d->pid = gccalloc(d->cmds_nb, sizeof(int));
 	if (!d->pid)
-		return (ft_printf("problem ici\n"));
-	return (0);
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 int	exec_pipeline(t_data *d)
@@ -100,6 +100,17 @@ void	dupnclose(int fd1, int fd2)
 	dup2(fd1, fd2);
 	close(fd1);
 }
+
+int	keep_exit_status(const int exit_status)
+{
+	static int	status;
+
+	if (exit_status < 0)
+		return (status);
+	status = exit_status;
+	return (0);
+}
+
 /* pipe(data->fd);
 			data->pid[i] = fork();
 			if (data->pid[i] == 0)

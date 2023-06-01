@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/01 17:22:51 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:08:43 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 						exec_pipeline(&data);
 					data.cmds = NULL;
 					//print_collector();
-					//free_from(ft_lstlast(data.env->list_env));
+					free_from(ft_lstlast(data.env->list_env));
 				}
 			}
 		}
