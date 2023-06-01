@@ -39,6 +39,10 @@ int	exec_pipeline(t_data *d)
 		d->pid[d->index] = fork();
 		if (d->pid[d->index] == 0)
 		{
+			if (d->cmds[d->index]->fd_in != STDIN_FILENO)
+				dupnclose(d->cmds[d->index]->fd_in, STDIN_FILENO);
+			if (d->cmds[d->index]->fd_out != STDOUT_FILENO)
+				dupnclose(d->cmds[d->index]->fd_out, STDOUT_FILENO);
 			dup_pipe(d);
 			if (is_builtin(d->cmds[d->index], d) == 2)
 				exit(exec_builtin(d->cmds[d->index], d));
@@ -68,6 +72,10 @@ int	exec_pipeline(t_data *d)
 			if (d->prev_pipe != -1)
 				close(d->prev_pipe);
 			d->prev_pipe = d->p[0];
+			if (d->cmds[d->index]->fd_in != STDIN_FILENO)
+				close(d->cmds[d->index]->fd_in);
+			if (d->cmds[d->index]->fd_out != STDOUT_FILENO)
+				close(d->cmds[d->index]->fd_out);
 		}
 	}
 	waitpid(-1, &d->errnum, 0);

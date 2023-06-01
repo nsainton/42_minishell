@@ -49,6 +49,10 @@ int	exec_one(t_data *d)
 			exit(d->errnum);
 		}
 	}
+	if (d->cmds[0]->fd_in != STDIN_FILENO)
+		close(d->cmds[0]->fd_in);
+	if (d->cmds[0]->fd_out != STDOUT_FILENO)
+		close(d->cmds[0]->fd_out);
 	return (d->errnum);
 }
 
