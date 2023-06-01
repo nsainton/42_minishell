@@ -78,7 +78,7 @@ int	exec_pipeline(t_data *d)
 				close(d->cmds[d->index]->fd_out);
 		}
 	}
-	waitpid(-1, &d->errnum, 0);
+	wait_for_childs(d);
 	if (d->cmds_nb > 1)
 	{
 		close (d->p[0]);

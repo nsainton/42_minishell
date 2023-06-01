@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
 				free_gc();
 			else
 			{
-				print_commands(commands);
+				//print_commands(commands);
 				data.cmds = get_commands_reference(commands);
 				if (! data.cmds)
 				{
