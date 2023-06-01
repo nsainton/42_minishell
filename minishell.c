@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/29 17:32:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:28:44 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,20 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 || !argv)
 		return (1);
 	init_sigs();
-    data.cmds = NULL;
-    data.errnum = 0;
+	data.cmds = NULL;
+	data.errnum = 0;
 	data.env = get_my_env(envp);
 	while (1)
 	{
 		line = readline("minishell> ");
 		if (line && ! gc_add(line))
 		{
+
 			if (split_line(line, &commands))
 				free_gc();
 			else
 			{
+				print_commands(commands);
 				data.cmds = get_commands_reference(commands);
 				if (! data.cmds)
 				{
@@ -43,11 +45,10 @@ int	main(int argc, char **argv, char **envp)
 				else
 				{
 					data.cmds_nb = ft_arrlen((void **)data.cmds);
-    				if (data.cmds_nb != 0)
-					{
-        				exec_pipeline(&data);
-					}
-					free_gc();
+					if (data.cmds_nb != 0)
+						exec_pipeline(&data);
+					data.cmds = NULL;
+					//free_gc();
 				}
 			}
 		}
@@ -55,8 +56,11 @@ int	main(int argc, char **argv, char **envp)
 		{
 			ft_printf("No line\n");
 			free_gc();
-			exit(0);
+			break ;
 		}
 	}
+
+	//ft_lstclear(&(data.env)->list_env, free);
+	//free(data.env);
 	return (errno);
 }

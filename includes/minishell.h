@@ -65,9 +65,9 @@ int			set_new_pwd(t_env *my_env);
 int			go_home(t_env *my_env, int set_old);
 
 //Functions from file : builtin.c
-int			which_builtin(t_command *cmd, t_data *d);
+int			exec_builtin(t_command *cmd, t_data *d);
 
-int			which_builtin_exec(t_command *cmd, t_data *d);
+int			is_builtin(t_command *cmd, t_data *d);
 
 //Functions from file : pipex.c
 int			exec_one(t_data *d);
@@ -82,6 +82,15 @@ int			exec_pipeline(t_data *d);
 int			check_path(t_command *cmd, t_env *my_env);
 
 int			ft_arrlen(void **arr);
+
+//Functions from file : exec_cmds.c
+int			set_data(t_data *d);
+
+int			exec_pipeline(t_data *d);
+
+void		dup_pipe(t_data *d);
+
+void		dupnclose(int fd1, int fd2);
 
 //Functions from file : files.c
 int			make_redirs(t_data *d, t_command *cmd);
@@ -181,15 +190,6 @@ void		remove_var_symbols(signed char *line, size_t *len);
 //Functions from file : invalid_redir.c
 int			invalid_redir(t_cchar *line, t_csizet index, \
 t_cchar current);
-
-//Functions from file : gc_del.c
-void		free_gc(void);
-
-void		free_nodes(t_csizet number);
-
-void		free_node(void *node);
-
-void		remove_nodes(size_t number);
 
 //Functions from file : test_parsing.c
 //Functions from file : connection.c

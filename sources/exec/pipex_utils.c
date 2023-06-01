@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:22:05 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/24 19:13:36 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/05/30 14:22:22 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,11 @@ char	**make_command(t_command	*cmd)
 
 void	sub_dup2(int read_fd, int write_fd)
 {
-	if (read_fd != STDIN_FILENO)
-	{
-		if (dup2(read_fd, STDIN_FILENO) == -1)
-			ft_dprintf(2, "dup2 read fd error: %s\n", strerror(errno));
-	}
-	if (write_fd != STDOUT_FILENO)
-	{
-		if (dup2(write_fd, STDOUT_FILENO) == -1)
-			ft_dprintf(2, "dup2 write fd error: %s\n", strerror(errno));
-	}
+	if (dup2(read_fd, STDIN_FILENO) == -1)
+		ft_dprintf(2, "dup2 read fd (%d)error: %s\n", read_fd, strerror(errno));
+	if (dup2(write_fd, STDOUT_FILENO) == -1)
+		ft_dprintf(2, "dup2 write fd error: %s\n", strerror(errno));
+
 }
 
 void	close_used_pipes(t_data *d, t_command *cmd)
@@ -54,6 +49,7 @@ void	close_used_pipes(t_data *d, t_command *cmd)
 	{
 		close(cmd->fd_out);
 		close(d->prev_pipe);
+		close(d->p[1]);
 	}
 	else if (d->index == 0)
 	{

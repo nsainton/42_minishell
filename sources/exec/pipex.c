@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/29 16:01:53 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:17:35 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,40 @@
 int	exec_one(t_data *d)
 {
 	d->index = 1;
-	make_redirs(d, d->cmds[0]);
-	if (which_builtin(d->cmds[0], d) == 127)
-	{
 
-		if (d->cmds[0]->command)
+	//make_redirs(d, d->cmds[0]);
+	if (is_builtin(d->cmds[0], d))
+	{
+		/* d->save_in = dup(STDIN_FILENO);
+		d->save_out = dup(STDOUT_FILENO); */
+		exec_builtin(d->cmds[0], d);
+	/* 	dupnclose(d->save_in, STDIN_FILENO);
+		dupnclose(d->save_out, STDOUT_FILENO); */
+	}
+	else
+	{
+		d->pid[0] = fork();
+		if (d->pid[0] < 0)
+			ft_dprintf(2, "error : %s", strerror(errno));
+		else if (d->pid[0] == 0)
 		{
-			d->errnum = check_path(d->cmds[0], d->env);
-			if (!d->errnum)
+			if (!is_builtin(d->cmds[0], d))
 			{
-				sub_dup2(d->cmds[0]->fd_in, d->cmds[0]->fd_out);
-				exec_command(d, d->cmds[0]);
+				if (check_path(d->cmds[0], d->env))
+				{
+					ft_dprintf(2, "%s : Command not found\n",
+						d->cmds[0]->command);
+					exit(1);
+				}
+				d->errnum = execve(d->cmds[0]->path,
+						(char *const *)make_command(d->cmds[0]),
+						envlist_to_arr(d->env->list_env));
+				if (d->errnum)
+				{
+					ft_dprintf(2, "%s : %s\n", d->cmds[0]->command, strerror(errno));
+					exit(d->errnum);
+				}
 			}
-			else
-				ft_dprintf(2, "%s : %s\n", d->cmds[0]->command,
-					strerror(d->errnum));
 		}
 	}
 	return (d->errnum);
@@ -37,11 +56,12 @@ int	exec_one(t_data *d)
 
 void	exec_command(t_data *d, t_command *cmd)
 {
-	d->pid = fork();
-	if (d->pid < 0)
+	d->pid[0] = fork();
+	if (d->pid[0] < 0)
 		ft_dprintf(2, "error : %s", strerror(errno));
-	else if (d->pid == 0)
+	else if (d->pid[0] == 0)
 	{
+		make_redirs(d, d->cmds[0]);
 		d->errnum = execve(cmd->path, (char *const *)make_command(cmd),
 				envlist_to_arr(d->env->list_env));
 		if (d->errnum)
@@ -49,7 +69,7 @@ void	exec_command(t_data *d, t_command *cmd)
 		exit(d->errnum);
 	}
 }
-
+/*
 void	exec_command_pipe(t_data *d, t_command *cmd)
 {
 	d->pid = fork();
@@ -72,12 +92,15 @@ void	exec_command_pipe(t_data *d, t_command *cmd)
 	}
 	close_used_pipes(d, cmd);
 
-}
+} */
 
-int	exec_pipeline(t_data *d)
+/* int	exec_pipeline(t_data *d)
 {
 	d->prev_pipe = -1;
 	d->index = -1;
+	d->pid = gc_calloc(d->cmds_nb, sizeof(int));
+	if (!d->pid)
+		return (1);
 	if (d->cmds_nb == 1)
 		exec_one(d);
 	while (++d->index < d->cmds_nb)
@@ -99,12 +122,15 @@ int	exec_pipeline(t_data *d)
 		}
 		d->prev_pipe = d->p[0];
 	}
-	waitpid(-1, NULL, 0);
 	if (d->cmds_nb > 1)
 	{
-		close(d->p[0]);
-		close(d->p[1]);
+		ft_dprintf(2, "J'attends la fin de exec pipeline\n");
+		sub_dup2(d->save_in, d->save_out);
 	}
-	ft_printf("J'ai atteint la fin de exec pipeline\n");
+	waitpid(-1, NULL, 0);
+
+	close(d->p[0]);
+	close(d->p[1]);
+	ft_dprintf(2, "J'ai atteint la fin de exec pipeline\n");
 	return (0);
-}
+} */
