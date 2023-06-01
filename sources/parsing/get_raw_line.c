@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 11:02:53 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/01 17:20:58 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:19:45 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,21 @@ static int	change_state(int *parser, t_cchar c)
 	return (UNCHANGED);
 }
 
+static int	add_exit_status(t_str *str)
+{
+	char	*status;
+	int		error;
+
+	status = gc_itoa(keep_exit_status(-1));
+	if (! status)
+		return (ALLOCATION_ERROR);
+	error = t_str_add_str(str, status);
+	if (error)
+		return (error);
+	free_node(status);
+	return (NO_ERROR);
+}
+	
 /*
 Reminder : A valid name is a name beginning by an alphabetical character
 or an underscore and containing only alphanumerical characters or
@@ -43,7 +58,7 @@ static int	handle_dollar(t_str *str, t_cstr *line, int *parser, t_env *env)
 	if (*(line->str + line->index) == '?')
 	{
 		line->index += 1;
-		return (t_str_add(str, ES));
+		return (add_exit_status(str));
 	}
 	if (! ft_isalpha(*(line->str + line->index)) \
 	&& *(line->str + line->index) != '_')

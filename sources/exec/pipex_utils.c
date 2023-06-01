@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:22:05 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/30 14:22:22 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:22:44 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void wait_for_childs(t_data	*d)
 		}
 		i ++;
 	}
+	ft_printf("This is the status : %d\n", status);
+	keep_exit_status(status);
 }
 
 char	**make_command(t_command	*cmd)
