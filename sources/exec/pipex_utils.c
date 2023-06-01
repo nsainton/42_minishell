@@ -12,6 +12,33 @@
 
 #include "minishell.h"
 
+void wait_for_childs(t_data	*d)
+{
+	int	i;
+	int	w;
+	int status;
+
+	i = 0;
+	while (d->pid[i])
+	{
+		w = waitpid(d->pid[i], &status, WUNTRACED | WCONTINUED);
+		if (w == -1) {
+			perror("waitpid");
+			exit(EXIT_FAILURE);
+		}
+		if (WIFEXITED(status)) {
+			printf("exited, status=%d\n", WEXITSTATUS(status));
+		} else if (WIFSIGNALED(status)) {
+			printf("killed by signal %d\n", WTERMSIG(status));
+		} else if (WIFSTOPPED(status)) {
+			printf("stopped by signal %d\n", WSTOPSIG(status));
+		} else if (WIFCONTINUED(status)) {
+			printf("continued\n");
+		}
+		i ++;
+	}
+}
+
 char	**make_command(t_command	*cmd)
 {
 	char	**full_cmd;

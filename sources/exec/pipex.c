@@ -15,16 +15,9 @@
 int	exec_one(t_data *d)
 {
 	d->index = 1;
-
-	//make_redirs(d, d->cmds[0]);
-	if (is_builtin(d->cmds[0], d))
-	{
-		/* d->save_in = dup(STDIN_FILENO);
-		d->save_out = dup(STDOUT_FILENO); */
+	make_redirs(d, d->cmds[0]);
+	if (is_builtin(d->cmds[0], d) == 1)
 		exec_builtin(d->cmds[0], d);
-	/* 	dupnclose(d->save_in, STDIN_FILENO);
-		dupnclose(d->save_out, STDOUT_FILENO); */
-	}
 	else
 	{
 		d->pid[0] = fork();
@@ -32,7 +25,11 @@ int	exec_one(t_data *d)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		else if (d->pid[0] == 0)
 		{
-			if (!is_builtin(d->cmds[0], d))
+			if (d->cmds[0]->fd_in != STDIN_FILENO)
+				dupnclose(d->cmds[0]->fd_in, STDIN_FILENO);
+			if (d->cmds[0]->fd_out != STDOUT_FILENO)
+				dupnclose(d->cmds[0]->fd_out, STDOUT_FILENO);
+			if (!is_builtin(d->cmds[0], d) || is_builtin(d->cmds[0], d) == 2)
 			{
 				if (check_path(d->cmds[0], d->env))
 				{
@@ -45,12 +42,17 @@ int	exec_one(t_data *d)
 						envlist_to_arr(d->env->list_env));
 				if (d->errnum)
 				{
-					ft_dprintf(2, "%s : %s\n", d->cmds[0]->command, strerror(errno));
+					ft_dprintf(2, "hihi%s : %s -> fd : %d\n", d->cmds[0]->command, strerror(errno), d->cmds[0]->fd_in);
 					exit(d->errnum);
 				}
 			}
+			exit(d->errnum);
 		}
 	}
+	if (d->cmds[0]->fd_in != STDIN_FILENO)
+		close(d->cmds[0]->fd_in);
+	if (d->cmds[0]->fd_out != STDOUT_FILENO)
+		close(d->cmds[0]->fd_out);
 	return (d->errnum);
 }
 

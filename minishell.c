@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
 				free_gc();
 			else
 			{
-				print_commands(commands);
+				//print_commands(commands);
 				data.cmds = get_commands_reference(commands);
 				if (! data.cmds)
 				{
@@ -50,7 +50,6 @@ int	main(int argc, char **argv, char **envp)
 					data.cmds = NULL;
 					//print_collector();
 					free_from(ft_lstlast(data.env->list_env));
-					//print_collector();
 				}
 			}
 		}

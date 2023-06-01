@@ -21,14 +21,14 @@ int	print_echo(t_data *d, t_command *cmd)
 		i++;
 	while (cmd->args[i])
 	{
-		printf("%s", cmd->args[i]);
+		ft_dprintf(cmd->fd_out, "%s", cmd->args[i]);
 		if (cmd->args[i + 1])
 			printf(" ");
 		i ++;
 	}
 	d->errnum = 0;
 	if (!is_true_optn(cmd->args[0]))
-		printf("\n");
+		ft_dprintf(cmd->fd_out, "\n");
 	return (0);
 }
 
@@ -57,7 +57,7 @@ int	print_exit_status(t_data *d, t_command *cmd)
 	}
 	else
 	{
-		ft_printf("%d : %s\n", d->errnum, strerror(d->errnum));
+		ft_dprintf(2, "%d : %s\n", d->errnum, strerror(d->errnum));
 		return (0);
 	}
 }
