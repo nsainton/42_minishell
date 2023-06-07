@@ -42,8 +42,8 @@ int	exec_one(t_data *d)
 						envlist_to_arr(d->env->list_env));
 				if (d->errnum)
 				{
-					ft_dprintf(2, "hihi%s : %s -> fd : %d\n", d->cmds[0]->command, strerror(errno), d->cmds[0]->fd_in);
-					exit(d->errnum);
+					ft_dprintf(2, "%s : %s -> path : %s\n", d->cmds[0]->command, strerror(errno), d->cmds[0]->path);
+					exit(errno);
 				}
 			}
 			exit(d->errnum);

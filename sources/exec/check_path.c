@@ -18,8 +18,21 @@ int	check_path(t_command *cmd, t_env *my_env)
 	char	*tmp;
 	int		i;
 
-	i = -1;
 	cmd->path = NULL;
+	if ( cmd->command[0] == '/'|| cmd->command[0] == '.')
+	{
+		cmd->path = cmd->command;
+		if (!access(cmd->path, X_OK)) 
+		//&& opendir(cmd->path) == NULL)
+			return (0);
+		return (errno);
+		/* cmd->path = gc_strjoin(get_env_var(my_env, "PWD"), cmd->command + 1);
+		if (!access(cmd->path, F_OK))
+			return (0);
+		cmd->path = NULL;
+		return (127); */
+	}
+	i = -1;
 	path = gc_split(get_env_var(my_env, "PATH"), ':');
 	if (!path)
 		return (2);

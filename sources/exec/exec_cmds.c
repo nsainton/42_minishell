@@ -32,7 +32,8 @@ int	exec_pipeline(t_data *d)
 	{
 		if (pipe(d->p) == -1)
 			ft_dprintf(2, "error : %s", strerror(errno));
-		make_redirs(d, d->cmds[d->index]);
+		if (make_redirs(d, d->cmds[d->index]))
+			d->index ++;
 		//if (d->cmds[d->index]->fd_out != STDOUT_FILENO && d->index != d->cmds_nb - 1)
 		// make redirs selon fd
 		d->pid[d->index] = fork();

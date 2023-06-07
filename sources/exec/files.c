@@ -17,6 +17,7 @@ int	make_redirs(t_data *d, t_command *cmd)
 	int	i;
 
 	i = 0;
+	d->errnum = 0;
 	cmd->fd_in = 0;
 	cmd->fd_out = 1;
 	if (!cmd->redirs)
@@ -31,7 +32,7 @@ int	make_redirs(t_data *d, t_command *cmd)
 			d->errnum = get_outfile_append(cmd, cmd->redirs[i]);
 		i ++;
 	}
-	return (0);
+	return (d->errnum);
 }
 
 int	get_infile(t_command *c, t_redir *r)
@@ -43,13 +44,12 @@ int	get_infile(t_command *c, t_redir *r)
 		c->fd_in = open(r->file, O_RDWR);
 		if (c->fd_in < 0)
 		{
-			ft_dprintf(2, "infile : %s\n", strerror(errno));
+			ft_dprintf(2, "infile : %s : %s\n", r->file, strerror(errno));
 			return (errno);
 		}
 	}
 	else
 		c->fd_in = 0;
-	r->fd = c->fd_in;
 	return (0);
 }
 
@@ -63,13 +63,12 @@ int	get_outfile_trunc(t_command *c, t_redir *r)
 		c->fd_out = open(r->file, O_CREAT | O_RDWR | O_TRUNC, 0000644);
 		if (c->fd_out < 0)
 		{
-			ft_dprintf(2, "outfile : %s\n", strerror(errno));
+			ft_dprintf(2, "outfile : %s : %s\n", r->file, strerror(errno));
 			return (errno);
 		}
 	}
 	else
 		c->fd_out = 1;
-	r->fd = c->fd_out;
 	return (0);
 }
 
@@ -82,13 +81,12 @@ int	get_outfile_append(t_command *c, t_redir *r)
 		c->fd_out = open(r->file, O_CREAT | O_RDWR | O_APPEND, 0000644);
 		if (c->fd_out < 0)
 		{
-			ft_dprintf(2, "outfile : %s\n", strerror(errno));
+			ft_dprintf(2, "outfile : %s : %s\n", r->file, strerror(errno));
 			return (errno);
 		}
 	}
 	else
 		c->fd_out = 1;
-	r->fd = c->fd_out;
 	return (0);
 }
 
