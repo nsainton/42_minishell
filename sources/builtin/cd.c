@@ -27,13 +27,14 @@ int	cd(t_command *cmd, t_data *d)
 		{
 			ft_dprintf(2, "cd : %s : %s\n", cmd->args[0],
 				strerror(errno));
-				d->errnum = errno;
+			keep_exit_status(errno);
 			return (errno);
 		}
-		d->errnum = set_new_pwd(d->env);
-		return (d->errnum);
+		set_new_pwd(d->env);
+
+		return (0);
 	}
-	return (d->errnum);
+	return (0);
 }
 
 
@@ -45,8 +46,8 @@ int	set_new_pwd(t_env *my_env)
 
 	errnum = 0;
 	old_wd = get_env_var(my_env, "PWD");
-	if (!old_wd)
-		ft_dprintf(2, "cd : no pwd variable in env\n");
+/* 	if (!old_wd)
+		ft_dprintf(2, "cd : no pwd variable in env\n"); */
 	new_wd = getcwd(NULL, 0);
 	if (!new_wd)
 	{

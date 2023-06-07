@@ -33,6 +33,8 @@ int	exec_pipeline(t_data *d)
 		if (pipe(d->p) == -1)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		make_redirs(d, d->cmds[d->index]);
+		//if (d->cmds[d->index]->fd_out != STDOUT_FILENO && d->index != d->cmds_nb - 1)
+		// make redirs selon fd
 		d->pid[d->index] = fork();
 		if (d->pid[d->index] == 0)
 		{
@@ -110,38 +112,3 @@ int	keep_exit_status(const int exit_status)
 	status = exit_status;
 	return (0);
 }
-
-/* pipe(data->fd);
-			data->pid[i] = fork();
-			if (data->pid[i] == 0)
-			{
-				select_pipe(data, i);
-				if (open_files(data) == 1)
-					exit (1) ;
-				if (unforkable_builtins(data->cmd_tab[0]) == 1)
-					exit(0);
-				if (cmd && !is_builtin(data->cmd_tab[0]))
-					execve(cmd, data->cmd_tab, data->new_env);
-				else if (is_builtin(data->cmd_tab[0]))
-				{
-					// g_exit_code = 0;
-					exec_builtin(data, data->cmd_tab[0]);
-					exit_fork(data, cmd);
-				}
-				cmd_not_found(data->cmd_tab[0]);
-				exit_fork(data, cmd);
-			}
-			else if (data->pid[i] > 0)
-			{
-				close(data->fd[1]);
-				if (data->prev_pipe != -1)
-					close(data->prev_pipe);
-				data->prev_pipe = data->fd[0];
-			}
-		}
-		free_data(data, cmd);
-	}
-	exec_waitpid(data);
-	close(data->fd[0]);
-	close(data->fd[1]);
-} */

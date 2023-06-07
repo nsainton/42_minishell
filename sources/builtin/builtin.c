@@ -38,6 +38,10 @@ int	exec_builtin(t_command *cmd, t_data *d)
 
 int	is_builtin(t_command *cmd, t_data *d)
 {
+	char exit[2];
+
+	*exit = ES;
+	*(exit + 1) = 0;
 	if (!ft_strncmp(cmd->command, "export", 7))
 		return (1);
 	if (!ft_strncmp(cmd->command, "unset", 6))
@@ -52,7 +56,7 @@ int	is_builtin(t_command *cmd, t_data *d)
 		return (2);
 	if (!ft_strncmp(cmd->command, "echo", 5))
 		return (2);
-	if (!ft_strncmp(cmd->command, "$?", 3))
+	if (!ft_strncmp(cmd->command, exit , 1))
 		return (2);
 	return (d->errnum = 0);
 }
