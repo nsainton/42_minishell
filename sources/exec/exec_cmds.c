@@ -44,10 +44,7 @@ int	exec_pipeline(t_data *d)
 				dupnclose(d->cmds[d->index]->fd_in, STDIN_FILENO);
 			if (d->cmds[d->index]->fd_out != STDOUT_FILENO)
 				dupnclose(d->cmds[d->index]->fd_out, STDOUT_FILENO);
-			ft_dprintf(2, "fd sortie : %d\n", d->cmds[d->index]->fd_out);
 			dup_pipe(d);
-			/* if (is_builtin(d->cmds[d->index], d) == 2)
-				exit(exec_builtin(d->cmds[d->index], d)); */
 			if (is_builtin(d->cmds[d->index], d) == 1)
 				exit(0);
 			else if (!is_builtin(d->cmds[d->index], d) || is_builtin(d->cmds[d->index], d) == 2)
@@ -56,7 +53,7 @@ int	exec_pipeline(t_data *d)
 				{
 					ft_dprintf(2, "%s : Command not found\n",
 						d->cmds[d->index]->command);
-					exit(1);
+					exit(127);
 				}
 				d->errnum = execve(d->cmds[d->index]->path,
 						(char *const *)make_command(d->cmds[d->index]),

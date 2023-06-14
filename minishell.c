@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("minishell> ");
 		if (line && ! gc_add(line))
 		{
-
+			add_history(line);
 			if (split_line(line, &commands, data.env))
 				free_gc();
 			else
@@ -39,7 +39,6 @@ int	main(int argc, char **argv, char **envp)
 				if (! data.cmds)
 				{
 					free_from(ft_lstlast(data.env->list_env));
-					ft_printf("No commands in data\n");
 					continue ;
 				}
 				else
@@ -55,7 +54,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
-			ft_printf("No line\n");
 			free_gc();
 			break ;
 		}

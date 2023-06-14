@@ -35,7 +35,7 @@ int	exec_one(t_data *d)
 				{
 					ft_dprintf(2, "%s : Command not found\n",
 						d->cmds[0]->command);
-					exit(1);
+					exit(127);
 				}
 				d->errnum = execve(d->cmds[0]->path,
 						(char *const *)make_command(d->cmds[0]),
