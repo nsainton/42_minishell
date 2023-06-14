@@ -29,7 +29,9 @@ int	exec_one(t_data *d)
 				dupnclose(d->cmds[0]->fd_in, STDIN_FILENO);
 			if (d->cmds[0]->fd_out != STDOUT_FILENO)
 				dupnclose(d->cmds[0]->fd_out, STDOUT_FILENO);
-			if (!is_builtin(d->cmds[0], d) || is_builtin(d->cmds[0], d) == 2)
+			if (is_builtin(d->cmds[0], d) == 2)
+				exit(exec_builtin(d->cmds[0], d));
+			if (!is_builtin(d->cmds[0], d))
 			{
 				if (check_path(d->cmds[0], d->env))
 				{
