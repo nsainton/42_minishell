@@ -68,7 +68,7 @@ int	exec_pipeline(t_data *d)
 				}
 			}
 		}
-		else if (d->pid[d->index] > 0)
+		else if (d->pid[d->index] > 0 && d->cmds[d->index]->command)
 		{
 			close(d->p[1]);
 			if (d->prev_pipe != -1)
@@ -82,10 +82,11 @@ int	exec_pipeline(t_data *d)
 			{
 				d->cmds = &d->cmds[d->index + 1];
 				d->cmds_nb -= d->index + 1;
+				close (d->p[0]);
+				close (d->p[1]);
 				exec_pipeline(d);
 			}
 		}
-		
 	}
 	wait_for_childs(d);
 	if (d->cmds_nb > 1)
@@ -93,7 +94,6 @@ int	exec_pipeline(t_data *d)
 		close (d->p[0]);
 		close (d->p[1]);
 	}
-	
 	return (0);
 }
 
