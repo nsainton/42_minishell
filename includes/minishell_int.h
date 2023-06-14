@@ -26,7 +26,8 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-#include <string.h>
+# include <string.h>
+# include <dirent.h>
 //Compile the executable with libreadline (-lreadline)
 //End of Prepocessor includes
 

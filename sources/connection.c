@@ -63,6 +63,7 @@ static int	ncommand_to_command(t_ncommand *original, t_command **command)
 	(*command)->redirs = redirs;
 	(*command)->fd_in = -1;
 	(*command)->fd_out = -1;
+	(*command)->last = 0;
 	return (NO_ERROR);
 }
 

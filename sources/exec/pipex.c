@@ -16,9 +16,9 @@ int	exec_one(t_data *d)
 {
 	d->index = 1;
 	make_redirs(d, d->cmds[0]);
-	if (is_builtin(d->cmds[0], d) == 1)
+	if (d->cmds[0]->command && is_builtin(d->cmds[0], d) == 1)
 		exec_builtin(d->cmds[0], d);
-	else
+	else if (d->cmds[0]->command)
 	{
 		d->pid[0] = fork();
 		if (d->pid[0] < 0)

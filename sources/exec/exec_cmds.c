@@ -34,21 +34,23 @@ int	exec_pipeline(t_data *d)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		if (make_redirs(d, d->cmds[d->index]))
 			d->index ++;
-		//if (d->cmds[d->index]->fd_out != STDOUT_FILENO && d->index != d->cmds_nb - 1)
+		if (d->cmds[d->index]->fd_out != STDOUT_FILENO && d->index != d->cmds_nb - 1)
+			d->cmds[d->index]->last = 1;
 		// make redirs selon fd
 		d->pid[d->index] = fork();
-		if (d->pid[d->index] == 0)
+		if (d->pid[d->index] == 0 && d->cmds[d->index]->command)
 		{
 			if (d->cmds[d->index]->fd_in != STDIN_FILENO)
 				dupnclose(d->cmds[d->index]->fd_in, STDIN_FILENO);
 			if (d->cmds[d->index]->fd_out != STDOUT_FILENO)
 				dupnclose(d->cmds[d->index]->fd_out, STDOUT_FILENO);
+			ft_dprintf(2, "fd sortie : %d\n", d->cmds[d->index]->fd_out);
 			dup_pipe(d);
-			if (is_builtin(d->cmds[d->index], d) == 2)
-				exit(exec_builtin(d->cmds[d->index], d));
-			else if (is_builtin(d->cmds[d->index], d) == 1)
+			/* if (is_builtin(d->cmds[d->index], d) == 2)
+				exit(exec_builtin(d->cmds[d->index], d)); */
+			if (is_builtin(d->cmds[d->index], d) == 1)
 				exit(0);
-			else if (!is_builtin(d->cmds[d->index], d))
+			else if (!is_builtin(d->cmds[d->index], d) || is_builtin(d->cmds[d->index], d) == 2)
 			{
 				if (check_path(d->cmds[d->index], d->env))
 				{
@@ -76,7 +78,14 @@ int	exec_pipeline(t_data *d)
 				close(d->cmds[d->index]->fd_in);
 			if (d->cmds[d->index]->fd_out != STDOUT_FILENO)
 				close(d->cmds[d->index]->fd_out);
+			if (d->cmds[d->index]->last == 1)
+			{
+				d->cmds = &d->cmds[d->index + 1];
+				d->cmds_nb -= d->index + 1;
+				exec_pipeline(d);
+			}
 		}
+		
 	}
 	wait_for_childs(d);
 	if (d->cmds_nb > 1)
@@ -84,13 +93,14 @@ int	exec_pipeline(t_data *d)
 		close (d->p[0]);
 		close (d->p[1]);
 	}
+	
 	return (0);
 }
 
 
 void	dup_pipe(t_data *d)
 {
-	if (d->index != d->cmds_nb - 1)
+	if (d->index != d->cmds_nb - 1 && !d->cmds[d->index]->last)
 		dup2(d->p[1], STDOUT_FILENO);
 	if (d->index != 0)
 		dupnclose(d->prev_pipe, STDIN_FILENO);
