@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   exec_one.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/31 14:17:35 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:19:20 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	exec_one(t_data *d)
 						d->cmds[0]->command);
 					exit(127);
 				}
+				ft_dprintf(2, "coucou\n");
+				ft_dprintf(2, "fd : %d\n", d->cmds[0]->fd_in);
 				d->errnum = execve(d->cmds[0]->path,
 						(char *const *)make_command(d->cmds[0]),
 						envlist_to_arr(d->env->list_env));
@@ -58,4 +60,3 @@ int	exec_one(t_data *d)
 	keep_exit_status(d->errnum);
 	return (d->errnum);
 }
-

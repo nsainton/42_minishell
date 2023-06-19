@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:33:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/29 16:13:59 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:38:23 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	make_redirs(t_data *d, t_command *cmd)
 	cmd->fd_out = 1;
 	if (!cmd->redirs && !cmd->heredocs)
 		return (0);
+	if (cmd->heredocs)
+		here_doc(cmd);
 	while (cmd->redirs && cmd->redirs[i])
 	{
 		if (cmd->redirs[i]->mode == 'r' || cmd->redirs[i]->mode == 'b')
@@ -32,8 +34,7 @@ int	make_redirs(t_data *d, t_command *cmd)
 			d->errnum = get_outfile_append(cmd, cmd->redirs[i]);
 		i ++;
 	}
-	if (cmd->heredocs)
-		here_doc(cmd);
+
 	return (d->errnum);
 }
 
@@ -97,12 +98,15 @@ void	here_doc(t_command *c)
 	char	*buf;
 	int		i;
 	int count;
-	
+	char *name;
+
+	name = ft_strdup(".heredoc0");
 	i = 0;
 	count = ft_arrlen((void *) c->heredocs);
 	while (c->heredocs[i])
 	{
-		c->heredocs[i]->fd = open(".heredocs", O_CREAT | O_WRONLY , 0000664);
+		name[8] += 1;
+		c->heredocs[i]->fd = open(name, O_CREAT | O_WRONLY | O_APPEND, 0000644);
 		if (c->heredocs[i]->fd < 0)
 			ft_dprintf(2, "heredoc : %s\n", strerror(errno));
 		write(1, "> ", 2);
@@ -110,23 +114,28 @@ void	here_doc(t_command *c)
 		if (!buf)
 			break ;
 		gc_add(buf);
+
 		if (!ft_strncmp(c->heredocs[i]->limiter, buf, ft_strlen(c->heredocs[i]->limiter))
 			&& ft_strlen(c->heredocs[i]->limiter) + 1 == ft_strlen(buf))
 		{
-			
+			close(c->heredocs[i]->fd);
 			i++;
 		}
+		else
+			write(c->heredocs[i]->fd, buf, ft_strlen(buf));
+
+
 		if (i == count - 1)
 			break ;
-		
+
 		free_node(buf);
 	}
-	write(c->heredocs[i]->fd, buf, ft_strlen(buf));
-		
-	write(c->heredocs[i]->fd, "\n", 1);
-	close(c->heredocs[i]->fd);
-		
+	//write(c->heredocs[i]->fd, buf, ft_strlen(buf));
+
+	//write(c->heredocs[i]->fd, "\n", 1);
+
+	free(name);
 	free_node(buf);
 	c->fd_in = c->heredocs[i]->fd;
-	//close(c->heredocs[i]->fd);
+	close(c->heredocs[i]->fd);
 }
