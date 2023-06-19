@@ -183,8 +183,6 @@ struct	s_data
 	struct s_command	**cmds;
 	int					cmds_nb;
 	struct s_env		*env;
-	int					here_doc;
-	char				**limiters;
 	int					p[2];
 	int					prev_pipe;
 	int					index;

@@ -102,7 +102,7 @@ void	here_doc(t_command *c)
 	count = ft_arrlen((void *) c->heredocs);
 	while (c->heredocs[i])
 	{
-		c->heredocs[i]->fd = open("/heredocs/", O_TMPFILE |  O_EXCL);
+		c->heredocs[i]->fd = open(".heredocs", O_CREAT | O_WRONLY , 0000664);
 		if (c->heredocs[i]->fd < 0)
 			ft_dprintf(2, "heredoc : %s\n", strerror(errno));
 		write(1, "> ", 2);

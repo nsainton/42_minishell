@@ -32,7 +32,7 @@ t_redir *r);
 int							get_outfile_append(t_command *c, \
 t_redir *r);
 
-void						here_doc(char **limiters, int nb);
+void						here_doc(t_command *c);
 
 //Functions from file : signals.c
 void						init_sigs(void);
