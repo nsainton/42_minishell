@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/20 17:37:00 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:47:49 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ int	redirs_to_heredocs(t_tab *redirs, t_tab *heredocs)
 			if (add_tab(heredocs, &hd))
 				return (ALLOCATION_ERROR);
 			ft_memmove(reds + index, reds + index + 1, sizeof * reds * (redirs->len - index));
+			print_tab_bin(heredocs);
+			ft_printf("Printed\n");
 			//print_heredoc(heredocs->tab + heredocs->len - 1, heredocs->len);
 			redirs->len -= 1;
 		}
