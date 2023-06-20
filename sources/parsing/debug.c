@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:16:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/20 17:08:16 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/20 23:42:30 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ void	print_heredocs(t_heredoc *heredoc)
 	index = 0;
 	if (! heredoc)
 		return ;
-	ft_printf("Salut\n");
-	// ft_bzero(null, sizeof null);
-	ft_memset(null, 0, sizeof(null));
+	ft_bzero(null, sizeof null);
 	while (ft_memcmp(heredoc + index, null, sizeof * heredoc))
 	{
 		print_heredoc(heredoc + index, index + 1);

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/20 18:13:02 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/21 00:00:57 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ int	main(int argc, char **argv, char **envp)
 	t_ncommand	*commands;
 	t_data		data;
 
-	if (argc > 1 || !argv)
-		return (1);
+	if (argc > 1)
+		return (EXIT_FAILURE);
+	(void)argv;
 	init_sigs();
 	data.cmds = NULL;
 	data.errnum = 0;
@@ -29,13 +30,17 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("minishell> ");
 		if (line && ! gc_add(line))
 		{
-			add_history(line);
+			if (*line)
+				add_history(line);
 			if (split_line(line, &commands, data.env))
-				free_gc();
+			{
+				keep_exit_status(SYNTAX_ERROR);
+				free_from(ft_lstlast(data.env->list_env));
+				//free_gc();
+			}
 			else
 			{
 				print_commands(commands);
-				/*
 				data.cmds = get_commands_reference(commands);
 				if (! data.cmds)
 				{
@@ -44,15 +49,14 @@ int	main(int argc, char **argv, char **envp)
 				}
 				else
 				{
-					data.cmds_nb = ft_arrlen((void **)data.cmds);
+					data.cmds_nb = tablen(data.cmds, sizeof data.cmds);
+					//ft_printf("There are %d commands\n", data.cmds_nb);
 					if (data.cmds_nb != 0)
 						exec_pipeline(&data);
 					data.cmds = NULL;
 					//print_collector();
 					free_from(ft_lstlast(data.env->list_env));
 				}
-				*/
-				free_gc();
 			}
 		}
 		else
@@ -61,7 +65,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 	}
-
+	rl_clear_history();
 	//ft_lstclear(&(data.env)->list_env, NULL);
 	//free(data.env);
 	return (errno);
