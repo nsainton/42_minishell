@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/29 11:26:20 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:37:00 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,26 +128,33 @@ int	redirs_to_heredocs(t_tab *redirs, t_tab *heredocs)
 	t_redirection	*reds;
 	t_heredoc		hd;
 	size_t			index;
+	char			memory[300];
 
 	//EPRINT
+	ft_bzero(memory, sizeof memory);
 	if (allocate_tab(heredocs, REDIRS_SIZE, sizeof (t_heredoc)))
 		return (ALLOCATION_ERROR);
 	reds = (t_redirection *)redirs->tab;
 	//print_redirs(reds);
 	index = 0;
+	//ft_printf("This is the redirs len : %u\n", redirs->len);
 	while (index < redirs->len)
 	{
 		if ((reds + index)->mode == 'h')
 		{
+			//print_redir(reds + index, index + 1);
 			hd.fd = (reds + index)->fd;
 			hd.limiter = (reds + index)->file;
 			if (add_tab(heredocs, &hd))
 				return (ALLOCATION_ERROR);
 			ft_memmove(reds + index, reds + index + 1, sizeof * reds * (redirs->len - index));
+			//print_heredoc(heredocs->tab + heredocs->len - 1, heredocs->len);
 			redirs->len -= 1;
 		}
 		else
 			index ++;
 	}
+	if (heredocs->len == heredocs->size && realloc_tab(heredocs, heredocs->size + 1))
+		return (ALLOCATION_ERROR);
 	return (NO_ERROR);
 }

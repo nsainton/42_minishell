@@ -26,7 +26,8 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-#include <string.h>
+# include <string.h>
+# include <dirent.h>
 //Compile the executable with libreadline (-lreadline)
 //End of Prepocessor includes
 
@@ -182,8 +183,6 @@ struct	s_data
 	struct s_command	**cmds;
 	int					cmds_nb;
 	struct s_env		*env;
-	int					here_doc;
-	char				**limiters;
 	int					p[2];
 	int					prev_pipe;
 	int					index;

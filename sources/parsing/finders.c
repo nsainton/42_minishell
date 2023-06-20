@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   finders.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 11:21:42 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 12:18:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:46:40 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ size_t	find_next(t_cchar *line, size_t index, t_cchar *tofind)
 }
 
 size_t	find_prev(t_cchar *line, size_t index, t_cchar *tofind)
-{	
+{
 	while (index > 0 && ! ft_strchr(tofind, *(line + index)))
 		index --;
 	return (index);

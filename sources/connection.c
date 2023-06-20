@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connection.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 14:04:03 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/29 15:44:11 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:46:45 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static int	ncommand_to_command(t_ncommand *original, t_command **command)
 	(*command)->redirs = redirs;
 	(*command)->fd_in = -1;
 	(*command)->fd_out = -1;
+	(*command)->last = 0;
 	return (NO_ERROR);
 }
 

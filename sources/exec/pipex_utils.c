@@ -25,7 +25,7 @@ void wait_for_childs(t_data	*d)
 		w = waitpid(d->pid[i], &status, WUNTRACED | WCONTINUED);
 		if (w == -1) {
 			perror("waitpid");
-			exit(EXIT_FAILURE);
+			//exit(EXIT_FAILURE);
 		}
 		if (WIFEXITED(status)) {
 			printf("exited, status=%d\n", WEXITSTATUS(status));

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:33:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/29 16:13:59 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:03:43 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,21 @@ int	make_redirs(t_data *d, t_command *cmd)
 	d->errnum = 0;
 	cmd->fd_in = 0;
 	cmd->fd_out = 1;
-	if (!cmd->redirs)
+	if (!cmd->redirs && !cmd->heredocs)
 		return (0);
-	while (cmd->redirs[i])
+	if (cmd->heredocs)
+		here_doc(cmd);
+	while (cmd->redirs && cmd->redirs[i])
 	{
 		if (cmd->redirs[i]->mode == 'r' || cmd->redirs[i]->mode == 'b')
 			d->errnum = get_infile(cmd, cmd->redirs[i]);
-		else if (cmd->redirs[i]->mode == 'w')
+		if (cmd->redirs[i]->mode == 'w')
 			d->errnum = get_outfile_trunc(cmd, cmd->redirs[i]);
 		else if (cmd->redirs[i]->mode == 'a')
 			d->errnum = get_outfile_append(cmd, cmd->redirs[i]);
 		i ++;
 	}
+
 	return (d->errnum);
 }
 
@@ -90,32 +93,60 @@ int	get_outfile_append(t_command *c, t_redir *r)
 	return (0);
 }
 
-void	here_doc(char **limiters, int nb)
+void	here_doc(t_command *c)
 {
-	int		file;
 	char	*buf;
 	int		i;
+	int count;
+	char *name;
 
+	name = ft_strdup(".heredoc0");
 	i = 0;
-	file = open(".heredoc", O_CREAT | O_WRONLY | O_APPEND, 0000644);
-	if (file < 0)
-		ft_dprintf(2, "heredoc : %s\n", strerror(errno));
-	while (i != nb)
+	//count = ft_arrlen((void *) c->heredocs) - 1;
+	/*
+	count = 0;
+	while (c->heredocs[count])
+		count++;
+	*/
+	count = tablen(c->heredocs, sizeof **(c->heredocs));
+	while (c->heredocs[i])
 	{
-		write(1, "> ", 2);
-		buf = get_next_line(0);
-		if (!buf)
+		name[8] += 1;
+		c->heredocs[i]->fd = open(name, O_CREAT | O_WRONLY | O_APPEND, 0000644);
+		if (c->heredocs[i]->fd < 0)
+			ft_dprintf(2, "heredoc : %s\n", strerror(errno));
+		ft_dprintf(2, "heredoc : %s\n count :%d", strerror(errno), count);
+		while (1)
+		{
+			write(1, "> ", 2);
+			buf = get_next_line(0);
+			if (!buf)
+				break ;
+			gc_add(buf);
+			ft_dprintf(2, "heredoc limiter: %s\n", c->heredocs[i]->limiter);
+			if (!ft_strncmp(c->heredocs[i]->limiter, buf, ft_strlen(c->heredocs[i]->limiter))
+				&& ft_strlen(c->heredocs[i]->limiter) + 1 == ft_strlen(buf))
+			{
+				free_node(buf);
+				close(c->heredocs[i]->fd);
+				break ;
+			}
+			else if (buf)
+			{
+				write(c->heredocs[i]->fd, buf, ft_strlen(buf));
+				write(c->heredocs[i]->fd, "\n", 1);
+				free_node(buf);
+			}
+		}
+
+		if (i == count - 1)
 			break ;
-		gc_add(buf);
-		if (!ft_strncmp(limiters[i], buf, ft_strlen(limiters[i]))
-			&& ft_strlen(limiters[i]) + 1 == ft_strlen(buf))
-			i++;
-		if (i == nb)
-			break ;
-		write(file, buf, ft_strlen(buf));
-		write(file, "\n", 1);
-		free_node(buf);
+		else
+		{
+			close(c->heredocs[i]->fd);
+			i ++;
+		}
 	}
-	free_node(buf);
-	close(file);
+	c->fd_in = c->heredocs[i]->fd;
+	close(c->heredocs[i]->fd);
 }
