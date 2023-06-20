@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 14:04:03 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/19 15:33:42 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:46:45 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	**get_tab_references(void *original, t_csizet elemsize, int *err)
 		*(tab + index) = original + index * elemsize;
 		index ++;
 	}
-	*(tab + index) = NULL;
 	return (tab);
 }
 

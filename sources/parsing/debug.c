@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:16:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/29 14:00:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:08:16 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,13 @@ void	print_heredoc(t_heredoc *heredoc, size_t no)
 void	print_heredocs(t_heredoc *heredoc)
 {
 	size_t	index;
-	char	null[200];
+	char	null[300];
 
 	index = 0;
 	if (! heredoc)
 		return ;
-	ft_bzero(null, 200);
+	ft_printf("Salut\n");
+	ft_bzero(null, sizeof null);
 	while (ft_memcmp(heredoc + index, null, sizeof * heredoc))
 	{
 		print_heredoc(heredoc + index, index + 1);
