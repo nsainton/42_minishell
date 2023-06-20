@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/20 17:47:49 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/20 19:03:26 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,10 @@ int	redirs_to_heredocs(t_tab *redirs, t_tab *heredocs)
 	t_redirection	*reds;
 	t_heredoc		hd;
 	size_t			index;
-	char			memory[300];
+	//char			memory[300];
 
 	//EPRINT
-	ft_bzero(memory, sizeof memory);
+	//ft_bzero(memory, sizeof memory);
 	if (allocate_tab(heredocs, REDIRS_SIZE, sizeof (t_heredoc)))
 		return (ALLOCATION_ERROR);
 	reds = (t_redirection *)redirs->tab;
@@ -148,9 +148,9 @@ int	redirs_to_heredocs(t_tab *redirs, t_tab *heredocs)
 			if (add_tab(heredocs, &hd))
 				return (ALLOCATION_ERROR);
 			ft_memmove(reds + index, reds + index + 1, sizeof * reds * (redirs->len - index));
-			print_tab_bin(heredocs);
+			//print_tab_bin(heredocs);
 			ft_printf("Printed\n");
-			//print_heredoc(heredocs->tab + heredocs->len - 1, heredocs->len);
+			print_heredoc(heredocs->tab + (heredocs->len - 1) * heredocs->elemsize, heredocs->len);
 			redirs->len -= 1;
 		}
 		else

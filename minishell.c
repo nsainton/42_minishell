@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/20 17:20:26 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:13:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	main(int argc, char **argv, char **envp)
 				free_gc();
 			else
 			{
-				//print_commands(commands);
+				print_commands(commands);
+				/*
 				data.cmds = get_commands_reference(commands);
 				if (! data.cmds)
 				{
@@ -50,6 +51,8 @@ int	main(int argc, char **argv, char **envp)
 					//print_collector();
 					free_from(ft_lstlast(data.env->list_env));
 				}
+				*/
+				free_gc();
 			}
 		}
 		else

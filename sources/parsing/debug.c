@@ -83,7 +83,8 @@ void	print_heredocs(t_heredoc *heredoc)
 	if (! heredoc)
 		return ;
 	ft_printf("Salut\n");
-	ft_bzero(null, sizeof null);
+	// ft_bzero(null, sizeof null);
+	ft_memset(null, 0, sizeof(null));
 	while (ft_memcmp(heredoc + index, null, sizeof * heredoc))
 	{
 		print_heredoc(heredoc + index, index + 1);
