@@ -27,3 +27,6 @@ libs
 
 # Minitalk directory #
 minitalk
+
+# Heredoc Files #
+.heredoc*
