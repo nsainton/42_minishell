@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:33:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/21 22:26:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/21 22:35:21 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,9 @@ void	here_doc(t_command *c)
 	int count;
 	char *name;
 
-	name = ft_strdup(".heredoc0");
+	name = gc_strdup(".heredoc0");
+	if (! name)
+		return ;
 	i = 0;
 	//count = ft_arrlen((void *) c->heredocs) - 1;
 	/*
