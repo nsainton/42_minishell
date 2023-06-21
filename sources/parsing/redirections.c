@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/21 00:03:16 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/21 22:29:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ int	redirections(t_tab *redirs, t_str *line)
 		else
 			index ++;
 	}
+	if (redirs->len == redirs->size && realloc_tab(redirs, redirs->size + 1))
+		return (ALLOCATION_ERROR);
 	return (NO_ERROR);
 }
 
