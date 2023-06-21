@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/21 00:00:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/21 23:11:27 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,33 +34,35 @@ int	main(int argc, char **argv, char **envp)
 				add_history(line);
 			if (split_line(line, &commands, data.env))
 			{
+				ft_printf("Syntax error while splitting line\n");
 				keep_exit_status(SYNTAX_ERROR);
 				free_from(ft_lstlast(data.env->list_env));
+				continue ;
 				//free_gc();
+			}
+			print_commands(commands);
+			data.cmds = get_commands_reference(commands);
+			if (! data.cmds)
+			{
+				ft_printf("No commands in data\n");
+				free_from(ft_lstlast(data.env->list_env));
+				continue ;
 			}
 			else
 			{
-				print_commands(commands);
-				data.cmds = get_commands_reference(commands);
-				if (! data.cmds)
-				{
-					free_from(ft_lstlast(data.env->list_env));
-					continue ;
-				}
-				else
-				{
-					data.cmds_nb = tablen(data.cmds, sizeof data.cmds);
-					//ft_printf("There are %d commands\n", data.cmds_nb);
-					if (data.cmds_nb != 0)
-						exec_pipeline(&data);
-					data.cmds = NULL;
-					//print_collector();
-					free_from(ft_lstlast(data.env->list_env));
-				}
+				ft_printf("Some commands have been found\n");
+				data.cmds_nb = tablen(data.cmds, sizeof data.cmds);
+				//ft_printf("There are %d commands\n", data.cmds_nb);
+				if (data.cmds_nb != 0)
+					exec_pipeline(&data);
+				data.cmds = NULL;
+				//print_collector();
+				free_from(ft_lstlast(data.env->list_env));
 			}
 		}
 		else
 		{
+			ft_printf("We are freeing the garbage collector\n");
 			free_gc();
 			break ;
 		}
