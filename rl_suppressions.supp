@@ -37,3 +37,13 @@
    fun:readline
 
 }
+
+{
+	rl_add_history
+	Memcheck:Leak
+	match-leak-kinds: reachable
+	fun:malloc
+	...
+	fun:add_history
+	fun:main
+}
