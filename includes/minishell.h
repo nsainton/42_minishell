@@ -75,6 +75,9 @@ int							is_builtin(t_command *cmd, t_data *d);
 //Functions from file : commands_exec.c
 void						commands_exec(t_cchar *line, t_data *data);
 
+//Functions from file : exit_free.c
+void						exit_free_gc(int status);
+
 //Functions from file : check_path.c
 int							check_path(t_command *cmd, t_env *my_env);
 

@@ -6,18 +6,11 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/22 15:01:09 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:14:57 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void exit_free_gc(int status)
-{
-	free_gc();
-	rl_clear_history();
-	exit(status);
-}
 
 int	exec_one(t_data *d)
 {

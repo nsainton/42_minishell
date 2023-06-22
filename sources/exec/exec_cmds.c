@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/01 18:05:38 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:15:54 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ int	exec_pipeline(t_data *d)
 				dupnclose(d->cmds[d->index]->fd_out, STDOUT_FILENO);
 			dup_pipe(d);
 			if (is_builtin(d->cmds[d->index], d) == 1)
-				exit(0);
+				exit_free_gc(0);
 			else if (is_builtin(d->cmds[d->index], d) == 2)
-				exit(exec_builtin(d->cmds[d->index], d));
+				exit_free_gc(exec_builtin(d->cmds[d->index], d));
 			else if (!is_builtin(d->cmds[d->index], d))
 			{
 				if (check_path(d->cmds[d->index], d->env))
 				{
 					ft_dprintf(2, "%s : Command not found\n",
 						d->cmds[d->index]->command);
-					exit(127);
+					exit_free_gc(127);
 				}
 				d->errnum = execve(d->cmds[d->index]->path,
 						(char *const *)make_command(d->cmds[d->index]),
@@ -62,7 +62,7 @@ int	exec_pipeline(t_data *d)
 				if (d->errnum)
 				{
 					ft_dprintf(2, "%s : %s\n", d->cmds[d->index]->command, strerror(errno));
-					exit(d->errnum);
+					exit_free_gc(d->errnum);
 				}
 			}
 		}
