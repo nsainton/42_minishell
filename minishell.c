@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/22 18:04:59 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:23:08 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,9 @@ int	main(int ac, char **av, char **envp)
 		if (*line)
 			add_history(line);
 		commands_exec(line, &data);
-		free_from(ft_lstlast(data.env->list_env));
+		//ft_printf("This is the last pointer in the env : %s\n", ft_lstlast(data.env->list_env)->content);
+		free_from(ft_lstlast(data.env->list_env)->content);
 	}
 	rl_clear_history();
-	//ft_lstclear(&(data.env)->list_env, NULL);
-	//free(data.env);
 	return (errno);
 }
