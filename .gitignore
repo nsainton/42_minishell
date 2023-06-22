@@ -30,3 +30,6 @@ minitalk
 
 # Heredoc Files #
 .heredoc*
+
+# NFS ressources at 42 #
+.nfs*
