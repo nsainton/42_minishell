@@ -72,6 +72,9 @@ int							exec_builtin(t_command *cmd, t_data *d);
 
 int							is_builtin(t_command *cmd, t_data *d);
 
+//Functions from file : commands_exec.c
+void						commands_exec(t_cchar *line, t_data *data);
+
 //Functions from file : check_path.c
 int							check_path(t_command *cmd, t_env *my_env);
 
@@ -212,6 +215,8 @@ t_command					**\
 get_commands_reference(t_ncommand *original);
 
 //Functions from file : debug.c
+void						print_bin(void *elem, t_csizet elemsize);
+
 void						print_tab_bin(t_tab *tab);
 
 #endif
