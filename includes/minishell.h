@@ -72,6 +72,9 @@ int							exec_builtin(t_command *cmd, t_data *d);
 
 int							is_builtin(t_command *cmd, t_data *d);
 
+//Functions from file : exit.c
+int							exit_builtin(char **args);
+
 //Functions from file : commands_exec.c
 void						commands_exec(t_cchar *line, t_data *data);
 

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/22 16:46:41 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/23 02:12:14 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,12 @@ enum e_changes
 	UNCHANGED,
 	CHANGED
 };
+
+enum e_exit_errors
+{
+	TOO_MANY_ARGUMENTS = 1,
+	NUMERIC_REQUIRED,
+};
 // End of ENUM Declarations
 
 //Structures declarations
@@ -199,6 +205,8 @@ struct	s_data
 typedef enum e_types		t_types;
 
 typedef enum e_minierrors	t_minierrors;
+
+typedef enum e_exit_errors	t_exit_errors;
 
 typedef struct s_command	t_command;
 
