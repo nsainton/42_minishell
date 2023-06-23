@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/23 02:12:14 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/23 21:03:07 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 # define USAGE "Usage: ./minishell [-c] [command string]"
 # define ENTER "Entering function : %s\n"
 # define LEAVE "Leaving function : %s\n"
+# define STRING_TOO_MANY "too many arguments"
+# define STRING_NUMERIC_REQUIRED "numeric argument required"
 # define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);
 # define LPRINT ft_dprintf(STDERR_FILENO, LEAVE, __func__);
 # define SUCCESS 0

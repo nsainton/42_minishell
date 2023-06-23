@@ -6,11 +6,23 @@
 /*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 23:52:52 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/23 01:24:56 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/23 21:21:48 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static t_ll	store_status(const t_ll new_status)
+{
+	static t_ll	status;
+	t_ll		tmp;
+
+	tmp = status;
+	status = new_status;
+	if (! tmp)
+		return (status);
+	return (tmp);
+}
 
 static int	check_args(char **args, t_csizet len)
 {
@@ -22,17 +34,18 @@ static int	check_args(char **args, t_csizet len)
 	if (err)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: exit: %s: %s\n", *args, \
-		strerror(errno));
-		exit_free_gc(errno);
+		STRING_NUMERIC_REQUIRED);
+		exit_free_gc(store_status(NUMERIC_REQUIRED));
 	}
 	if (len == 1)
-		exit_free_gc(status % 256);
+		exit_free_gc(store_status(status % 256));
 	if (len > 2)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: exit: %s\n", strerror(errno));
-		keep_exit_status(errno);
+		ft_dprintf(STDERR_FILENO, "minishell: exit: %s\n", \
+		STRING_TOO_MANY);
+		keep_exit_status(store_status(TOO_MANY_ARGUMENTS));
 	}
-	return (errno);
+	return (store_status(EXIT_SUCCESS));
 }
 
 int	exit_builtin(char **args)
@@ -40,9 +53,9 @@ int	exit_builtin(char **args)
 	size_t	len;
 
 	if (args == NULL)
-		exit_free_gc(0);
+		exit_free_gc(store_status(EXIT_SUCCESS));
 	len = tablen(args, sizeof * args);
 	if (! len)
-		exit_free_gc(0);
+		exit_free_gc(store_status(EXIT_SUCCESS));
 	return (check_args(args, len));
 }
