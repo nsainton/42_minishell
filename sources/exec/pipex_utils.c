@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:22:05 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/01 19:27:46 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/22 23:25:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void wait_for_childs(t_data	*d)
 			status = WEXITSTATUS(status);
 		} else if (WIFSIGNALED(status)) {
 			printf("killed by signal %d\n", WTERMSIG(status));
-			status = WTERMSIG(status);
+			status = WTERMSIG(status) + 128;
 		} else if (WIFSTOPPED(status)) {
 			printf("stopped by signal %d\n", WSTOPSIG(status));
-			WSTOPSIG(status);
+			status = WSTOPSIG(status) + 128;
 		} else if (WIFCONTINUED(status)) {
 			printf("continued\n");
 		}
