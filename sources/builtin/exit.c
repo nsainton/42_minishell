@@ -6,7 +6,7 @@
 /*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 23:52:52 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/24 16:23:40 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/25 22:56:36 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_ll	store_status(const t_ll new_status)
 }
 */
 
-static int	check_args(char **args, t_csizet len)
+static int	check_args(char **args, t_csizet len, int *errnum)
 {
 	int		err;
 	t_ll	status;
@@ -39,7 +39,7 @@ static int	check_args(char **args, t_csizet len)
 	//ft_dprintf(STDERR_FILENO, "This is the len : %u\n", len);
 	if (err)
 	{
-		ft_dprintf(STDERR_FILENO, "Error\n");
+		//ft_dprintf(STDERR_FILENO, "Error\n");
 		ft_dprintf(STDERR_FILENO, "minishell: exit: %s: %s\n", *args, \
 		STRING_NUMERIC_REQUIRED);
 		keep_exit_status(NUMERIC_REQUIRED);
@@ -47,37 +47,38 @@ static int	check_args(char **args, t_csizet len)
 	}
 	if (len == 1)
 	{
-		ft_dprintf(STDERR_FILENO, "No error and only one argument\n");
+		//ft_dprintf(STDERR_FILENO, "No error and only one argument\n");
 		keep_exit_status(status % 256);
 		exit_free_gc(keep_exit_status(-1));
 	}
 	if (len > 1)
 	{
-		ft_dprintf(STDERR_FILENO, "No error but multiple arguments\n");
+		//ft_dprintf(STDERR_FILENO, "No error but multiple arguments\n");
 		ft_dprintf(STDERR_FILENO, "minishell: exit: %s\n", \
 		STRING_TOO_MANY);
-		ft_printf("This is the status stored : %d\n", TOO_MANY_ARGUMENTS);
+		//ft_printf("This is the status stored : %d\n", TOO_MANY_ARGUMENTS);
 		keep_exit_status(TOO_MANY_ARGUMENTS);
+		*errnum = TOO_MANY_ARGUMENTS;
 		//return (store_status(TOO_MANY_ARGUMENTS));
 	}
 	return (keep_exit_status(-1));
 }
 
-int	exit_builtin(char **args)
+int	exit_builtin(char **args, int *errnum)
 {
 	size_t	len;
 
 	if (args == NULL)
 	{
-		ft_printf("Args is NULL\n");
+		//ft_printf("Args is NULL\n");
 		exit_free_gc(keep_exit_status(-1));
 	}
 	len = tablen(args, sizeof * args);
 	if (! len)
 	{
-		ft_printf("No arguments\n");
+		//ft_printf("No arguments\n");
 		exit_free_gc(keep_exit_status(-1));
 	}
 	//ft_dprintf(2, "This is the len : %u\n", len);
-	return (check_args(args, len));
+	return (check_args(args, len, errnum));
 }

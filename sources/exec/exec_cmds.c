@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/22 21:15:54 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:48:10 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	exec_pipeline(t_data *d)
 				dupnclose(d->cmds[d->index]->fd_out, STDOUT_FILENO);
 			dup_pipe(d);
 			if (is_builtin(d->cmds[d->index], d) == 1)
-				exit_free_gc(0);
+				exit_free_gc(keep_exit_status(-1) \
+				* (ft_strcmp((*(d->cmds + d->index))->command, "exit") == 0));
 			else if (is_builtin(d->cmds[d->index], d) == 2)
 				exit_free_gc(exec_builtin(d->cmds[d->index], d));
 			else if (!is_builtin(d->cmds[d->index], d))

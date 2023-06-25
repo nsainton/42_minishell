@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/11 13:23:26 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:45:24 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	cd(t_command *cmd, t_data *d)
 			return (errno);
 		}
 		set_new_pwd(d->env);
-
 		return (0);
 	}
 	return (0);
