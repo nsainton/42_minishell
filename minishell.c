@@ -6,13 +6,14 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/23 03:15:39 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/06/24 12:39:36 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void print_env(char **envp)
+/*
+static void print_enve(char **envp)
 {
 	size_t	i;
 
@@ -23,6 +24,7 @@ static void print_env(char **envp)
 		i ++;
 	}
 }
+*/
 
 int	main(int ac, char **av, char **envp)
 {
@@ -35,7 +37,7 @@ int	main(int ac, char **av, char **envp)
 		return (EXIT_FAILURE);
 	}
 	(void)av;
-	print_env(envp);
+	//print_enve(envp);
 	init_sigs();
 	data.cmds = NULL;
 	data.errnum = 0;
