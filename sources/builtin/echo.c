@@ -17,7 +17,7 @@ int	print_echo(t_data *d, t_command *cmd)
 	int	i;
 
 	i = 0;
-	if (! cmd->args)
+	if (!cmd->args[0])
 	{
 		ft_dprintf(cmd->fd_out, "\n");
 		return (0);
