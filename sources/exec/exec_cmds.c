@@ -86,8 +86,11 @@ int	exec_pipeline(t_data *d)
 				exec_pipeline(d);
 			}
 		}
+		if (is_builtin(d->cmds[d->index], d) == 1)
+			keep_exit_status(exec_builtin(d->cmds[d->index], d));
 	}
 	wait_for_childs(d);
+	
 	if (d->cmds_nb > 1)
 	{
 		close (d->p[0]);
