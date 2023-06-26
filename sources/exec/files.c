@@ -50,9 +50,9 @@ int	make_redirs(t_data *d, t_command *cmd)
 		if (cmd->redirs[i]->mode == 'r' || cmd->redirs[i]->mode == 'b')
 			d->errnum = get_infile(cmd, cmd->redirs[i]);
 		if (cmd->redirs[i]->mode == 'w')
-			d->errnum = get_outfile_trunc(cmd, cmd->redirs[i]);
+			d->errnum = get_outfile(cmd, cmd->redirs[i], O_TRUNC);
 		else if (cmd->redirs[i]->mode == 'a')
-			d->errnum = get_outfile_append(cmd, cmd->redirs[i]);
+			d->errnum = get_outfile(cmd, cmd->redirs[i], O_APPEND);
 		i ++;
 	}
 
@@ -65,7 +65,7 @@ int	get_infile(t_command *c, t_redir *r)
 		close(c->fd_in);
 	if (r->file)
 	{
-		c->fd_in = open(r->file, O_RDWR);
+		c->fd_in = open(r->file, O_RDONLY);
 		if (c->fd_in < 0)
 		{
 			ft_dprintf(2, "infile : %s : %s\n", r->file, strerror(errno));
@@ -77,32 +77,14 @@ int	get_infile(t_command *c, t_redir *r)
 	return (0);
 }
 
-int	get_outfile_trunc(t_command *c, t_redir *r)
+int	get_outfile(t_command *c, t_redir *r, const int mode)
 {
 
 	if (c->fd_out != 1)
 		close(c->fd_out);
 	if (r->file)
 	{
-		c->fd_out = open(r->file, O_CREAT | O_RDWR | O_TRUNC, 0000644);
-		if (c->fd_out < 0)
-		{
-			ft_dprintf(2, "outfile : %s : %s\n", r->file, strerror(errno));
-			return (errno);
-		}
-	}
-	else
-		c->fd_out = 1;
-	return (0);
-}
-
-int	get_outfile_append(t_command *c, t_redir *r)
-{
-	if (c->fd_out != 1)
-		close(c->fd_out);
-	if (r->file)
-	{
-		c->fd_out = open(r->file, O_CREAT | O_RDWR | O_APPEND, 0000644);
+		c->fd_out = open(r->file, O_CREAT | O_RDWR | mode, 0000644);
 		if (c->fd_out < 0)
 		{
 			ft_dprintf(2, "outfile : %s : %s\n", r->file, strerror(errno));
