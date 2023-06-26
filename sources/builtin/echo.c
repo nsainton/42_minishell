@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:42:11 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 16:12:02 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/06/24 16:36:49 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ int	print_echo(t_data *d, t_command *cmd)
 	int	i;
 
 	i = 0;
+	if (! cmd->args)
+	{
+		ft_dprintf(cmd->fd_out, "\n");
+		return (0);
+	}
 	while (cmd->args[i] && is_true_optn(cmd->args[i]))
 		i++;
 	while (cmd->args[i])
