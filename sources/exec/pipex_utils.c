@@ -41,8 +41,6 @@ void wait_for_childs(t_data	*d)
 		}
 		i ++;
 	}
-	if (ft_strcmp((*(d->cmds + d->cmds_nb - 1))->command, "exit"))
-		keep_exit_status(status);
 }
 
 char	**make_command(t_command	*cmd)

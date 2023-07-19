@@ -61,7 +61,7 @@ int	make_redirs(t_data *d, t_command *cmd)
 
 int	get_infile(t_command *c, t_redir *r)
 {
-	if (c->fd_in != 0)
+	if (c->fd_in <= 0)
 		close(c->fd_in);
 	if (r->file)
 	{
@@ -114,7 +114,7 @@ void	here_doc(t_command *c)
 		count++;
 	*/
 	count = tablen(*c->heredocs, sizeof **(c->heredocs));
-	while (c->heredocs[i])
+	while (c->heredocs[i] && i < count)
 	{
 		name[8] += 1;
 		c->heredocs[i]->fd = open(name, O_CREAT | O_WRONLY | O_APPEND, 0000644);

@@ -17,6 +17,7 @@ int	print_echo(t_data *d, t_command *cmd)
 	int	i;
 
 	i = 0;
+	//ft_dprintf(1, "%d\n", *(cmd->args[0]));
 	if (!cmd->args[0])
 	{
 		ft_dprintf(1, "\n");
@@ -28,7 +29,7 @@ int	print_echo(t_data *d, t_command *cmd)
 	{
 		ft_dprintf(1, "%s", cmd->args[i]);
 		if (cmd->args[i + 1])
-			printf(" ");
+			ft_printf(" ");
 		i ++;
 	}
 	d->errnum = 0;
@@ -44,6 +45,8 @@ int	is_true_optn(char *str)
 	i = 1;
 	if (str[0] == '-' && str[1] == 'n' && str[2] == '\0')
 		return (1);
+	if (!str[1])
+		return (0);
 	while (str[i])
 	{
 		if (str[i] != 'n')

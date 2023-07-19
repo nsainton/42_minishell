@@ -16,6 +16,7 @@ int	exec_one(t_data *d)
 {
 	d->index = 1;
 	make_redirs(d, d->cmds[0]);
+
 	if (d->cmds[0]->command && is_builtin(d->cmds[0], d) == 1)
 		exec_builtin(d->cmds[0], d);
 	else if (d->cmds[0]->command)
@@ -53,8 +54,8 @@ int	exec_one(t_data *d)
 			exit_free_gc(d->errnum);
 		}
 	}
-	if (is_builtin(d->cmds[0], d) == 1)
-		d->errnum = exec_builtin(d->cmds[0], d);
+/* 	if (is_builtin(d->cmds[0], d) == 1)
+		d->errnum = exec_builtin(d->cmds[0], d); */
 	if (d->cmds[0]->fd_in != STDIN_FILENO)
 		close(d->cmds[0]->fd_in);
 	if (d->cmds[0]->fd_out != STDOUT_FILENO)
