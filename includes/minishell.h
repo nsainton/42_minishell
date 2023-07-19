@@ -16,6 +16,13 @@
 
 //Functions from file : metachar.c
 //Functions from file : parser.c
+//Functions from file : dups.c
+void						dup_in_out(int fd_in, int fd_out);
+
+void						dup_pipe(t_data *d);
+
+void						dupnclose(int fd1, int fd2);
+
 //Functions from file : check_path.c
 int							check_path(t_command *cmd, t_env *my_env);
 
@@ -45,26 +52,27 @@ void wait_for_childs(t_data	*d);
 
 char						**make_command(t_command	*cmd);
 
-void						sub_dup2(int read_fd, int write_fd);
-
 void						close_used_pipes(t_data *d, t_command *cmd);
 
 //Functions from file : exit_free.c
 void						exit_free_gc(int status);
+
+int							keep_exit_status(const int exit_status);
 
 //Functions from file : exec_cmds.c
 int							set_data(t_data *d);
 
 int							exec_pipeline(t_data *d);
 
-void						dup_pipe(t_data *d);
-
-void						dupnclose(int fd1, int fd2);
-
-int							keep_exit_status(const int exit_status);
+void						exec_command_in_pipeline(t_data *d);
 
 //Functions from file : exec_one.c
 int							exec_one(t_data *d);
+
+int							exec_builtin_parent(t_data *d, \
+t_command *cmd);
+
+void						exec_in_child(t_data *d, t_command *cmd);
 
 //Functions from file : connection.c
 t_command					**\

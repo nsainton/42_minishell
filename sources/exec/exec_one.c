@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/22 21:14:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/19 18:39:27 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,51 +15,51 @@
 int	exec_one(t_data *d)
 {
 	d->index = 1;
-	
 	if (make_redirs(d, d->cmds[0]) != 0)
 		return(d->errnum);
-
 	if (d->cmds[0]->command && is_builtin(d->cmds[0], d))
-	{
-		d->save_in = dup(STDIN_FILENO);
-		d->save_out = dup(STDOUT_FILENO);
-		if (d->cmds[0]->fd_in != STDIN_FILENO)
-			dup2(d->cmds[0]->fd_in, STDIN_FILENO);
-		if (d->cmds[0]->fd_out != STDOUT_FILENO)
-			dup2(d->cmds[0]->fd_out, STDOUT_FILENO);
-		exec_builtin(d->cmds[0], d);
-		dupnclose(d->save_in, STDIN_FILENO);
-		dupnclose(d->save_out, STDOUT_FILENO);
-	}
-		
+		exec_builtin_parent(d, d->cmds[0]);	
 	else if (d->cmds[0]->command)
 	{
 		d->pid[0] = fork();
 		if (d->pid[0] < 0)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		else if (d->pid[0] == 0)
-		{
-			if (d->cmds[0]->fd_in != STDIN_FILENO)
-				dupnclose(d->cmds[0]->fd_in, STDIN_FILENO);
-			if (d->cmds[0]->fd_out != STDOUT_FILENO)
-				dupnclose(d->cmds[0]->fd_out, STDOUT_FILENO);
-			if (check_path(d->cmds[0], d->env))
-			{
-				ft_dprintf(2, "%s : Command not found\n",
-					d->cmds[0]->command);
-				exit_free_gc(127);
-			}
-			d->errnum = execve(d->cmds[0]->path,
-					(char *const *)make_command(d->cmds[0]),
-					envlist_to_arr(d->env->list_env));
-			if (d->errnum)
-			{
-				ft_dprintf(2, "%s : %s -> path : %s\n", d->cmds[0]->command, strerror(errno), d->cmds[0]->path);
-				exit_free_gc(errno);
-			}
-		}
+			exec_in_child(d, d->cmds[0]);
 	}
 	ft_printf("This is my errnum : %d\n", d->errnum);
 	keep_exit_status(d->errnum);
 	return (d->errnum);
+}
+
+int	exec_builtin_parent(t_data *d, t_command *cmd)
+{
+	if (strcmp(cmd->command, "exit"))
+	{	
+		d->save_in = dup(STDIN_FILENO);
+		d->save_out = dup(STDOUT_FILENO);
+	}
+	dup_in_out(cmd->fd_in, cmd->fd_out);
+	keep_exit_status(exec_builtin(cmd, d));
+	dupnclose(d->save_in, STDIN_FILENO);
+	dupnclose(d->save_out, STDOUT_FILENO);
+	return (0);
+}
+
+void	exec_in_child(t_data *d, t_command *cmd)
+{
+	dup_in_out(cmd->fd_in, cmd->fd_out);
+	if (check_path(cmd, d->env))
+	{
+		ft_dprintf(2, "%s : Command not found\n",
+			cmd->command);
+		exit_free_gc(127);
+	}
+	d->errnum = execve(cmd->path,
+			(char *const *)make_command(cmd), envlist_to_arr(d->env->list_env));
+	if (d->errnum)
+	{
+		ft_dprintf(2, "%s : %s -> path : %s\n", cmd->command, strerror(errno), cmd->path);
+		exit_free_gc(errno);
+	}
 }

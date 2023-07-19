@@ -18,3 +18,13 @@ void	exit_free_gc(int status)
 	rl_clear_history();
 	exit(status);
 }
+
+int	keep_exit_status(const int exit_status)
+{
+	static int	status;
+
+	if (exit_status < 0)
+		return (status);
+	status = exit_status;
+	return (0);
+}

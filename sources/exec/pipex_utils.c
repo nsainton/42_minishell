@@ -65,31 +65,14 @@ char	**make_command(t_command	*cmd)
 	return (full_cmd);
 }
 
-void	sub_dup2(int read_fd, int write_fd)
-{
-	if (dup2(read_fd, STDIN_FILENO) == -1)
-		ft_dprintf(2, "dup2 read fd (%d)error: %s\n", read_fd, strerror(errno));
-	if (dup2(write_fd, STDOUT_FILENO) == -1)
-		ft_dprintf(2, "dup2 write fd error: %s\n", strerror(errno));
-
-}
-
 void	close_used_pipes(t_data *d, t_command *cmd)
 {
-	if (d->index == d->cmds_nb - 1)
-	{
-		close(cmd->fd_out);
+	close(d->p[1]);
+	if (d->prev_pipe != -1)
 		close(d->prev_pipe);
-		close(d->p[1]);
-	}
-	else if (d->index == 0)
-	{
+	d->prev_pipe = d->p[0];
+	if (cmd->fd_in != STDIN_FILENO)
 		close(cmd->fd_in);
-		close(d->p[1]);
-	}
-	else
-	{
-		close(d->p[1]);
-		close(d->prev_pipe);
-	}
+	if (cmd->fd_out != STDOUT_FILENO)
+		close(cmd->fd_out);
 }
