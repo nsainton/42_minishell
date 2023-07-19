@@ -59,12 +59,6 @@ int	exec_one(t_data *d)
 			}
 		}
 	}
-/* 	if (is_builtin(d->cmds[0], d) == 1)
-		d->errnum = exec_builtin(d->cmds[0], d); */
-	if (d->cmds[0]->fd_in != STDIN_FILENO)
-		close(d->cmds[0]->fd_in);
-	if (d->cmds[0]->fd_out != STDOUT_FILENO)
-		close(d->cmds[0]->fd_out);
 	ft_printf("This is my errnum : %d\n", d->errnum);
 	keep_exit_status(d->errnum);
 	return (d->errnum);
