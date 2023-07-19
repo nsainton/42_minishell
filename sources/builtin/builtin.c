@@ -46,10 +46,10 @@ int	is_builtin(t_command *cmd, t_data *d)
 	if (!ft_strncmp(cmd->command, "exit", 5))
 		return (1);
 	if (!ft_strncmp(cmd->command, "env", 4))
-		return (2);
+		return (1);
 	if (!ft_strncmp(cmd->command, "pwd", 4))
-		return (2);
+		return (1);
 	if (!ft_strncmp(cmd->command, "echo", 5))
-		return (2);
+		return (1);
 	return (d->errnum = 0);
 }

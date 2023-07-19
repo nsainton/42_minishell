@@ -48,9 +48,6 @@ int	exec_pipeline(t_data *d)
 				dupnclose(d->cmds[d->index]->fd_out, STDOUT_FILENO);
 			dup_pipe(d);
 			if (is_builtin(d->cmds[d->index], d) == 1)
-				exit_free_gc(keep_exit_status(-1) \
-				* (ft_strcmp((*(d->cmds + d->index))->command, "exit") == 0));
-			else if (is_builtin(d->cmds[d->index], d) == 2)
 				exit_free_gc(exec_builtin(d->cmds[d->index], d));
 			else if (!is_builtin(d->cmds[d->index], d))
 			{
@@ -89,8 +86,6 @@ int	exec_pipeline(t_data *d)
 				exec_pipeline(d);
 			}
 		}
-		if (d->cmds[d->index]->command && is_builtin(d->cmds[d->index], d) == 1)
-			keep_exit_status(exec_builtin(d->cmds[d->index], d));
 	}
 	wait_for_childs(d);
 	

@@ -61,7 +61,7 @@ int	make_redirs(t_data *d, t_command *cmd)
 
 int	get_infile(t_command *c, t_redir *r)
 {
-	if (c->fd_in <= 0)
+	if (c->fd_in != 0)
 		close(c->fd_in);
 	if (r->file)
 	{
