@@ -27,7 +27,10 @@ int	exec_pipeline(t_data *d)
 	if (set_data(d))
 		return (1);
 	if (d->cmds_nb == 1)
-		exec_one(d);
+	{
+		if (exec_one(d) != 0)
+			return (0);
+	}
 	while (++d->index < d->cmds_nb)
 	{
 		if (pipe(d->p) == -1)

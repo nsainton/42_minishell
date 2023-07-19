@@ -15,10 +15,23 @@
 int	exec_one(t_data *d)
 {
 	d->index = 1;
-	make_redirs(d, d->cmds[0]);
+	
+	if (make_redirs(d, d->cmds[0]) != 0)
+		return(d->errnum);
 
-	if (d->cmds[0]->command && is_builtin(d->cmds[0], d) == 1)
+	if (d->cmds[0]->command && is_builtin(d->cmds[0], d))
+	{
+		d->save_in = dup(STDIN_FILENO);
+		d->save_out = dup(STDOUT_FILENO);
+		if (d->cmds[0]->fd_in != STDIN_FILENO)
+			dup2(d->cmds[0]->fd_in, STDIN_FILENO);
+		if (d->cmds[0]->fd_out != STDOUT_FILENO)
+			dup2(d->cmds[0]->fd_out, STDOUT_FILENO);
 		exec_builtin(d->cmds[0], d);
+		dupnclose(d->save_in, STDIN_FILENO);
+		dupnclose(d->save_out, STDOUT_FILENO);
+	}
+		
 	else if (d->cmds[0]->command)
 	{
 		d->pid[0] = fork();
@@ -30,28 +43,20 @@ int	exec_one(t_data *d)
 				dupnclose(d->cmds[0]->fd_in, STDIN_FILENO);
 			if (d->cmds[0]->fd_out != STDOUT_FILENO)
 				dupnclose(d->cmds[0]->fd_out, STDOUT_FILENO);
-			if (is_builtin(d->cmds[0], d) == 2)
-				exit_free_gc(exec_builtin(d->cmds[0], d));
-			if (!is_builtin(d->cmds[0], d))
+			if (check_path(d->cmds[0], d->env))
 			{
-				if (check_path(d->cmds[0], d->env))
-				{
-					ft_dprintf(2, "%s : Command not found\n",
-						d->cmds[0]->command);
-					exit_free_gc(127);
-				}
-				ft_dprintf(2, "coucou\n");
-				ft_dprintf(2, "fd : %d\n", d->cmds[0]->fd_in);
-				d->errnum = execve(d->cmds[0]->path,
-						(char *const *)make_command(d->cmds[0]),
-						envlist_to_arr(d->env->list_env));
-				if (d->errnum)
-				{
-					ft_dprintf(2, "%s : %s -> path : %s\n", d->cmds[0]->command, strerror(errno), d->cmds[0]->path);
-					exit_free_gc(errno);
-				}
+				ft_dprintf(2, "%s : Command not found\n",
+					d->cmds[0]->command);
+				exit_free_gc(127);
 			}
-			exit_free_gc(d->errnum);
+			d->errnum = execve(d->cmds[0]->path,
+					(char *const *)make_command(d->cmds[0]),
+					envlist_to_arr(d->env->list_env));
+			if (d->errnum)
+			{
+				ft_dprintf(2, "%s : %s -> path : %s\n", d->cmds[0]->command, strerror(errno), d->cmds[0]->path);
+				exit_free_gc(errno);
+			}
 		}
 	}
 /* 	if (is_builtin(d->cmds[0], d) == 1)
