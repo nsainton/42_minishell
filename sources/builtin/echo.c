@@ -19,21 +19,21 @@ int	print_echo(t_data *d, t_command *cmd)
 	i = 0;
 	if (!cmd->args[0])
 	{
-		ft_dprintf(cmd->fd_out, "\n");
+		ft_dprintf(1, "\n");
 		return (0);
 	}
 	while (cmd->args[i] && is_true_optn(cmd->args[i]))
 		i++;
 	while (cmd->args[i])
 	{
-		ft_dprintf(cmd->fd_out, "%s", cmd->args[i]);
+		ft_dprintf(1, "%s", cmd->args[i]);
 		if (cmd->args[i + 1])
 			printf(" ");
 		i ++;
 	}
 	d->errnum = 0;
 	if (!is_true_optn(cmd->args[0]))
-		ft_dprintf(cmd->fd_out, "\n");
+		ft_dprintf(1, "\n");
 	return (0);
 }
 
