@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.h                                             :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/03/31 16:08:14 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:36:39 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void						interrupt(int sig, siginfo_t *info, \
 void *ucontext);
 
 //Functions from file : pipex_utils.c
-void wait_for_childs(t_data	*d);
+void                        wait_for_childs(t_data	*d);
 
 char						**make_command(t_command	*cmd);
 
@@ -72,7 +72,7 @@ int							exec_one(t_data *d);
 int							exec_builtin_parent(t_data *d, \
 t_command *cmd);
 
-void						exec_in_child(t_data *d, t_command *cmd);
+void						exec_w_execve(t_data *d, t_command *cmd);
 
 //Functions from file : connection.c
 t_command					**\

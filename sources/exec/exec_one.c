@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/19 18:39:27 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:28:22 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exec_one(t_data *d)
 		if (d->pid[0] < 0)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		else if (d->pid[0] == 0)
-			exec_in_child(d, d->cmds[0]);
+			exec_w_execve(d, d->cmds[0]);
 	}
 	ft_printf("This is my errnum : %d\n", d->errnum);
 	keep_exit_status(d->errnum);
@@ -46,7 +46,7 @@ int	exec_builtin_parent(t_data *d, t_command *cmd)
 	return (0);
 }
 
-void	exec_in_child(t_data *d, t_command *cmd)
+void	exec_w_execve(t_data *d, t_command *cmd)
 {
 	dup_in_out(cmd->fd_in, cmd->fd_out);
 	if (check_path(cmd, d->env))

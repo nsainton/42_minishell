@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:47:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/22 18:03:20 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:38:17 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	commands_exec(t_cchar *line, t_data *data)
 {
-	t_ncommand *commands;
+	t_ncommand	*commands;
 
 	if (split_line(line, &commands, data->env))
 	{

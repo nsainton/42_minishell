@@ -6,13 +6,12 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:16:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/20 23:42:30 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:34:44 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
 void	print_line(t_metachar *mc, size_t size)
 {
 	size_t	index;
@@ -25,7 +24,6 @@ void	print_line(t_metachar *mc, size_t size)
 	}
 	ft_printf("\n");
 }
-*/
 
 void	print_redir(t_redirection *redir, size_t no)
 {

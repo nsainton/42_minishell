@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/19 18:46:15 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:28:20 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	exec_command_in_pipeline(t_data *d)
 		if (is_builtin(d->cmds[d->index], d) == 1)
 			exit_free_gc(exec_builtin(d->cmds[d->index], d));
 		else if (!is_builtin(d->cmds[d->index], d))
-			exec_in_child(d, d->cmds[d->index]);
+			exec_w_execve(d, d->cmds[d->index]);
 	}
 	else if (d->pid[d->index] > 0 && d->cmds[d->index]->command)
 	{
