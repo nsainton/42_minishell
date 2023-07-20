@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/*
 void	print_line(t_metachar *mc, size_t size)
 {
 	size_t	index;
@@ -24,6 +25,7 @@ void	print_line(t_metachar *mc, size_t size)
 	}
 	ft_printf("\n");
 }
+*/
 
 void	print_redir(t_redirection *redir, size_t no)
 {
