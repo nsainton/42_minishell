@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:39:48 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/18 17:01:52 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/20 18:10:03 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,9 @@ int	check_path(t_command *cmd, t_env *my_env)
 	if ( cmd->command[0] == '/'|| cmd->command[0] == '.')
 	{
 		cmd->path = cmd->command;
-		if (!access(cmd->path, X_OK)) 
-		//&& opendir(cmd->path) == NULL)
+		if (!access(cmd->path, X_OK) && !is_a_directory(cmd->path))
 			return (0);
-		return (errno);
-		/* cmd->path = gc_strjoin(get_env_var(my_env, "PWD"), cmd->command + 1);
-		if (!access(cmd->path, F_OK))
-			return (0);
-		cmd->path = NULL;
-		return (127); */
+		return (126);
 	}
 	i = -1;
 	path = gc_split(get_env_var(my_env, "PATH"), ':');
@@ -42,7 +36,7 @@ int	check_path(t_command *cmd, t_env *my_env)
 		free_node(path[i]);
 		path[i] = gc_strjoin(tmp, cmd->command);
 		free_node(tmp);
-		if (!access(path[i], F_OK))
+		if (!access(path[i], F_OK) && !access(path[i], X_OK))
 		{
 			cmd->path = path[i];
 			return (0);
@@ -50,6 +44,19 @@ int	check_path(t_command *cmd, t_env *my_env)
 	}
 	free_node(path);
 	return (127);
+}
+
+int	is_a_directory(char *path)
+{
+	struct stat sb;
+
+	if (stat(path, &sb) == -1) {
+		perror("Error in stat function\n");
+		return (0);
+	}
+	if ((sb.st_mode & S_IFMT) == S_IFDIR)
+	   return (1);
+	return (0);
 }
 
 int	ft_arrlen(void **arr)
