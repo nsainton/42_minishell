@@ -12,27 +12,29 @@
 
 #include "minishell.h"
 
-static int read_heredoc(const char *limiter, int write_fd)
+static int	read_heredoc(const char *limiter, int write_fd)
 {
-  char *line;
-  static unsigned int line_index;
+  char			*line;
+  static unsigned int	line_index;
 
   line_index++;
   line = readline(HEREDOC_PROMPT);
-  while (line && ! ft_strcmp(line, limiter))
+  while (line && ft_strcmp(line, limiter))
     {
       if (ft_putendl_fd(line, write_fd) == -1)
 	return (EXIT_FAILURE);
       free(line);
       line = readline(HEREDOC_PROMPT);
+      line_index ++;
     }
   if (! line)
     ft_dprintf(STDERR_FILENO, HEREDOC_WARNING, line_index, limiter);
   close(write_fd);
+  //ft_printf("Ich funktioniere\n");
   return ((line != NULL) - 1);
 }
 
-int heredoc_open(const char *heredoc_name, struct s_heredoc_infos *hd)
+static int	heredoc_open(const char *heredoc_name, struct s_heredoc_infos *hd)
 {
   hd->write_fd = open(heredoc_name, O_EXCL | O_CREAT | O_WRONLY | O_TRUNC, \
   00600);
@@ -44,7 +46,7 @@ int heredoc_open(const char *heredoc_name, struct s_heredoc_infos *hd)
       close(hd->write_fd);
       return (EXIT_FAILURE);
     }
-  if (unlink(name) == -1)
+  if (unlink(heredoc_name) == -1)
     {
       close(hd->read_fd);
       close(hd->write_fd);
@@ -53,8 +55,27 @@ int heredoc_open(const char *heredoc_name, struct s_heredoc_infos *hd)
   return (EXIT_SUCCESS);
 }
 
-void create_random_name(char *name, void *address)
+static void	create_random_name(char *name, void *address)
 {
-  unsigned int random;
-  char *tmp;
-  
+  unsigned int	random;
+  char		*tmp;
+
+  *name = 0;
+  tmp = name;
+  tmp += ft_strncat(name, HEREDOC, 100);
+  random = (unsigned int)((uintptr_t)address & 0xffffffff);
+  put_uns_tab(random, &tmp, HEX, random % 10 + 5);
+}
+
+int	getheredoc(struct s_heredoc_infos *hd, struct s_heredoc *heredoc)
+{
+  char	name[100];
+  int	error;
+
+  ft_bzero(hd, sizeof * hd);
+  create_random_name(name, heredoc);
+  if (heredoc_open(name, hd))
+    return (EXIT_FAILURE);
+  error = read_heredoc(heredoc->limiter, hd->write_fd);
+  return ((error > 0) * EXIT_FAILURE + (error < 1) * error);
+}

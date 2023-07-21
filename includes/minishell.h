@@ -28,6 +28,8 @@ int							check_path(t_command *cmd, t_env *my_env);
 
 int							ft_arrlen(void **arr);
 
+int getheredoc(struct s_heredoc_infos *hd, struct s_heredoc *heredoc);
+int heredoc(t_command *command);
 //Functions from file : files.c
 int							make_redirs(t_data *d, t_command *cmd);
 

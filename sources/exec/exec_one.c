@@ -14,6 +14,9 @@
 
 int	exec_one(t_data *d)
 {
+  int save_fd;
+
+        save_fd = dup(STDIN_FILENO);
 	d->index = 1;
 	if (make_redirs(d, d->cmds[0]) != 0)
 		return(d->errnum);
@@ -29,6 +32,7 @@ int	exec_one(t_data *d)
 	}
 	ft_printf("This is my errnum : %d\n", d->errnum);
 	keep_exit_status(d->errnum);
+	dupnclose(save_fd, STDIN_FILENO);
 	return (d->errnum);
 }
 

@@ -43,7 +43,7 @@ int	make_redirs(t_data *d, t_command *cmd)
 	if (cmd->heredocs)
 	{
 		//ft_printf("There are some heredocs here \n");
-		here_doc(cmd);
+		heredoc(cmd);
 	}
 	while (cmd->redirs && cmd->redirs[i])
 	{
