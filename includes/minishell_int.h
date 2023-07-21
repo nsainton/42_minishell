@@ -46,6 +46,10 @@
 # define SPECIALS "'\"? <>|$"
 # define REDIRS "<>|"
 # define SEPARATORS " <>"
+# define HEREDOC "/tmp/minishell-"
+# define HEREDOC_PROMPT "> "
+# define HEREDOC_WARNING "minishell: warning: here-document at line %u \
+delimited by end-of-fine (wanted `%s')\n"
 // End of Preprocessor defines
 
 // ENUM Declarations
@@ -169,6 +173,12 @@ struct s_env
 	t_list	*list_env;
 	char	*path;
 	int		is_empty;
+};
+
+struct s_heredoc_infos
+{
+  int write_fd;
+  int read_fd;
 };
 
 /*
