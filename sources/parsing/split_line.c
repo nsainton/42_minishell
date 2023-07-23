@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:48:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/01 17:22:34 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/23 09:47:40 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ int	split_line(t_cchar *line, t_ncommand **command, t_env *env)
 	if (invalid_operator(nl.str, &nl.len))
 		return (SYNTAX_ERROR);
 	remove_var_symbols((signed char *)nl.str, &nl.len);
-	/*
-	if (redirections(redirs, &nl))
-		return (NULL);
-	*/
 	if (fill_commands(&com, nl.str))
 		return (ALLOCATION_ERROR);
 	*command = (t_ncommand *)com.tab;

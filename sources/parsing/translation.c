@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:43:22 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 11:00:19 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/23 09:48:26 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ int	decrypt_char(t_cint c)
 
 void	decrypt_string(char *s)
 {
-	signed char	*str = (signed char *)s;
+	signed char	*str;
+
+	str = (signed char *)s;
 	while (*str)
 	{
 		*str = decrypt_char(*str);
