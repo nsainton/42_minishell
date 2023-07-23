@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/23 10:38:21 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/23 12:04:36 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ int	heredoc(t_command *command)
 	int						err;
 
 	if (! *command->heredocs)
+		return (EXIT_SUCCESS);
+	len = tablen(*command->heredocs, sizeof **command->heredocs);
+	if (! len)
 		return (EXIT_SUCCESS);
 	i = 0;
 	while (i < len)
