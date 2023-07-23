@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 09:41:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/01 17:22:17 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/23 09:41:53 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static char	*expand_env_var(t_cchar *line, size_t index, size_t length, t_env *e
 	var_name = gc_substr(line, index, length);
 	if (! var_name)
 		return (NULL);
-	//var = getenv(var_name);
-	var = get_env_var(env, var_name); //besoin de 
+	var = get_env_var(env, var_name);
 	free_node(var_name);
 	return (var);
 }
