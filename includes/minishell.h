@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/20 15:36:39 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:08:14 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void						dupnclose(int fd1, int fd2);
 
 //Functions from file : check_path.c
 int							check_path(t_command *cmd, t_env *my_env);
+
+int							is_a_directory(char *path);
 
 int							ft_arrlen(void **arr);
 
@@ -50,7 +52,7 @@ void						interrupt(int sig, siginfo_t *info, \
 void *ucontext);
 
 //Functions from file : pipex_utils.c
-void                        wait_for_childs(t_data	*d);
+void wait_for_childs(t_data	*d);
 
 char						**make_command(t_command	*cmd);
 

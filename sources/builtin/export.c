@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:14:46 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/01 16:18:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:35:59 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ int	export_env(t_data *d, t_command *cmd)
 {
 	int	i;
 
+	if (d->env->is_empty)
+	{
+		ft_dprintf(2, "env : export : No such file or directory\n");
+		return (127);
+	}
 	if (!cmd->args[0])
 	{
 		print_list_prefix(d->env->list_env, "declare -x");

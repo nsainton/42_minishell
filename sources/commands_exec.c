@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:47:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/20 15:38:17 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:29:02 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	commands_exec(t_cchar *line, t_data *data)
 		ft_printf("No commands in data\n");
 		return ;
 	}
-	ft_printf("Some commands have been found\n");
 	data->cmds_nb = tablen(data->cmds, sizeof * data->cmds);
 	if (!data->cmds_nb)
 		return ;
