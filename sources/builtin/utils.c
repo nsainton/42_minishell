@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 13:06:33 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/05/10 14:56:20 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:45:29 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	**envlist_to_arr(t_list *env)
 	int		i;
 	t_list	*tmp;
 
+	if (!env->content)
+		return (NULL);
 	i = 0;
 	tmp = env;
 	while (tmp)

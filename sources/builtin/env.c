@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/01 16:18:12 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:41:14 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ t_env	*get_my_env(char **envp)
 
 	my_env = gcmalloc (sizeof(t_env));
 	if (!my_env)
-		return (NULL);
+		exit_free_gc(EXIT_FAILURE);
 	my_env->list_env = NULL;
 	my_env->path = NULL;
 	if (!envp || !envp[0])
 	{
 		my_env->is_empty = 1;
+		my_env->list_env = gc_lstnew(NULL);
 		return (my_env);
 	}
 	else
@@ -53,7 +54,7 @@ int	print_env(t_data *d, t_command *cmd)
 {
 	d->errnum = 0;
 	if (d->env->is_empty)
-		ft_printf("\n"); //? regarder reel comportement
+		return (SUCCESS); //? regarder reel comportement
 	else if (cmd->args[0])
 	{
 		ft_dprintf(2, "env : minishell doesn't support arguments or options\n");
@@ -71,6 +72,11 @@ int	unset_env(t_data *d, t_command *cmd)
 	char	*line;
 
 	d->errnum = 0;
+	if (d->env->is_empty)
+	{
+		ft_dprintf(2, "env : unset : No such file or directory\n");
+		return (127);
+	}
 	if (!cmd->args[0])
 		return (SUCCESS);
 	i = 0;
