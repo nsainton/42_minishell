@@ -14,14 +14,27 @@
 # define MINISHELL_H
 # include "minishell_int.h"
 
+//Functions from file : minishell.c
+void						init(char **av, char **envp, t_data *data);
+
 //Functions from file : metachar.c
 //Functions from file : parser.c
+//Functions from file : save_stds.c
+int							save_stds(const int mode);
+
 //Functions from file : dups.c
 void						dup_in_out(int fd_in, int fd_out);
 
 void						dup_pipe(t_data *d);
 
 void						dupnclose(int fd1, int fd2);
+
+//Functions from file : get_heredoc.c
+int							getheredoc(struct s_heredoc_infos *hd, \
+struct s_heredoc *heredoc);
+
+//Functions from file : heredoc.c
+int							heredoc(t_command *command);
 
 //Functions from file : check_path.c
 int							check_path(t_command *cmd, t_env *my_env);
@@ -30,17 +43,11 @@ int							is_a_directory(char *path);
 
 int							ft_arrlen(void **arr);
 
-int getheredoc(struct s_heredoc_infos *hd, struct s_heredoc *heredoc);
-int heredoc(t_command *command);
 //Functions from file : files.c
-int							make_redirs(t_data *d, t_command *cmd);
-
 int							get_infile(t_command *c, t_redir *r);
 
 int							get_outfile(t_command *c, t_redir *r, \
 const int mode);
-
-void						here_doc(t_command *c);
 
 //Functions from file : signals.c
 void						init_sigs(void);
@@ -57,6 +64,9 @@ void wait_for_childs(t_data	*d);
 char						**make_command(t_command	*cmd);
 
 void						close_used_pipes(t_data *d, t_command *cmd);
+
+//Functions from file : redirs.c
+int							make_redirs(t_data *d, t_command *cmd);
 
 //Functions from file : exit_free.c
 void						exit_free_gc(int status);

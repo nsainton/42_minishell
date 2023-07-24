@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/20 15:28:20 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:33:42 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,19 @@ int	exec_pipeline(t_data *d)
 
 void	exec_command_in_pipeline(t_data *d)
 {
+	int errnum;
+
 	if (d->pid[d->index] == 0 && d->cmds[d->index]->command)
 	{
+		save_stds('s');
 		dup_in_out(d->cmds[d->index]->fd_in, d->cmds[d->index]->fd_out);
 		dup_pipe(d);
 		if (is_builtin(d->cmds[d->index], d) == 1)
-			exit_free_gc(exec_builtin(d->cmds[d->index], d));
+		{
+			errnum = exec_builtin(d->cmds[d->index], d);
+			save_stds('r');
+			exit_free_gc(errnum);
+		}
 		else if (!is_builtin(d->cmds[d->index], d))
 			exec_w_execve(d, d->cmds[d->index]);
 	}

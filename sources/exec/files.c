@@ -6,58 +6,11 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:33:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/23 11:51:30 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:19:40 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	make_redirs(t_data *d, t_command *cmd)
-{
-	int	i;
-	/*
-	struct s_ncommand	com;
-
-	ft_bzero(&com, sizeof com);
-	com.command = cmd->command;
-	com.args = cmd->args;
-	ft_printf("Before r\n");
-	com.redirs = *cmd->redirs;
-	ft_printf("After r and Before h\n");
-	com.heredocs = *cmd->heredocs;
-	ft_printf("After h\n");
-	*/
-	i = 0;
-	d->errnum = 0;
-	cmd->fd_in = 0;
-	cmd->fd_out = 1;
-	if (!cmd->redirs && !cmd->heredocs)
-	{
-		/*
-		ft_printf("No redirs and no heredocs here\n");
-		ft_printf("This is the command\n");
-		print_command(&com, 1);
-		*/
-		return (0);
-	}
-	if (cmd->heredocs)
-	{
-		//ft_printf("There are some heredocs here \n");
-		heredoc(cmd);
-	}
-	while (cmd->redirs && cmd->redirs[i])
-	{
-		if (cmd->redirs[i]->mode == 'r' || cmd->redirs[i]->mode == 'b')
-			d->errnum = get_infile(cmd, cmd->redirs[i]);
-		if (cmd->redirs[i]->mode == 'w')
-			d->errnum = get_outfile(cmd, cmd->redirs[i], O_TRUNC);
-		else if (cmd->redirs[i]->mode == 'a')
-			d->errnum = get_outfile(cmd, cmd->redirs[i], O_APPEND);
-		i ++;
-	}
-
-	return (d->errnum);
-}
 
 int	get_infile(t_command *c, t_redir *r)
 {

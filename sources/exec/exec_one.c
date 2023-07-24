@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/24 15:14:17 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:39:08 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int	exec_one(t_data *d)
 {
-	int	save_fd;
-
-	save_fd = dup(STDIN_FILENO);
+	save_stds('s');
 	d->index = 1;
 	if (make_redirs(d, d->cmds[0]) != 0)
 		return(d->errnum);
@@ -32,7 +30,7 @@ int	exec_one(t_data *d)
 	}
 	ft_printf("This is my errnum : %d\n", d->errnum);
 	keep_exit_status(d->errnum);
-	dupnclose(save_fd, STDIN_FILENO);
+	save_stds('r');
 	return (d->errnum);
 }
 
@@ -42,11 +40,11 @@ int	exec_builtin_parent(t_data *d, t_command *cmd)
 	{	
 		d->save_in = dup(STDIN_FILENO);
 		d->save_out = dup(STDOUT_FILENO);
-	}
+	} 
 	dup_in_out(cmd->fd_in, cmd->fd_out);
 	keep_exit_status(exec_builtin(cmd, d));
 	dupnclose(d->save_in, STDIN_FILENO);
-	dupnclose(d->save_out, STDOUT_FILENO);
+	dupnclose(d->save_out, STDOUT_FILENO); 
 	return (0);
 }
 
@@ -69,6 +67,7 @@ void	exec_w_execve(t_data *d, t_command *cmd)
 			ft_dprintf(2, "%s : Is a directory\n", cmd->command);
 		else
 			ft_dprintf(2, "%s : %s\n", cmd->command, strerror(errno));
+		save_stds('r');
 		exit_free_gc(errnum);
 	}
 	errnum = execve(cmd->path,
@@ -76,6 +75,7 @@ void	exec_w_execve(t_data *d, t_command *cmd)
 	if (errnum)
 	{
 		ft_dprintf(2, "%s : %s\n", cmd->command, strerror(errno));
+		save_stds('r');
 		exit_free_gc(126);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_stds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:07:46 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/24 16:17:26 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:25:16 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int safe_replace(int stds[3])
 	return (EXIT_SUCCESS);
 }
 
-int save_stds(const int mode)
+int	save_stds(const int mode)
 {
 	static int	stds[3] = {-1};
 
