@@ -6,7 +6,7 @@
 #    By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/05/29 16:03:20 by nsainton         ###   ########.fr        #
+#    Updated: 2023/07/23 12:05:15 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ ABBRS:= $(LGC_ABBR) $(LFT_ABBR) -lreadline
 
 CC:= cc
 
-CFLAGS:= -ggdb -Wall -Wextra -Werror
+CFLAGS:= -Wall -Wextra -Werror
 
 HEADER_URL := git@github.com:nsainton/header.git
 

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/20 15:28:22 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/23 11:52:21 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	exec_one(t_data *d)
 {
-  int save_fd;
+	int	save_fd;
 
-        save_fd = dup(STDIN_FILENO);
+	save_fd = dup(STDIN_FILENO);
 	d->index = 1;
 	if (make_redirs(d, d->cmds[0]) != 0)
 		return(d->errnum);
