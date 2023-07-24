@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/20 17:35:11 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:57:41 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ enum e_exit_errors
 
 //Structures declarations
 
+
 struct s_arg
 {
 	char			*argument;
@@ -151,6 +152,7 @@ struct	s_command
 	t_uint				last;
 	struct s_heredoc	**heredocs;
 	struct s_redir		**redirs;
+	t_list				*fds;
 	int					fd_in;
 	int					fd_out;
 	int					err;
