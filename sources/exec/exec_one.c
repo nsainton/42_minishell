@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/24 15:11:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:14:17 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,9 @@ int	exec_one(t_data *d)
 		else if (d->pid[0] == 0)
 			exec_w_execve(d, d->cmds[0]);
 	}
-<<<<<<< HEAD
 	ft_printf("This is my errnum : %d\n", d->errnum);
 	keep_exit_status(d->errnum);
 	dupnclose(save_fd, STDIN_FILENO);
-=======
->>>>>>> main
 	return (d->errnum);
 }
 
