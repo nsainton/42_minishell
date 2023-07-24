@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/20 15:28:22 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:27:45 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	exec_one(t_data *d)
 		else if (d->pid[0] == 0)
 			exec_w_execve(d, d->cmds[0]);
 	}
-	ft_printf("This is my errnum : %d\n", d->errnum);
-	keep_exit_status(d->errnum);
 	return (d->errnum);
 }
 
@@ -48,18 +46,25 @@ int	exec_builtin_parent(t_data *d, t_command *cmd)
 
 void	exec_w_execve(t_data *d, t_command *cmd)
 {
+	int errnum;
+
 	dup_in_out(cmd->fd_in, cmd->fd_out);
-	if (check_path(cmd, d->env))
+	errnum = check_path(cmd, d->env);
+	if (errnum)
 	{
-		ft_dprintf(2, "%s : Command not found\n",
-			cmd->command);
-		exit_free_gc(127);
+		if (errnum == 127)
+			ft_dprintf(2, "%s : Command not found\n", cmd->command);
+		else if (errnum == 126)
+			ft_dprintf(2, "%s : Is a directory\n", cmd->command);
+		else
+			ft_dprintf(2, "%s : %s\n", cmd->command, strerror(errno));
+		exit_free_gc(errnum);
 	}
-	d->errnum = execve(cmd->path,
+	errnum = execve(cmd->path,
 			(char *const *)make_command(cmd), envlist_to_arr(d->env->list_env));
-	if (d->errnum)
+	if (errnum)
 	{
-		ft_dprintf(2, "%s : %s -> path : %s\n", cmd->command, strerror(errno), cmd->path);
-		exit_free_gc(errno);
+		ft_dprintf(2, "%s : %s\n", cmd->command, strerror(errno));
+		exit_free_gc(126);
 	}
 }
