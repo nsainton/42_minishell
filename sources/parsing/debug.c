@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+
 /* void	print_line(t_metachar *mc, size_t size)
 {
 	size_t	index;

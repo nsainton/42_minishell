@@ -16,7 +16,7 @@ MK:= mkdir -p
 
 NAME:= minishell
 
-PROG:= $(NAME).c
+#PROG:= $(NAME).c
 
 SRCS_DIR:= sources
 
@@ -38,7 +38,7 @@ INCS:= $(wildcard $(INCS_DIR)/*)
 
 DEPS_DIR:= dependencies
 
-DEPS:= $(patsubst %.c, $(DEPS_DIR)/%.d, $(SRCS_NAMES) $(PROG))
+DEPS:= $(patsubst %.c, $(DEPS_DIR)/%.d, $(SRCS_NAMES))# $(PROG))
 
 LIBS_DIR ?= $(addprefix $(shell pwd)/, libs)
 
