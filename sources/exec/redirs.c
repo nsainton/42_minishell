@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:50 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/24 19:01:27 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:10:52 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	make_redirs(t_data *d, t_command *cmd)
     cmd->fds = gc_lstnew(NULL);
     while (cmd->redirs && cmd->redirs[i])
     {
-        d->errnum = make_dups(cmd, cmd->redirs[i]);
+        d->errnum = make_dups_list(cmd, cmd->redirs[i]);
         i ++; 
     }
 	/* while (cmd->redirs && cmd->redirs[i])
@@ -46,10 +46,14 @@ int	make_redirs(t_data *d, t_command *cmd)
 	return (d->errnum);
 }
 
-int make_dups(t_command *cmd, t_redir   *redir)
+int make_dups_list(t_command *cmd, t_redir *redir)
 {
-    int new_fd;
+    int *dup_fds;
 
+    dup_fds = gcmalloc(2 * sizeof(int));
+    if (!dup_fds)
+        return (EXIT_FAILURE);
+    dup_fds[0] = redir->fd;
     if (redir->fd == 0 && (redir->mode == 'r' || redir->mode == 'b'))
         return (get_infile(cmd, redir));
     else if (redir->fd == 1 && redir->mode == 'w')
@@ -58,26 +62,50 @@ int make_dups(t_command *cmd, t_redir   *redir)
         return (get_outfile(cmd, redir, O_APPEND));
     else
     {
-        new_fd = open_file_fd(redir, );
-        gc_lst_add_back();
+        dup_fds[1] = open_file_fd(redir, redir->mode);
+        if (dup_fds[1] >= 0)
+            ft_lstadd_back(&cmd->fds, gc_lstnew(dup_fds));
+        //dupnclose(dup_fds[0], dup_fds[1]);
     }
-    //inverser
-// 2>0
     return (0);
 }
 
-int open_file_fd(t_redirs *redir, char mode)
+int dup_list(t_list *lst_dups)
+{
+    t_list	*tmp;
+    int *fds;
+
+	if (!lst_dups)
+		return (0);
+	tmp = lst_dups;
+	while (tmp != NULL)
+	{
+        if (tmp->content)
+        {
+            fds = (int *)tmp->content;
+            printf("%d, %d",fds[0], fds[1]);
+            dupnclose(fds[1], fds[0]);
+        }
+		tmp = tmp->next;
+	}
+    return (0);
+}
+
+int open_file_fd(t_redir *r, char mode)
 {
     int new_fd;
 
-    if (r->file)
+    new_fd = -1;
+    if (r->file && (mode == 'r' || mode == 'b'))
+		new_fd = open(r->file, O_RDONLY);
+    else if (r->file && mode == 'w')
+		new_fd = open(r->file, O_CREAT | O_RDWR | O_TRUNC, 0000644);
+	else if (r->file && mode == 'a')
+        new_fd = open(r->file, O_CREAT | O_RDWR | O_APPEND, 0000644);
+    if (new_fd < 0)
 	{
-		new_fd = open(r->file, O_CREAT | O_RDWR | mode, 0000644);
-		if (new_fd < 0)
-		{
-			ft_dprintf(2, "outfile : %s : %s\n", r->file, strerror(errno));
-			return (errno);
-		}
-        return (new_fd);
+		ft_dprintf(2, "file : %s : %s\n", r->file, strerror(errno));
+		return (errno);
 	}
+    return (new_fd);
 }

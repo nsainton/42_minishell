@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/24 17:09:05 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:05:10 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	exec_builtin_parent(t_data *d, t_command *cmd)
 		d->save_out = dup(STDOUT_FILENO);
 	} 
 	dup_in_out(cmd->fd_in, cmd->fd_out);
+	dup_list(cmd->fds);
 	keep_exit_status(exec_builtin(cmd, d));
 	dupnclose(d->save_in, STDIN_FILENO);
 	dupnclose(d->save_out, STDOUT_FILENO); 
@@ -51,13 +52,14 @@ int	exec_builtin_parent(t_data *d, t_command *cmd)
 void	exec_w_execve(t_data *d, t_command *cmd)
 {
 	int errnum;
-
+ 
 	if (d->env->is_empty)
 	{
 		ft_dprintf(2, "env : no env = no command\n");
 		exit_free_gc(127);
 	}
 	dup_in_out(cmd->fd_in, cmd->fd_out);
+	dup_list(cmd->fds);
 	errnum = check_path(cmd, d->env);
 	if (errnum)
 	{
@@ -67,7 +69,7 @@ void	exec_w_execve(t_data *d, t_command *cmd)
 			ft_dprintf(2, "%s : Is a directory\n", cmd->command);
 		else
 			ft_dprintf(2, "%s : %s\n", cmd->command, strerror(errno));
-		save_stds('r');
+		//save_stds('r');
 		exit_free_gc(errnum);
 	}
 	errnum = execve(cmd->path,
