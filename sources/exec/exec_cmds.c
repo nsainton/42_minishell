@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 12:27:56 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:24:57 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	set_data(t_data *d)
 
 int	exec_pipeline(t_data *d)
 {
+	if (save_stds('s'))
+		return (EXIT_FAILURE);
 	if (set_data(d))
 		return (1);
 	if (d->cmds_nb == 1)
@@ -44,9 +46,13 @@ int	exec_pipeline(t_data *d)
 	wait_for_childs(d);	
 	if (d->cmds_nb > 1)
 	{
-		close (d->p[0]);
-		close (d->p[1]);
+		if (close(d->p[0]) == -1)
+			perror("Error while closing input side");
+		if (close(d->p[1]) == -1)
+			perror("Error while closing output side");
 	} 
+	if (save_stds('r'))
+		return (EXIT_FAILURE);
 	return (0);
 }
 
@@ -65,6 +71,7 @@ void	exec_command_in_pipeline(t_data *d)
 			errnum = exec_builtin(d->cmds[d->index], d);
 			close_list(d->cmds[d->index]->fds);
 			//save_stds('r');
+			save_stds('c');
 			exit_free_gc(errnum);
 		}
 		else if (!is_builtin(d->cmds[d->index], d))

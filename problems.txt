@@ -1,0 +1,5 @@
+//cd -
+//Problem with variable "~": Gonna fix it and modify cd builtin
+Segfault with export //Fixed by removing the free_nodes but still a problem
+unset PATH and then ls (prints `success' instead of `no such file or directory')
+cat with CTRL-C, interrupted system call
