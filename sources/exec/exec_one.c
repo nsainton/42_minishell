@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 16:02:33 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:45:57 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	exec_one(t_data *d)
 			exec_w_execve(d, d->cmds[0]);
 		close_list(d->cmds[0]->fds);
 	}
-	ft_printf("This is my errnum : %d\n", d->errnum);
-	keep_exit_status(d->errnum);
 	//save_stds('r');
 	return (d->errnum);
 }

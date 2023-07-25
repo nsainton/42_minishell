@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/25 23:45:24 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:44:50 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 int	cd(t_command *cmd, t_data *d)
 {
+	int len;
+
 	if (!cmd->args[0])
 		return (go_home(d->env, 1));
+	len = ft_arrlen((void *) cmd->args);
+	if (len > 1)
+	{
+		ft_dprintf(2, "cd : too many arguments\n");
+		return (1);
+	}
 	if (cmd->args[0][0] == '~')
 	{
 		go_home(d->env, 0);
