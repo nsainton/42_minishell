@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:50 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 15:45:06 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:56:47 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	make_redirs(t_data *d, t_command *cmd)
 	return (d->errnum);
 }
 
-int make_dups_list(t_command *cmd, t_redir *redir)
+int	make_dups_list(t_command *cmd, t_redir *redir)
 {
     int *dup_fds;
 
@@ -70,9 +70,9 @@ int make_dups_list(t_command *cmd, t_redir *redir)
     return (0);
 }
 
-int dup_list(t_list *lst_dups)
+int	dup_list(t_list *lst_dups)
 {
-    t_list	*tmp;
+	t_list	*tmp;
     int *fds;
 
 	if (!lst_dups)
@@ -91,7 +91,7 @@ int dup_list(t_list *lst_dups)
     return (0);
 }
 
-void    close_list(t_list  *lst_dups)
+void	close_list(t_list  *lst_dups)
 {
 	t_list	*tmp;
     int		*fds;
@@ -121,7 +121,7 @@ void    close_list(t_list  *lst_dups)
 	}
 }
 
-int open_file_fd(t_redir *r, char mode)
+int	open_file_fd(t_redir *r, char mode)
 {
     int new_fd;
 

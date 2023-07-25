@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:10:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 17:12:43 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/25 18:01:03 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	init_sigs(void)
 {
-	init_sig(interrupt, SIGINT);
+	signal(SIGINT, interrupt);
 	signal(SIGQUIT, SIG_IGN);
 }
-
+/* 
 void	init_sig(void f(int, siginfo_t*, void*), int sigid)
 {
 	struct sigaction	sig;
@@ -29,16 +29,20 @@ void	init_sig(void f(int, siginfo_t*, void*), int sigid)
 	sigaddset(&sig.sa_mask,  sigid);
 	sigaction(sigid, &sig, NULL);
 
-}
+} */
 
 
-void	interrupt(int sig, siginfo_t *info, void *ucontext)
+void	interrupt(int sig)
 {
-	(void)ucontext;
 	(void)sig;
-	(void)info;
+
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	handle_sigint_child(int signal)
+{
+	exit_free_gc(128 + signal);
 }
