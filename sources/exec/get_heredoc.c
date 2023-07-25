@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/23 10:30:06 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/25 10:35:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	read_heredoc(const char *limiter, int write_fd)
 	}
 	if (! line)
 		ft_dprintf(STDERR_FILENO, HEREDOC_WARNING, line_index, limiter);
+	else
+		free(line);
 	close(write_fd);
 	return ((line != NULL) - 1);
 }
