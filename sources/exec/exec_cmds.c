@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/24 17:09:59 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:13:50 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	exec_command_in_pipeline(t_data *d)
 	{
 		//save_stds('s');
 		dup_in_out(d->cmds[d->index]->fd_in, d->cmds[d->index]->fd_out);
+		dup_list(d->cmds[d->index]->fds);
 		dup_pipe(d);
 		if (is_builtin(d->cmds[d->index], d) == 1)
 		{
