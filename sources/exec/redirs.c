@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:50 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 12:28:35 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:45:06 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ int dup_list(t_list *lst_dups)
 
 void    close_list(t_list  *lst_dups)
 {
-     t_list	*tmp;
-    int *fds;
+	t_list	*tmp;
+    int		*fds;
 
 	if (!lst_dups)
 		return ;
@@ -104,11 +104,18 @@ void    close_list(t_list  *lst_dups)
         if (tmp->content)
         {
             fds = (int *)tmp->content;
-            printf("closeing :%d, %d\n",fds[0], fds[1]);
-            if (fds[0] != 0 && fds[0] != 1 && fds[0] != 2)
-                close(fds[0]);
-             if (fds[1] != 0 && fds[1] != 1 && fds[1] != 2)
-                close(fds[1]);
+            if (fds[0] > 2)
+			{
+				ft_printf("Closing : %d\n", fds[0]);
+                if (close(fds[0]) == -1)
+					perror("close");
+			}
+            if (fds[1] > 2)
+			{
+			 	ft_printf("Closing : %d\n", fds[1]);
+                if (close(fds[1]) == -1)
+					perror("close");
+			}
         }
 		tmp = tmp->next;
 	}
