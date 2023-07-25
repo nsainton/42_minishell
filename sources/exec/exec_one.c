@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 15:34:51 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:02:33 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	exec_w_execve(t_data *d, t_command *cmd)
 	dup_in_out(cmd->fd_in, cmd->fd_out);
 	dup_list(cmd->fds);
 	errnum = check_path(cmd, d->env);
+	save_stds('c');
 	if (errnum)
 	{
 		if (errnum == 127)
@@ -72,8 +73,6 @@ void	exec_w_execve(t_data *d, t_command *cmd)
 		else
 			ft_dprintf(2, "%s : %s\n", cmd->command, strerror(errno));
 		close_list(cmd->fds);
-		//save_stds('r');
-		save_stds('c');
 		exit_free_gc(errnum);
 	}
 	errnum = execve(cmd->path,
@@ -81,9 +80,7 @@ void	exec_w_execve(t_data *d, t_command *cmd)
 	if (errnum)
 	{
 		ft_dprintf(2, "%s : %s\n", cmd->command, strerror(errno));
-		//save_stds('r');
 		close_list(cmd->fds);
-		save_stds('c');
 		exit_free_gc(126);
 	}
 }
