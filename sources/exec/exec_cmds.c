@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 12:13:50 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:27:56 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	exec_command_in_pipeline(t_data *d)
 		if (is_builtin(d->cmds[d->index], d) == 1)
 		{
 			errnum = exec_builtin(d->cmds[d->index], d);
+			close_list(d->cmds[d->index]->fds);
 			//save_stds('r');
 			exit_free_gc(errnum);
 		}

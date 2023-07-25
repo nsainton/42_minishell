@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:39:48 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/24 14:54:39 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:13:06 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	check_path(t_command *cmd, t_env *my_env)
 {
+	char	*big_path;
 	char	**path;
 	char	*tmp;
 	int		i;
@@ -27,7 +28,10 @@ int	check_path(t_command *cmd, t_env *my_env)
 		return (126);
 	}
 	i = -1;
-	path = gc_split(get_env_var(my_env, "PATH"), ':');
+	big_path = get_env_var(my_env, "PATH");
+	if (!big_path)
+		return (127);
+	path = gc_split(big_path, ':');
 	if (!path)
 		return (2);
 	while (path[++i])

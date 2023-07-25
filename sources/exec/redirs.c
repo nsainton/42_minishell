@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:50 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 12:10:52 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:28:35 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,29 @@ int dup_list(t_list *lst_dups)
 		tmp = tmp->next;
 	}
     return (0);
+}
+
+void    close_list(t_list  *lst_dups)
+{
+     t_list	*tmp;
+    int *fds;
+
+	if (!lst_dups)
+		return ;
+	tmp = lst_dups;
+	while (tmp != NULL)
+	{
+        if (tmp->content)
+        {
+            fds = (int *)tmp->content;
+            printf("closeing :%d, %d\n",fds[0], fds[1]);
+            if (fds[0] != 0 && fds[0] != 1 && fds[0] != 2)
+                close(fds[0]);
+             if (fds[1] != 0 && fds[1] != 1 && fds[1] != 2)
+                close(fds[1]);
+        }
+		tmp = tmp->next;
+	}
 }
 
 int open_file_fd(t_redir *r, char mode)

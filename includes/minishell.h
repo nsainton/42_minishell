@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/25 12:00:02 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:25:00 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,4 +246,5 @@ t_command *cmd);
 int make_dups_list(t_command *cmd, t_redir *redir);
 int dup_list(t_list *lst_dups);
 int open_file_fd(t_redir *r, char mode);
+void    close_list(t_list  *lst_dups);
 #endif
