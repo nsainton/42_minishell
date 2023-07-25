@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 15:24:57 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:15:30 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	exec_command_in_pipeline(t_data *d)
 	if (d->pid[d->index] == 0 && d->cmds[d->index]->command)
 	{
 		//save_stds('s');
+		signal(SIGQUIT, SIG_DFL);
 		dup_in_out(d->cmds[d->index]->fd_in, d->cmds[d->index]->fd_out);
 		dup_list(d->cmds[d->index]->fds);
 		dup_pipe(d);
