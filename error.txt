@@ -1,1 +1,2 @@
-bdhafk : Command not found
+grop : Command not found
+close: Bad file descriptor
