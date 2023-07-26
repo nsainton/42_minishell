@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/24 17:57:41 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/26 11:17:10 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@
 # define HEREDOC_WARNING "minishell: warning: here-document at line %u \
 delimited by end-of-fine (wanted `%s')\n"
 // End of Preprocessor defines
+
+//Declaration of global variable to catch if a terminating signal has occured
+
+extern sig_atomic_t	g_termsig;
 
 // ENUM Declarations
 /*

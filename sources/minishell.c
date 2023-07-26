@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 12:54:27 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/26 11:35:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@ static void	init(char **envp, t_data *data)
 	data->env = get_my_env(envp);
 }
 
+sig_atomic_t	g_termsig = 0;
+
 int	main(int ac, char **av, char **envp)
 {
 	char		*line;
 	t_data		data;
 
+	//ft_printf("Program invocation name : %s\n", program_invocation_name);
 	if (ac != 1)
 	{
 		ft_printf("%s\n", USAGE);

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 18:03:47 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/26 11:46:01 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ void	exec_command_in_pipeline(t_data *d)
 	if (d->pid[d->index] == 0 && d->cmds[d->index]->command)
 	{
 		//save_stds('s');
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, handle_sigint_child);
+		//signal(SIGQUIT, SIG_DFL);
+		//signal(SIGINT, handle_sigint_child);
+		reinit_sigs();
 		ft_printf("Here I am\n");
 		dup_in_out(d->cmds[d->index]->fd_in, d->cmds[d->index]->fd_out);
 		dup_list(d->cmds[d->index]->fds);

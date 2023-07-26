@@ -6,43 +6,61 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:10:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 18:01:03 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/26 11:59:34 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_sigs(void)
+static void	init_sig(int signum, void handler(int, siginfo_t*, void*))
 {
-	signal(SIGINT, interrupt);
-	signal(SIGQUIT, SIG_IGN);
+	struct sigaction	action;
+
+	ft_bzero(&action, sizeof action);
+	action.sa_sigaction = handler;
+	action.sa_flags = SA_SIGINFO;
+	sigemptyset(&action.sa_mask);
+	sigaddset(&action.sa_mask, signum);
+	sigaction(signum, &action, NULL);
+
 }
-/* 
-void	init_sig(void f(int, siginfo_t*, void*), int sigid)
+
+static void	interrupt(int signum, siginfo_t *info, void *ucontext)
 {
-	struct sigaction	sig;
+	int	empty_buffer;
 
-	ft_bzero(&sig, sizeof sig);
-	sig.sa_sigaction = f;
-	sig.sa_flags = SA_SIGINFO;
-	sigemptyset(&sig.sa_mask);
-	sigaddset(&sig.sa_mask,  sigid);
-	sigaction(sigid, &sig, NULL);
-
-} */
-
-
-void	interrupt(int sig)
-{
-	(void)sig;
-
+	(void)signum;
+	(void)info;
+	(void)ucontext;
+	//ft_printf("This is the line buffer : %s\n", rl_line_buffer);
+	empty_buffer = ft_strcmp(rl_line_buffer, "");
+	rl_replace_line("", 0);
+	if (empty_buffer)
+		return ;
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
-void	handle_sigint_child(int signal)
+static void	interrupt_child(int signum, siginfo_t *info, void *ucontext)
 {
-	exit_free_gc(128 + signal);
+	(void)signum;
+	(void)info;
+	(void)ucontext;
+	g_termsig = signum;
+	ft_printf("Bonjour\n");
+	//exit_free_gc(128 + signal);
+}
+
+void	init_sigs(void)
+{
+	init_sig(SIGINT, interrupt);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	reinit_sigs(void)
+{
+	//ft_printf("Reinitializing Signals\n");
+	init_sig(SIGINT, interrupt_child);
+	signal(SIGQUIT, SIG_DFL);
 }
