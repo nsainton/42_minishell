@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 16:44:50 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/26 13:01:52 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	cd(t_command *cmd, t_data *d)
 		{
 			ft_dprintf(2, "cd : %s : %s\n", cmd->args[0],
 				strerror(errno));
-			keep_exit_status(errno);
-			return (errno);
+			keep_exit_status(1);
+			return (1);
 		}
 		set_new_pwd(d->env);
 		return (0);
