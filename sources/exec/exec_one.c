@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/26 11:27:03 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:15:22 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ int	exec_one(t_data *d)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		else if (d->pid[0] == 0)
 		{
-			reinit_sigs();
+			//reinit_sigs();
+			signal(SIGQUIT, SIG_DFL);
+			//save_state(1);
 			exec_w_execve(d, d->cmds[0]);
 		}
 		close_list(d->cmds[0]->fds);

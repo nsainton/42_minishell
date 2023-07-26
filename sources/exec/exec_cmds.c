@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/26 11:46:01 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:13:03 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,13 @@ int	exec_pipeline(t_data *d)
 		return (1);
 	if (d->cmds_nb == 1)
 		exec_one(d);
+	reinit_sigs();
 	while (++d->index < d->cmds_nb)
 	{
+		/*
+		if global == SIGINT
+			break and wait
+		*/
 		if (pipe(d->p) == -1)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		if (make_redirs(d, d->cmds[d->index]))
@@ -43,7 +48,8 @@ int	exec_pipeline(t_data *d)
 		d->pid[d->index] = fork();
 		exec_command_in_pipeline(d);
 	}
-	wait_for_childs(d);	
+	wait_for_childs(d);
+	init_sigs();
 	if (d->cmds_nb > 1)
 	{
 		if (close(d->p[0]) == -1)
@@ -63,10 +69,11 @@ void	exec_command_in_pipeline(t_data *d)
 	if (d->pid[d->index] == 0 && d->cmds[d->index]->command)
 	{
 		//save_stds('s');
-		//signal(SIGQUIT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		//save_state(1);
 		//signal(SIGINT, handle_sigint_child);
-		reinit_sigs();
-		ft_printf("Here I am\n");
+		//reinit_sigs();
+		//ft_printf("Here I am\n");
 		dup_in_out(d->cmds[d->index]->fd_in, d->cmds[d->index]->fd_out);
 		dup_list(d->cmds[d->index]->fds);
 		dup_pipe(d);

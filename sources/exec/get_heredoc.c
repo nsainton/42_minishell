@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/25 10:35:11 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/26 12:10:48 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ static int	read_heredoc(const char *limiter, int write_fd)
 	line = readline(HEREDOC_PROMPT);
 	while (line && ft_strcmp(line, limiter))
 	{
-		if (ft_putendl_fd(line, write_fd) == -1)
+		if (g_termsig == 2 || ft_putendl_fd(line, write_fd) == -1)
+		{
+			g_termsig = 0;
+			close(write_fd);
 			return (EXIT_FAILURE);
+		}
 		free(line);
 		line = readline(HEREDOC_PROMPT);
 		line_index ++;

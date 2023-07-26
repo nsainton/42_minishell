@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:50 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 17:56:47 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:47:16 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ int	make_redirs(t_data *d, t_command *cmd)
 	cmd->fd_out = 1;
 	if (!cmd->redirs && !cmd->heredocs)
 		return (0);
-	if (cmd->heredocs)
-	{
+	if (cmd->heredocs && heredoc(cmd))
+		return (EXIT_FAILURE);
 		//ft_printf("There are some heredocs here \n");
-		heredoc(cmd);
-	}
     cmd->fds = gc_lstnew(NULL);
     while (cmd->redirs && cmd->redirs[i])
     {
@@ -106,13 +104,13 @@ void	close_list(t_list  *lst_dups)
             fds = (int *)tmp->content;
             if (fds[0] > 2)
 			{
-				ft_printf("Closing : %d\n", fds[0]);
+				//ft_printf("Closing : %d\n", fds[0]);
                 if (close(fds[0]) == -1)
 					perror("close");
 			}
             if (fds[1] > 2)
 			{
-			 	ft_printf("Closing : %d\n", fds[1]);
+			 	//ft_printf("Closing : %d\n", fds[1]);
                 if (close(fds[1]) == -1)
 					perror("close");
 			}

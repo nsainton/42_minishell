@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:07:46 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/25 10:58:03 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:46:44 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	safe_close(int stds[3])
 	{
 		if (*(stds + i) >= 0 && close(*(stds + i)) == -1)
 			return (EXIT_FAILURE);
-		ft_dprintf(STDERR_FILENO, "File descriptor : %d has been closed\n", *(stds + i));
+		//ft_dprintf(STDERR_FILENO, "File descriptor : %d has been closed\n", *(stds + i));
 		*(stds + i) = -1;
 		i ++;
 	}

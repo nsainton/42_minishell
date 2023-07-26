@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/26 12:02:20 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/26 12:13:49 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	heredoc(t_command *command)
 	if (! len)
 		return (EXIT_SUCCESS);
 	i = 0;
+	reinit_sigs();
 	while (i < len)
 	{
 		err = getheredoc(&hd, *command->heredocs + i);
@@ -37,5 +38,6 @@ int	heredoc(t_command *command)
 			return (EXIT_FAILURE);
 		i++;
 	}
+	init_sigs();
 	return (EXIT_SUCCESS);
 }

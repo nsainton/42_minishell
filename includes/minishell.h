@@ -230,6 +230,9 @@ void						close_list(t_list  *lst_dups);
 
 int							open_file_fd(t_redir *r, char mode);
 
+//Functions from file : save_state.c
+int							save_state(const int action);
+
 //Functions from file : files.c
 int							get_infile(t_command *c, t_redir *r);
 
