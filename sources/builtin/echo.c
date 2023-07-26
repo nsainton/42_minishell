@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:42:11 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/24 16:36:49 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:31:22 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	is_true_optn(char *str)
 	i = 1;
 	if (str[0] == '-' && str[1] == 'n' && str[2] == '\0')
 		return (1);
+	if (str[0] != '-')
+		return (0);
 	if (!str[1])
 		return (0);
 	while (str[i])
