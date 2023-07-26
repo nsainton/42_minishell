@@ -147,6 +147,8 @@ int							decrypt_char(t_cint c);
 
 void						decrypt_string(char *s);
 
+int							ft_ispunct(const int c);
+
 //Functions from file : get_raw_line.c
 int							get_raw_line(t_cchar *line, t_str *newline, \
 t_env *env);
