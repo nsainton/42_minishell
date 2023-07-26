@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:43:22 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/23 09:48:26 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:57:13 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,11 @@ void	decrypt_string(char *s)
 		*str = decrypt_char(*str);
 		str ++;
 	}
+}
+
+int	ft_ispunct(const int c)
+{
+	return (c == '!' || c == '#' || c == '%' || c == ',' \
+	|| c == ':' || c == '.' || c == '-' || c == '@' \
+	|| c == '/' || c == '=');
 }

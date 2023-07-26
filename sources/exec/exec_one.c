@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/26 17:19:49 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/26 18:07:06 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	exec_one(t_data *d)
 		}
 		close_list(d->cmds[0]->fds);
 	}
+	if (g_termsig)
+		keep_exit_status(g_termsig);
 	//save_stds('r');
 	return (d->errnum);
 }

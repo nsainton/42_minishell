@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 11:02:53 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/23 09:40:50 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:56:40 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static int	handle_dollar(t_str *str, t_cstr *line, int *parser, t_env *env)
 
 	line->index += 1;
 	current = *(line->str + line->index);
-	if (*parser == S_QUOTES || current == ' ' || ! current)
+	if (*parser == S_QUOTES || current == ' ' || ! current \
+	|| ft_ispunct(current))
 		return (t_str_add(str, '$'));
 	if (*(line->str + line->index) == '?')
 	{
