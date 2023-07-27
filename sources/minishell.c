@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/26 17:11:53 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 12:21:34 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,15 @@ int	main(int ac, char **av, char **envp)
 		line = readline("minishell> ");
 		if (!line || gc_add(line))
 		{
+			ft_putendl_fd("exit", 1);
 			free_gc();
 			break ;
 		}
 		if (*line)
 			add_history(line);
+		ft_printf("%s\n", line);
 		commands_exec(line, &data);
+
 		//ft_printf("This is the last env var : %s\n", (char *)ft_lstlast(data.env->list_env)->content);
 		//free_from(ft_lstlast(data.env->list_env)->content);
 	}

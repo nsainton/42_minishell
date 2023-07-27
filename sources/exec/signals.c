@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:10:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/26 18:04:32 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 12:28:41 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	interrupt_child(int signum, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 	g_termsig = 128 + signum;
 	ft_putstr_fd("\n", 1);
+	keep_exit_status(g_termsig);
 	//rl_on_new_line();
 	//ft_printf("Bonjour\n");
 	//exit_free_gc(128 + signal);
