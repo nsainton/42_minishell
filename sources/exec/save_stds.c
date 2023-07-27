@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:07:46 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 15:35:08 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:23:31 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	already_saved(int stds[3])
 	return (0);
 }
 
-static int	safe_close(int stds[3])
+static int	safe_close_dups(int stds[3])
 {
 	size_t	i;
 
@@ -86,13 +86,13 @@ static int	safe_save(int stds[3])
 	stds[1] = dup2(STDOUT_FILENO, 113);
 	if (stds[1] == -1)
 	{
-		safe_close(stds);
+		safe_close_dups(stds);
 		return (EXIT_FAILURE);
 	}
 	stds[2] = dup2(STDERR_FILENO, 114);
 	if (stds[2] == -1)
 	{
-		safe_close(stds);
+		safe_close_dups(stds);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -115,8 +115,8 @@ int	save_stds(const int mode)
 	if (mode == 's')
 		return (safe_save(stds));
 	if (mode == 'r')
-		return (put_in_place(stds) || safe_close(stds));
+		return (put_in_place(stds) || safe_close_dups(stds));
 	if (mode == 'c')
-		return (safe_close(stds));
+		return (safe_close_dups(stds));
 	return (EXIT_FAILURE);
 }

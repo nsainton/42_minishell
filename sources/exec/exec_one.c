@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/27 16:00:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 16:00:58 by nsainton         ###   ########.fr       */
+/*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
+/*   Updated: 2023/07/27 16:28:16 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 int	exec_one(t_data *d)
 {
+	//save_stds('s');
 	d->index = 1;
 	if (make_redirs(d, d->cmds[0]) != 0)
-		return (d->errnum);
+		return(d->errnum);
 	if (d->cmds[0]->command && is_builtin(d->cmds[0], d))
 		exec_builtin_parent(d, d->cmds[0]);	
 	else if (d->cmds[0]->command)
@@ -28,13 +29,16 @@ int	exec_one(t_data *d)
 		else if (d->pid[0] == 0)
 		{
 			signal(SIGQUIT, SIG_DFL);
-			save_stds('c');
+			//save_state(1);
 			exec_w_execve(d, d->cmds[0]);
 			close_list(d->cmds[0]->fds);
-		}
+		}	
 	}
 	if (g_termsig)
 		keep_exit_status(g_termsig);
+	safe_close(d->cmds[0]->fd_in);
+	safe_close(d->cmds[0]->fd_out);
+	//save_stds('r');
 	return (d->errnum);
 }
 
@@ -44,23 +48,23 @@ int	exec_builtin_parent(t_data *d, t_command *cmd)
 	{	
 		d->save_in = dup(STDIN_FILENO);
 		d->save_out = dup(STDOUT_FILENO);
-	}
+	}  
 	dup_in_out(cmd->fd_in, cmd->fd_out);
 	dup_list(cmd->fds);
 	keep_exit_status(exec_builtin(cmd, d));
 	close_list(cmd->fds);
 	dupnclose(d->save_in, STDIN_FILENO);
-	dupnclose(d->save_out, STDOUT_FILENO); 
+	dupnclose(d->save_out, STDOUT_FILENO);  
 	return (0);
 }
 
 void	exec_w_execve(t_data *d, t_command *cmd)
 {
-	int	errnum;
-
+	int errnum;
+ 
 	if (d->env->is_empty)
 	{
-		ft_dprintf(2, "minishell: %s: command not found\n", cmd->command);
+		ft_dprintf(2, "env : no env = no command\n");
 		exit_free_gc(127);
 	}
 	dup_in_out(cmd->fd_in, cmd->fd_out);

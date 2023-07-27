@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:01:07 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 16:02:05 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:21:43 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,19 @@ char	**make_command(t_command	*cmd)
 
 void	close_used_pipes(t_data *d, t_command *cmd)
 {
-	if (d->p[1] > 2)
-		close(d->p[1]);
-	if (d->prev_pipe > 2)
-		close(d->prev_pipe);
+	
+	safe_close(d->p[1]);
+	safe_close(d->prev_pipe);
 	d->prev_pipe = d->p[0];
 	if (cmd->fd_in != STDIN_FILENO)
-		close(cmd->fd_in);
+		safe_close(cmd->fd_in);
 	if (cmd->fd_out != STDOUT_FILENO)
-		close(cmd->fd_out);
+		safe_close(cmd->fd_out);
 }
+
+void	safe_close(int fd)
+{
+	if (fd > 2)
+		close(fd);
+}
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dup_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 15:01:44 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 15:18:26 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:17:56 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,8 @@ void	close_list(t_list *lst_dups)
 		if (tmp->content)
 		{
 			fds = (int *)tmp->content;
-			if (fds[0] > 2)
-				close(fds[0]);
-			if (fds[1] > 2)
-				close(fds[1]);
+			safe_close(fds[0]);
+			safe_close(fds[1]);
 		}
 		tmp = tmp->next;
 	}

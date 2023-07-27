@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:00:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 16:00:47 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:19:54 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,8 @@ int	exec_pipeline(t_data *d)
 	init_sigs();
 	if (d->cmds_nb > 1)
 	{
-		if (close(d->p[0]) == -1)
-			perror("Error while closing input side");
-		if (close(d->p[1]) == -1)
-			perror("Error while closing output side");
+		safe_close(d->p[0]);
+		safe_close(d->p[1]);
 	} 
 	if (save_stds('r'))
 		return (EXIT_FAILURE);
@@ -91,8 +89,8 @@ void	exec_command_in_pipeline(t_data *d)
 		{
 			d->cmds = &d->cmds[d->index + 1];
 			d->cmds_nb -= d->index + 1;
-			close (d->p[0]);
-			close (d->p[1]);
+			safe_close (d->p[0]);
+			safe_close (d->p[1]);
 			exec_pipeline(d);
 		}
 	}

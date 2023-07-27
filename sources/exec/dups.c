@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 18:10:51 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 11:42:01 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:18:45 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void	dup_pipe(t_data *d)
 		dup2(d->p[1], STDOUT_FILENO);
 	if (d->index != 0)
 		dupnclose(d->prev_pipe, STDIN_FILENO);
-	close(d->p[0]);
-	close(d->p[1]);
+	safe_close(d->p[0]);
+	safe_close(d->p[1]);
 }
 
 void	dupnclose(int fd1, int fd2)
 {
 	dup2(fd1, fd2);
-	close(fd1);
+	safe_close(fd1);
 }

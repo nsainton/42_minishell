@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:33:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 12:16:04 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:20:27 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	get_infile(t_command *c, t_redir *r)
 {
 	if (c->fd_in != 0)
-		close(c->fd_in);
+		safe_close(c->fd_in);
 	if (r->file)
 	{
 		c->fd_in = open(r->file, O_RDONLY);
@@ -33,7 +33,7 @@ int	get_infile(t_command *c, t_redir *r)
 int	get_outfile(t_command *c, t_redir *r, const int mode)
 {
 	if (c->fd_out != 1)
-		close(c->fd_out);
+		safe_close(c->fd_out);
 	if (r->file)
 	{
 		c->fd_out = open(r->file, O_CREAT | O_RDWR | mode, 0000644);
