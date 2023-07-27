@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:10:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/26 18:04:32 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:48:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	init_sig(int signum, void handler(int, siginfo_t*, void*))
 	sigemptyset(&action.sa_mask);
 	sigaddset(&action.sa_mask, signum);
 	sigaction(signum, &action, NULL);
-
 }
 
 static void	interrupt(int signum, siginfo_t *info, void *ucontext)
@@ -30,9 +29,6 @@ static void	interrupt(int signum, siginfo_t *info, void *ucontext)
 	(void)signum;
 	(void)info;
 	(void)ucontext;
-	//ft_printf("This is the line buffer : %s\n", rl_line_buffer);
-	//is_child = save_state(-1);
-	//ft_printf("I am the %s\n", is_child?"child":"parent");
 	g_termsig = 128 + signum;
 	keep_exit_status(g_termsig);
 	ft_putstr_fd("\n", 1);
@@ -48,9 +44,6 @@ static void	interrupt_child(int signum, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 	g_termsig = 128 + signum;
 	ft_putstr_fd("\n", 1);
-	//rl_on_new_line();
-	//ft_printf("Bonjour\n");
-	//exit_free_gc(128 + signal);
 }
 
 void	init_sigs(void)
@@ -61,7 +54,6 @@ void	init_sigs(void)
 
 void	reinit_sigs(void)
 {
-	//ft_printf("Reinitializing Signals\n");
 	init_sig(SIGINT, interrupt_child);
 	//signal(SIGQUIT, SIG_DFL);
 }
