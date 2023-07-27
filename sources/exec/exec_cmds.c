@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 11:43:02 by nsainton         ###   ########.fr       */
+/*   Created: 2023/07/27 16:00:45 by nsainton          #+#    #+#             */
+/*   Updated: 2023/07/27 16:00:47 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	exec_pipeline(t_data *d)
 		return (EXIT_FAILURE);
 	if (set_data(d))
 		return (1);
+	
 	if (d->cmds_nb == 1)
 		exec_one(d);
-	reinit_sigs();
 	while (++d->index < d->cmds_nb)
 	{
 		/*
@@ -41,11 +41,13 @@ int	exec_pipeline(t_data *d)
 		*/
 		if (pipe(d->p) == -1)
 			ft_dprintf(2, "error : %s", strerror(errno));
+		
 		if (make_redirs(d, d->cmds[d->index]))
 			d->index ++;
 		if (d->cmds[d->index]->fd_out != STDOUT_FILENO && d->index != d->cmds_nb - 1)
 			d->cmds[d->index]->last = 1;
 		d->pid[d->index] = fork();
+		reinit_sigs();
 		exec_command_in_pipeline(d);
 	}
 	wait_for_childs(d);

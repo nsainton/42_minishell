@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 15:30:43 by nsainton         ###   ########.fr       */
+/*   Created: 2023/07/27 16:00:56 by nsainton          #+#    #+#             */
+/*   Updated: 2023/07/27 16:00:58 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	exec_one(t_data *d)
 	else if (d->cmds[0]->command)
 	{
 		d->pid[0] = fork();
+		reinit_sigs();
 		if (d->pid[0] < 0)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		else if (d->pid[0] == 0)

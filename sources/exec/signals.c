@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/21 18:10:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 14:52:42 by nsainton         ###   ########.fr       */
+/*   Created: 2023/07/27 16:03:00 by nsainton          #+#    #+#             */
+/*   Updated: 2023/07/27 16:03:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,18 @@ static void	interrupt_child(int signum, siginfo_t *info, void *ucontext)
 	(void)signum;
 	(void)info;
 	(void)ucontext;
+
 	g_termsig = 128 + signum;
 	ft_putstr_fd("\n", 1);
+}
+
+void quit_child(int sig)
+{
+	if (sig == SIGQUIT)
+	{
+		ft_printf("Quit (core dumped)\n");
+		keep_exit_status(131);
+	}
 }
 
 void	init_sigs(void)
