@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 10:34:01 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 13:26:13 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 17:00:40 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	export_env(t_data *d, t_command *cmd)
 	}
 	if (!cmd->args[0])
 	{
-		print_list_prefix(d->env->list_env, "declare -x");
+		print_list_prefix(d->env->list_env, "export");
 		return (SUCCESS);
 	}
 	d->errnum = 0;
