@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:51:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/25 23:44:20 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 09:49:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_builtin(t_command *cmd, t_data *d)
 	if (!ft_strncmp(cmd->command, "cd", 3))
 		return (cd(cmd, d));
 	if (!ft_strncmp(cmd->command, "exit", 5))
-		return(exit_builtin(cmd->args, &d->errnum));
+		return (exit_builtin(cmd->args, &d->errnum));
 	if (!ft_strncmp(cmd->command, "env", 4))
 		return (print_env(d, cmd));
 	if (!ft_strncmp(cmd->command, "pwd", 4))
