@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:39:48 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 11:39:53 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:45:49 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static int	find_command(char **path, struct s_command *command)
 		if (! tmp)
 			return (ALLOCATION_ERROR);
 		free_node(*(path + i));
-		*(path + i) = gc_strjoin(tmp, cmd->command);
+		*(path + i) = gc_strjoin(tmp, command->command);
 		free_node(tmp);
 		if (! *(path + i))
 			return (ALLOCATION_ERROR); //Beware to deal properly with allocation errors
 		if (! (access(*(path + i), X_OK) || access (*(path + i), F_OK)))
 		{
-			cmd->path = *(path + i);
+			command->path = *(path + i);
 			return (EXIT_SUCCESS);
 		}
 		i ++;
@@ -42,8 +42,6 @@ int	check_path(t_command *cmd, t_env *my_env)
 {
 	char	*big_path;
 	char	**path;
-	char	*tmp;
-	int		i;
 
 	cmd->path = NULL;
 	if (cmd->command[0] == '/' || cmd->command[0] == '.')
@@ -53,7 +51,6 @@ int	check_path(t_command *cmd, t_env *my_env)
 			return (0);
 		return (126);
 	}
-	i = -1;
 	big_path = get_env_var(my_env, "PATH");
 	if (!big_path)
 		return (127);

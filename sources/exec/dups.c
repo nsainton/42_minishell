@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 18:10:51 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/19 18:11:56 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:42:01 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ void	dupnclose(int fd1, int fd2)
 	dup2(fd1, fd2);
 	close(fd1);
 }
-
