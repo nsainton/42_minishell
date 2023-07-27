@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:07:46 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 11:49:56 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:35:08 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,16 @@ static int	safe_save(int stds[3])
 		ft_dprintf(STDERR_FILENO, "File descriptors where already saved\n");
 		return (EXIT_FAILURE);
 	}
-	stds[0] = dup(STDIN_FILENO);
+	stds[0] = dup2(STDIN_FILENO, 112);
 	if (stds[0] == -1)
 		return (EXIT_FAILURE);
-	stds[1] = dup(STDOUT_FILENO);
+	stds[1] = dup2(STDOUT_FILENO, 113);
 	if (stds[1] == -1)
 	{
 		safe_close(stds);
 		return (EXIT_FAILURE);
 	}
-	stds[2] = dup(STDERR_FILENO);
+	stds[2] = dup2(STDERR_FILENO, 114);
 	if (stds[2] == -1)
 	{
 		safe_close(stds);

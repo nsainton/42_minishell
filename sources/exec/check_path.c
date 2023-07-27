@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:39:48 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 11:45:49 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:38:30 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static int	find_command(char **path, struct s_command *command)
 	{
 		tmp = gc_strjoin(path[i], "/");
 		if (! tmp)
-			return (ALLOCATION_ERROR);
+			exit_free_gc(ALLOCATION_ERROR);
 		free_node(*(path + i));
 		*(path + i) = gc_strjoin(tmp, command->command);
 		free_node(tmp);
 		if (! *(path + i))
-			return (ALLOCATION_ERROR); //Beware to deal properly with allocation errors
+			exit_free_gc(ALLOCATION_ERROR); //Don't forget to update the wait_for_childs function to take care of exit status
 		if (! (access(*(path + i), X_OK) || access (*(path + i), F_OK)))
 		{
 			command->path = *(path + i);
@@ -58,7 +58,6 @@ int	check_path(t_command *cmd, t_env *my_env)
 	if (!path)
 		return (2);
 	return (find_command(path, cmd));
-	//free_node(path);
 }
 
 /*

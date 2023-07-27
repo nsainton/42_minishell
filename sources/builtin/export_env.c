@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 10:34:01 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 10:44:58 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:26:13 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static int	add_env_var(char *arg, struct s_env *environment)
 	{
 		newvar = gc_lstnew(arg);
 		if (! newvar)
-			return (ALLOCATION_ERROR);
+		{
+			ft_dprintf(STDERR_FILENO, "minishell: allocation error\n");
+			exit_free_gc(ALLOCATION_ERROR);
+		}
 		ft_lstadd_back(&environment->list_env, newvar);
 	}
 	return (EXIT_SUCCESS);
@@ -34,7 +37,7 @@ static int	add_env_vars(char **args, struct s_env *environment, int *errnum)
 	while (*(args + i))
 	{
 		if (is_valid_export(*(args + i)) == 20)
-			add_env_var(*(args + i), environment); //catch segfault here
+			add_env_var(*(args + i), environment);
 		else
 			*errnum = 1;
 		i ++;

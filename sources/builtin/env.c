@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 10:19:24 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:29:45 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	print_env(t_data *d, t_command *cmd)
 {
 	d->errnum = 0;
 	if (d->env->is_empty)
-		return (SUCCESS); //? regarder reel comportement
+		return (SUCCESS);
 	else if (cmd->args[0])
 	{
 		ft_dprintf(2, "env : minishell doesn't support arguments or options\n");
@@ -105,5 +105,4 @@ void	delete_env_line(t_list *start, t_list *to_del)
 		start = start->next;
 	start->next = to_del->next;
 	to_del->content = 0;
-	//free to_del ? (ou gc freenode ? )
 }

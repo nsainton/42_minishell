@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:22:05 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 14:51:17 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:40:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ char	**make_command(t_command	*cmd)
 
 void	close_used_pipes(t_data *d, t_command *cmd)
 {
-	close(d->p[1]);
-	if (d->prev_pipe != -1)
+	if (d->p[1] > 2)
+		close(d->p[1]);
+	if (d->prev_pipe > 2)
 		close(d->prev_pipe);
 	d->prev_pipe = d->p[0];
 	if (cmd->fd_in != STDIN_FILENO)

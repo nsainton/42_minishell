@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:10:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 11:48:15 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:52:42 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,4 @@ void	init_sigs(void)
 void	reinit_sigs(void)
 {
 	init_sig(SIGINT, interrupt_child);
-	//signal(SIGQUIT, SIG_DFL);
 }
