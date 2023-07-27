@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:14:46 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/24 14:35:59 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/27 10:34:59 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 int	export_env(t_data *d, t_command *cmd)
 {
 	int	i;
@@ -41,6 +42,7 @@ int	export_env(t_data *d, t_command *cmd)
 	}
 	return (d->errnum);
 }
+*/
 
 int	is_valid_export(char *arg)
 {
