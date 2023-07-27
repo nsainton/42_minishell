@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:22:05 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 11:54:01 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:02:22 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ void wait_for_childs(t_data	*d)
 				ft_printf("killed by signal %d\n", WTERMSIG(status));
 			status = WTERMSIG(status) + 128;
 		} else if (WIFSTOPPED(status)) {
-			//printf("stopped by signal %d\n", WSTOPSIG(status));
+			printf("stopped by signal %d\n", WSTOPSIG(status));
 			status = WSTOPSIG(status) + 128;
 		} else if (WIFCONTINUED(status)) {
 			printf("continued\n");
 		}
-		//if (keep_exit_status(-1) != 130) //NOAH !!! est ce que c'est bon ?
+		if (keep_exit_status(-1) != 130) 
 			keep_exit_status(status);
 		i ++;
 	}

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/26 17:13:03 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 12:58:41 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	exec_pipeline(t_data *d)
 		return (EXIT_FAILURE);
 	if (set_data(d))
 		return (1);
+	reinit_sigs();
 	if (d->cmds_nb == 1)
 		exec_one(d);
-	reinit_sigs();
 	while (++d->index < d->cmds_nb)
 	{
 		/*

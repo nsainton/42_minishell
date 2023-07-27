@@ -106,8 +106,6 @@ void						print_tab_bin(t_tab *tab);
 //Functions from file : commands_exec.c
 void						commands_exec(t_cchar *line, t_data *data);
 
-int							search_for_eof(char *line);
-
 //Functions from file : translation.c
 int							crypt_char(t_cint c);
 
