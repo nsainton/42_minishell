@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/26 11:17:10 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 10:32:21 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ enum e_minierrors
 {
 	NO_ERROR = 0,
 	SYNTAX_ERROR = 2,
-	ALLOCATION_ERROR = 20,
+	ALLOCATION_ERROR = 30,
 	OVERFLOW,
 	UNKNOWN_ERROR
 };
