@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 13:16:49 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:29:03 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ int	exec_one(t_data *d)
 	else if (d->cmds[0]->command)
 	{
 		d->pid[0] = fork();
+		reinit_sigs();
 		if (d->pid[0] < 0)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		else if (d->pid[0] == 0)
 		{
-			//reinit_sigs();
-			//signal(SIGQUIT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			//save_state(1);
 			exec_w_execve(d, d->cmds[0]);
 		}

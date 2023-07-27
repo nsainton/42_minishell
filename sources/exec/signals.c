@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:10:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 13:17:06 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:21:23 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,5 @@ void	reinit_sigs(void)
 {
 	//ft_printf("Reinitializing Signals\n");
 	init_sig(SIGINT, interrupt_child);
-	signal(SIGQUIT, SIG_DFL);
+	//signal(SIGQUIT, SIG_DFL);
 }

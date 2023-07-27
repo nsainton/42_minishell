@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 12:58:41 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:24:17 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	exec_pipeline(t_data *d)
 		return (EXIT_FAILURE);
 	if (set_data(d))
 		return (1);
-	reinit_sigs();
+	
 	if (d->cmds_nb == 1)
 		exec_one(d);
 	while (++d->index < d->cmds_nb)
@@ -41,11 +41,13 @@ int	exec_pipeline(t_data *d)
 		*/
 		if (pipe(d->p) == -1)
 			ft_dprintf(2, "error : %s", strerror(errno));
+		
 		if (make_redirs(d, d->cmds[d->index]))
 			d->index ++;
 		if (d->cmds[d->index]->fd_out != STDOUT_FILENO && d->index != d->cmds_nb - 1)
 			d->cmds[d->index]->last = 1;
 		d->pid[d->index] = fork();
+		reinit_sigs();
 		exec_command_in_pipeline(d);
 	}
 	wait_for_childs(d);
