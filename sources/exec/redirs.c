@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:50 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 11:58:50 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 12:04:05 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	make_redirs(t_data *d, t_command *cmd)
 
 int	make_dups_list(t_command *cmd, t_redir *redir)
 {
-    int	*dup_fds;
+	int	*dup_fds;
 
 	dup_fds = gcmalloc(2 * sizeof * dup_fds);
 	if (!dup_fds)
@@ -80,7 +80,7 @@ int	dup_list(t_list *lst_dups)
 		if (tmp->content)
 		{
 			fds = (int *)tmp->content;
-			printf("%d, %d",fds[0], fds[1]);
+			ft_printf("%d, %d", fds[0], fds[1]);
 			dupnclose(fds[1], fds[0]);
 		}
 		tmp = tmp->next;
@@ -88,10 +88,10 @@ int	dup_list(t_list *lst_dups)
 	return (0);
 }
 
-void	close_list(t_list  *lst_dups)
+void	close_list(t_list *lst_dups)
 {
 	t_list	*tmp;
-    int		*fds;
+	int		*fds;
 
 	if (!lst_dups)
 		return ;
@@ -109,7 +109,7 @@ void	close_list(t_list  *lst_dups)
 			}
 			if (fds[1] > 2)
 			{
-			 	//ft_printf("Closing : %d\n", fds[1]);
+				//ft_printf("Closing : %d\n", fds[1]);
 				if (close(fds[1]) == -1)
 					perror("close");
 			}
