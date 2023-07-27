@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 10:47:01 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/26 17:13:03 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 11:43:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,7 @@ void	exec_command_in_pipeline(t_data *d)
 
 	if (d->pid[d->index] == 0 && d->cmds[d->index]->command)
 	{
-		//save_stds('s');
 		signal(SIGQUIT, SIG_DFL);
-		//save_state(1);
-		//signal(SIGINT, handle_sigint_child);
-		//reinit_sigs();
-		//ft_printf("Here I am\n");
 		dup_in_out(d->cmds[d->index]->fd_in, d->cmds[d->index]->fd_out);
 		dup_list(d->cmds[d->index]->fds);
 		dup_pipe(d);
@@ -81,7 +76,6 @@ void	exec_command_in_pipeline(t_data *d)
 		{
 			errnum = exec_builtin(d->cmds[d->index], d);
 			close_list(d->cmds[d->index]->fds);
-			//save_stds('r');
 			save_stds('c');
 			exit_free_gc(errnum);
 		}
@@ -101,4 +95,3 @@ void	exec_command_in_pipeline(t_data *d)
 		}
 	}
 }
-
