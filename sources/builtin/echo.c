@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:42:11 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/26 17:31:22 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/27 09:55:41 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	print_echo(t_data *d, t_command *cmd)
 	int	i;
 
 	i = 0;
-	//ft_dprintf(1, "%d\n", *(cmd->args[0]));
 	if (!cmd->args[0])
 	{
 		ft_dprintf(1, "\n");
