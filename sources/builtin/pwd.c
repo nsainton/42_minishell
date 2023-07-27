@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:48:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 10:47:07 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 12:28:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ char	*get_env_var(t_env *my_env, char *var)
 		return (NULL);
 	tmp = my_env->list_env;
 	len = ft_strlen(var);
-	while (tmp)
+	while (tmp && tmp->content)
 	{
 		line = (char *) tmp->content;
+		tmp = tmp->next;
+		if (! line)
+			continue ;
 		if (!ft_strncmp(var, line, len) && line[len] == '=')
 			return (&line[len + 1]);
-		tmp = tmp->next;
 	}
 	return (NULL);
 }
