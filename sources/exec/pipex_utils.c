@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:22:05 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 12:08:46 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:18:36 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void	wait_for_childs(t_data	*d)
 		else if (WIFSIGNALED(status))
 		{
 			if (WTERMSIG(status) == 3)
-				ft_printf("Quit\n");
+			{
+				if (i == d->cmds_nb - 1)
+					ft_printf("Quit\n");
+			}
 			else
 				ft_printf("killed by signal %d\n", WTERMSIG(status));
 			status = WTERMSIG(status) + 128;
