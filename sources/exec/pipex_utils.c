@@ -6,11 +6,39 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:22:05 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 13:18:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:51:17 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	update_status(int status, const int cmds_number, const int rank)
+{
+	if (WIFEXITED(status))
+	{
+		printf("exited, status=%d\n", WEXITSTATUS(status)); //Don't forget to remove me
+		status = WEXITSTATUS(status);
+	}
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == 3)
+		{
+			if (rank == cmds_number)
+				ft_printf("Quit (core dumped)\n");
+		}
+		else
+			ft_printf("killed by signal %d\n", WTERMSIG(status));
+		status = WTERMSIG(status) + 128;
+	}
+	else if (WIFSTOPPED(status))
+	{
+		//printf("stopped by signal %d\n", WSTOPSIG(status));
+		status = WSTOPSIG(status) + 128;
+	}
+	else if (WIFCONTINUED(status))
+		printf("continued\n");
+	return (status);
+}
 
 void	wait_for_childs(t_data	*d)
 {
@@ -23,36 +51,11 @@ void	wait_for_childs(t_data	*d)
 	while (i < d->cmds_nb && d->pid[i])
 	{
 		w = waitpid(d->pid[i], &status, WUNTRACED | WCONTINUED);
-		if (w == -1)
-		{
-			//perror("waitpid");
-			//exit(EXIT_FAILURE);
-		}
-		if (WIFEXITED(status))
-		{
-			printf("exited, status=%d\n", WEXITSTATUS(status));
-			status = WEXITSTATUS(status);
-		}
-		else if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == 3)
-			{
-				if (i == d->cmds_nb - 1)
-					ft_printf("Quit\n");
-			}
-			else
-				ft_printf("killed by signal %d\n", WTERMSIG(status));
-			status = WTERMSIG(status) + 128;
-		}
-		else if (WIFSTOPPED(status))
-		{
-			//printf("stopped by signal %d\n", WSTOPSIG(status));
-			status = WSTOPSIG(status) + 128;
-		}
-		else if (WIFCONTINUED(status))
-			printf("continued\n");
-		keep_exit_status(status);
 		i ++;
+		if (w == -1)
+			continue ;
+		status = update_status(status, d->cmds_nb, i);
+		keep_exit_status(status);
 	}
 }
 
