@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:03:00 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 16:03:02 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:42:30 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	interrupt_child(int signum, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 
 	g_termsig = 128 + signum;
+	keep_exit_status(g_termsig);
 	ft_putstr_fd("\n", 1);
 }
 
