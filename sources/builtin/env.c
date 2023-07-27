@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/24 14:41:14 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/27 10:19:24 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	print_env(t_data *d, t_command *cmd)
 	return (SUCCESS);
 }
 
+/*
 int	unset_env(t_data *d, t_command *cmd)
 {
 	int		i;
@@ -96,6 +97,7 @@ int	unset_env(t_data *d, t_command *cmd)
 	d->env->list_env = tmp;
 	return (SUCCESS);
 }
+*/
 
 void	delete_env_line(t_list *start, t_list *to_del)
 {
