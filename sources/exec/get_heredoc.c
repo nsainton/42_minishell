@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/26 12:10:48 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 12:15:10 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	getheredoc(struct s_heredoc_infos *hd, struct s_heredoc *heredoc)
 	char	name[100];
 	int		error;
 
+	reinit_sigs();
 	ft_bzero(hd, sizeof * hd);
 	create_random_name(name, heredoc);
 	if (heredoc_open(name, hd))
