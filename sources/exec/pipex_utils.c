@@ -6,42 +6,48 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:22:05 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/25 17:33:53 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/07/27 12:08:46 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void wait_for_childs(t_data	*d)
+void	wait_for_childs(t_data	*d)
 {
 	int	i;
 	int	w;
-	int status;
+	int	status;
 
 	i = 0;
 	status = 0;
 	while (i < d->cmds_nb && d->pid[i])
 	{
 		w = waitpid(d->pid[i], &status, WUNTRACED | WCONTINUED);
-		if (w == -1) {
+		if (w == -1)
+		{
 			//perror("waitpid");
 			//exit(EXIT_FAILURE);
 		}
-		if (WIFEXITED(status)) {
+		if (WIFEXITED(status))
+		{
 			printf("exited, status=%d\n", WEXITSTATUS(status));
 			status = WEXITSTATUS(status);
-		} else if (WIFSIGNALED(status)) {
+		}
+		else if (WIFSIGNALED(status))
+		{
 			if (WTERMSIG(status) == 3)
 				ft_printf("Quit\n");
 			else
 				ft_printf("killed by signal %d\n", WTERMSIG(status));
 			status = WTERMSIG(status) + 128;
-		} else if (WIFSTOPPED(status)) {
+		}
+		else if (WIFSTOPPED(status))
+		{
 			//printf("stopped by signal %d\n", WSTOPSIG(status));
 			status = WSTOPSIG(status) + 128;
-		} else if (WIFCONTINUED(status)) {
-			printf("continued\n");
 		}
+		else if (WIFCONTINUED(status))
+			printf("continued\n");
 		keep_exit_status(status);
 		i ++;
 	}
@@ -57,7 +63,6 @@ char	**make_command(t_command	*cmd)
 	j = 0;
 	full_cmd = gccalloc(ft_arrlen((void **) cmd->args) + 2, sizeof (char *));
 	full_cmd[j++] = gc_strdup(cmd->command);
-
 	i = 0;
 	while (cmd->args[i])
 	{
