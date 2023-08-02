@@ -6,7 +6,7 @@
 #    By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/07/23 12:05:15 by nsainton         ###   ########.fr        #
+#    Updated: 2023/07/31 19:26:31 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -216,6 +216,6 @@ endif
 
 header: | $(HEADER_SCRIPT_DIR)
 	$(MAKE) -C $(HEADER_SCRIPT_DIR)
-	$(HEADER_SCRIPT) ./$(SRCS_DIR) $(FUNCS_HEADER)
+	$(HEADER_SCRIPT) ./$(SRCS_DIR) $(FUNCS_HEADER) $(NAME)_int.h
 
 -include $(DEPS)
