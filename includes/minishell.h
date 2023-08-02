@@ -205,6 +205,8 @@ int			update_env_line(t_env *my_env, char *name, char *new_line);
 
 t_list		*get_env_line(t_env *my_env, char *var);
 
+int			is_option(char	*arg);
+
 //Functions from file : utils.c
 void		print_list_prefix(t_list *lst, char *prefix);
 

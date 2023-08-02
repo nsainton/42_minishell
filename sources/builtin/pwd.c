@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:48:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 12:28:02 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/02 11:32:06 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int	print_pwd(t_command *cmd)
 {
 	char	*line;
 
-	if (cmd->args[0])
+	if (cmd->args[0] && is_option(cmd->args[0]))
 	{
-		ft_dprintf(2, "pwd : too many arguments\n");
-		return (1);
+		ft_dprintf(2, "pwd : no options allowed \n");
+		return (2);
 	}
 	line = getcwd(NULL, 0);
 	if (!line)
@@ -89,4 +89,17 @@ t_list	*get_env_line(t_env *my_env, char *var)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+int	is_option(char	*arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i] == '-')
+		i++;
+	if (i != 0)
+		return (1);
+	else	
+		return (0);
 }
