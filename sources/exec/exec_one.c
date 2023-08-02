@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 16:28:16 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/02 16:49:49 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	exec_one(t_data *d)
 {
-	//save_stds('s');
+	ft_dprintf(2, "error : %d", d->cmds_nb);
 	d->index = 1;
 	if (make_redirs(d, d->cmds[0]) != 0)
 		return(d->errnum);
 	if (d->cmds[0]->command && is_builtin(d->cmds[0], d))
-		exec_builtin_parent(d, d->cmds[0]);	
+		exec_builtin_parent(d, d->cmds[0]);
 	else if (d->cmds[0]->command)
 	{
 		d->pid[0] = fork();
@@ -32,7 +32,7 @@ int	exec_one(t_data *d)
 			//save_state(1);
 			exec_w_execve(d, d->cmds[0]);
 			close_list(d->cmds[0]->fds);
-		}	
+		}
 	}
 	if (g_termsig)
 		keep_exit_status(g_termsig);
@@ -45,23 +45,23 @@ int	exec_one(t_data *d)
 int	exec_builtin_parent(t_data *d, t_command *cmd)
 {
 	if (strcmp(cmd->command, "exit"))
-	{	
+	{
 		d->save_in = dup(STDIN_FILENO);
 		d->save_out = dup(STDOUT_FILENO);
-	}  
+	}
 	dup_in_out(cmd->fd_in, cmd->fd_out);
 	dup_list(cmd->fds);
 	keep_exit_status(exec_builtin(cmd, d));
 	close_list(cmd->fds);
 	dupnclose(d->save_in, STDIN_FILENO);
-	dupnclose(d->save_out, STDOUT_FILENO);  
+	dupnclose(d->save_out, STDOUT_FILENO);
 	return (0);
 }
 
 void	exec_w_execve(t_data *d, t_command *cmd)
 {
 	int errnum;
- 
+
 	if (d->env->is_empty)
 	{
 		ft_dprintf(2, "env : no env = no command\n");

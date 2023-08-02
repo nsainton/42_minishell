@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:00:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 16:19:54 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:24:53 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ int	set_data(t_data *d)
 
 int	exec_pipeline(t_data *d)
 {
-	if (save_stds('s'))
-		return (EXIT_FAILURE);
+	/* if (save_stds('s'))
+		return (EXIT_FAILURE); */
+	save_stds('s');
+	//ft_dprintf(2, "coucou 1: %d", d->cmds_nb);
 	if (set_data(d))
 		return (1);
-	
+	//ft_dprintf(2, "coucou 2: %d", d->cmds_nb);
 	if (d->cmds_nb == 1)
 		exec_one(d);
 	while (++d->index < d->cmds_nb)
@@ -39,11 +41,16 @@ int	exec_pipeline(t_data *d)
 		if global == SIGINT
 			break and wait
 		*/
+
+		if (make_redirs(d, d->cmds[d->index]))
+		{
+			if (d->index != d->cmds_nb - 1)
+				d->index ++;
+			else
+				continue ;
+		}
 		if (pipe(d->p) == -1)
 			ft_dprintf(2, "error : %s", strerror(errno));
-		
-		if (make_redirs(d, d->cmds[d->index]))
-			d->index ++;
 		if (d->cmds[d->index]->fd_out != STDOUT_FILENO && d->index != d->cmds_nb - 1)
 			d->cmds[d->index]->last = 1;
 		d->pid[d->index] = fork();
@@ -56,7 +63,7 @@ int	exec_pipeline(t_data *d)
 	{
 		safe_close(d->p[0]);
 		safe_close(d->p[1]);
-	} 
+	}
 	if (save_stds('r'))
 		return (EXIT_FAILURE);
 	return (0);
@@ -69,7 +76,7 @@ void	exec_command_in_pipeline(t_data *d)
 	if (d->pid[d->index] == 0 && d->cmds[d->index]->command)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		dup_in_out(d->cmds[d->index]->fd_in, d->cmds[d->index]->fd_out);
+		//dup_in_out(d->cmds[d->index]->fd_in, d->cmds[d->index]->fd_out);
 		dup_list(d->cmds[d->index]->fds);
 		dup_pipe(d);
 		if (is_builtin(d->cmds[d->index], d) == 1)

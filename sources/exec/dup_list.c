@@ -6,38 +6,39 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 15:01:44 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 16:17:56 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:05:54 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_fd_in_out(struct s_command *cmd, t_redir *redir, int *error)
+static int	get_fd_in_out(struct s_command *cmd, t_redir *redir)
 {
+	int res;
+
 	if (redir->fd == 0 && (redir->mode == 'r' || redir->mode == 'b'))
-		*error = get_infile(cmd, redir);
+		res = get_infile(cmd, redir);
 	else if (redir->fd == 1 && redir->mode == 'w')
-		*error = get_outfile(cmd, redir, O_TRUNC);
+		res = get_outfile(cmd, redir, O_TRUNC);
 	else if (redir->fd == 1 && redir->mode == 'a')
-		*error = get_outfile(cmd, redir, O_APPEND);
+		res = get_outfile(cmd, redir, O_APPEND);
 	else
-		*error = INT_MAX;
-	return (*error);
+		res = INT_MAX;
+	return (res);
 }
 
 int	make_dups_list(t_command *cmd, t_redir *redir)
 {
 	int				*dup_fds;
 	struct s_list	*newfd;
-	int				error;
 
 	dup_fds = gcmalloc(2 * sizeof * dup_fds);
 	if (!dup_fds)
 		return (EXIT_FAILURE);
 	dup_fds[0] = redir->fd;
-	if (get_fd_in_out(cmd, redir, &error) != INT_MAX)
-		return (error);
-	else
+	if (redir->fd == 0)
+		return (get_fd_in_out(cmd, redir));
+	else if (redir->fd > 0)
 	{
 		dup_fds[1] = open_file_fd(redir, redir->mode);
 		if (dup_fds[1] >= 0)
