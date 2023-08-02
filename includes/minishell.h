@@ -243,4 +243,6 @@ int			print_exit_status(t_data *d, t_command *cmd);
 //Functions from file : unset_env.c
 int			unset_env(t_data *d, t_command *cmd);
 
+int			is_valid_unset(char *arg);
+
 #endif

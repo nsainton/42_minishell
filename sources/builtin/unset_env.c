@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 10:01:07 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 10:20:26 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/02 11:40:41 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	remove_env_var(char **args, struct s_env *environment)
 	while (args[i])
 	{
 		arglen = ft_strlen(args[i]);
-		while (environment->list_env)
+		while (is_valid_unset(args[i]) && environment->list_env)
 		{
 			line = (char *)environment->list_env->content;
 			if (!ft_strncmp(args[i], line, arglen) && line[arglen] == '=')
@@ -48,4 +48,14 @@ int	unset_env(t_data *d, t_command *cmd)
 		return (SUCCESS);
 	remove_env_var(cmd->args, d->env);
 	return (SUCCESS);
+}
+
+int	is_valid_unset(char *arg)
+{
+	if ((!ft_isalpha(arg[0]) && arg[0] != '_') || !is_valid_name(arg))
+	{
+		ft_dprintf(2, "unset: %s : not a valid identifier\n", arg);
+		return (0);
+	}
+	return (1);
 }
