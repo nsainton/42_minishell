@@ -6,7 +6,7 @@
 #    By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/07/31 19:26:31 by nsainton         ###   ########.fr        #
+#    Updated: 2023/08/02 16:02:48 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,10 +145,10 @@ $(DEPS_DIR):
 	$(MK) $(DEPS_DIR)
 
 $(LFT_DIR):
-	git clone $(LFT_URL) $@
+	git clone -b rendu --single-branch --depth 1 $(LFT_URL) $@
 
 $(LGC_DIR):
-	git clone $(LGC_URL) $@
+	git clone -b rendu --single-branch --depth 1 $(LGC_URL) $@
 
 $(HEADER_SCRIPT_DIR):
 	git clone $(HEADER_URL) $@
