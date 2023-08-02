@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 15:01:44 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/02 18:05:54 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:36:49 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ int	make_dups_list(t_command *cmd, t_redir *redir)
 	dup_fds = gcmalloc(2 * sizeof * dup_fds);
 	if (!dup_fds)
 		return (EXIT_FAILURE);
-	dup_fds[0] = redir->fd;
-	if (redir->fd == 0)
+
+	if (redir->fd == 0 || redir->fd == 1)
 		return (get_fd_in_out(cmd, redir));
 	else if (redir->fd > 0)
 	{
+		dup_fds[0] = redir->fd;
 		dup_fds[1] = open_file_fd(redir, redir->mode);
 		if (dup_fds[1] >= 0)
 		{

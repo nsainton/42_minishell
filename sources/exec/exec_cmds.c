@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:00:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/02 18:24:53 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:35:55 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	exec_pipeline(t_data *d)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		if (d->cmds[d->index]->fd_out != STDOUT_FILENO && d->index != d->cmds_nb - 1)
 			d->cmds[d->index]->last = 1;
+		ft_dprintf(2, "coucou 3: %d", d->cmds[d->index]->last);
 		d->pid[d->index] = fork();
 		reinit_sigs();
 		exec_command_in_pipeline(d);
@@ -76,7 +77,7 @@ void	exec_command_in_pipeline(t_data *d)
 	if (d->pid[d->index] == 0 && d->cmds[d->index]->command)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		//dup_in_out(d->cmds[d->index]->fd_in, d->cmds[d->index]->fd_out);
+		dup_in_out(d->cmds[d->index]->fd_in, d->cmds[d->index]->fd_out);
 		dup_list(d->cmds[d->index]->fds);
 		dup_pipe(d);
 		if (is_builtin(d->cmds[d->index], d) == 1)
