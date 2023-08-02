@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 22:47:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/02 19:50:04 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/02 20:37:34 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,41 +24,60 @@ static void	insert_first(t_list **begin_list, t_list *prev_elem)
 
 static void	swap_elems(t_list *prev_first, t_list *prev_second)
 {
-	t_list	*elem;
-	t_list	*next;
+	t_list	*tmp;
 
-	elem = prev_first->next;
+	tmp = prev_first->next;
 	prev_first->next = prev_second->next;
-	next = prev_second->next->next;
-	prev_first->next->next = elem->next;
-	prev_second->next = elem;
-	prev_second->next->next = next;
+	prev_second->next = tmp;
+	tmp = tmp->next;
+	prev_second->next->next = prev_first->next->next;
+	prev_first->next->next = tmp;
 }
 
-void	print_node(void *node)
+/*
+static void	print_node(void *node)
 {
 	ft_printf("This is the node : %s\n", (char *)node);
 }
+*/
 
 static void	compare_elems(t_list *begin_list, int (*cmp)())
 {
 	t_list	*outer_iterator;
 	t_list	*inner_iterator;
+	unsigned int	i;
 
+	i = 0;
 	outer_iterator = begin_list;
 	while (outer_iterator->next)
 	{
-		ft_printf("-----------------------------------\n");
+		/*
+		ft_printf("Printing full list\n");
 		ft_lstiter(begin_list, print_node);
-		getchar();
+		*/
+		//getchar();
 		inner_iterator = outer_iterator->next;
 		while (inner_iterator->next)
 		{
-			ft_printf("This is the inner content : %s\n", (char *)inner_iterator->content);
+			//ft_printf("This is the inner content : %s\n", (char *)inner_iterator->content);
 			if (cmp(outer_iterator->next->content, \
 			inner_iterator->next->content) > 0)
+			{
+				/*
+				ft_printf("Going to swap %s and %s\n", (char *)outer_iterator->next->content, (char *)inner_iterator->next->content);
+				ft_printf("LIST BEFORE SWAPPING---------%u\n", i);
+				ft_lstiter(begin_list, print_node);
+				*/
 				swap_elems(outer_iterator, inner_iterator);
-			inner_iterator = inner_iterator->next;
+				/*
+				ft_printf("LIST AFTER SWAPPING-------%u\n", i);
+				ft_lstiter(begin_list, print_node);
+				*/
+				i ++;
+			}
+			//if (inner_iterator->next)
+			else
+				inner_iterator = inner_iterator->next;
 		}
 		outer_iterator = outer_iterator->next;
 	}
