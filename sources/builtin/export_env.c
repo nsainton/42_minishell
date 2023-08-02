@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 10:34:01 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 17:00:40 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/02 17:55:57 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static int	add_env_vars(char **args, struct s_env *environment, int *errnum)
 
 int	export_env(t_data *d, t_command *cmd)
 {
+	struct s_list *lst;
+
 	if (d->env->is_empty)
 	{
 		ft_dprintf(2, "env : export : No such file or directory\n");
@@ -54,7 +56,12 @@ int	export_env(t_data *d, t_command *cmd)
 	}
 	if (!cmd->args[0])
 	{
-		print_list_prefix(d->env->list_env, "export");
+		lst = copy_list(d->env->list_env);
+		if (! lst)
+			return (1);
+		ft_list_sort(&lst, ft_strcmp);
+		print_list_prefix(lst, "export");
+		ft_lstclear(&lst, NULL);
 		return (SUCCESS);
 	}
 	d->errnum = 0;

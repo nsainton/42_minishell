@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 22:47:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/02 16:20:38 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:23:31 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,12 @@ static void	compare_elems(t_list *begin_list, int (*cmp)())
 	outer_iterator = begin_list;
 	while (outer_iterator->next)
 	{
+		ft_printf("This is the outer content : %s\n", (char *)outer_iterator->content);
 		inner_iterator = outer_iterator->next;
+		sleep(1);
 		while (inner_iterator->next)
 		{
+			ft_printf("This is the inner content : %s\n", (char *)inner_iterator->content);
 			if (cmp(outer_iterator->next->content, \
 			inner_iterator->next->content) > 0)
 				swap_elems(outer_iterator, inner_iterator);
@@ -65,7 +68,10 @@ void	ft_list_sort(t_list **begin_list, int (*cmp)())
 	iterator = *begin_list;
 	while (iterator->next && cmp((*begin_list)->content, \
 	iterator->next->content) > 0)
+	{
 		iterator = iterator->next;
+		ft_printf("This is the content : %s\n", (char *)iterator->content);
+	}
 	if (iterator != *begin_list)
 		insert_first(begin_list, iterator);
 }
