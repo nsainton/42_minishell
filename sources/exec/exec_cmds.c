@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:00:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/03 12:36:05 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:43:12 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,10 @@ int	set_data(t_data *d)
 
 int	exec_pipeline(t_data *d)
 {
-	/* if (save_stds('s'))
-		return (EXIT_FAILURE); */
-	save_stds('s');
-	//ft_dprintf(2, "coucou 1: %d", d->cmds_nb);
+	if (save_stds('s'))
+		return (EXIT_FAILURE); 
 	if (set_data(d))
 		return (1);
-	ft_dprintf(2, "coucou 2: %d", d->cmds_nb);
 	if (d->cmds_nb == 1)
 		exec_one(d);
 	while (++d->index < d->cmds_nb)
@@ -92,6 +89,9 @@ void	exec_command_in_pipeline(t_data *d)
 	else if (d->pid[d->index] > 0 && d->cmds[d->index]->command)
 	{
 		close_used_pipes(d, d->cmds[d->index]);
+		close_list(d->cmds[d->index]->fds);
+		safe_close (d->cmds[d->index]->fd_in);
+		safe_close (d->cmds[d->index]->fd_out);
 		/* if (d->cmds[d->index]->last == 1)
 		{
 			//d->cmds = &d->cmds[d->index + 1];

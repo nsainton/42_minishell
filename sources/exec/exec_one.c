@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/02 16:49:49 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:44:08 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	exec_one(t_data *d)
 {
-	ft_dprintf(2, "error : %d", d->cmds_nb);
 	d->index = 1;
 	if (make_redirs(d, d->cmds[0]) != 0)
 		return(d->errnum);
