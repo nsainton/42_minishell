@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:00:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/02 18:35:55 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:36:05 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,18 @@ int	exec_pipeline(t_data *d)
 	//ft_dprintf(2, "coucou 1: %d", d->cmds_nb);
 	if (set_data(d))
 		return (1);
-	//ft_dprintf(2, "coucou 2: %d", d->cmds_nb);
+	ft_dprintf(2, "coucou 2: %d", d->cmds_nb);
 	if (d->cmds_nb == 1)
 		exec_one(d);
 	while (++d->index < d->cmds_nb)
 	{
-		/*
-		if global == SIGINT
-			break and wait
-		*/
-
 		if (make_redirs(d, d->cmds[d->index]))
 		{
 			if (d->index != d->cmds_nb - 1)
+			{
+				close_used_pipes(d, d->cmds[d->index]);
 				d->index ++;
+			}
 			else
 				continue ;
 		}
@@ -53,10 +51,11 @@ int	exec_pipeline(t_data *d)
 			ft_dprintf(2, "error : %s", strerror(errno));
 		if (d->cmds[d->index]->fd_out != STDOUT_FILENO && d->index != d->cmds_nb - 1)
 			d->cmds[d->index]->last = 1;
-		ft_dprintf(2, "coucou 3: %d", d->cmds[d->index]->last);
 		d->pid[d->index] = fork();
 		reinit_sigs();
 		exec_command_in_pipeline(d);
+	/* 	safe_close(d->cmds[0]->fd_in);
+		safe_close(d->cmds[0]->fd_out); */
 	}
 	wait_for_childs(d);
 	init_sigs();
@@ -93,13 +92,13 @@ void	exec_command_in_pipeline(t_data *d)
 	else if (d->pid[d->index] > 0 && d->cmds[d->index]->command)
 	{
 		close_used_pipes(d, d->cmds[d->index]);
-		if (d->cmds[d->index]->last == 1)
+		/* if (d->cmds[d->index]->last == 1)
 		{
-			d->cmds = &d->cmds[d->index + 1];
-			d->cmds_nb -= d->index + 1;
+			//d->cmds = &d->cmds[d->index + 1];
+			//d->cmds_nb -= d->index + 1;
 			safe_close (d->p[0]);
 			safe_close (d->p[1]);
-			exec_pipeline(d);
-		}
+			//exec_pipeline(d);
+		} */
 	}
 }
