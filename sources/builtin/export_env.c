@@ -6,13 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 10:34:01 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 17:00:40 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:26:53 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	add_env_var(char *arg, struct s_env *environment)
+int	add_env_var(char *arg, struct s_env *environment)
 {
 	struct s_list	*newvar;
 
@@ -29,7 +29,7 @@ static int	add_env_var(char *arg, struct s_env *environment)
 	return (EXIT_SUCCESS);
 }
 
-static int	add_env_vars(char **args, struct s_env *environment, int *errnum)
+int	add_env_vars(char **args, struct s_env *environment, int *errnum)
 {
 	unsigned int	i;
 
@@ -47,11 +47,11 @@ static int	add_env_vars(char **args, struct s_env *environment, int *errnum)
 
 int	export_env(t_data *d, t_command *cmd)
 {
-	if (d->env->is_empty)
+	/* if (d->env->is_empty)
 	{
 		ft_dprintf(2, "env : export : No such file or directory\n");
 		return (127);
-	}
+	} */
 	if (!cmd->args[0])
 	{
 		print_list_prefix(d->env->list_env, "export");

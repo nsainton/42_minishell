@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 13:29:45 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:23:07 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,16 @@ t_env	*get_my_env(char **envp)
 	if (!envp || !envp[0])
 	{
 		my_env->is_empty = 1;
-		my_env->list_env = gc_lstnew(NULL);
-		return (my_env);
+		my_env->list_env = create_false_env();
+		add_env_var("PWD=", my_env);
+		add_env_var("OLDPWD=.", my_env);
+		set_new_pwd(my_env);
 	}
 	else
+	{
 		my_env->is_empty = 0;
-	my_env->list_env = copy_env(envp);
+		my_env->list_env = copy_env(envp);
+	}
 	return (my_env);
 }
 
@@ -53,9 +57,9 @@ t_list	*copy_env(char **envp)
 int	print_env(t_data *d, t_command *cmd)
 {
 	d->errnum = 0;
-	if (d->env->is_empty)
-		return (SUCCESS);
-	else if (cmd->args[0])
+	/* if (d->env->is_empty)
+		return (SUCCESS); */
+	if (cmd->args[0])
 	{
 		ft_dprintf(2, "env : minishell doesn't support arguments or options\n");
 		d->errnum = 127;
@@ -63,6 +67,18 @@ int	print_env(t_data *d, t_command *cmd)
 	else
 		print_list_prefix(d->env->list_env, NULL);
 	return (SUCCESS);
+}
+
+t_list 	*create_false_env(void)
+{
+	t_list	*my_env;
+	char	*line;
+
+	line = "SHLVL=1";
+	my_env = gc_lstnew((void *) line);
+	if (!my_env)
+		exit_free_gc(ALLOCATION_ERROR);
+	return (my_env);
 }
 
 /*

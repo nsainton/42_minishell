@@ -182,6 +182,11 @@ int			check_o_redir(char *line, size_t *len, t_csizet index);
 
 //Functions from file : test_parsing.c
 //Functions from file : export_env.c
+int			add_env_var(char *arg, struct s_env *environment);
+
+int			add_env_vars(char **args, struct s_env *environment, \
+int *errnum);
+
 int			export_env(t_data *d, t_command *cmd);
 
 //Functions from file : builtin.c
@@ -224,12 +229,16 @@ int			set_new_pwd(t_env *my_env);
 
 int			go_home(t_env *my_env, int set_old);
 
+int			go_old_pwd(t_env *env);
+
 //Functions from file : env.c
 t_env		*get_my_env(char **envp);
 
 t_list		*copy_env(char **envp);
 
 int			print_env(t_data *d, t_command *cmd);
+
+t_list 		*create_false_env(void);
 
 void		delete_env_line(t_list *start, t_list *to_del);
 

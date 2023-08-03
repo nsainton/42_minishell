@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 09:54:51 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:14:51 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	cd(t_command *cmd, t_data *d)
 		go_home(d->env, 0);
 		cmd->args[0][0] = '.';
 	}
+	if (cmd->args[0][0] == '-' && !cmd->args[0][1])
+		return (go_old_pwd(d->env));
 	if (cmd->args[0][0])
 		return (change_dir(cmd->args[0], d->env));
 	return (0);
@@ -54,19 +56,24 @@ int	set_new_pwd(t_env *my_env)
 
 	errnum = 0;
 	old_wd = get_env_var(my_env, "PWD");
-/* 	if (!old_wd)
-		ft_dprintf(2, "cd : no pwd variable in env\n"); */
+	if (!old_wd)
+	{
+		add_env_var("PWD=.", my_env);
+		old_wd = get_env_var(my_env,"PWD");
+	}
 	new_wd = getcwd(NULL, 0);
 	if (!new_wd)
 	{
 		ft_dprintf(2, "%s\n", strerror(errno));
 		return (errno);
 	}
-	if (old_wd && new_wd)
-	{
+	errnum = update_env_line(my_env, "PWD", new_wd);
+	if (get_env_var(my_env, "OLDPWD"))
 		errnum = update_env_line(my_env, "OLDPWD", old_wd);
-		if (!errnum)
-			errnum = update_env_line(my_env, "PWD", new_wd);
+	else
+	{
+		add_env_var("OLDPWD=.", my_env);
+		errnum = update_env_line(my_env, "OLDPWD", old_wd);
 	}
 	free(new_wd);
 	return (errnum);
@@ -95,4 +102,19 @@ int	go_home(t_env *my_env, int set_old)
 			errnum = set_new_pwd(my_env);
 		return (errnum);
 	}
+}
+
+int	go_old_pwd(t_env *env)
+{
+	char	*old_wd;
+	
+	old_wd = get_env_var(env, "OLDPWD");
+	if (!old_wd)
+	{
+		ft_dprintf(2, "cd : OLDPWD not set \n");
+		return (1);
+	}
+	if (change_dir(old_wd, env))
+		return (1);
+	return (0);
 }

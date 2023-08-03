@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/03 15:44:08 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:25:31 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ void	exec_w_execve(t_data *d, t_command *cmd)
 {
 	int errnum;
 
-	if (d->env->is_empty)
+	/* if (d->env->is_empty)
 	{
 		ft_dprintf(2, "env : no env = no command\n");
 		exit_free_gc(127);
-	}
+	} */
 	dup_in_out(cmd->fd_in, cmd->fd_out);
 	dup_list(cmd->fds);
 	errnum = check_path(cmd, d->env);
