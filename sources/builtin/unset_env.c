@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 10:01:07 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/02 11:40:41 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:32:11 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static void	remove_env_var(char **args, struct s_env *environment)
 int	unset_env(t_data *d, t_command *cmd)
 {
 	d->errnum = 0;
-	if (d->env->is_empty)
+	/* if (d->env->is_empty)
 	{
 		ft_dprintf(2, "env : unset : No such file or directory\n");
 		return (127);
-	}
+	} */
 	if (!cmd->args[0])
 		return (SUCCESS);
 	remove_env_var(cmd->args, d->env);
