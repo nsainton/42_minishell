@@ -1,100 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:08:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/03 19:39:11 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:08:14 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "minishell_int.h"
-//Functions from file : pwd.c
-char		*get_env_var(t_env *my_env, char *var);
-
-int			print_pwd(t_command *cmd);
-
-int			update_env_line(t_env *my_env, char *name, char *new_line);
-
-t_list		*get_env_line(t_env *my_env, char *var);
-
-int			is_option(char *arg);
-
-//Functions from file : export.c
-int			is_valid_export(char *arg);
-
-int			is_valid_name(char *arg);
-
-int			modify_env(t_env *my_env, char *export);
-
-//Functions from file : utils.c
-void		print_list_prefix(t_list *lst, char *prefix);
-
-t_list		*ft_lstnew_gc(void *content);
-
-char		**envlist_to_arr(t_list *env);
-
-//Functions from file : echo.c
-int			print_echo(t_data *d, t_command *cmd);
-
-int			is_true_optn(char *str);
-
-int			print_exit_status(t_data *d, t_command *cmd);
-
-//Functions from file : unset_env.c
-int			unset_env(t_data *d, t_command *cmd);
-
-int			is_valid_unset(char *arg);
-
-//Functions from file : export_env.c
-int			export_env(t_data *d, t_command *cmd);
-
-//Functions from file : env.c
-t_env		*get_my_env(char **envp);
-
-t_list		*copy_env(char **envp);
-
-int			print_env(t_data *d, t_command *cmd);
-
-void		delete_env_line(t_list *start, t_list *to_del);
-
-//Functions from file : cd.c
-int			cd(t_command *cmd, t_data *d);
-
-int			set_new_pwd(t_env *my_env);
-
-int			go_home(t_env *my_env, int set_old);
-
-//Functions from file : builtin.c
-int			exec_builtin(t_command *cmd, t_data *d);
-
-int			is_builtin(t_command *cmd, t_data *d);
-
-//Functions from file : exit.c
-int			exit_builtin(char **args, int *errnum);
-
-//Functions from file : commands_exec.c
-void		commands_exec(t_cchar *line, t_data *data);
-
-//Functions from file : exit_free.c
-void		exit_free_gc(int status);
-
-int			keep_exit_status(const int exit_status);
-
-//Functions from file : heredoc.c
-int			heredoc(t_command *command);
-
-//Functions from file : save_state.c
-int			save_state(const int action);
-
-//Functions from file : check_path.c
-int			check_path(t_command *cmd, t_env *my_env);
-
-int			is_a_directory(char *path);
 
 //Functions from file : minishell.c
 //Functions from file : metachar.c
