@@ -6,13 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:48:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/02 11:32:06 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/04 09:14:34 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env_var(t_env *my_env, char *var)
+char	*get_env_var(const struct s_env *my_env, char *var)
 {
 	char	*line;
 	int		len;
