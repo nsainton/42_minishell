@@ -6,13 +6,13 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 12:15:15 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:21:57 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	heredoc(t_command *command)
+int	heredoc(const struct s_command *command, const struct s_env *env)
 {
 	struct s_heredoc_infos	hd;
 	size_t					len;
@@ -27,7 +27,7 @@ int	heredoc(t_command *command)
 	i = 0;
 	while (i < len)
 	{
-		err = getheredoc(&hd, *command->heredocs + i);
+		err = getheredoc(&hd, *command->heredocs + i, env);
 		if (err > 0)
 			return (EXIT_FAILURE);
 		if (! err & (dup2(hd.read_fd, (*command->heredocs + i)->fd) == -1))
