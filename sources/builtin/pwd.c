@@ -6,13 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:48:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/04/26 13:46:09 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/04 09:14:34 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env_var(t_env *my_env, char *var)
+char	*get_env_var(const struct s_env *my_env, char *var)
 {
 	char	*line;
 	int		len;
@@ -22,12 +22,14 @@ char	*get_env_var(t_env *my_env, char *var)
 		return (NULL);
 	tmp = my_env->list_env;
 	len = ft_strlen(var);
-	while (tmp)
+	while (tmp && tmp->content)
 	{
 		line = (char *) tmp->content;
+		tmp = tmp->next;
+		if (! line)
+			continue ;
 		if (!ft_strncmp(var, line, len) && line[len] == '=')
 			return (&line[len + 1]);
-		tmp = tmp->next;
 	}
 	return (NULL);
 }
@@ -36,10 +38,10 @@ int	print_pwd(t_command *cmd)
 {
 	char	*line;
 
-	if (cmd->args[0])
+	if (cmd->args[0] && is_option(cmd->args[0]))
 	{
-		ft_dprintf(2, "pwd : too many arguments\n");
-		return (1);
+		ft_dprintf(2, "pwd : no options allowed \n");
+		return (2);
 	}
 	line = getcwd(NULL, 0);
 	if (!line)
@@ -87,4 +89,17 @@ t_list	*get_env_line(t_env *my_env, char *var)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+int	is_option(char	*arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i] == '-')
+		i++;
+	if (i != 0)
+		return (1);
+	else	
+		return (0);
 }

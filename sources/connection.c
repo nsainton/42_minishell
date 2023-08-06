@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 14:04:03 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/21 22:21:35 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 10:58:42 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	**get_tab_references(void *original, t_csizet elemsize, int *err)
 		*err = 1;
 		return (NULL);
 	}
-	tab = gccalloc(len + 1, sizeof *tab);
+	tab = gccalloc(len + 1, sizeof(*tab));
 	if (! tab)
 	{
 		*err = 1;
@@ -47,14 +47,16 @@ static int	ncommand_to_command(t_ncommand *original, t_command **command)
 	t_heredoc		**heredocs;
 	int				err;
 
-	*command = gccalloc(1, sizeof **command);
+	*command = gccalloc(1, sizeof(**command));
 	if (! command)
 		return (ALLOCATION_ERROR);
 	err = 0;
-	redirs = (t_redirection **)get_tab_references(original->redirs, sizeof *original->redirs, &err);
+	redirs = (t_redirection **)get_tab_references(original->redirs, \
+	sizeof(*original->redirs), &err);
 	if (! redirs && err)
 		return (ALLOCATION_ERROR);
-	heredocs = (t_heredoc **)get_tab_references(original->heredocs, sizeof *original->heredocs, &err);
+	heredocs = (t_heredoc **)get_tab_references(original->heredocs,
+			sizeof(*original->heredocs), &err);
 	if (! heredocs && err)
 		return (ALLOCATION_ERROR);
 	(*command)->command = original->command;
@@ -73,10 +75,10 @@ t_command	**get_commands_reference(t_ncommand *original)
 	size_t		len;
 	size_t		index;
 
-	len = tablen(original, sizeof *original);
+	len = tablen(original, sizeof (*original));
 	if (! len || len == SIZE_MAX)
 		return (NULL);
-	commands = gccalloc(len + 1, sizeof *commands);
+	commands = gccalloc(len + 1, sizeof (*commands));
 	if (! commands)
 		return (NULL);
 	index = 0;

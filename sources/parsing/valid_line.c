@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:02:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/29 10:43:56 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/23 09:50:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,11 @@ int	redirect_without_spaces(char *line, size_t *len)
 {
 	size_t		index;
 	signed char	current;
-	//char		invar;
-	//int			skipped;
 
 	index = 0;
 	current = *(line + index);
-	//invar = 0;
 	while (index++ < *len)
 	{
-		//invar = invar + (current == BEG_VAR) - (current == END_VAR);
 		if (! ft_strchr("<>|", current))
 		{
 			current = *(line + index);
@@ -88,17 +84,8 @@ int	redirect_without_spaces(char *line, size_t *len)
 		}
 		if (invalid_redir(line, index, current))
 			return (SYNTAX_ERROR);
-		/*
-		ft_printf("Are we in var : %s\n", (invar == 1)?"YES":"NO");
-		skipped = skip_spaces(line, len, index, invar);
-		if (! invar && skipped && *(line + index) == current)
-		{
-			ft_printf("It seems that spaces have been skipped and an error occured\n");
-			return (SYNTAX_ERROR);
-		}
-		*/
 		current = *(line + index);
-		if (*(line + index) == ' ')// && !invar)
+		if (*(line + index) == ' ')
 		{
 			ft_memmove(line + index, line + index + 1, *len - index);
 			(*len)--;
@@ -107,8 +94,7 @@ int	redirect_without_spaces(char *line, size_t *len)
 	return (NO_ERROR);
 }
 
-
-static int fd_and_file(char *line, t_csizet index)
+static int	fd_and_file(char *line, t_csizet index)
 {
 	size_t	nextredir;
 	int		fd;
@@ -142,7 +128,7 @@ int	invalid_operator(char *line, size_t *len)
 		if (*(line + index) == '<' && (check_in_redir(line, index + 1) \
 		|| fd_and_file(line, index + 1)))
 			return (SYNTAX_ERROR);
-		else if(*(line + index) == '>' && (check_o_redir(line, len, index + 1) \
+		else if (*(line + index) == '>' && (check_o_redir(line, len, index + 1) \
 		|| fd_and_file(line, index + 1)))
 			return (SYNTAX_ERROR);
 		index ++;

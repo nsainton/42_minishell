@@ -6,7 +6,7 @@
 #    By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/05/29 16:03:20 by nsainton         ###   ########.fr        #
+#    Updated: 2023/08/02 16:02:48 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ MK:= mkdir -p
 
 NAME:= minishell
 
-PROG:= $(NAME).c
+#PROG:= $(NAME).c
 
 SRCS_DIR:= sources
 
@@ -38,7 +38,7 @@ INCS:= $(wildcard $(INCS_DIR)/*)
 
 DEPS_DIR:= dependencies
 
-DEPS:= $(patsubst %.c, $(DEPS_DIR)/%.d, $(SRCS_NAMES) $(PROG))
+DEPS:= $(patsubst %.c, $(DEPS_DIR)/%.d, $(SRCS_NAMES))# $(PROG))
 
 LIBS_DIR ?= $(addprefix $(shell pwd)/, libs)
 
@@ -60,7 +60,7 @@ ABBRS:= $(LGC_ABBR) $(LFT_ABBR) -lreadline
 
 CC:= cc
 
-CFLAGS:= -ggdb -Wall -Wextra -Werror
+CFLAGS:= -Wall -Wextra -Werror
 
 HEADER_URL := git@github.com:nsainton/header.git
 
@@ -145,10 +145,10 @@ $(DEPS_DIR):
 	$(MK) $(DEPS_DIR)
 
 $(LFT_DIR):
-	git clone $(LFT_URL) $@
+	git clone -b rendu --single-branch --depth 1 $(LFT_URL) $@
 
 $(LGC_DIR):
-	git clone $(LGC_URL) $@
+	git clone -b rendu --single-branch --depth 1 $(LGC_URL) $@
 
 $(HEADER_SCRIPT_DIR):
 	git clone $(HEADER_URL) $@
@@ -216,6 +216,6 @@ endif
 
 header: | $(HEADER_SCRIPT_DIR)
 	$(MAKE) -C $(HEADER_SCRIPT_DIR)
-	$(HEADER_SCRIPT) ./$(SRCS_DIR) $(FUNCS_HEADER)
+	$(HEADER_SCRIPT) ./$(SRCS_DIR) $(FUNCS_HEADER) $(NAME)_int.h
 
 -include $(DEPS)

@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:23:40 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 10:14:31 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/23 09:22:23 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	suppress_pipe(char *line, size_t *len, t_csizet index)
 		return (SYNTAX_ERROR);
 	}
 	ft_memmove(line + index, line + index + 1, *len - index);
-	(*len) --;
+	(*len)--;
 	return (NO_ERROR);
 }
 

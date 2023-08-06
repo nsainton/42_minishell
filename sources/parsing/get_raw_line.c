@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 11:02:53 by nsainton          #+#    #+#             */
-/*   Updated: 2023/06/01 18:19:45 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:56:40 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	add_exit_status(t_str *str)
 	free_node(status);
 	return (NO_ERROR);
 }
-	
+
 /*
 Reminder : A valid name is a name beginning by an alphabetical character
 or an underscore and containing only alphanumerical characters or
@@ -53,7 +53,8 @@ static int	handle_dollar(t_str *str, t_cstr *line, int *parser, t_env *env)
 
 	line->index += 1;
 	current = *(line->str + line->index);
-	if (*parser == S_QUOTES || current == ' ' || ! current)
+	if (*parser == S_QUOTES || current == ' ' || ! current \
+	|| ft_ispunct(current))
 		return (t_str_add(str, '$'));
 	if (*(line->str + line->index) == '?')
 	{
@@ -79,12 +80,12 @@ static int	handle_specials(t_str *str, t_cstr *line, int *parser, t_env *env)
 		return (handle_dollar(str, line, parser, env));
 	line->index += 1;
 	if (current == '\'' || current == '\"')
-			return (! change_state(parser, current) && t_str_add(str, current));
+		return (! change_state(parser, current) && t_str_add(str, current));
 	if (*parser)
 		return (t_str_add(str, crypt_char(current)));
 	if (current == ' ' && *(line->str + line->index) == ' ')
 		return (0);
-	return(t_str_add(str, current));
+	return (t_str_add(str, current));
 }
 
 int	get_raw_line(t_cchar *line, t_str *newline, t_env *env)

@@ -1,0 +1,2 @@
+grop : Command not found
+close: Bad file descriptor

@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands_exec.c                                    :+:      :+:    :+:   */
+/*   save_state.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/27 16:00:27 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 16:00:29 by nsainton         ###   ########.fr       */
+/*   Created: 2023/07/26 15:03:07 by nsainton          #+#    #+#             */
+/*   Updated: 2023/07/26 15:05:05 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	commands_exec(t_cchar *line, t_data *data)
+int	save_state(const int action)
 {
-	t_ncommand	*commands;
+	static int	state;
 
-	if (split_line(line, &commands, data->env))
-	{
-		keep_exit_status(SYNTAX_ERROR);
-		return ;
-	}
-	data->cmds = get_commands_reference(commands);
-	if (! data->cmds)
-		return ;
-	data->cmds_nb = tablen(data->cmds, sizeof * data->cmds);
-	if (!data->cmds_nb)
-		return ;
-	exec_pipeline(data);
-	data->cmds = NULL;
+	if (action > 0)
+		state ++;
+	else if (action == 0)
+		state = 0;
+	return (state);
 }

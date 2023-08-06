@@ -5,44 +5,58 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/16 16:22:05 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/25 23:36:42 by nsainton         ###   ########.fr       */
+/*   Created: 2023/07/27 16:01:07 by nsainton          #+#    #+#             */
+/*   Updated: 2023/07/27 16:21:43 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void wait_for_childs(t_data	*d)
+static int	update_status(int status, const int cmds_number, const int rank)
+{
+	if (WIFEXITED(status))
+	{
+		printf("exited, status=%d\n", WEXITSTATUS(status)); //Don't forget to remove me
+		status = WEXITSTATUS(status);
+	}
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == 3)
+		{
+			if (rank == cmds_number)
+				ft_printf("Quit (core dumped)\n");
+		}
+		else
+			ft_printf("killed by signal %d\n", WTERMSIG(status));
+		status = WTERMSIG(status) + 128;
+	}
+	else if (WIFSTOPPED(status))
+	{
+		//printf("stopped by signal %d\n", WSTOPSIG(status));
+		status = WSTOPSIG(status) + 128;
+	}
+	else if (WIFCONTINUED(status))
+		printf("continued\n");
+	return (status);
+}
+
+void	wait_for_childs(t_data	*d)
 {
 	int	i;
 	int	w;
-	int status;
+	int	status;
 
 	i = 0;
 	status = 0;
 	while (i < d->cmds_nb && d->pid[i])
 	{
 		w = waitpid(d->pid[i], &status, WUNTRACED | WCONTINUED);
-		if (w == -1) {
-			perror("waitpid");
-			//exit(EXIT_FAILURE);
-		}
-		if (WIFEXITED(status)) {
-			printf("exited, status=%d\n", WEXITSTATUS(status));
-			status = WEXITSTATUS(status);
-		} else if (WIFSIGNALED(status)) {
-			printf("killed by signal %d\n", WTERMSIG(status));
-			status = WTERMSIG(status) + 128;
-		} else if (WIFSTOPPED(status)) {
-			printf("stopped by signal %d\n", WSTOPSIG(status));
-			status = WSTOPSIG(status) + 128;
-		} else if (WIFCONTINUED(status)) {
-			printf("continued\n");
-		}
 		i ++;
-	}
-	if (ft_strcmp((*(d->cmds + d->cmds_nb - 1))->command, "exit"))
+		if (w == -1)
+			continue ;
+		status = update_status(status, d->cmds_nb, i);
 		keep_exit_status(status);
+	}
 }
 
 char	**make_command(t_command	*cmd)
@@ -55,7 +69,6 @@ char	**make_command(t_command	*cmd)
 	j = 0;
 	full_cmd = gccalloc(ft_arrlen((void **) cmd->args) + 2, sizeof (char *));
 	full_cmd[j++] = gc_strdup(cmd->command);
-
 	i = 0;
 	while (cmd->args[i])
 	{
@@ -67,31 +80,21 @@ char	**make_command(t_command	*cmd)
 	return (full_cmd);
 }
 
-void	sub_dup2(int read_fd, int write_fd)
-{
-	if (dup2(read_fd, STDIN_FILENO) == -1)
-		ft_dprintf(2, "dup2 read fd (%d)error: %s\n", read_fd, strerror(errno));
-	if (dup2(write_fd, STDOUT_FILENO) == -1)
-		ft_dprintf(2, "dup2 write fd error: %s\n", strerror(errno));
-
-}
-
 void	close_used_pipes(t_data *d, t_command *cmd)
 {
-	if (d->index == d->cmds_nb - 1)
-	{
-		close(cmd->fd_out);
-		close(d->prev_pipe);
-		close(d->p[1]);
-	}
-	else if (d->index == 0)
-	{
-		close(cmd->fd_in);
-		close(d->p[1]);
-	}
-	else
-	{
-		close(d->p[1]);
-		close(d->prev_pipe);
-	}
+	
+	safe_close(d->p[1]);
+	safe_close(d->prev_pipe);
+	d->prev_pipe = d->p[0];
+	if (cmd->fd_in != STDIN_FILENO)
+		safe_close(cmd->fd_in);
+	if (cmd->fd_out != STDOUT_FILENO)
+		safe_close(cmd->fd_out);
 }
+
+void	safe_close(int fd)
+{
+	if (fd > 2)
+		close(fd);
+}
+

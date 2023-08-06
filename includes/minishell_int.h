@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/23 21:03:07 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 10:32:21 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <string.h>
 # include <dirent.h>
 //Compile the executable with libreadline (-lreadline)
@@ -46,7 +48,15 @@
 # define SPECIALS "'\"? <>|$"
 # define REDIRS "<>|"
 # define SEPARATORS " <>"
+# define HEREDOC "/tmp/minishell-"
+# define HEREDOC_PROMPT "> "
+# define HEREDOC_WARNING "minishell: warning: here-document at line %u \
+delimited by end-of-fine (wanted `%s')\n"
 // End of Preprocessor defines
+
+//Declaration of global variable to catch if a terminating signal has occured
+
+extern sig_atomic_t	g_termsig;
 
 // ENUM Declarations
 /*
@@ -70,7 +80,7 @@ enum e_minierrors
 {
 	NO_ERROR = 0,
 	SYNTAX_ERROR = 2,
-	ALLOCATION_ERROR = 20,
+	ALLOCATION_ERROR = 30,
 	OVERFLOW,
 	UNKNOWN_ERROR
 };
@@ -118,6 +128,7 @@ enum e_exit_errors
 
 //Structures declarations
 
+
 struct s_arg
 {
 	char			*argument;
@@ -145,6 +156,7 @@ struct	s_command
 	t_uint				last;
 	struct s_heredoc	**heredocs;
 	struct s_redir		**redirs;
+	t_list				*fds;
 	int					fd_in;
 	int					fd_out;
 	int					err;
@@ -169,6 +181,12 @@ struct s_env
 	t_list	*list_env;
 	char	*path;
 	int		is_empty;
+};
+
+struct s_heredoc_infos
+{
+  int write_fd;
+  int read_fd;
 };
 
 /*

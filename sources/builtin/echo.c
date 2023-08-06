@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:42:11 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/24 16:36:49 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 09:55:41 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,23 @@ int	print_echo(t_data *d, t_command *cmd)
 	int	i;
 
 	i = 0;
-	if (! cmd->args)
+	if (!cmd->args[0])
 	{
-		ft_dprintf(cmd->fd_out, "\n");
+		ft_dprintf(1, "\n");
 		return (0);
 	}
 	while (cmd->args[i] && is_true_optn(cmd->args[i]))
 		i++;
 	while (cmd->args[i])
 	{
-		ft_dprintf(cmd->fd_out, "%s", cmd->args[i]);
+		ft_dprintf(1, "%s", cmd->args[i]);
 		if (cmd->args[i + 1])
-			printf(" ");
+			ft_printf(" ");
 		i ++;
 	}
 	d->errnum = 0;
 	if (!is_true_optn(cmd->args[0]))
-		ft_dprintf(cmd->fd_out, "\n");
+		ft_dprintf(1, "\n");
 	return (0);
 }
 
@@ -44,6 +44,10 @@ int	is_true_optn(char *str)
 	i = 1;
 	if (str[0] == '-' && str[1] == 'n' && str[2] == '\0')
 		return (1);
+	if (str[0] != '-')
+		return (0);
+	if (!str[1])
+		return (0);
 	while (str[i])
 	{
 		if (str[i] != 'n')

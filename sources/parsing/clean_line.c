@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 14:25:08 by nsainton          #+#    #+#             */
-/*   Updated: 2023/05/26 21:00:08 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/23 09:25:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,9 @@ void	convert_var(signed char *line, size_t *len, t_csizet beg)
 		index ++;
 	}
 	ft_memmove(line + beg, line + beg + 1, *len - beg);
-	*len -= 1;
-	index --;
-	/*
-	ft_printf("This is the last element : %d\n", *(line + index));
-	ft_printf("Is this endvar : %s\n", *(line + index) == END_VAR ? "YESS" : "NO");
-	*/
-	ft_memmove(line + index, line + index + 1, *len - index);
-	*len -= 1;
+	ft_memmove(line + index - 1, line + index, *len - index);
+	*len -= 2;
 }
-
 
 void	remove_var_symbols(signed char *line, size_t *len)
 {

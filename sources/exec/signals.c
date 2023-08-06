@@ -5,40 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/21 18:10:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/20 17:37:11 by avedrenn         ###   ########.fr       */
+/*   Created: 2023/07/27 16:03:00 by nsainton          #+#    #+#             */
+/*   Updated: 2023/07/27 16:42:30 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	init_sig(int signum, void handler(int, siginfo_t*, void*))
+{
+	struct sigaction	action;
+
+	ft_bzero(&action, sizeof action);
+	action.sa_sigaction = handler;
+	action.sa_flags = SA_SIGINFO;
+	sigemptyset(&action.sa_mask);
+	sigaddset(&action.sa_mask, signum);
+	sigaction(signum, &action, NULL);
+}
+
+static void	interrupt(int signum, siginfo_t *info, void *ucontext)
+{
+	(void)signum;
+	(void)info;
+	(void)ucontext;
+	g_termsig = 128 + signum;
+	keep_exit_status(g_termsig);
+	ft_putstr_fd("\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+static void	interrupt_child(int signum, siginfo_t *info, void *ucontext)
+{
+	(void)signum;
+	(void)info;
+	(void)ucontext;
+
+	g_termsig = 128 + signum;
+	keep_exit_status(g_termsig);
+	ft_putstr_fd("\n", 1);
+}
+
+void quit_child(int sig)
+{
+	if (sig == SIGQUIT)
+	{
+		ft_printf("Quit (core dumped)\n");
+		keep_exit_status(131);
+	}
+}
+
 void	init_sigs(void)
 {
-	init_sig(interrupt, SIGINT);
+	init_sig(SIGINT, interrupt);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-void	init_sig(void f(int, siginfo_t*, void*), int sigid)
+void	reinit_sigs(void)
 {
-	struct sigaction	sig;
-
-	ft_bzero(&sig, sizeof sig);
-	sig.sa_sigaction = f;
-	sig.sa_flags = SA_SIGINFO;
-	sigemptyset(&sig.sa_mask);
-	sigaddset(&sig.sa_mask,  sigid);
-	sigaction(sigid, &sig, NULL);
-
-}
-
-
-void	interrupt(int sig, siginfo_t *info, void *ucontext)
-{
-	(void)ucontext;
-	(void)sig;
-	(void)info;
-	ft_printf("Thanks for using control-c\n");
-	ft_putstr_fd("\n", 2);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	init_sig(SIGINT, interrupt_child);
 }

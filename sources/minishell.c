@@ -6,56 +6,50 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/06/24 12:39:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:30:30 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-static void print_enve(char **envp)
+static void	init(char **envp, t_data *data)
 {
-	size_t	i;
-
-	i = 0;
-	while (*(envp + i))
-	{
-		printf("%s\n", *(envp + i));
-		i ++;
-	}
+	init_sigs();
+	data->cmds = NULL;
+	data->errnum = 0;
+	data->env = get_my_env(envp);
 }
-*/
+
+sig_atomic_t	g_termsig = 0;
 
 int	main(int ac, char **av, char **envp)
 {
 	char		*line;
 	t_data		data;
 
-	if (ac != 1 && ac != 3)
+	//ft_printf("Program invocation name : %s\n", program_invocation_name);
+	if (ac != 1)
 	{
 		ft_printf("%s\n", USAGE);
 		return (EXIT_FAILURE);
 	}
 	(void)av;
-	//print_enve(envp);
-	init_sigs();
-	data.cmds = NULL;
-	data.errnum = 0;
-	data.env = get_my_env(envp);
+	init(envp, &data);
 	while (1)
 	{
 		line = readline("minishell> ");
 		if (!line || gc_add(line))
 		{
-			ft_printf("We are freeing the garbage collector\n");
+			ft_putendl_fd("exit", 1);
 			free_gc();
 			break ;
 		}
 		if (*line)
 			add_history(line);
 		commands_exec(line, &data);
-		//ft_printf("This is the last pointer in the env : %s\n", ft_lstlast(data.env->list_env)->content);
-		free_from(ft_lstlast(data.env->list_env)->content);
+
+		//ft_printf("This is the last env var : %s\n", (char *)ft_lstlast(data.env->list_env)->content);
+		//free_from(ft_lstlast(data.env->list_env)->content);
 	}
 	rl_clear_history();
 	return (errno);
