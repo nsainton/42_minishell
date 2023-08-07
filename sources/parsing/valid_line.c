@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:02:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/23 09:50:38 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/07 20:52:56 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int	redirect_without_spaces(char *line, size_t *len)
 		if (*(line + index) == ' ')
 		{
 			ft_memmove(line + index, line + index + 1, *len - index);
+			current = *(line + index);
+			index --;
 			(*len)--;
 		}
 	}
