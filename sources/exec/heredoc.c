@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/07 12:09:07 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/07 12:23:32 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,21 @@ const int heredoc_fd)
 	return (connect_heredoc_fds(descriptors_list + i, command_fd, heredoc_fd));
 }
 
+static void	clear_list(int *list)
+{
+	char	nullelem[20];
+	size_t	i;
+
+	ft_bzero(nullelem, 2 * sizeof * list);
+	i = 0;
+	while (ft_memcmp(list + i, nullelem, 2 * sizeof * list) && \
+	*(list + i) != -1)
+	{
+		close(*(list + i + 1));
+		i += 2;
+	}
+}
+
 static int	get_heredocs(int *descriptors_list, \
 const struct s_command *command, const struct s_env *env, \
 const size_t number)
@@ -83,16 +98,40 @@ const size_t number)
 	return (0);
 }
 
+/*
+	nullelem is of size 20 to not allocate it and to ensure the portability
+	in case size of `int` increases in the future. nullelem array with work
+	with this function for a sizeof int up to 10
+*/
+
 static int	match_fds(int *descriptors_list)
 {
-	size_t	len;
+	char	nullelem[20];
 	size_t	i;
 
-	len = tablen(descriptors_list, 2 * sizeof * descriptors_list);
+	ft_bzero(nullelem, 2 * sizeof * descriptors_list);
 	i = 0;
-	while (i < 2 * len)
+	while (ft_memcmp(descriptors_list + i, nullelem, 2 * sizeof * descriptors_list) \
+	&& *(descriptors_list + i) != -1)
 	{
-		if (
+		if (dup2(*(descriptors_list + i + 1), *(descriptors_list + i)) == -1)
+		{
+			perror("dup2");
+			clear_list(descriptors_list);
+			return (1);
+		}
+		if (close(*(descriptors_list + i + 1)))
+		{
+			*(descriptors_list + i + 1)  = -1;
+			clear_list(descriptors_list);
+			return (1);
+		}
+		*(descriptors_list + i + 1) = *(descriptors_list + i);
+		i += 2;
+	}
+	return (0);
+}
+
 int	heredoc(const struct s_command *command, const struct s_env *env)
 {
 	struct s_heredoc_infos	hd;
