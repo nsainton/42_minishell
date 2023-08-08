@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 10:32:21 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:42:53 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ delimited by end-of-fine (wanted `%s')\n"
 
 //Declaration of global variable to catch if a terminating signal has occured
 
-extern sig_atomic_t	g_termsig;
+extern volatile sig_atomic_t	g_termsig;
 
 // ENUM Declarations
 /*

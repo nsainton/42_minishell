@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 13:16:24 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/08 13:16:24 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/08 17:43:00 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/08 17:43:00 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,6 @@ int				heredoc(const struct s_command *command, \
 const struct s_env *env);
 
 //Functions from file : heredocs_fds_list.c
-void			clear_list(int *list);
-
 int				get_heredocs(int *descriptors_list, \
 const struct s_command *command, const struct s_env *env, \
 const size_t number);
@@ -132,6 +130,13 @@ const size_t number);
 //Functions from file : read_heredoc_line.c
 int				write_line(const char *line, int write_fd, \
 const struct s_env *env);
+
+//Functions from file : list_management.c
+int				*getlist(const size_t size, const size_t elemsize);
+
+void			clear_list(void);
+
+void			close_heredoc_fds(void);
 
 //Functions from file : get_heredoc.c
 int				getheredoc(struct s_heredoc_infos *hd, \

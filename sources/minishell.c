@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 13:30:30 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:44:30 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	init(char **envp, t_data *data)
 	data->env = get_my_env(envp);
 }
 
-sig_atomic_t	g_termsig = 0;
+volatile sig_atomic_t	g_termsig = 0;
 
 int	main(int ac, char **av, char **envp)
 {
@@ -41,7 +41,7 @@ int	main(int ac, char **av, char **envp)
 		if (!line || gc_add(line))
 		{
 			ft_putendl_fd("exit", 1);
-			free_gc();
+			exit_builtin(NULL, NULL);
 			break ;
 		}
 		if (*line)
