@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:01:48 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/07 14:32:44 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:03:31 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	clear_list(int *list)
 	free_node(list);
 }
 
+/*
 static void	print_desc_list(const int *list)
 {
 	char	nullelem[20];
@@ -81,6 +82,7 @@ static void	print_desc_list(const int *list)
 		i += 2;
 	}
 }
+*/
 
 int	get_heredocs(int *descriptors_list, \
 const struct s_command *command, const struct s_env *env, \
@@ -96,22 +98,26 @@ const size_t number)
 		err = getheredoc(&hd, *command->heredocs + i, env);
 		if (err > 0)
 			return (1);
+		/*
 		if (! err)
 		{
 			ft_printf("------------Before updating---------------\n");
 			print_desc_list(descriptors_list);
 		}
+		*/
 		if (! err && \
 		update_list(descriptors_list, (*(command->heredocs + i))->fd, hd.read_fd))
 		{
 			clear_list(descriptors_list);
 			return (1);
 		}
+		/*
 		if (! err)
 		{
 			ft_printf("--------------Updated----------------------\n");
 			print_desc_list(descriptors_list);
 		}
+		*/
 		i ++;
 	}
 	return (0);

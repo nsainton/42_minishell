@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/07 14:32:46 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/08 10:45:46 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ static int	match_fds(int *descriptors_list)
 
 int	heredoc(const struct s_command *command, const struct s_env *env)
 {
-	size_t					len;
-	int						*descriptors_list;
+	size_t	len;
+	int		*descriptors_list;
 
 	if (! *command->heredocs)
 		return (EXIT_SUCCESS);
@@ -75,22 +75,6 @@ int	heredoc(const struct s_command *command, const struct s_env *env)
 		return (1);
 	if (match_fds(descriptors_list))
 		return (1);
-	/*
-	i = 0;
-	while (i < len)
-	{
-		err = getheredoc(&hd, *command->heredocs + i, env);
-		if (err > 0)
-			return (EXIT_FAILURE);
-		if (! err && \
-		update_list(descriptors_list, *(command->heredocs + i)->fd, hd.read_fd)
-			return (EXIT_FAILURE);
-		close(hd.read_fd);
-		if (err == 1)
-			return (EXIT_FAILURE);
-		i++;
-	}
-	*/
 	init_sigs();
 	free_node(descriptors_list);
 	return (EXIT_SUCCESS);
