@@ -6,7 +6,7 @@
 #    By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/08/08 09:43:24 by nsainton         ###   ########.fr        #
+#    Updated: 2023/08/08 13:14:23 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ DEPS:= $(patsubst %.c, $(DEPS_DIR)/%.d, $(SRCS_NAMES))# $(PROG))
 
 LIBS_DIR ?= $(addprefix $(shell pwd)/, libs)
 
-LFT_URL := git@github.com:nsainton/libft.git
+LFT_URL := https://github.com/nsainton/libft.git
 
 LFT_DIR:= $(addprefix $(LIBS_DIR)/, libft)
 
@@ -50,7 +50,7 @@ LFT_ABBR:= -lft
 
 LFT:= $(addprefix $(LFT_DIR)/, $(LFT_NAME))
 
-LGC_URL := git@github.com:nsainton/libgc.git
+LGC_URL := https://github.com/nsainton/libgc.git
 
 LGC_DIR:= $(addprefix $(LIBS_DIR)/, libgc)
 

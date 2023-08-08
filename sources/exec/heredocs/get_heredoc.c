@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/04 09:16:35 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:06:19 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ const struct s_env *env)
 			return (EXIT_FAILURE);
 		}
 		free(line);
+		line = NULL;
 		line = readline(HEREDOC_PROMPT);
 		line_index ++;
 	}
