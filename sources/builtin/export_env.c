@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 10:34:01 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/08 13:40:52 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:23:09 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	add_env_vars(char **args, struct s_env *environment, int *errnum)
 
 int	export_env(t_data *d, t_command *cmd)
 {
+	struct s_list	*lst;
+
 	/* if (d->env->is_empty)
 	struct s_list *lst;
 
