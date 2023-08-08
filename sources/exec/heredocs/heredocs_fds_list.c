@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:01:48 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/08 11:03:31 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/08 14:46:27 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,6 @@ const int heredoc_fd)
 	if (i == 2 * len)
 		return (1);
 	return (connect_heredoc_fds(descriptors_list + i, command_fd, heredoc_fd));
-}
-
-void	clear_list(int *list)
-{
-	char	nullelem[20];
-	size_t	i;
-
-	ft_bzero(nullelem, 2 * sizeof * list);
-	i = 0;
-	while (ft_memcmp(list + i, nullelem, 2 * sizeof * list) && \
-	*(list + i) != -1)
-	{
-		close(*(list + i + 1));
-		i += 2;
-	}
-	free_node(list);
 }
 
 /*
