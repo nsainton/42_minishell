@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:01:48 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/08 14:46:27 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:20:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ const size_t number)
 		if (! err && \
 		update_list(descriptors_list, (*(command->heredocs + i))->fd, hd.read_fd))
 		{
-			clear_list(descriptors_list);
+			clear_list();
 			return (1);
 		}
 		/*

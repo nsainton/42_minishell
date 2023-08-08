@@ -6,7 +6,7 @@
 /*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 21:13:15 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 12:16:39 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:22:33 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	exit_free_gc(int status)
 {
+	close_heredoc_fds();
 	free_gc();
 	rl_clear_history();
 	exit(status);
