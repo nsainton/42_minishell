@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/08 10:45:46 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:19:31 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,19 @@ static int	match_fds(int *descriptors_list)
 
 	ft_bzero(nullelem, 2 * sizeof * descriptors_list);
 	i = 0;
-	while (ft_memcmp(descriptors_list + i, nullelem, 2 * sizeof * descriptors_list) \
-	&& *(descriptors_list + i) != -1)
+	while (ft_memcmp(descriptors_list + i, nullelem, \
+	2 * sizeof * descriptors_list) && *(descriptors_list + i) != -1)
 	{
 		if (dup2(*(descriptors_list + i + 1), *(descriptors_list + i)) == -1)
 		{
 			perror("dup2");
-			clear_list(descriptors_list);
+			clear_list();
 			return (1);
 		}
 		if (close(*(descriptors_list + i + 1)))
 		{
-			*(descriptors_list + i + 1)  = -1;
-			clear_list(descriptors_list);
+			*(descriptors_list + i + 1) = -1;
+			clear_list();
 			return (1);
 		}
 		*(descriptors_list + i + 1) = *(descriptors_list + i);
@@ -67,15 +67,13 @@ int	heredoc(const struct s_command *command, const struct s_env *env)
 	len = tablen(*command->heredocs, sizeof **command->heredocs);
 	if (! len)
 		return (EXIT_SUCCESS);
-	descriptors_list = gccalloc(len + 1, 2 * sizeof * descriptors_list);
+	descriptors_list = getlist(len + 1, 2 * sizeof * descriptors_list);
 	if (! descriptors_list)
 		return (1);
 	init_list(descriptors_list, 2 * len);
-	if (get_heredocs(descriptors_list, command, env, len))
-		return (1);
-	if (match_fds(descriptors_list))
+	if (get_heredocs(descriptors_list, command, env, len) || \
+	match_fds(descriptors_list))
 		return (1);
 	init_sigs();
-	free_node(descriptors_list);
 	return (EXIT_SUCCESS);
 }
