@@ -6,7 +6,7 @@
 #    By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/08/07 20:49:28 by nsainton         ###   ########.fr        #
+#    Updated: 2023/08/08 09:43:24 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -123,35 +123,35 @@ export minishell_header
 
 .SILENT:
 
-all: | $(LFT_DIR) $(LGC_DIR)
+all : | $(LFT_DIR) $(LGC_DIR)
 	$(MAKE) -C $(LFT_DIR)
 	$(MAKE) -C $(LGC_DIR)
 	$(MAKE) $(NAME)
 
-$(NAME): $(OBJS) | $(DEPS_DIR)
+$(NAME) : $(OBJS) | $(DEPS_DIR)
 	$(CC) $(CFLAGS) $(GG) $(OPT) $(PROG) $(OBJS) \
 	-MD -MF $(DEPS_DIR)/$(NAME).d $(ABBRS) -o $(NAME)
 	echo "$(BEGIN)$(RED)m"
 	echo "$$minishell_header"
 	echo "$(END)"
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(LFT_DIR) $(LGC_DIR)
+$(OBJS_DIR)/%.o : $(SRCS_DIR)/%.c | $(LFT_DIR) $(LGC_DIR)
 	[ -d $(@D) ] || $(MK) $(@D)
 	arg="$$(dirname $(DEPS_DIR)/$*)"; \
 	[ -d $$arg ] || $(MK) $$arg
 	$(CC) $(CFLAGS) $(GG) $(OPT) -MD -MF $(DEPS_DIR)/$*.d -c $< -o $@
 
-$(DEPS_DIR):
+$(DEPS_DIR) :
 	$(MK) $(DEPS_DIR)
 
-$(LFT_DIR):
+$(LFT_DIR) :
 	git clone -b rendu --single-branch --depth 1 $(LFT_URL) $@
 
-$(LGC_DIR):
+$(LGC_DIR) :
 	git clone -b rendu --single-branch --depth 1 $(LGC_URL) $@
 
-$(HEADER_SCRIPT_DIR):
-	git clone $(HEADER_URL) $@
+$(HEADER_SCRIPT_DIR) :
+	git clone --single-branch --depth 1 $(HEADER_URL) $@
 
 .PHONY: clean
 clean:
@@ -170,37 +170,29 @@ lclean:
 	echo "$(BEGIN)$(PURPLE)m$(notdir $(LIBS_DIR)) have been removed$(END)"
 
 .PHONY: fclean
-fclean:
-	$(MAKE) clean
-	$(MAKE) oclean
+fclean : clean oclean
 
 .PHONY: re
-re:
-	$(MAKE) fclean
-	$(MAKE)
+re : fclean all
 
 .PHONY: debug
-debug:
+debug : fclean
 	$(MAKE) oclean debug -C $(LFT_DIR)
 	$(MAKE) oclean debug -C $(LGC_DIR)
-	$(MAKE) fclean
 	$(MAKE) GG="-g3" OPT=-O0 CC=gcc
 
 .PHONY: leaks
-leaks:
+leaks :
 	$(MAKE) debug && valgrind $(VALGRIND_OPTIONS) ./$(NAME) $(OPT_ARGS)
 
-minitalk:
-	git clone git@github.com:nsainton/minitalk.git
-
 .PHONY: git
-git:
+git :
 	git add $(GIT_ADD)
 	git commit
 	git push
 
 .PHONY: makedebug
-makedebug:
+makedebug :
 	@echo $(DEPS)
 	@echo GIT_ADD : $(GIT_ADD)
 	@echo $(OPT_ARGS)
