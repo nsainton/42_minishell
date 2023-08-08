@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 22:47:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/02 16:20:38 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/02 22:58:44 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,32 @@ static void	insert_first(t_list **begin_list, t_list *prev_elem)
 
 static void	swap_elems(t_list *prev_first, t_list *prev_second)
 {
-	t_list	*elem;
-	t_list	*next;
+	t_list	*tmp;
 
-	elem = prev_first->next;
+	tmp = prev_first->next;
 	prev_first->next = prev_second->next;
-	next = prev_second->next->next;
-	prev_first->next->next = elem->next;
-	prev_second->next = elem;
-	prev_second->next->next = next;
+	prev_second->next = tmp;
+	tmp = tmp->next;
+	prev_second->next->next = prev_first->next->next;
+	prev_first->next->next = tmp;
 }
 
+/*
+	In compare elems, if a swap occurs don't go to next
+	element right away, because if there are some unsorted
+	elements after the swap towards the very end of the list
+	an element could be skipped without being caught later.
+	That is the reason why there is a `else` condition
+	instead of `if (inner_iterator->next)` in the inner
+	loop
+*/
 static void	compare_elems(t_list *begin_list, int (*cmp)())
 {
 	t_list	*outer_iterator;
 	t_list	*inner_iterator;
+	unsigned int	i;
 
+	i = 0;
 	outer_iterator = begin_list;
 	while (outer_iterator->next)
 	{
@@ -48,8 +58,12 @@ static void	compare_elems(t_list *begin_list, int (*cmp)())
 		{
 			if (cmp(outer_iterator->next->content, \
 			inner_iterator->next->content) > 0)
+			{
 				swap_elems(outer_iterator, inner_iterator);
-			inner_iterator = inner_iterator->next;
+				i ++;
+			}
+			else
+				inner_iterator = inner_iterator->next;
 		}
 		outer_iterator = outer_iterator->next;
 	}

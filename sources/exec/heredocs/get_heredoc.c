@@ -6,13 +6,40 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 12:15:10 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/04 09:16:35 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	read_heredoc(const char *limiter, int write_fd)
+/*
+static int	write_line(char *line, int write_fd, const const struct s_env *env)
+{
+	size_t	index;
+	t_str	raw_line;
+
+	raw_line = malloc(sizeof * raw_line);
+	if (tstr_init(&raw_line, BUFFER_SIZE, PARSER_SIZE))
+		return (1);
+	index = 0;
+	while (*(line + index))
+	{
+		index ++;
+		if (*(line + index - 1) == '$' && (index == 1 || \
+		*(line + index - 2) != '\\') && ft_isalpha(*(line + index)))
+		{
+			if (tstrcat_realloc(&raw_line, \
+			get_var(line + index, env, &index)))
+			{
+				tstr_del(&raw_line);
+				return (1);
+			}
+		}
+		if (write(write_fd, raw_line.str,
+*/
+
+static int	read_heredoc(const char *limiter, int write_fd, \
+const struct s_env *env)
 {
 	char				*line;
 	static unsigned int	line_index;
@@ -21,7 +48,7 @@ static int	read_heredoc(const char *limiter, int write_fd)
 	line = readline(HEREDOC_PROMPT);
 	while (line && ft_strcmp(line, limiter))
 	{
-		if (g_termsig == 2 || ft_putendl_fd(line, write_fd) == -1)
+		if (g_termsig == 2 || write_line(line, write_fd, env))
 		{
 			g_termsig = 0;
 			close(write_fd);
@@ -60,7 +87,7 @@ static int	heredoc_open(const char *heredoc_name, struct s_heredoc_infos *hd)
 	return (EXIT_SUCCESS);
 }
 
-static void	create_random_name(char *name, void *address)
+static void	create_random_name(char *name, const void *address)
 {
 	unsigned int	random;
 	char			*tmp;
@@ -72,7 +99,8 @@ static void	create_random_name(char *name, void *address)
 	put_uns_tab(random, &tmp, HEX, random % 10 + 5);
 }
 
-int	getheredoc(struct s_heredoc_infos *hd, struct s_heredoc *heredoc)
+int	getheredoc(struct s_heredoc_infos *hd, struct s_heredoc *heredoc, \
+const struct s_env *env)
 {
 	char	name[100];
 	int		error;
@@ -82,6 +110,6 @@ int	getheredoc(struct s_heredoc_infos *hd, struct s_heredoc *heredoc)
 	create_random_name(name, heredoc);
 	if (heredoc_open(name, hd))
 		return (EXIT_FAILURE);
-	error = read_heredoc(heredoc->limiter, hd->write_fd);
+	error = read_heredoc(heredoc->limiter, hd->write_fd, env);
 	return ((error > 0) * EXIT_FAILURE + (error < 1) * error);
 }

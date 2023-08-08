@@ -6,13 +6,14 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 09:41:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/23 09:41:53 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/04 09:33:00 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*expand_env_var(t_cchar *line, size_t index, size_t length, t_env *env)
+char	*expand_env_var(const char *line, size_t index, \
+size_t length, const struct s_env *env)
 {
 	char	*var_name;
 	char	*var;
@@ -52,7 +53,7 @@ static char	*format_var(t_cchar *var, int parser)
 }
 */
 
-static int	add_var_tstr(t_str *str, char *var, int parser)
+static int	add_var_tstr(struct s_str *str, char *var, int parser)
 {
 	int	error;
 

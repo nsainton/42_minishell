@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:02:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/03 14:43:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:41:13 by avedrenn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int	redirect_without_spaces(char *line, size_t *len)
 		if (*(line + index) == ' ')
 		{
 			ft_memmove(line + index, line + index + 1, *len - index);
+			current = *(line + index);
+			index --;
 			(*len)--;
 			current = *(line + index);
 		}
