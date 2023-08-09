@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 10:41:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/09 11:46:14 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/09 11:53:18 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 		. The return value specified in the man otherwise
 */
 
-struct s_list	**get_fdlist()
+struct s_list	**get_fdlist(void)
 {
 	static struct s_list	*fdlist;
 
@@ -149,7 +149,7 @@ int	s_pipe(int pipefd[2])
 	if (pipe(pipefd) == -1)
 		return (-1);
 	fdlist = get_fdlist();
-	read_node = gc_lstnew_cpy(pipefd, sizeof *pipefd);
+	read_node = gc_lstnew_cpy(pipefd, sizeof * pipefd);
 	if (! read_node)
 	{
 		close(pipe[0]);
@@ -159,4 +159,12 @@ int	s_pipe(int pipefd[2])
 	write_node = gc_lstnew_cpy(pipefd + 1, sizeof * pipefd);
 	if (! write_node)
 	{
-		
+		gc_lstdelone(read_node, free_node);
+		close(pipe[0]);
+		close(pipe[1]);
+		return (-2);
+	}
+	ft_lstadd_front(fdlist, read_node);
+	ft_lstadd_front(fdlist, write_node);
+	return (0);
+}
