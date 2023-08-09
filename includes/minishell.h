@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 17:43:00 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/08 17:43:00 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/09 12:10:22 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/09 12:10:22 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,26 @@ int				check_path(t_command *cmd, t_env *my_env);
 int				is_a_directory(char *path);
 
 int				ft_arrlen(void **arr);
+
+//Functions from file : fdlist_management.c
+struct s_list	**get_fdlist(void);
+
+struct s_list	*ft_list_find(struct s_list *begin_list, void *data_ref, \
+int (*cmp)());
+
+void			del_node(struct s_list **lst, struct s_list *node, \
+void (*del)(void *));
+
+void			clear_fdlist(void);
+
+//Functions from file : fds_list.c
+int				s_open(const char *pathname, int flags, mode_t mode);
+
+int				s_close(int fd);
+
+int				s_dup2(int oldfd, int newfd);
+
+int				s_pipe(int pipefd[2]);
 
 //Functions from file : dup_list.c
 int				make_dups_list(t_command *cmd, t_redir *redir);

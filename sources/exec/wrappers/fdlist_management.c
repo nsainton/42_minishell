@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 12:04:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/09 12:08:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:10:13 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void *data_ref, int (*cmp)())
 	p = begin_list;
 	while (p != NULL)
 	{
-		if (! cmp(p->data, data_ref))
+		if (! cmp(p->content, data_ref))
 			return (p);
 		p = p->next;
 	}
@@ -82,5 +82,6 @@ void	clear_fdlist(void)
 {
 	struct s_list	**fdlist;
 
+	fdlist = get_fdlist();
 	gc_lstclear(fdlist, del_listfd);
 }

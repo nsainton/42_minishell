@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 10:41:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/09 12:08:33 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:11:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,16 @@ int	s_pipe(int pipefd[2])
 	read_node = gc_lstnew_cpy(pipefd, sizeof * pipefd);
 	if (! read_node)
 	{
-		close(pipe[0]);
-		close(pipe[1]);
+		close(pipefd[0]);
+		close(pipefd[1]);
 		return (-2);
 	}
 	write_node = gc_lstnew_cpy(pipefd + 1, sizeof * pipefd);
 	if (! write_node)
 	{
 		gc_lstdelone(read_node, free_node);
-		close(pipe[0]);
-		close(pipe[1]);
+		close(pipefd[0]);
+		close(pipefd[1]);
 		return (-2);
 	}
 	ft_lstadd_front(fdlist, read_node);
