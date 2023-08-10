@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:00:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 12:43:22 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:23:14 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	exec_pipeline(t_data *d)
 		exec_one(d);
 	while (command_index < d->cmds_nb)
 	{
-		if (make_redirs(d, d->cmds[command_index]))
+		if (make_redirs(d, d->cmds[command_index], command_index))
 		{
 			if (command_index != d->cmds_nb - 1)
 			{

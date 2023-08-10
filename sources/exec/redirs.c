@@ -6,13 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:50 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/08 13:41:07 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:17:28 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	make_redirs(t_data *d, t_command *cmd)
+int	make_redirs(t_data *d, t_command *cmd, const int command_index)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ int	make_redirs(t_data *d, t_command *cmd)
 	cmd->fd_out = 1;
 	if (!cmd->redirs && !cmd->heredocs)
 		return (0);
-	if (cmd->heredocs && heredoc(cmd, d->env))
+	if (cmd->heredocs && heredoc(cmd, d->env, command_index))
 		return (EXIT_FAILURE);
 	cmd->fds = gc_lstnew(NULL);
 	while (cmd->redirs && cmd->redirs[i])
