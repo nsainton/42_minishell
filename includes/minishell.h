@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/10 15:10:23 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 15:10:23 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/10 16:05:05 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/10 16:05:05 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ const int commands_nb, const struct s_env *env);
 
 //Functions from file : heredocs_fds_list.c
 int				get_heredocs(const struct s_command *command, \
-const struct s_env *env, const size_t number, const int command_index);
+const struct s_env *env, const int command_index);
 
 //Functions from file : read_heredoc_line.c
 int				write_line(const char *line, int write_fd, \

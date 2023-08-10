@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 15:22:59 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:03:26 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ const struct s_env *env)
 	i = 0;
 	while (i < commands_nb)
 	{
-		if (get_heredocs(*(commands + i), env, len, i))
+		if (get_heredocs(*(commands + i), env, i))
 			return (1);
 		i ++;
 	}

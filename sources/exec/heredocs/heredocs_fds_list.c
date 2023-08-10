@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:01:48 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 14:09:19 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:05:23 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,22 @@ static void	print_desc_list(const int *list)
 }
 */
 
-int	get_heredocs(const struct s_command *command, const struct s_env *env, \
-const size_t number, const int command_index)
+int	get_heredocs(const struct s_command *command, const struct s_env *env, const int command_index)
 {
 	struct s_heredoc_infos	hd;
 	size_t					i;
 	int						err;
 	int						*descriptors_list;
+	size_t					len;
 
 	descriptors_list = getlist(0, 1);
+	if (! command->heredocs)
+		return (0);
+	len = tablen(*command->heredocs, sizeof **command->heredocs);
+	if (! len)
+		return (0);
 	i = 0;
-	while (i < number)
+	while (i < len)
 	{
 		err = getheredoc(&hd, *command->heredocs + i, env);
 		if (err > 0)
