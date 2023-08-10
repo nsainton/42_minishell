@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/10 10:54:29 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:11:39 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	exec_one(t_data *d)
 {
 	d->index = 1;
-	if (make_redirs(d, d->cmds[0]) != 0)
+	if (make_redirs(d, d->cmds[0], 0) != 0)
 		return(d->errnum);
 	if (d->cmds[0]->command && is_builtin(d->cmds[0], d))
 		exec_builtin_parent(d, d->cmds[0]);
