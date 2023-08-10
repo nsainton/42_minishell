@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 14:33:41 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:13:54 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	match_fds(const int command_index)
 	return (0);
 }
 
+/*
 int	heredoc(const struct s_command *command, const struct s_env *env, \
 const int command_index)
 {
@@ -104,19 +105,19 @@ const int command_index)
 	elem_number * sizeof * descriptors_list);
 	if (! descriptors_list)
 		return (1);
-	init_list(descriptors_list, elem_number * len);
 	if (get_heredocs(command, env, len, command_index))
 		return (1);
 	init_sigs();
 	return (EXIT_SUCCESS);
 }
+*/
 
 static int get_heredocs_number(const struct s_command **commands, \
 const int commands_nb)
 {
-	size_t				number;
-	int					command_index;
-	struct s_command	*command;
+	size_t					number;
+	int						command_index;
+	const struct s_command	*command;
 
 	number = 0;
 	command_index = 0;
@@ -129,21 +130,32 @@ const int commands_nb)
 			continue ;
 		}
 		number += tablen(*command->heredocs, sizeof **command->heredocs);
-		commands_index ++;
+		command_index ++;
 	}
 	return (number);
 }
 
-int	heredocs(const struct s_command **commands, const int commands_nb, \
+int	heredocs(const struct s_command ** commands, const int commands_nb, \
 const struct s_env *env)
 {
 	size_t			len;
-	size_t			index;
+	int				i;
 	const size_t	elem_number = HD_ELEMS_NUMBER;
 	int				*descriptors_list;
 
-	len = get_heredocs_number(commands, command_nb);
+	len = get_heredocs_number(commands, commands_nb);
 	if (! len)
 		return (0);
 	descriptors_list = getlist(len + 1, elem_number * sizeof * descriptors_list);
+	if (! descriptors_list)
+		return (1);
+	init_list(descriptors_list, elem_number * len);
+	i = 0;
+	while (i < commands_nb)
+	{
+		if (get_heredocs(*(commands + i), env, len, i))
+			return (1);
+		i ++;
+	}
+	return (0);
 }
