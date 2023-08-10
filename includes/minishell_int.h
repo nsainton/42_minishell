@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/08 17:42:53 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 11:01:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define SPECIALS "'\"? <>|$"
 # define REDIRS "<>|"
 # define SEPARATORS " <>"
+# define HD_ELEMS_NUMBER 2
 # define HEREDOC "/tmp/minishell-"
 # define HEREDOC_PROMPT "> "
 # define HEREDOC_WARNING "minishell: warning: here-document at line %u \

@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 14:45:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 10:48:15 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 11:00:41 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	*getlist(const size_t size, const size_t elemsize)
 
 void	clear_list(void)
 {
-	char	nullelem[20];
-	int		*list;
-	size_t	i;
-	size_t	elem_number;
+	char			nullelem[20];
+	int				*list;
+	size_t			i;
+	const size_t	elem_number = HD_ELEMS_NUMBER;
 
 	list = getlist(0, elem_number * sizeof * list);
 	if (! list)
@@ -51,12 +51,11 @@ void	clear_list(void)
 
 void	close_heredoc_fds(void)
 {
-	char	nullelem[20];
-	int		*list;
-	size_t	i;
-	size_t	elem_number;
+	char			nullelem[20];
+	int				*list;
+	size_t			i;
+	const size_t	elem_number = HD_ELEMS_NUMBER;
 
-	elem_number = 2;
 	list = getlist(0, elem_number * sizeof * list);
 	if (! list)
 		return ;

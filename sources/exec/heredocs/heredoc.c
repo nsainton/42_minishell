@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/08 17:19:31 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 10:58:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ static void	init_list(int *descriptors_list, size_t size)
 
 static int	match_fds(int *descriptors_list)
 {
-	char	nullelem[20];
-	size_t	i;
+	char			nullelem[20];
+	size_t			i;
+	const size_t	elem_number = HD_ELEMS_NUMBER;
 
-	ft_bzero(nullelem, 2 * sizeof * descriptors_list);
+	ft_bzero(nullelem, elem_number * sizeof * descriptors_list);
 	i = 0;
 	while (ft_memcmp(descriptors_list + i, nullelem, \
-	2 * sizeof * descriptors_list) && *(descriptors_list + i) != -1)
+	elem_number * sizeof * descriptors_list) && *(descriptors_list + i) != -1)
 	{
 		if (dup2(*(descriptors_list + i + 1), *(descriptors_list + i)) == -1)
 		{
@@ -52,25 +53,26 @@ static int	match_fds(int *descriptors_list)
 			return (1);
 		}
 		*(descriptors_list + i + 1) = *(descriptors_list + i);
-		i += 2;
+		i += elem_number;
 	}
 	return (0);
 }
 
 int	heredoc(const struct s_command *command, const struct s_env *env)
 {
-	size_t	len;
-	int		*descriptors_list;
+	size_t			len;
+	const size_t	elem_number = HD_ELEMS_NUMBER;
+	int				*descriptors_list;
 
 	if (! *command->heredocs)
 		return (EXIT_SUCCESS);
 	len = tablen(*command->heredocs, sizeof **command->heredocs);
 	if (! len)
 		return (EXIT_SUCCESS);
-	descriptors_list = getlist(len + 1, 2 * sizeof * descriptors_list);
+	descriptors_list = getlist(len + 1, elem_number * sizeof * descriptors_list);
 	if (! descriptors_list)
 		return (1);
-	init_list(descriptors_list, 2 * len);
+	init_list(descriptors_list, elem_number * len);
 	if (get_heredocs(descriptors_list, command, env, len) || \
 	match_fds(descriptors_list))
 		return (1);
