@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:01:48 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 12:05:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:09:19 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 	nullelem array work with this function for a sizeof int up to 10 bytes
 */
 static int	connect_heredoc_fds(int *descriptors_list, const int command_fd, \
-const int heredoc_fd, const int command_nb)
+const int heredoc_fd, const int command_index)
 {
 	if (*(descriptors_list) == -1)
 	{
 		*(descriptors_list) = command_fd;
 		*(descriptors_list + 1) = heredoc_fd;
-		*(descriptors_list + 2) = command_nb;
+		*(descriptors_list + 2) = command_index;
 		return (0);
 	}
 	if (close(*(descriptors_list + 1)) == -1)
@@ -37,7 +37,7 @@ const int heredoc_fd, const int command_nb)
 }
 
 static int	update_list(int *descriptors_list, const int command_fd, \
-const int heredoc_fd, const int command_nb)
+const int heredoc_fd, const int command_index)
 {
 	size_t			len;
 	size_t			i;
@@ -46,7 +46,7 @@ const int heredoc_fd, const int command_nb)
 	len = tablen(descriptors_list, elem_number * sizeof * descriptors_list);
 	i =  0;
 	while (i < elem_number * len && *(descriptors_list + i + 2) != -1 && \
-	*(descriptors_list + i + 2) < command_nb)
+	*(descriptors_list + i + 2) < command_index)
 		i += elem_number;
 	while (i < elem_number * len && *(descriptors_list + i) != -1 \
 	&& *(descriptors_list + i) != command_fd)
@@ -54,34 +54,37 @@ const int heredoc_fd, const int command_nb)
 	if (i == elem_number * len)
 		return (1);
 	return (connect_heredoc_fds(descriptors_list + i, \
-	command_fd, heredoc_fd, command_nb));
+	command_fd, heredoc_fd, command_index));
 }
 
 /*
 static void	print_desc_list(const int *list)
 {
-	char	nullelem[20];
-	size_t	i;
+	char			nullelem[20];
+	size_t			i;
+	const size_t	elem_number = HD_ELEMS_NUMBER;
 
-	ft_bzero(nullelem, 2 * sizeof * list);
+	ft_bzero(nullelem, elem_number * sizeof * list);
 	i = 0;
-	while (ft_memcmp(list + i, nullelem, 2 * sizeof * list) && *(list + i) != -1)
+	while (ft_memcmp(list + i, nullelem, elem_number * sizeof * list) && *(list + i) != -1)
 	{
 		ft_printf("This is the fd provided as an arguement : %d\n", *(list + i));
 		ft_printf("This is the corresponding heredoc fd : %d\n", *(list + i + 1));
-		i += 2;
+		ft_printf("This is the command index : %d\n", *(list + i + 2));
+		i += elem_number;
 	}
 }
 */
 
-int	get_heredocs(int *descriptors_list, \
-const struct s_command *command, const struct s_env *env, \
-const size_t number)
+int	get_heredocs(const struct s_command *command, const struct s_env *env, \
+const size_t number, const int command_index)
 {
 	struct s_heredoc_infos	hd;
 	size_t					i;
 	int						err;
+	int						*descriptors_list;
 
+	descriptors_list = getlist(0, 1);
 	i = 0;
 	while (i < number)
 	{
@@ -95,8 +98,8 @@ const size_t number)
 			print_desc_list(descriptors_list);
 		}
 		*/
-		if (! err && \
-		update_list(descriptors_list, (*(command->heredocs + i))->fd, hd.read_fd))
+		if (! err && update_list(descriptors_list, \
+		(*(command->heredocs + i))->fd, hd.read_fd, command_index))
 		{
 			clear_list();
 			return (1);
