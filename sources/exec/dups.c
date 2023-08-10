@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 18:10:51 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 16:18:45 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/10 12:40:00 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	dup_in_out(int fd_in, int fd_out)
 		dupnclose(fd_out, STDOUT_FILENO);
 }
 
-void	dup_pipe(t_data *d)
+void	dup_pipe(t_data *d, const int command_index)
 {
-	if (d->index != d->cmds_nb - 1 && !d->cmds[d->index]->last)
+	if (command_index != d->cmds_nb - 1 && !d->cmds[command_index]->last)
 		dup2(d->p[1], STDOUT_FILENO);
-	if (d->index != 0)
+	if (command_index != 0)
 		dupnclose(d->prev_pipe, STDIN_FILENO);
 	safe_close(d->p[0]);
 	safe_close(d->p[1]);

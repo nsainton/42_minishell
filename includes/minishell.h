@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/09 12:10:22 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/09 12:10:22 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/10 12:42:34 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/10 12:42:34 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int				open_file_fd(t_redir *r, char mode);
 //Functions from file : dups.c
 void			dup_in_out(int fd_in, int fd_out);
 
-void			dup_pipe(t_data *d);
+void			dup_pipe(t_data *d, const int command_index);
 
 void			dupnclose(int fd1, int fd2);
 
@@ -172,7 +172,7 @@ int				set_data(t_data *d);
 
 int				exec_pipeline(t_data *d);
 
-void			exec_command_in_pipeline(t_data *d);
+void			exec_command_in_pipeline(t_data *d, const int command_index);
 
 //Functions from file : exec_one.c
 int				exec_one(t_data *d);

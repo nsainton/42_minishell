@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/03 19:25:31 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/10 10:54:29 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	exec_w_execve(t_data *d, t_command *cmd)
 		close_list(cmd->fds);
 		exit_free_gc(errnum);
 	}
-	errnum = execve(cmd->path,
-			(char *const *)make_command(cmd), envlist_to_arr(d->env->list_env));
+	errnum = execve(cmd->path, \
+	(char *const *)make_command(cmd), envlist_to_arr(d->env->list_env));
 	if (errnum)
 	{
 		ft_dprintf(2, "%s : %s\n", cmd->command, strerror(errno));
