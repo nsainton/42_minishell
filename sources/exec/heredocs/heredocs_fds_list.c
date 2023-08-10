@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:01:48 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/08 17:20:15 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 10:43:39 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,15 @@ const int heredoc_fd)
 {
 	size_t	len;
 	size_t	i;
+	size_t	elem_number;
 
-	len = tablen(descriptors_list, 2 * sizeof * descriptors_list);
+	elem_number = 2;
+	len = tablen(descriptors_list, elem_number * sizeof * descriptors_list);
 	i =  0;
-	while (i < 2 * len && *(descriptors_list + i) != -1 \
+	while (i < elem_number * len && *(descriptors_list + i) != -1 \
 	&& *(descriptors_list + i) != command_fd)
-		i += 2;
-	if (i == 2 * len)
+		i += elem_number;
+	if (i == elem_number * len)
 		return (1);
 	return (connect_heredoc_fds(descriptors_list + i, command_fd, heredoc_fd));
 }

@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 14:45:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/08 17:20:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 10:48:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,18 @@ void	clear_list(void)
 	char	nullelem[20];
 	int		*list;
 	size_t	i;
-	size_t	elemsize;
+	size_t	elem_number;
 
-	elemsize = 2 * sizeof * list;
-	list = getlist(0, elemsize);
+	list = getlist(0, elem_number * sizeof * list);
 	if (! list)
 		return ;
-	ft_bzero(nullelem, elemsize);
+	ft_bzero(nullelem, elem_number * sizeof * list);
 	i = 0;
-	while (ft_memcmp(list + i, nullelem, elemsize) && \
-	*(list + i) != -1)
+	while (ft_memcmp(list + i, nullelem, \
+	elem_number * sizeof * list) && *(list + i) != -1)
 	{
 		close(*(list + i + 1));
-		i += 2;
+		i += elem_number;
 	}
 	free_node(list);
 	getlist(0, 0);
@@ -55,20 +54,20 @@ void	close_heredoc_fds(void)
 	char	nullelem[20];
 	int		*list;
 	size_t	i;
-	size_t	elemsize;
+	size_t	elem_number;
 
-	elemsize = 2 * sizeof * list;
-	list = getlist(0, elemsize);
+	elem_number = 2;
+	list = getlist(0, elem_number * sizeof * list);
 	if (! list)
 		return ;
-	ft_bzero(nullelem, elemsize);
+	ft_bzero(nullelem, elem_number * sizeof * list);
 	i = 0;
-	while (ft_memcmp(list + i, nullelem, elemsize) && \
-	*(list + i) != -1)
+	while (ft_memcmp(list + i, nullelem, \
+	elem_number * sizeof * list) && *(list + i) != -1)
 	{
 		if (*(list + i) > 2)
 			close(*(list + i));
-		i += 2;
+		i += elem_number;
 	}
 	free_node(list);
 	getlist(0, 0);
