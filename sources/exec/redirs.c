@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:50 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/10 14:17:28 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:47:07 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	make_redirs(t_data *d, t_command *cmd, const int command_index)
 	cmd->fd_out = 1;
 	if (!cmd->redirs && !cmd->heredocs)
 		return (0);
-	if (cmd->heredocs && heredoc(cmd, d->env, command_index))
+	if (cmd->heredocs && match_fds(command_index))
 		return (EXIT_FAILURE);
 	cmd->fds = gc_lstnew(NULL);
 	while (cmd->redirs && cmd->redirs[i])
