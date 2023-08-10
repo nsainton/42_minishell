@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 14:04:03 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 10:58:42 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 11:30:42 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	ncommand_to_command(t_ncommand *original, t_command **command)
 	int				err;
 
 	*command = gccalloc(1, sizeof(**command));
-	if (! command)
+	if (! *command)
 		return (ALLOCATION_ERROR);
 	err = 0;
 	redirs = (t_redirection **)get_tab_references(original->redirs, \
