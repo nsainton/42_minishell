@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:00:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 14:23:14 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:32:13 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ int	exec_pipeline(t_data *d)
 		return (1);
 	command_index = 0;
 	/* Here is the function to read all the redocs */
+	if (heredocs((const struct s_command **)d->cmds, d->cmds_nb, d->env))
+		return (0);
 	if (d->cmds_nb == 1)
 		exec_one(d);
-	while (command_index < d->cmds_nb)
+	while (d->cmds_nb > 1 && command_index < d->cmds_nb)
 	{
 		if (make_redirs(d, d->cmds[command_index], command_index))
 		{
@@ -61,6 +63,7 @@ int	exec_pipeline(t_data *d)
 				break ;
 		}
 		run_command(d, command_index);
+		command_index ++;
 	/* 	safe_close(d->cmds[0]->fd_in);
 		safe_close(d->cmds[0]->fd_out); */
 	}

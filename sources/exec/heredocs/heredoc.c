@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 15:13:54 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:22:59 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ const int commands_nb)
 	while (command_index < commands_nb)
 	{
 		command = *(commands + command_index);
-		if (! *command->heredocs)
+		if (! command->heredocs)
 		{
 			command_index ++;
 			continue ;

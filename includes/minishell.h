@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/10 12:42:34 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 12:42:34 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/10 15:10:23 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/10 15:10:23 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,13 +119,14 @@ void			init_sigs(void);
 void			reinit_sigs(void);
 
 //Functions from file : heredoc.c
-int				heredoc(const struct s_command *command, \
-const struct s_env *env);
+int				match_fds(const int command_index);
+
+int				heredocs(const struct s_command ** commands, \
+const int commands_nb, const struct s_env *env);
 
 //Functions from file : heredocs_fds_list.c
-int				get_heredocs(int *descriptors_list, \
-const struct s_command *command, const struct s_env *env, \
-const size_t number);
+int				get_heredocs(const struct s_command *command, \
+const struct s_env *env, const size_t number, const int command_index);
 
 //Functions from file : read_heredoc_line.c
 int				write_line(const char *line, int write_fd, \
@@ -148,7 +149,8 @@ void			exit_free_gc(int status);
 int				keep_exit_status(const int exit_status);
 
 //Functions from file : redirs.c
-int				make_redirs(t_data *d, t_command *cmd);
+int				make_redirs(t_data *d, t_command *cmd, \
+const int command_index);
 
 int				open_file_fd(t_redir *r, char mode);
 
