@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:01:48 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 10:59:08 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/10 12:05:57 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
 	nullelem array work with this function for a sizeof int up to 10 bytes
 */
 static int	connect_heredoc_fds(int *descriptors_list, const int command_fd, \
-const int heredoc_fd)
+const int heredoc_fd, const int command_nb)
 {
 	if (*(descriptors_list) == -1)
 	{
 		*(descriptors_list) = command_fd;
 		*(descriptors_list + 1) = heredoc_fd;
+		*(descriptors_list + 2) = command_nb;
 		return (0);
 	}
 	if (close(*(descriptors_list + 1)) == -1)
@@ -36,7 +37,7 @@ const int heredoc_fd)
 }
 
 static int	update_list(int *descriptors_list, const int command_fd, \
-const int heredoc_fd)
+const int heredoc_fd, const int command_nb)
 {
 	size_t			len;
 	size_t			i;
@@ -44,13 +45,16 @@ const int heredoc_fd)
 
 	len = tablen(descriptors_list, elem_number * sizeof * descriptors_list);
 	i =  0;
+	while (i < elem_number * len && *(descriptors_list + i + 2) != -1 && \
+	*(descriptors_list + i + 2) < command_nb)
+		i += elem_number;
 	while (i < elem_number * len && *(descriptors_list + i) != -1 \
 	&& *(descriptors_list + i) != command_fd)
 		i += elem_number;
 	if (i == elem_number * len)
 		return (1);
 	return (connect_heredoc_fds(descriptors_list + i, \
-	command_fd, heredoc_fd));
+	command_fd, heredoc_fd, command_nb));
 }
 
 /*
