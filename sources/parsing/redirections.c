@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 11:26:11 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:20:32 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,31 +82,34 @@ int	redirections(t_tab *redirs, t_str *line)
 	return (NO_ERROR);
 }
 
-static void	set_params(struct s_heredoc *hd, struct s_redir *red, \
-const size_t index)
+static int	add_heredoc(struct s_tab *heredocs, \
+struct s_redir *red, const size_t h_index)
 {
-	hd->fd = red->fd;
-	hd->limiter = red->file;
-	hd->index = index;
+	t_heredoc	hd;
+
+	ft_bzero(&hd, sizeof hd);
+	hd.fd = red->fd;
+	hd.limiter = red->file;
+	hd.index = h_index;
+	return (add_tab(heredocs, &hd));
 }
 
 int	redirs_to_heredocs(t_tab *redirs, t_tab *heredocs)
 {
 	t_redirection	*reds;
-	t_heredoc		hd;
 	size_t			index;
+	size_t			h_index;
 
 	if (allocate_tab(heredocs, REDIRS_SIZE, sizeof (t_heredoc)))
 		return (ALLOCATION_ERROR);
 	reds = (t_redirection *)redirs->tab;
 	index = 0;
-	ft_bzero(&hd, sizeof hd);
+	h_index = 0;
 	while (index < redirs->len)
 	{
 		if ((reds + index)->mode == 'h')
 		{
-			set_params(&hd, reds + index, index);
-			if (add_tab(heredocs, &hd))
+			if (add_heredoc(heredocs, reds + index, h_index))
 				return (ALLOCATION_ERROR);
 			ft_memmove(reds + index, reds + index + 1, \
 			sizeof * reds * (redirs->len - index));
@@ -114,6 +117,7 @@ int	redirs_to_heredocs(t_tab *redirs, t_tab *heredocs)
 		}
 		else
 			index ++;
+		h_index ++;
 	}
 	return (NO_ERROR);
 }
