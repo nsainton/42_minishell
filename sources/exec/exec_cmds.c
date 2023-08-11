@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:00:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 15:32:13 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:20:32 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 int	set_data(t_data *d)
 {
 	d->prev_pipe = -1;
@@ -45,7 +46,7 @@ int	exec_pipeline(t_data *d)
 	if (set_data(d))
 		return (1);
 	command_index = 0;
-	/* Here is the function to read all the redocs */
+	 Here is the function to read all the redocs
 	if (heredocs((const struct s_command **)d->cmds, d->cmds_nb, d->env))
 		return (0);
 	if (d->cmds_nb == 1)
@@ -64,8 +65,8 @@ int	exec_pipeline(t_data *d)
 		}
 		run_command(d, command_index);
 		command_index ++;
-	/* 	safe_close(d->cmds[0]->fd_in);
-		safe_close(d->cmds[0]->fd_out); */
+		safe_close(d->cmds[0]->fd_in);
+		safe_close(d->cmds[0]->fd_out);
 	}
 	wait_for_childs(d);
 	init_sigs();
@@ -105,13 +106,14 @@ void	exec_command_in_pipeline(t_data *d, const int command_index)
 		close_list(d->cmds[command_index]->fds);
 		safe_close (d->cmds[command_index]->fd_in);
 		safe_close (d->cmds[command_index]->fd_out);
-		/* if (d->cmds[d->index]->last == 1)
+		if (d->cmds[d->index]->last == 1)
 		{
 			//d->cmds = &d->cmds[d->index + 1];
 			//d->cmds_nb -= d->index + 1;
 			safe_close (d->p[0]);
 			safe_close (d->p[1]);
 			//exec_pipeline(d);
-		} */
+		}
 	}
 }
+*/

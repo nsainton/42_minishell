@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 15:01:44 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/02 18:36:49 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:22:03 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 static int	get_fd_in_out(struct s_command *cmd, t_redir *redir)
 {
 	int res;
@@ -95,3 +96,4 @@ void	close_list(t_list *lst_dups)
 		tmp = tmp->next;
 	}
 }
+*/

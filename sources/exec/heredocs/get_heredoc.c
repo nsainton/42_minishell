@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 12:58:38 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:22:58 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static void	create_random_name(char *name, const void *address)
 	put_uns_tab(random, &tmp, HEX, random % 10 + 5);
 }
 
-int	getheredoc(struct s_heredoc_infos *hd, struct s_heredoc *heredoc, \
+int	get_heredoc(struct s_heredoc_infos *hd, struct s_heredoc *heredoc, \
 const struct s_env *env)
 {
 	char	name[100];

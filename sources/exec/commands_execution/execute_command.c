@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands_exec.c                                    :+:      :+:    :+:   */
+/*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/27 16:00:27 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 13:15:47 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/11 13:19:20 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	commands_exec(t_cchar *line, struct s_data *data)
+int	execute_commands(struct s_ncommand *commands, struct s_env *env)
 {
-	t_ncommand	*commands;
+	size_t	commands_nb;
 
-	if (split_line(line, &commands, data->env))
+	commands_nb = tablen(commands, sizeof * commands);
+	if (make_pipes(commands) || heredocs(commands, commands_nb, env))
 	{
-		keep_exit_status(SYNTAX_ERROR);
-		return ;
+		clear_fdlist();
+		return (1);
 	}
-	/*
-	data->cmds = get_commands_reference(commands);
-	if (! data->cmds)
-		return ;
-	data->cmds_nb = tablen(data->cmds, sizeof * data->cmds);
-	if (!data->cmds_nb)
-		return ;
-	exec_pipeline(data);
-	*/
-	//data->cmds = NULL;
-	execute_commands(commands, data->env);
+	clear_fdlist();
+	return (0);
 }

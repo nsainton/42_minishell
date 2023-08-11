@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:16:50 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/10 14:47:07 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:20:45 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 int	make_redirs(t_data *d, t_command *cmd, const int command_index)
 {
 	int	i;
@@ -53,3 +54,4 @@ int	open_file_fd(t_redir *r, char mode)
 	}
 	return (new_fd);
 }
+*/

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 12:10:05 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 12:10:05 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/11 13:23:02 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/11 13:23:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,15 +119,10 @@ void			init_sigs(void);
 void			reinit_sigs(void);
 
 //Functions from file : heredoc.c
-int				match_fds(const int command_index);
-
-int				heredocs(const struct s_command **commands, \
-const int commands_nb, const struct s_env *env);
+int				heredocs(const struct s_ncommand *commands, \
+const size_t commands_nb, const struct s_env *env);
 
 //Functions from file : heredocs_fds_list.c
-int				get_heredocs(const struct s_command *command, \
-const struct s_env *env, const size_t number, const int command_index);
-
 //Functions from file : read_heredoc_line.c
 int				write_line(const char *line, int write_fd, \
 const struct s_env *env);
@@ -140,8 +135,12 @@ void			clear_list(void);
 void			close_heredoc_fds(void);
 
 //Functions from file : get_heredoc.c
-int				getheredoc(struct s_heredoc_infos *hd, \
+int				get_heredoc(struct s_heredoc_infos *hd, \
 struct s_heredoc *heredoc, const struct s_env *env);
+
+//Functions from file : execute_command.c
+int				execute_commands(struct s_ncommand *commands, \
+struct s_env *env);
 
 //Functions from file : exit_free.c
 void			exit_free_gc(int status);
@@ -149,11 +148,6 @@ void			exit_free_gc(int status);
 int				keep_exit_status(const int exit_status);
 
 //Functions from file : redirs.c
-int				make_redirs(t_data *d, t_command *cmd, \
-const int command_index);
-
-int				open_file_fd(t_redir *r, char mode);
-
 //Functions from file : dups.c
 void			dup_in_out(int fd_in, int fd_out);
 
@@ -170,19 +164,7 @@ int				get_outfile(t_command *c, t_redir *r, const int mode);
 int				save_stds(const int mode);
 
 //Functions from file : exec_cmds.c
-int				set_data(t_data *d);
-
-int				exec_pipeline(t_data *d);
-
-void			exec_command_in_pipeline(t_data *d, const int command_index);
-
 //Functions from file : exec_one.c
-int				exec_one(t_data *d);
-
-int				exec_builtin_parent(t_data *d, t_command *cmd);
-
-void			exec_w_execve(t_data *d, t_command *cmd);
-
 //Functions from file : make_pipes.c
 int				make_pipes(struct s_ncommand *commands);
 
@@ -214,12 +196,6 @@ int				s_dup2(int oldfd, int newfd);
 int				s_pipe(int pipefd[2]);
 
 //Functions from file : dup_list.c
-int				make_dups_list(t_command *cmd, t_redir *redir);
-
-int				dup_list(t_list *lst_dups);
-
-void			close_list(t_list *lst_dups);
-
 //Functions from file : echo.c
 int				print_echo(t_data *d, t_command *cmd);
 
@@ -295,7 +271,7 @@ int				is_builtin(t_command *cmd, t_data *d);
 
 //Functions from file : minishell.c
 //Functions from file : commands_exec.c
-void			commands_exec(t_cchar *line, t_data *data);
+void			commands_exec(t_cchar *line, struct s_data *data);
 
 //Functions from file : test_parsing.c
 //Functions from file : ft_list_remove_if.c

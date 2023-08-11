@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:01:48 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 14:09:19 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:23:44 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 	ensure the portability in case size of `int` increases in the future
 	nullelem array work with this function for a sizeof int up to 10 bytes
 */
+/*
 static int	connect_heredoc_fds(int *descriptors_list, const int command_fd, \
 const int heredoc_fd, const int command_index)
 {
@@ -56,6 +57,7 @@ const int heredoc_fd, const int command_index)
 	return (connect_heredoc_fds(descriptors_list + i, \
 	command_fd, heredoc_fd, command_index));
 }
+*/
 
 /*
 static void	print_desc_list(const int *list)
@@ -76,6 +78,7 @@ static void	print_desc_list(const int *list)
 }
 */
 
+/*
 int	get_heredocs(const struct s_command *command, const struct s_env *env, \
 const size_t number, const int command_index)
 {
@@ -91,27 +94,24 @@ const size_t number, const int command_index)
 		err = getheredoc(&hd, *command->heredocs + i, env);
 		if (err > 0)
 			return (1);
-		/*
 		if (! err)
 		{
 			ft_printf("------------Before updating---------------\n");
 			print_desc_list(descriptors_list);
 		}
-		*/
 		if (! err && update_list(descriptors_list, \
 		(*(command->heredocs + i))->fd, hd.read_fd, command_index))
 		{
 			clear_list();
 			return (1);
 		}
-		/*
 		if (! err)
 		{
 			ft_printf("--------------Updated----------------------\n");
 			print_desc_list(descriptors_list);
 		}
-		*/
 		i ++;
 	}
 	return (0);
 }
+*/

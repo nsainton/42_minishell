@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 11:49:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 12:10:23 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:11:56 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@ int	make_pipes(struct s_ncommand *commands)
 	int		pipefd[2];
 
 	len = tablen(commands, sizeof * commands);
+	if (len < 2)
+		return (0);
 	i = 0;
 	while (i < len)
 	{
 		if (s_pipe(pipefd))
-		{
-			clear_fdlist();
 			return (1);
-		}
 		(commands + i)->output_fd = pipefd[1];
 		(commands + i + 1)->input_fd = pipefd[0];
 		i ++;

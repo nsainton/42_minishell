@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:00:40 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/10 15:11:39 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:22:24 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 int	exec_one(t_data *d)
 {
 	d->index = 1;
@@ -61,11 +62,11 @@ void	exec_w_execve(t_data *d, t_command *cmd)
 {
 	int errnum;
 
-	/* if (d->env->is_empty)
+	if (d->env->is_empty)
 	{
 		ft_dprintf(2, "env : no env = no command\n");
 		exit_free_gc(127);
-	} */
+	} 
 	dup_in_out(cmd->fd_in, cmd->fd_out);
 	dup_list(cmd->fds);
 	errnum = check_path(cmd, d->env);
@@ -90,3 +91,4 @@ void	exec_w_execve(t_data *d, t_command *cmd)
 		exit_free_gc(126);
 	}
 }
+*/

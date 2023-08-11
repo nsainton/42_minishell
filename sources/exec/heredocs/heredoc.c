@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 12:54:13 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:23:26 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,11 +153,11 @@ const struct s_env *env)
 
 	if (! command->heredocs)
 		return (0);
-	len = tablen(commands->heredocs, sizeof * commands->heredocs);
+	len = tablen(command->heredocs, sizeof * command->heredocs);
 	i = 0;
 	while (i < len)
 	{
-		err = get_heredoc(&hd, command->hereodocs + i, env);
+		err = get_heredoc(&hd, command->heredocs + i, env);
 		if (err > 0)
 			return (1);
 		if (! err)
