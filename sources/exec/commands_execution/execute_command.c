@@ -6,12 +6,27 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 14:10:07 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 14:58:54 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+* @brief Executes the command or pipeline received after the parsing
+* of the provided command line
+*
+* @details None at the moment
+*
+* @param[in] commands : An array of struct s_ncommand that is null terminated
+* and that holds, for each of its elements, one command of the provided
+* pipeline
+* @param[in] env : The structure holding the environment that has been properly
+* formatted in an earlier function
+*
+* @return the status exit code of the command or pipeline provided. Might
+* not return if there is one command and this one command is exit.
+*/
 int	execute_commands(struct s_ncommand *commands, struct s_env *env)
 {
 	size_t	commands_nb;
