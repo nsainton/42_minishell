@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/08 12:06:19 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 12:58:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ const struct s_env *env)
 	line = readline(HEREDOC_PROMPT);
 	while (line && ft_strcmp(line, limiter))
 	{
-		if (g_termsig == 2 || write_line(line, write_fd, env))
+		if (g_termsig == 130 || write_line(line, write_fd, env))
 		{
 			g_termsig = 0;
 			close(write_fd);
@@ -63,28 +63,22 @@ const struct s_env *env)
 		ft_dprintf(STDERR_FILENO, HEREDOC_WARNING, line_index, limiter);
 	else
 		free(line);
-	close(write_fd);
+	if (s_close(write_fd))
+		return (1);
 	return ((line != NULL) - 1);
 }
 
 static int	heredoc_open(const char *heredoc_name, struct s_heredoc_infos *hd)
 {
-	hd->write_fd = open(heredoc_name, O_EXCL | O_CREAT | O_WRONLY | O_TRUNC, \
+	hd->write_fd = s_open(heredoc_name, O_EXCL | O_CREAT | O_WRONLY | O_TRUNC, \
 	00600);
-	if (hd->write_fd == -1)
+	if (hd->write_fd < 0)
 		return (EXIT_FAILURE);
-	hd->read_fd = open(heredoc_name, O_RDONLY);
-	if (hd->read_fd == -1)
-	{
-		close(hd->write_fd);
+	hd->read_fd = s_open(heredoc_name, O_RDONLY, 0);
+	if (hd->read_fd < 0)
 		return (EXIT_FAILURE);
-	}
 	if (unlink(heredoc_name) == -1)
-	{
-		close(hd->read_fd);
-		close(hd->write_fd);
 		return (EXIT_FAILURE);
-	}
 	return (EXIT_SUCCESS);
 }
 

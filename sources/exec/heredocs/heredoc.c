@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 12:14:27 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 12:54:13 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 	ensure the portability in case size of `int` increases in the future
 	nullelem array work with this function for a sizeof int up to 10 bytes
 */
+/*
 static void	init_list(int *descriptors_list, size_t size)
 {
 	size_t	i;
@@ -28,7 +29,9 @@ static void	init_list(int *descriptors_list, size_t size)
 		i ++;
 	}
 }
+*/
 
+/*
 static int	match_fd(int *command_fd, int *heredoc_fd)
 {
 	if (dup2(*heredoc_fd, *command_fd) == -1)
@@ -45,7 +48,9 @@ static int	match_fd(int *command_fd, int *heredoc_fd)
 	}
 	return (0);
 }
+*/
 
+/*
 int	match_fds(const int command_index)
 {
 	char			nullelem[20];
@@ -68,6 +73,7 @@ int	match_fds(const int command_index)
 	{
 		if (match_fd(descriptors_list + i, descriptors_list + i + 1))
 			return (1);
+		*/
 		/*
 		if (dup2(*(descriptors_list + i + 1), *(descriptors_list + i)) == -1)
 		{
@@ -82,11 +88,13 @@ int	match_fds(const int command_index)
 			return (1);
 		}
 		*/
+		/*
 		*(descriptors_list + i + 1) = *(descriptors_list + i);
 		i += elem_number;
 	}
 	return (0);
 }
+*/
 
 /*
 int	heredoc(const struct s_command *command, const struct s_env *env, \
@@ -112,6 +120,7 @@ const int command_index)
 }
 */
 
+/*
 static int get_heredocs_number(const struct s_ncommand *commands, \
 const size_t commands_nb)
 {
@@ -132,15 +141,45 @@ const size_t commands_nb)
 	}
 	return (number);
 }
+*/
 
-int	heredocs(const struct s_command **commands, const int commands_nb, \
+static int	get_heredocs(const struct s_ncommand *command, \
 const struct s_env *env)
 {
-	size_t			len;
-	int				i;
+	size_t					i;
+	size_t					len;
+	int						err;
+	struct s_heredoc_infos	hd;
+
+	if (! command->heredocs)
+		return (0);
+	len = tablen(commands->heredocs, sizeof * commands->heredocs);
+	i = 0;
+	while (i < len)
+	{
+		err = get_heredoc(&hd, command->hereodocs + i, env);
+		if (err > 0)
+			return (1);
+		if (! err)
+			(command->heredocs + i)->read_fd = hd.read_fd;
+		else
+			(command->heredocs + i)->read_fd = -1;
+		i ++;
+	}
+	return (0);
+}
+
+int	heredocs(const struct s_ncommand *commands, const size_t commands_nb, \
+const struct s_env *env)
+{
+//	size_t			len;
+	size_t			i;
+	/*
 	const size_t	elem_number = HD_ELEMS_NUMBER;
 	int				*descriptors_list;
+	*/
 
+	/*
 	len = get_heredocs_number(commands, commands_nb);
 	if (! len)
 		return (0);
@@ -148,10 +187,11 @@ const struct s_env *env)
 	if (! descriptors_list)
 		return (1);
 	init_list(descriptors_list, elem_number * len);
+	*/
 	i = 0;
 	while (i < commands_nb)
 	{
-		if (get_heredocs(*(commands + i), env, len, i))
+		if (get_heredocs(commands + i, env))
 			return (1);
 		i ++;
 	}
