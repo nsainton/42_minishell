@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/10 11:01:12 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 11:24:25 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,9 @@ struct s_arg
 struct	s_heredoc
 {
 	int		fd;
+	size_t	index;
 	char	*limiter;
+	int		read_fd;
 };
 
 struct s_redir

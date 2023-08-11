@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:50:20 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/23 09:46:53 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 11:26:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static int	push_redirection(t_tab *redirs, t_str *line, t_csizet index, int fd)
 }
 
 /*
-This function assumes that for example if the line is "echo bonjour >salut"
-then index points to the '>'
-thus ft_printf("%s\n", line + index) would print : >salut
+	This function assumes that for example if the line is 
+	"echo bonjour >salut" then index points to the '>'
+	thus ft_printf("%s\n", line + index) would print : >salut
 */
 static int	add_redirection(t_tab *redirs, t_str *line, t_csizet index)
 {
@@ -82,6 +82,14 @@ int	redirections(t_tab *redirs, t_str *line)
 	return (NO_ERROR);
 }
 
+static void	set_params(struct s_heredoc *hd, struct s_redir *red, \
+const size_t index)
+{
+	hd->fd = red->fd;
+	hd->limiter = red->file;
+	hd->index = index;
+}
+
 int	redirs_to_heredocs(t_tab *redirs, t_tab *heredocs)
 {
 	t_redirection	*reds;
@@ -97,8 +105,7 @@ int	redirs_to_heredocs(t_tab *redirs, t_tab *heredocs)
 	{
 		if ((reds + index)->mode == 'h')
 		{
-			hd.fd = (reds + index)->fd;
-			hd.limiter = (reds + index)->file;
+			set_params(&hd, reds + index, index);
 			if (add_tab(heredocs, &hd))
 				return (ALLOCATION_ERROR);
 			ft_memmove(reds + index, reds + index + 1, \

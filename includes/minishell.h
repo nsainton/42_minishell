@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/10 15:10:23 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 15:10:23 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/11 11:04:01 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/11 11:05:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void			reinit_sigs(void);
 //Functions from file : heredoc.c
 int				match_fds(const int command_index);
 
-int				heredocs(const struct s_command ** commands, \
+int				heredocs(const struct s_command **commands, \
 const int commands_nb, const struct s_env *env);
 
 //Functions from file : heredocs_fds_list.c
@@ -290,17 +290,21 @@ int				exec_builtin(t_command *cmd, t_data *d);
 
 int				is_builtin(t_command *cmd, t_data *d);
 
-//Functions from file : copy_list.c
-struct s_list	*copy_list(struct s_list *lst);
-
 //Functions from file : minishell.c
 //Functions from file : commands_exec.c
 void			commands_exec(t_cchar *line, t_data *data);
 
 //Functions from file : test_parsing.c
-//Functions from file : parser.c
-//Functions from file : metachar.c
+//Functions from file : ft_list_remove_if.c
+void			ft_list_remove_if(t_list **begin_list, void *data_ref, \
+int (*cmp)(), void (*free_fct)(void *));
+
+//Functions from file : copy_list.c
+struct s_list	*copy_list(struct s_list *lst);
+
 //Functions from file : sort_list.c
 void			ft_list_sort(t_list **begin_list, int (*cmp)());
 
+//Functions from file : parser.c
+//Functions from file : metachar.c
 #endif

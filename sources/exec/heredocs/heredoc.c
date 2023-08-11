@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 15:22:59 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 11:09:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ const int commands_nb)
 	return (number);
 }
 
-int	heredocs(const struct s_command ** commands, const int commands_nb, \
+int	heredocs(const struct s_command **commands, const int commands_nb, \
 const struct s_env *env)
 {
 	size_t			len;
