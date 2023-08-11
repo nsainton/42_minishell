@@ -6,17 +6,22 @@
 #    By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/08/08 13:21:56 by nsainton         ###   ########.fr        #
+#    Updated: 2023/08/11 14:45:55 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.DEFAULT_GOAL:= all
+.DEFAULT_GOAL:= stable
 
 MK:= mkdir -p
 
 NAME:= minishell
 
 #PROG:= $(NAME).c
+
+SHELL := /bin/sh
+
+.SUFFIXES:
+.SUFFIXES: .c .o
 
 SRCS_DIR:= sources
 
@@ -31,6 +36,18 @@ OBJS_DIR:= objects
 OBJS_NAMES:= $(SRCS_NAMES:.c=.o)
 
 OBJS:= $(addprefix $(OBJS_DIR)/, $(OBJS_NAMES))
+
+STABLE_OBJS_DIR := objects
+
+STABLE_OBJS_NAMES := $(OBJS_NAMES)
+
+STABLE_OBJS := $(addprefix $(STABLE_OBJS_DIR)/, $(OBJS_NAMES))
+
+DEBUG_OBJS_DIR := objects_debug
+
+DEBUG_OBJS_NAMES := $(OBJS_NAMES)
+
+DEBUG_OBJS := $(addprefix $(DEBUG_OBJS_DIR)/, $(OBJS_NAMES))
 
 INCS_DIR:= includes
 
@@ -123,23 +140,41 @@ export minishell_header
 
 .SILENT:
 
-all : | $(LFT_DIR) $(LGC_DIR)
-	$(MAKE) -C $(LFT_DIR)
-	$(MAKE) -C $(LGC_DIR)
-	$(MAKE) $(NAME)
+all : stable
 
 $(NAME) : $(OBJS) | $(DEPS_DIR)
+	$(MAKE) -C $(LFT_DIR)
+	$(MAKE) -C $(LGC_DIR)
 	$(CC) $(CFLAGS) $(GG) $(OPT) $(PROG) $(OBJS) \
 	-MD -MF $(DEPS_DIR)/$(NAME).d $(ABBRS) -o $(NAME)
 	echo "$(BEGIN)$(RED)m"
 	echo "$$minishell_header"
 	echo "$(END)"
 
-$(OBJS_DIR)/%.o : $(SRCS_DIR)/%.c | $(LFT_DIR) $(LGC_DIR)
+$(DEBUG_OBJS_DIR)/%.o : $(SRCS_DIR)/%.c $(INCS) | $(LFT_DIR) $(LGC_DIR)
 	[ -d $(@D) ] || $(MK) $(@D)
 	arg="$$(dirname $(DEPS_DIR)/$*)"; \
 	[ -d $$arg ] || $(MK) $$arg
-	$(CC) $(CFLAGS) $(GG) $(OPT) -MD -MF $(DEPS_DIR)/$*.d -c $< -o $@
+	$(CC) $(CFLAGS) -MD -MF $(DEPS_DIR)/$*.d -c $< -o $@
+
+$(STABLE_OBJS_DIR)/%.o : $(SRCS_DIR)/%.c $(INCS) | $(LFT_DIR) $(LGC_DIR)
+	[ -d $(@D) ] || $(MK) $(@D)
+	arg="$$(dirname $(DEPS_DIR)/$*)"; \
+	[ -d $$arg ] || $(MK) $$arg
+	$(CC) $(CFLAGS) -MD -MF $(DEPS_DIR)/$*.d -c $< -o $@
+
+stable : OBJS := $(STABLE_OBJS)
+stable : $(STABLE_OBJS) $(NAME)
+
+debug : oclean debug_libs
+debug : CFLAGS += -g3 -O0
+debug : OBJS := $(DEBUG_OBJS)
+debug : CC := gcc
+debug : $(DEBUG_OBJS) $(NAME)
+
+debug_libs :
+	$(MAKE) oclean debug -C $(LFT_DIR)
+	$(MAKE) oclean debug -C $(LGC_DIR)
 
 $(DEPS_DIR) :
 	$(MK) $(DEPS_DIR)
@@ -174,12 +209,6 @@ fclean : clean oclean
 
 .PHONY: re
 re : fclean all
-
-.PHONY: debug
-debug : fclean
-	$(MAKE) oclean debug -C $(LFT_DIR)
-	$(MAKE) oclean debug -C $(LGC_DIR)
-	$(MAKE) GG="-g3" OPT=-O0 CC=gcc
 
 .PHONY: leaks
 leaks :
