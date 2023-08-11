@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:02:23 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/23 09:39:18 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 11:45:58 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@ static void	decrypt_tab(char **tab)
 		decrypt_string(*tab);
 		tab ++;
 	}
+}
+
+static void	set_command_parameters(struct s_ncommand *command, \
+struct s_tab *heredocs, struct s_tab *redirs)
+{
+	command->heredocs = (t_heredoc *)heredocs->tab;
+	command->redirs = (t_redirection *)redirs->tab;
+	command->output_fd = -1;
+	command->input_fd = -1;
 }
 
 static int	fill_command(t_ncommand *command, char *line)
@@ -37,12 +46,9 @@ static int	fill_command(t_ncommand *command, char *line)
 		return (ALLOCATION_ERROR);
 	decrypt_tab(split);
 	command->command = *split;
-	if (! command->command)
-		command->args = NULL;
-	else
+	if (command->command)
 		command->args = split + 1;
-	command->heredocs = (t_heredoc *)heredocs.tab;
-	command->redirs = (t_redirection *)redirs.tab;
+	set_command_parameters(command, &heredocs, &redirs);
 	return (NO_ERROR);
 }
 

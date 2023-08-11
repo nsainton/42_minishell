@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/11 11:24:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 11:38:53 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,9 +169,12 @@ struct	s_command
 struct	s_ncommand
 {
 	char				*command;
+	char				*path;
 	char				**args;
 	struct s_heredoc	*heredocs;
 	struct s_redir		*redirs;
+	int					output_fd;
+	int					input_fd;
 };
 
 struct s_pipeline
