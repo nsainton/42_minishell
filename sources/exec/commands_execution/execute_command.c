@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 13:40:01 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 14:10:07 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	execute_commands(struct s_ncommand *commands, struct s_env *env)
 		clear_fdlist();
 		return (1);
 	}
-	print_fdlist();
+	print_commands(commands);
+	//print_fdlist();
 	clear_fdlist();
 	return (0);
 }

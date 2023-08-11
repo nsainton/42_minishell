@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 16:16:14 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/20 16:37:44 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/11 14:10:26 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	print_heredoc(t_heredoc *heredoc, size_t no)
 {
 	ft_printf("--------------------Heredoc number %u---------------------\n", no);
 	ft_printf("File descriptor : %d\n", heredoc->fd);
+	ft_printf("Read file descriptor : %d\n", heredoc->read_fd);
+	ft_printf("Redir index : %u\n", heredoc->index);
 	ft_printf("Limiter : %s\n", heredoc->limiter);
 	ft_printf("---------------------------------------------------------\n");
 }
@@ -93,6 +95,9 @@ void	print_command(t_ncommand *command, size_t no)
 {
 	ft_printf("---------------Command number %u-------------------------\n", no);
 	ft_printf("Command : %s\n", command->command);
+	ft_printf("Path : %s\n", command->path);
+	ft_printf("Input fd : %d\n", command->input_fd);
+	ft_printf("Output fd : %d\n", command->output_fd);
 	print_args(command->args);
 	print_redirs(command->redirs);
 	print_heredocs(command->heredocs);

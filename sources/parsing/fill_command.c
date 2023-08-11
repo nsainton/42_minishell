@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:02:23 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 11:45:58 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 14:18:41 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ struct s_tab *heredocs, struct s_tab *redirs)
 {
 	command->heredocs = (t_heredoc *)heredocs->tab;
 	command->redirs = (t_redirection *)redirs->tab;
-	command->output_fd = -1;
-	command->input_fd = -1;
+	command->output_fd = 1;
+	command->input_fd = 0;
 }
 
 static int	fill_command(t_ncommand *command, char *line)
