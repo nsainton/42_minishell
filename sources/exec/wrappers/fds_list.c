@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 10:41:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/09 12:11:15 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:59:16 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	s_open(const char *pathname, int flags, mode_t mode)
 
 static int	equal(const int *a, const int *b)
 {
-	return (*a == *b);
+	return (*a != *b);
 }
 
 int	s_close(int fd)

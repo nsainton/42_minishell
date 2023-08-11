@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 13:23:02 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 13:23:02 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/11 13:40:09 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/11 13:40:09 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,11 @@ int				s_close(int fd);
 int				s_dup2(int oldfd, int newfd);
 
 int				s_pipe(int pipefd[2]);
+
+//Functions from file : debug.c
+void			print_fd(void *fd);
+
+void			print_fdlist();
 
 //Functions from file : dup_list.c
 //Functions from file : echo.c

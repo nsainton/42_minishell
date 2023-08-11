@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command.c                                  :+:      :+:    :+:   */
+/*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 13:40:01 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/11 13:39:07 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/11 13:39:51 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_commands(struct s_ncommand *commands, struct s_env *env)
+void	print_fd(void *fd)
 {
-	size_t	commands_nb;
+	ft_printf("This is the fd in the list : %d\n", *(int *)fd);
+}
 
-	commands_nb = tablen(commands, sizeof * commands);
-	if (make_pipes(commands) || heredocs(commands, commands_nb, env))
-	{
-		clear_fdlist();
-		return (1);
-	}
-	print_fdlist();
-	clear_fdlist();
-	return (0);
+void	print_fdlist()
+{
+	struct s_list *list;
+
+	EPRINT
+	list = *get_fdlist();
+	ft_lstiter(list, print_fd);
+	LPRINT
 }

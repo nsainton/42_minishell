@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 12:04:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/09 12:10:13 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 13:58:21 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void (*del)(void *))
 
 	if (*lst == node)
 		return (gc_lstdel_front(lst, del));
-	p = (*lst)->next;
+	p = *lst;
 	while (p)
 	{
 		if (p->next != node)
