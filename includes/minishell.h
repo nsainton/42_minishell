@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 11:04:01 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 11:05:11 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/11 12:10:05 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/11 12:10:05 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,9 @@ int				exec_one(t_data *d);
 int				exec_builtin_parent(t_data *d, t_command *cmd);
 
 void			exec_w_execve(t_data *d, t_command *cmd);
+
+//Functions from file : make_pipes.c
+int				make_pipes(struct s_ncommand *commands);
 
 //Functions from file : check_path.c
 int				check_path(t_command *cmd, t_env *my_env);
