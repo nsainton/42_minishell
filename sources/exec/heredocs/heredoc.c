@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:33:31 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 11:09:15 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/11 12:14:27 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,25 +112,23 @@ const int command_index)
 }
 */
 
-static int get_heredocs_number(const struct s_command **commands, \
-const int commands_nb)
+static int get_heredocs_number(const struct s_ncommand *commands, \
+const size_t commands_nb)
 {
 	size_t					number;
-	int						command_index;
-	const struct s_command	*command;
+	size_t					i;
 
 	number = 0;
-	command_index = 0;
-	while (command_index < commands_nb)
+	i = 0;
+	while (i < commands_nb)
 	{
-		command = *(commands + command_index);
-		if (! command->heredocs)
+		if (! (commands + i)->heredocs)
 		{
-			command_index ++;
+			i ++;
 			continue ;
 		}
-		number += tablen(*command->heredocs, sizeof **command->heredocs);
-		command_index ++;
+		number += tablen((commands + i)->heredocs, sizeof *commands->heredocs);
+		i ++;
 	}
 	return (number);
 }
