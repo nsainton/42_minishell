@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:47:59 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/12 09:54:01 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/12 10:42:57 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,83 @@ static int	get_flags(const int mode)
 	return (0);
 }
 
+static int	make_redirection(struct s_redir *redir)
+{
+	int	fd;
+
+	fd = s_open(redir->file, get_flags(redir->mode), 0644);
+	if (! fd)
+		return (1);
+	if ((s_dup2(fd, redir->fd) == -1) || s_close(fd))
+		return (1);
+	return (0);
+}
+
+/*
+	This function's goal is to duplicate the heredoc read_fd that
+	we read earlier onto the real heredoc file descriptor specified
+	by the user
+*/
+static int	dup_heredoc(struct s_heredoc *heredoc)
+{
+	int	err;
+
+	if (heredoc->read_fd == -1)
+		return (0);
+	err = (s_dup2(heredoc->read_fd, heredoc->fd == -1) || \
+	s_close(heredoc->read_fd));
+	return (err);
+}
+
+/*
+static int	apply_tabs(struct s_tab *t1, struct s_tab *t2, \
+int (*f1)(void *), int (*f2)(void *))
+{
+	size_t	i1;
+	size_t	i2;
+	size_t	l1;
+	size_t	l2;
+
+	l1 = tablen(t1->tab, t1->elemsize);
+	l2 = tablen(t2->tab, t2->elemsize);
+	i1 = 0;
+	i2 = 0;
+	while (i1 + i2 < l1 + l2)
+	{
+		if (i1
+}
+*/
+
 /*
 	In the struct s_redir structure there is a integer, a char and a
 	char pointer. Even admitting that those would be padded to align with
 	the addresses of 3 char pointers, the full size of struct s_redir
 	would be at most 30 bytes.
 */
-int	make_redirections(struct s_ncommand *command)
+int	make_redirections(struct s_redir *redirections, struct s_heredoc *heredocs)
 {
 	size_t			i;
-	char			nullelem[30];
-	int				fd;
-	struct s_redir	*redir;
+	size_t			len;
+	size_t			redirs_len;
+	size_t			h_index;
 
-	if (! command->redirs)
+	if (! (redirections || heredocs))
 		return (0);
-	ft_bzero(nullelem, sizeof *command->redirs);
+	redirs_len = tablen(redirections, sizeof * redirections);
+	len = redirs_len + tablen(heredocs, sizeof * heredocs);
 	i = 0;
-	while (ft_memcmp(nullelem, command->redirs + i, sizeof *command->redirs))
+	h_index = 0;
+	while (i < len)
 	{
-		redir = command->redirs + i;
-		fd = s_open(redir->file, get_flags(redir->mode), 0644);
-		if (! fd)
+		if (h_index < len - redirs_len && i == (heredocs + h_index)->index)
+		{
+			if (dup_heredoc(heredocs + h_index))
+				return (1);
+			h_index ++;
+		}
+		else if (i - h_index < redirs_len && \
+		make_redirection(redirections + i - h_index))
 			return (1);
-		ft_printf("The file %s is opened on fd %d\n", redir->file, fd);
-		if ((s_dup2(fd, redir->fd) == -1)|| s_close(fd))
-			return (1);
-		ft_printf("fd %d has been duplicated on fd %d and closed\n", fd, redir->fd);
 		i ++;
 	}
 	return (0);
