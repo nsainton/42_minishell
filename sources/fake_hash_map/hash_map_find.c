@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 11:26:09 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/12 12:15:45 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/12 12:29:54 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,13 @@ const void *elem)
 	size_t	index;
 
 	index = get_hash_index(elem, map->hash_function, map->size);
-	return (map->map + map->index);
+	return (map->map + index);
 }
 
 struct s_list	*hash_map_find(const struct s_hashmap *map, void *elem, \
 int (*cmp)())
 {
 	struct s_list	**elem_list;
-	struct s_list	*elem_in_list;
 
 	elem_list = get_hash_list(map, elem);
 	if (! elem_list)
@@ -56,7 +55,7 @@ void	hash_map_delete(struct s_hashmap *map, struct s_list *elem)
 
 	elem_list = get_hash_list(map, elem);
 	if (! elem_list)
-		return (NULL);
+		return ;
 	del_node(elem_list, elem, map->del);
 }
 
@@ -73,4 +72,15 @@ void	hash_map_clear(struct s_hashmap *map)
 	free(map->map);
 	if (map->on_heap)
 		free(map);
+}
+
+int	hash_map_add(struct s_hashmap *map, void *elem)
+{
+	struct s_list *node;
+
+	node = gc_lstnew(elem);
+	if (! node)
+		return (1);
+	ft_lstadd_front(get_hash_list(map, elem), elem);
+	return (0);
 }
