@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/11 11:38:53 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/12 12:19:27 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ enum e_exit_errors
 
 //Structures declarations
 
-
 struct s_arg
 {
 	char			*argument;
@@ -184,15 +183,24 @@ struct s_pipeline
 
 struct s_env
 {
-	t_list	*list_env;
-	char	*path;
-	int		is_empty;
+	t_list			*list_env;
+	char			*path;
+	int				is_empty;
 };
 
 struct s_heredoc_infos
 {
-  int write_fd;
-  int read_fd;
+	int				write_fd;
+	int				read_fd;
+};
+
+struct s_hashmap
+{
+	struct s_list	**map;
+	size_t			size;
+	size_t			(*hash_function)(const void *);
+	void			(*del)(void *);
+	int				on_heap;
 };
 
 /*
