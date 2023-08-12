@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 13:40:09 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 13:40:09 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/12 09:40:51 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/12 09:40:51 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,9 @@ struct s_heredoc *heredoc, const struct s_env *env);
 //Functions from file : execute_command.c
 int				execute_commands(struct s_ncommand *commands, \
 struct s_env *env);
+
+//Functions from file : make_redirections.c
+int				make_redirections(struct s_ncommand *command);
 
 //Functions from file : exit_free.c
 void			exit_free_gc(int status);
