@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 11:26:09 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/12 12:03:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/12 12:15:45 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@
 		size_t			size;
 		size_t			(*hash_function)(const void *);
 		void			(*del)(void *);
+		int				on_heap;
 	};
 */
 
-size_t	get_hash_index(const void *elem, size_t (*find_index)(const void *), \
-const size_t size)
+size_t	get_hash_index(const void *elem, \
+size_t (*hash_function)(const void *), const size_t size)
 {
-	return (find_index(elem) % size);
+	return (hash_function(elem) % size);
 }
 
 struct s_list	**get_hash_list(const struct s_hashmap *map, \
@@ -37,7 +38,7 @@ const void *elem)
 	return (map->map + map->index);
 }
 
-void	*hash_map_find(const struct s_hashmap *map, void *elem, \
+struct s_list	*hash_map_find(const struct s_hashmap *map, void *elem, \
 int (*cmp)())
 {
 	struct s_list	**elem_list;
@@ -57,4 +58,19 @@ void	hash_map_delete(struct s_hashmap *map, struct s_list *elem)
 	if (! elem_list)
 		return (NULL);
 	del_node(elem_list, elem, map->del);
+}
+
+void	hash_map_clear(struct s_hashmap *map)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < map->size)
+	{
+		gc_lstclear(map->map + i, map->del);
+		i ++;
+	}
+	free(map->map);
+	if (map->on_heap)
+		free(map);
 }
