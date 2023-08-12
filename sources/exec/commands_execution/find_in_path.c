@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:16:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/12 14:35:44 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/12 14:56:39 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,43 @@ static char *get_cwd_path(const char *command)
 		*(cwd + path_len) = 0;
 		path_len ++;
 	}
-	path_string = gccalloc(path_len + ft_strlen(command) + 1);
+	path_string = gccalloc(path_len + ft_strlen(command) + 1, \
+	sizeof * path_string);
 	if (! path_string)
 		return (NULL);
 	ft_strcat(path_string, cwd);
 	ft_strcat(path_string + path_len, command);
-	if (! access(filepath, F_OK))
+	if (! access(path_string, F_OK))
 		return (path_string);
-	free(path_string);
+	free_node(path_string);
 	return (NULL);
 }
 
-static char	*get_path_string(const char *path, size_t index, \
+/*
+	Same reason as the function above. If there is no '/' at the end
+	of the path, we need to add one and thus will need an extra slot
+*/
+static char	*get_path_string(const char *path, size_t pathlen, \
 const char *command)
 {
 	size_t	len;
-	size_t	path_len;
+	size_t	added;
+	char	*path_string;
 
-	path_len = ft_strlen(path);
-	len = ft_strlen(path) + ft_strlen(command);
+	if (! pathlen)
+		return (get_cwd_path(command));
+	len = pathlen + ft_strlen(command) + (*(path + pathlen - 1) != '/') + 1;
+	path_string = gccalloc(len, sizeof * path_string);
+	if (! path_string)
+		return (NULL);
+	added = ft_strncat(path_string, path + 1, pathlen);
+	if (*(path_string + added - 1) != '/')
+		added += ft_strncat(path_string + added, "/", 1);
+	ft_strcat(path_string + added, command);
+	if (! access(path_string, F_OK))
+		return (path_string);
+	free_node(path_string);
+	return (NULL);
 }
 
 static int	is_exec(const char *filepath)
@@ -73,8 +91,17 @@ static char	*find_in_path(const char *path, const char *command)
 		return (command_path);
 	while (*(path + i))
 	{
+		i ++;
 		while (*(path + i) && *(path + i) != ':')
 			i ++;
-		test_path = get_path_string(path, i
+		test_path = get_path_string(path, i - 1, command);
+		if (test_path && ! access(test_path, X_OK))
+			return (test_path);
+		if (! command_path)
+			command_path = test_path;
+		path += i;
+		i = 0;
+	}
+	return (command_path);
 }
 
