@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 10:48:37 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/12 13:20:42 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/12 14:17:18 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,28 +42,6 @@ static char *check_hashmap(const char *command)
 		return (NULL);
 	}
 	return (path);
-}
-
-static char	*get_path_string(const char *path, const char *command)
-{
-	size_t	len;
-	size_t	path_len;
-
-	path_len = ft_strlen(path);
-	len = ft_strlen(path) + ft_strlen(command);
-}
-
-static char	*find_in_path(const char **path, const char *command)
-{
-	size_t	i;
-	char	*command_path;
-	char	*test_path;
-
-	i = 0;
-	command_path = NULL;
-	while (*(path + i))
-	{
-		test_path = gc_strjoin(*(path + i)
 }
 
 int	getpath(struct s_ncommand *command, struct s_env *env)
