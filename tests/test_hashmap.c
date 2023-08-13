@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 09:25:47 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 10:16:33 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 10:27:29 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ size_t	hash(const void *s)
 
 	i = 0;
 	code = 0;
-	while (*(s + i))
+	string = (char *)s;
+	while (*(string + i))
 	{
-		code += *(s + i) * i;
+		code += *(string + i) * i;
 		i ++;
 	}
 	return (code);
@@ -33,7 +34,7 @@ size_t	hash(const void *s)
 
 static int	add_map(const char *s)
 {
-	struct s_hashnmap	*map;
+	struct s_hashmap	*map;
 	char				*ns;
 
 	map = getmap(NULL, NULL);
@@ -50,7 +51,7 @@ static void	print_elem(void *elem)
 	char	*str;
 
 	str = (char *)elem;
-	ft_printf("(%s)->");
+	ft_printf("(%s)->", str);
 }
 
 static void	print_map(void (*print_func)(void *))
@@ -65,7 +66,7 @@ static void	print_map(void (*print_func)(void *))
 	while (i < map->size)
 	{
 		ft_printf("-- %u --->", i);
-		ft_lstiter(*(map + i), print_func);
+		ft_lstiter(*(map->map + i), print_func);
 		write(1, "\n", 1);
 		i ++;
 	}
