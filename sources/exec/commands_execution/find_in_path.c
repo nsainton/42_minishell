@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:16:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 12:14:12 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:44:37 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static char *get_cwd_path(const char *command)
 	path_len = ft_strlen(cwd);
 	if (cwd[path_len - 1] != '/')
 	{
-		*(cwd + path_len - 1) = '/';
-		*(cwd + path_len) = 0;
+		*(cwd + path_len) = '/';
+		*(cwd + path_len + 1) = 0;
 		path_len ++;
 	}
 	path_string = gccalloc(path_len + ft_strlen(command) + 1, \
