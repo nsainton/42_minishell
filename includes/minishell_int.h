@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/13 10:18:03 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 16:15:47 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define LPRINT ft_dprintf(STDERR_FILENO, LEAVE, __func__);
 # define SUCCESS 0
 # define MAP_SIZE 5
+# define ENV_SIZE 16
 # define SPECIALS "'\"? <>|$"
 # define REDIRS "<>|"
 # define SEPARATORS " <>"
@@ -184,9 +185,10 @@ struct s_pipeline
 
 struct s_env
 {
-	t_list			*list_env;
-	char			*path;
-	int				is_empty;
+	struct s_tab	*env_list;
+	struct s_tab	*export_list;
+//	char			*path;
+//	int				is_empty;
 };
 
 struct s_heredoc_infos
