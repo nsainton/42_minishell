@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 10:48:37 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 10:23:22 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:49:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,28 @@ static int	is_fullname(const char *path, const char *name)
 	return (ft_strcmp(varname, name));
 }
 
-static char *check_hashmap(const char *command)
+static size_t	hash(const void *s)
 {
-	struct s_hashmap	*map;
-	struct s_list		*path_node;
+	const char	*string;
+	size_t		code;
+	size_t		i;
+
+	i = 0;
+	code = 0;
+	string = (char *)s;
+	while (*(string + i))
+	{
+		code += *(string + i) * i;
+		i ++;
+	}
+	return (code);
+}
+
+static char	*check_hashmap(struct s_hashmap *map, const char *command)
+{
+	struct s_list	*path_node;
 	char			*path;
 
-	map = getmap(NULL, NULL); //CHANGE ME !!!
-	if (! map)
-		return (NULL);
 	path_node = hash_map_find(map, command, is_fullname);
 	if (! path_node)
 		return (NULL);
@@ -46,19 +59,26 @@ static char *check_hashmap(const char *command)
 
 int	getpath(struct s_ncommand *command, struct s_env *env)
 {
-	const char	*path;
+	const char			*path;
+	struct s_hashmap	*map;
 
+	map = getmap(hash, free_node);
+	if (! map)
+		return (ALLOCATION_ERROR);
 	if (ft_strchr(command->command, '/'))
 	{
 		command->path = command->command;
 		return (0);
 	}
-	command->path = check_hashmap(command->command);
+	command->path = check_hashmap(map, command->command);
 	if (command->path)
 		return (0);
 	path = get_env_var(env, "PATH");
 	if (! path)
 		return (127);
 	command->path = find_in_path(command->command, path);
+	if ((command->path && ! access(command->path, X_OK)) && \
+	hash_map_add(map, command->path))
+		return (ALLOCATION_ERROR);
 	return (0);
 }
