@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 10:48:37 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 11:49:12 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:58:37 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	getpath(struct s_ncommand *command, struct s_env *env)
 	path = get_env_var(env, "PATH");
 	if (! path)
 		return (127);
-	command->path = find_in_path(command->command, path);
+	command->path = find_in_path(path, command->command);
 	if ((command->path && ! access(command->path, X_OK)) && \
 	hash_map_add(map, command->path))
 		return (ALLOCATION_ERROR);

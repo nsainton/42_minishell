@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:16:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 11:31:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:14:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ const char *command)
 	path_string = gccalloc(len, sizeof * path_string);
 	if (! path_string)
 		return (NULL);
-	added = ft_strncat(path_string, path + 1, pathlen);
+	added = ft_strncat(path_string, path, pathlen);
 	if (*(path_string + added - 1) != '/')
 		added += ft_strncat(path_string + added, "/", 1);
 	ft_strcat(path_string + added, command);
@@ -76,6 +76,17 @@ static int	is_exec(const char *filepath)
 	return (! (access(filepath, F_OK) || access(filepath, X_OK)));
 }
 
+static size_t	pathlen(const char **path)
+{
+	size_t	i;
+
+	if (**path == ':')
+		(*path)++;
+	i = 0;
+	while (*(*path + i) && *(*path + i) != ':')
+		i ++;
+	return (i);
+}
 /*
 	First, if path begins by a semicolumn, we look for an exec in the
 	current directory. Then for each directory in path, we compute
@@ -84,6 +95,9 @@ static int	is_exec(const char *filepath)
 	If the command is an executable, we return it right away, if not we
 	store it (if there was no command before) and look for an executable
 	into the remaining directories of the path.
+	To look into the path directories, we start by skipping the first
+	semicolumn and then read the directory name, we then find the
+	corresponding command and act upon what we found
 */
 char	*find_in_path(const char *path, const char *command)
 {
@@ -99,10 +113,8 @@ char	*find_in_path(const char *path, const char *command)
 		return (command_path);
 	while (*(path + i))
 	{
-		i ++;
-		while (*(path + i) && *(path + i) != ':')
-			i ++;
-		test_path = get_path_string(path, i - 1, command);
+		i = pathlen(&path);
+		test_path = get_path_string(path, i, command);
 		if (test_path && ! access(test_path, X_OK))
 			return (test_path);
 		if (! command_path)
