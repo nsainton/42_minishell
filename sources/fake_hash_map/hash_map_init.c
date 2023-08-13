@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 09:28:42 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 10:17:38 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 10:40:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ void (*del)(void *))
 	map.hash_function = hash_function;
 	map.del = del;
 	map.on_heap = 0;
+	map.size = MAP_SIZE;
 	return (&map);
 }
