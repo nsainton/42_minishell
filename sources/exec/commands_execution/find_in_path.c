@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:16:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/12 14:56:39 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 10:19:29 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static char *get_cwd_path(const char *command)
 	char	cwd[PATH_MAX + 2];
 	char	*path_string;
 	size_t	path_len;
-	size_t	command_len;
 
 	if (! getcwd(cwd, PATH_MAX + 1))
 		return (NULL);
@@ -77,7 +76,10 @@ static int	is_exec(const char *filepath)
 	return (! (access(filepath, F_OK) || access(filepath, X_OK)));
 }
 
-static char	*find_in_path(const char *path, const char *command)
+/*
+	Need to comment this code to ensure everything is thought through
+*/
+char	*find_in_path(const char *path, const char *command)
 {
 	size_t	i;
 	char	*command_path;
@@ -104,4 +106,3 @@ static char	*find_in_path(const char *path, const char *command)
 	}
 	return (command_path);
 }
-

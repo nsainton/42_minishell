@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_map_find.c                                    :+:      :+:    :+:   */
+/*   hash_map_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/12 11:26:09 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 10:21:18 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/13 09:28:42 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/13 10:17:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-	struct s_hashmap
-	{
-		struct s_list	**map;
-		size_t			size;
-		size_t			(*hash_function)(const void *);
-		void			(*del)(void *);
-		int				on_heap;
-	};
-*/
-
-struct s_list	*hash_map_find(const struct s_hashmap *map, \
-const void *elem, int (*cmp)())
+struct s_hashmap	*getmap(size_t (*hash_function)(const void *), \
+void (*del)(void *))
 {
-	struct s_list	**elem_list;
+	static struct s_hashmap	map;
 
-	elem_list = get_hash_list(map, elem);
-	if (! elem_list)
+	if (! (hash_function && del) || map.map)
+		return (&map);
+	map.map = gccalloc(MAP_SIZE, sizeof * map.map);
+	if (! map.map)
 		return (NULL);
-	return (ft_list_find(*elem_list, elem, cmp));
+	map.hash_function = hash_function;
+	map.del = del;
+	map.on_heap = 0;
+	return (&map);
 }

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/12 12:19:27 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 10:18:03 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define EPRINT ft_dprintf(STDERR_FILENO, ENTER, __func__);
 # define LPRINT ft_dprintf(STDERR_FILENO, LEAVE, __func__);
 # define SUCCESS 0
+# define MAP_SIZE 5
 # define SPECIALS "'\"? <>|$"
 # define REDIRS "<>|"
 # define SEPARATORS " <>"

@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 12:04:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 13:58:21 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 10:22:04 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ struct s_list	**get_fdlist(void)
 }
 
 struct s_list	*ft_list_find(struct s_list *begin_list, \
-void *data_ref, int (*cmp)())
+const void *data_ref, int (*cmp)())
 {
 	t_list	*p;
 

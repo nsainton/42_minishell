@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 10:48:37 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/12 14:17:18 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 10:23:22 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char *check_hashmap(const char *command)
 	struct s_list		*path_node;
 	char			*path;
 
-	map = getmap();
+	map = getmap(NULL, NULL); //CHANGE ME !!!
 	if (! map)
 		return (NULL);
 	path_node = hash_map_find(map, command, is_fullname);
@@ -46,8 +46,7 @@ static char *check_hashmap(const char *command)
 
 int	getpath(struct s_ncommand *command, struct s_env *env)
 {
-	const char	**path;
-	const char	*path_var;
+	const char	*path;
 
 	if (ft_strchr(command->command, '/'))
 	{
@@ -57,11 +56,9 @@ int	getpath(struct s_ncommand *command, struct s_env *env)
 	command->path = check_hashmap(command->command);
 	if (command->path)
 		return (0);
-	path_var = get_env_var(env, "PATH");
-	if (! path_var)
-		return (127);
-	path = gc_split(path_var, ':');
+	path = get_env_var(env, "PATH");
 	if (! path)
-		return (2);
+		return (127);
 	command->path = find_in_path(command->command, path);
+	return (0);
 }

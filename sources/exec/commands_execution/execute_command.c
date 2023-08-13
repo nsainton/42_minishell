@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/12 09:49:42 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/12 10:45:50 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@ int	execute_commands(struct s_ncommand *commands, struct s_env *env)
 		clear_fdlist();
 		return (1);
 	}
-	print_commands(commands);
-	if (make_redirections(commands + 1))
+	//print_commands(commands);
+	/*
+	if (make_redirections((commands + 0)->redirs, (commands + 0)->heredocs))
 	{
 		ft_printf("Wtf bruv, can't even redir ? U really shell ?\n");
 		clear_fdlist();
 		return (1);
 	}
-	print_fdlist();
+	*/
+	//print_fdlist();
 	clear_fdlist();
 	return (0);
 }
