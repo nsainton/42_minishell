@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 12:31:51 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/12 12:34:46 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:26:21 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	hash_map_delete(struct s_hashmap *map, struct s_list *elem)
 {
 	struct s_list	**elem_list;
 
-	elem_list = get_hash_list(map, elem);
+	elem_list = get_hash_list(map, elem->content);
 	if (! elem_list)
 		return ;
 	del_node(elem_list, elem, map->del);
@@ -47,9 +47,9 @@ void	hash_map_clear(struct s_hashmap *map)
 		gc_lstclear(map->map + i, map->del);
 		i ++;
 	}
-	free(map->map);
+	free_node(map->map);
 	if (map->on_heap)
-		free(map);
+		free_node(map);
 }
 
 int	hash_map_add(struct s_hashmap *map, void *elem)
@@ -59,6 +59,6 @@ int	hash_map_add(struct s_hashmap *map, void *elem)
 	node = gc_lstnew(elem);
 	if (! node)
 		return (1);
-	ft_lstadd_front(get_hash_list(map, elem), elem);
+	ft_lstadd_front(get_hash_list(map, elem), node);
 	return (0);
 }
