@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/12 10:45:50 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:55:47 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 int	execute_commands(struct s_ncommand *commands, struct s_env *env)
 {
 	size_t	commands_nb;
+	size_t	i;
+	int		err;
 
 	commands_nb = tablen(commands, sizeof * commands);
 	if (make_pipes(commands) || heredocs(commands, commands_nb, env))
@@ -47,6 +49,18 @@ int	execute_commands(struct s_ncommand *commands, struct s_env *env)
 	}
 	*/
 	//print_fdlist();
+	i = 0;
+	while (i < commands_nb)
+	{
+		err = getpath(commands + i, env);
+		if (err == ALLOCATION_ERROR)
+			break ;
+		if (err == 127)
+			ft_printf("PATH variable not found\n");
+		else
+			ft_printf("This is the command path : %s\n", (commands + i)->path);
+		i ++;
+	}
 	clear_fdlist();
 	return (0);
 }
