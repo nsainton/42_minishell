@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 09:25:47 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 10:27:29 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:19:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,9 @@ int	main(int argc, char **argv)
 			hash_map_clear(map);
 			return (1);
 		}
-		ft_printf("I looked for : %s and found : %s\n", *(argv + i), *(char *)elem->content);
+//		ft_printf("This is my element content : %s\n", (char *)elem->content);
+		ft_putendl_fd((char *)elem->content, 1);
+		ft_printf("I looked for : %s and found : %s\n", *(argv + i), (char *)elem->content);
 		ft_printf("-------Before deletion-------\n");
 		print_map(print_elem);
 		hash_map_delete(map, elem);
@@ -117,6 +119,7 @@ int	main(int argc, char **argv)
 		i ++;
 	}
 	hash_map_clear(map);
+	free_gc();
 	printf("Bonjour\n");
 	return 0;
 }
