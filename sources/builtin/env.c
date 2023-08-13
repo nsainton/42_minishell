@@ -6,11 +6,68 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/13 16:25:10 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 17:23:46 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	compare_names(const char *env_var, const char *identifier)
+{
+	size_t	i;
+
+	i = 0;
+	while (*(env_var + i) && *(env_var + i) != '=')
+		i ++;
+	return (ft_strncmp(env_var, identifier, i - 1));
+}
+
+static char *get_env_var(struct s_tab *env, const char *identifier)
+{
+	char	**env_vars;
+
+	if (! identifier)
+		return (NULL);
+	env_vars = env->zones;
+	while (*env_vars)
+	{
+		if (! compare_names(*env_vars, identifier))
+			return (*env_vars);
+		env_vars ++;
+	}
+	return (NULL);
+}
+
+static char	*get_var_value(struct s_tab *env, const char *identifier)
+{
+	const char	*var;
+
+	var = get_env_var(env, identifier);
+	if (! var)
+		return (NULL);
+	while (*var && *var != '=')
+		var ++;
+	return (var + (*var == '='));
+}
+/*
+	Reminder : A valid name is a name beginning by an alphabetical character
+	or an underscore and containing only alphanumerical characters or
+	underscores.
+	We check until the '=' sign if our variable is a valid identifier
+*/
+static int	valid_env_var(const char *var)
+{
+	if (! ft_isalpha(*var) && *var != '_')
+		return (0);
+	var ++;
+	while (*var && *var != '=')
+	{
+		if (! ft_isalnum(*var) && *var != '_')
+			return (0);
+		var ++;
+	}
+	return ((*var == '='));
+}
 
 static int	fill_env(struct s_tab *env, const char **envp)
 {
@@ -49,7 +106,8 @@ static int	allocate_room(struct s_env **env)
 		return (ALLOCATION_ERROR);
 	if (allocate_tab(tmp->env_list, BASE_ENV_SIZE, sizeof (char *)))
 		return (ALLOCATION_ERROR);
-	return (allocate_tab(tmp->export_list, BASE_ENV_SIZE, sizeof (char *)));
+	return (allocate_tab(tmp->export_list, BASE_ENV_SIZE, \
+	sizeof (char *)));
 }
 
 struct s_env	*create_env(const char **envp)
@@ -80,6 +138,7 @@ struct s_env	*create_env(const char **envp)
 	return (my_env);
 }
 
+/*
 t_list	*copy_env(char **envp)
 {
 	int		i;
@@ -96,12 +155,23 @@ t_list	*copy_env(char **envp)
 	}
 	return (list_env);
 }
+*/
 
-int	print_env(t_data *d, t_command *cmd)
+void	print_env(struct s_tab *env)
 {
-	d->errnum = 0;
-	/* if (d->env->is_empty)
-		return (SUCCESS); */
+	char	**env_variables;
+	size_t	i;
+
+	env_variables = (char **)env->zones;
+	i = 0;
+	while (i < env->len)
+	{
+		ft_putendl_fd(*(env_variables + i), STDOUT_FILENO);
+		i ++;
+	}
+}
+
+/*
 	if (cmd->args[0])
 	{
 		ft_dprintf(2, "env : minishell doesn't support arguments or options\n");
@@ -111,7 +181,9 @@ int	print_env(t_data *d, t_command *cmd)
 		print_list_prefix(d->env->list_env, NULL);
 	return (SUCCESS);
 }
+*/
 
+/*
 t_list 	*create_false_env(void)
 {
 	t_list	*my_env;
@@ -123,6 +195,7 @@ t_list 	*create_false_env(void)
 		exit_free_gc(ALLOCATION_ERROR);
 	return (my_env);
 }
+*/
 
 /*
 int	unset_env(t_data *d, t_command *cmd)
@@ -158,6 +231,7 @@ int	unset_env(t_data *d, t_command *cmd)
 }
 */
 
+/*
 void	delete_env_line(t_list *start, t_list *to_del)
 {
 	while (start->next != to_del)
@@ -165,3 +239,4 @@ void	delete_env_line(t_list *start, t_list *to_del)
 	start->next = to_del->next;
 	to_del->content = 0;
 }
+*/
