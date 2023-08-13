@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:16:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 10:19:29 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:31:36 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,13 @@ static int	is_exec(const char *filepath)
 }
 
 /*
-	Need to comment this code to ensure everything is thought through
+	First, if path begins by a semicolumn, we look for an exec in the
+	current directory. Then for each directory in path, we compute
+	the "len" of directory name and look for a command in this directory.
+	If the directory name is not right, the command will just not be found.
+	If the command is an executable, we return it right away, if not we
+	store it (if there was no command before) and look for an executable
+	into the remaining directories of the path.
 */
 char	*find_in_path(const char *path, const char *command)
 {
