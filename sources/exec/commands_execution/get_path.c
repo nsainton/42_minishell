@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 10:48:37 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 11:58:37 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/13 12:29:17 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,20 @@ static int	is_fullname(const char *path, const char *name)
 static size_t	hash(const void *s)
 {
 	const char	*string;
+	const char	*name;
 	size_t		code;
 	size_t		i;
 
 	i = 0;
 	code = 0;
 	string = (char *)s;
-	while (*(string + i))
+	name = ft_strrchr(string, '/');
+	name += (name != NULL);
+	if (! name)
+		name = string;
+	while (*(name + i))
 	{
-		code += *(string + i) * i;
+		code += *(name + i) * i;
 		i ++;
 	}
 	return (code);
