@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/14 11:12:30 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:30:54 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ static int	compare_names(const char **var_address, const char *identifier)
 	while (*(env_var + i) && *(env_var + i) != '=')
 		i ++;
 	return (ft_strncmp(env_var, identifier, i - 1));
+}
+
+static void	del_string_tab(void *str)
+{
+	free_node(*(char **)str);
 }
 
 static char *get_env_var(struct s_tab *env, const char *identifier)
@@ -44,7 +49,7 @@ static char *get_env_var(struct s_tab *env, const char *identifier)
 
 static char	*get_var_value(struct s_tab *env, const char *identifier)
 {
-	const char	*var;
+	char	*var;
 
 	var = get_env_var(env, identifier);
 	if (! var)
@@ -53,6 +58,7 @@ static char	*get_var_value(struct s_tab *env, const char *identifier)
 		var ++;
 	return (var + (*var == '='));
 }
+
 /*
 	Reminder : A valid name is a name beginning by an alphabetical character
 	or an underscore and containing only alphanumerical characters or
@@ -126,11 +132,43 @@ static int	set_var_value(struct s_tab *env_list, const char *identifier, const c
 	varlen = ft_strcat(var, identifier);
 	varlen += ft_strcat(var + varlen, "=");
 	ft_strcat(var + varlen, value);
-	index = get_elem_index(env_list, identifier, compare_names);
+	return (set_var(env_list, var));
+}
+
+static int	set_var(struct s_tab *env_list, const char *var)
+{
+	size_t	index;
+
+	index = get_elem_index(env_list, var, compare_names);
 	if (index >= tab->len)
-		return (add_tab(env_list, var));
-	replace_tab_elem(env_list, &var, index);
+		return (add_tab(env_list, &var));
+	replace_tab_elem(env_list, &var, index, del_string_tab);
 	return (0);
+}
+/*
+	We allocate shlvl / 10 + 2 here to have the right number of digits
+	and keep a room for the null terminator.
+*/
+static int	set_shlvl(struct s_tab *env_list)
+{
+	char	*tmp;
+	char	*newlvl;
+	int		shlvl;
+	size_t	len;
+
+	tmp = get_var_value(env_list, "SHLVL");
+	if (! tmp)
+	{
+		tmp = gc_strdup("SHLVL=1");
+		return ((! tmp && add_tab(env_list, &tmp) * ALLOCATION_ERROR));
+	}
+	shlvl=ft_atoi(tmp) + 1;
+	newlvl = gc_calloc(ft_strlen("SHLVL=") + shlvl / 10 + 2);
+	if (! newlvl)
+		return (ALLOCATION_ERROR);
+	len = ft_strcat(newlvl, "SHLVL=");
+	put_nb_tab(shlvl, newlvl + len, DEC);
+	return (
 }
 
 static int	default_vars(struct s_tab *env_list)
