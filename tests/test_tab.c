@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:36:07 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 10:52:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:00:33 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,17 @@ int	main(int argc, char **argv)
 	printf("The tab has been replaced\n");
 	tab_iter(&tab, print_string);
 	printf("This was the tab\n");
+	index = 0;
+	while (index < (size_t)argc)
+	{
+		printf("-------Before deletion--------\n");
+		tab_iter(&tab, print_string);
+		del_tab_elem(&tab, *(argv + index), compare_strings, del_string_tab);
+		printf("---------After deletion--------\n");
+		tab_iter(&tab, print_string);
+		printf("-------------------------------\n");
+		index ++;
+	}
 	free_gc();
 	return (0);
 }
