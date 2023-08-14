@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 16:51:12 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 16:20:00 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:12:48 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void (*del)(void *))
 	i = 0;
 	while (i < tab->len)
 	{
-		if (cmp(tab->tab + i * tab->elemsize, elem))
+		if (! cmp(tab->tab + i * tab->elemsize, elem))
 			return (delone_tab(tab, i, del));
 		i ++;
 	}
@@ -72,13 +72,12 @@ int	copy_tab(struct s_tab *newtab, const struct s_tab *oldtab)
 {
 	void	*newzones;
 
+	ft_memcpy(newtab, oldtab, sizeof * newtab);
 	newzones = gccalloc(oldtab->size, oldtab->elemsize);
 	if (! newzones)
 		return (1);
 	ft_memcpy(newzones, oldtab->tab, oldtab->len * oldtab->elemsize);
 	newtab->tab = newzones;
-	newtab->size = oldtab->size;
-	newtab->len = oldtab->len;
 	return (0);
 }
 
@@ -90,6 +89,9 @@ int	copy_tab(struct s_tab *newtab, const struct s_tab *oldtab)
 	we insert A[i] in the sorted array A[1..i-1].
 	To do so we compare our element to the elements before it and check
 	if they are sorted or no. 
+	To insert our element, we move the number of elements we need one
+	position forward to leave a slot available for the element we want
+	to insert
 	In the original version, it is an integer that is used and can thus
 	reach -1 to signal that the element should be inserted at the beginning
 	of the array.
@@ -116,8 +118,10 @@ int	insertion_sort_tab(struct s_tab *tab, int (*cmp)())
 			j --;
 		if (j || cmp(tab->tab + i * tab->elemsize, tab->tab + j * tab->elemsize) >= 0)
 			j ++;
-		ft_memmove(tab->tab + i * tab->elemsize, tab->tab + j * tab->elemsize, (i - j) * tab->elemsize);
+		ft_memmove(tab->tab + (j + 1) * tab->elemsize, tab->tab + j * tab->elemsize, \
+		(i - j) * tab->elemsize);
 		ft_memcpy(tab->tab + j * tab->elemsize, tmp, tab->elemsize);
+		i ++;
 	}
 	return (0);
 }
