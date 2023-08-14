@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:36:07 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 17:22:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:30:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,12 +193,17 @@ int	main(int argc, char **argv)
 	{
 		printf("-------Before deletion--------\n");
 		tab_iter(&cpy, print_string);
-		del_tab_elem(&tab, *(argv + index), compare_strings, del_string_tab);
+		del_tab_elem(&cpy, *(argv + index), compare_strings, NULL);
 		printf("---------After deletion--------\n");
 		tab_iter(&cpy, print_string);
 		printf("-------------------------------\n");
 		index ++;
 	}
+	printf("--------------COPY TAB has been deleted-------------\n");
+	printf("--------------Here is the original-----------------\n");
+	printf("--------------Should be untouched\n");
+	tab_iter(&tab, print_string);
+	printf("______________________________________________________\n");
 	free_gc();
 	return (0);
 }
