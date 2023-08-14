@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:36:07 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 10:03:58 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 10:35:07 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,20 @@ static void	tab_iter(const struct s_tab *tab, void (*func)())
 	}
 }
 
-void	print_string(const char *s)
+void	print_string(const char **s)
 {
-	printf("%s\n", s);
+	printf("%s\n", *s);
+}
+
+int	compare_strings(const char **s1, const char *s)
+{
+	return (ft_strcmp(*s1, s));
 }
 
 int	main(int argc, char **argv)
 {
 	struct s_tab	tab;
+	char			*tmp;
 	size_t			index;
 	size_t			elem_index;
 
@@ -56,7 +62,9 @@ int	main(int argc, char **argv)
 	index = 0;
 	while (index < (size_t)argc)
 	{
-		if (add_tab(&tab, *(argv + index)))
+		tmp = gc_strdup(*(argv + index));
+		printf("This is the temp variable : %s\n", tmp);
+		if (! tmp || add_tab(&tab, &tmp))
 			exit_error(MSG, 1);
 		index ++;
 	}
@@ -66,7 +74,7 @@ int	main(int argc, char **argv)
 	index = 0;
 	while (index < (size_t)argc)
 	{
-		elem_index = get_elem_index(&tab, *(argv + index), ft_strcmp);
+		elem_index = get_elem_index(&tab, *(argv + index), compare_strings);
 		if (elem_index != index)
 			printf("Elem : %s is misplaced. Expected %ld and got %ld\n", *(argv + index), index, elem_index);
 		else
