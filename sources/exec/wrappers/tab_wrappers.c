@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 16:51:12 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 16:11:31 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:18:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,19 @@ int	copy_tab(struct s_tab *newtab, const struct s_tab *oldtab)
 }
 
 /*
-static void	insert(
-*/
-/*
 	Arbitrary size to sort the array on the stack
+	Here is recalled the functionning of insertion (which has
+	a worst case complexity of O(n^2) and a best case complexity of O(n))
+	We iterate through the elements of our array and for each i in A[2:n]
+	we insert A[i] in the sorted array A[1..i-1].
+	To do so we compare our element to the elements before it and check
+	if they are sorted or no. 
+	In the original version, it is an integer that is used and can thus
+	reach -1 to signal that the element should be inserted at the beginning
+	of the array.
+	In this version, such thing is impossible because the length of our array
+	is stored as a size_t. However, we make a last comparison to ensure that we
+	don't miss the minimum if that is the elemen't we're looking at
 */
 int	insertion_sort_tab(struct s_tab *tab, int (*cmp)())
 {
