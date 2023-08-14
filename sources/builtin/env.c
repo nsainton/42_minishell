@@ -6,17 +6,19 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/14 09:35:07 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:12:30 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	compare_names(const char *env_var, const char *identifier)
+static int	compare_names(const char **var_address, const char *identifier)
 {
-	size_t	i;
+	size_t		i;
+	const char	*env_var;
 
 	i = 0;
+	env_var = *var_address;
 	while (*(env_var + i) && *(env_var + i) != '=')
 		i ++;
 	return (ft_strncmp(env_var, identifier, i - 1));
@@ -33,8 +35,8 @@ static char *get_env_var(struct s_tab *env, const char *identifier)
 	env_vars = env->zones;
 	while (i < env->len)
 	{
-		if (! compare_names(*(env_vars + i), identifier))
-			return (*env_vars);
+		if (! compare_names(env_vars + i, identifier))
+			return (*(env_vars + i));
 		i ++;
 	}
 	return (NULL);
@@ -85,7 +87,7 @@ static int	fill_env(struct s_tab *env, const char **envp)
 			continue ;
 		}
 		env_node = gc_strdup(*(envp + i));
-		if (! env_node || add_tab(env, env_node))
+		if (! env_node || add_tab(env, &env_node))
 			return (ALLOCATION_ERROR);
 		i ++;
 	}
@@ -106,9 +108,9 @@ static int	allocate_room(struct s_env **env)
 	tmp->export_list = gccalloc(1, sizeof * tmp->export_list);
 	if (! tmp->export_list)
 		return (ALLOCATION_ERROR);
-	if (allocate_tab(tmp->env_list, BASE_ENV_SIZE, sizeof (char *)))
+	if (allocate_tab(tmp->env_list, ENV_SIZE, sizeof (char *)))
 		return (ALLOCATION_ERROR);
-	return (allocate_tab(tmp->export_list, BASE_ENV_SIZE, \
+	return (allocate_tab(tmp->export_list, ENV_SIZE, \
 	sizeof (char *)));
 }
 
@@ -127,7 +129,7 @@ static int	set_var_value(struct s_tab *env_list, const char *identifier, const c
 	index = get_elem_index(env_list, identifier, compare_names);
 	if (index >= tab->len)
 		return (add_tab(env_list, var));
-	replace_tab_elem(env_list, var, index);
+	replace_tab_elem(env_list, &var, index);
 	return (0);
 }
 
