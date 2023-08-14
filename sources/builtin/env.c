@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/13 17:23:46 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 09:35:07 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@ static int	compare_names(const char *env_var, const char *identifier)
 static char *get_env_var(struct s_tab *env, const char *identifier)
 {
 	char	**env_vars;
+	size_t	i;
 
 	if (! identifier)
 		return (NULL);
+	i = 0;
 	env_vars = env->zones;
-	while (*env_vars)
+	while (i < env->len)
 	{
-		if (! compare_names(*env_vars, identifier))
+		if (! compare_names(*(env_vars + i), identifier))
 			return (*env_vars);
-		env_vars ++;
+		i ++;
 	}
 	return (NULL);
 }
@@ -55,7 +57,7 @@ static char	*get_var_value(struct s_tab *env, const char *identifier)
 	underscores.
 	We check until the '=' sign if our variable is a valid identifier
 */
-static int	valid_env_var(const char *var)
+static int	valid_identifier(const char *var)
 {
 	if (! ft_isalpha(*var) && *var != '_')
 		return (0);
@@ -66,7 +68,7 @@ static int	valid_env_var(const char *var)
 			return (0);
 		var ++;
 	}
-	return ((*var == '='));
+	return (1);
 }
 
 static int	fill_env(struct s_tab *env, const char **envp)
@@ -77,7 +79,7 @@ static int	fill_env(struct s_tab *env, const char **envp)
 	i = 0;
 	while (*(envp + i))
 	{
-		if (! valid_env_var(*(envp + i)))
+		if (! (valid_identifier(*(envp + i)) && ft_strchr(*(envp + i), '=')))
 		{
 			i ++;
 			continue ;
@@ -108,6 +110,33 @@ static int	allocate_room(struct s_env **env)
 		return (ALLOCATION_ERROR);
 	return (allocate_tab(tmp->export_list, BASE_ENV_SIZE, \
 	sizeof (char *)));
+}
+
+static int	set_var_value(struct s_tab *env_list, const char *identifier, const char *value)
+{
+	char	*var;
+	size_t	index;
+	size_t	varlen;
+
+	var = gccalloc(ft_strlen(identifier) + ft_strlen(value) + 1);
+	if (! var)
+		return (ALLOCATION_ERROR);
+	varlen = ft_strcat(var, identifier);
+	varlen += ft_strcat(var + varlen, "=");
+	ft_strcat(var + varlen, value);
+	index = get_elem_index(env_list, identifier, compare_names);
+	if (index >= tab->len)
+		return (add_tab(env_list, var));
+	replace_tab_elem(env_list, var, index);
+	return (0);
+}
+
+static int	default_vars(struct s_tab *env_list)
+{
+	char	*tmp;
+	int		shlvl;
+
+	tmp = get_var_value(env_list, "SHLVL");
 }
 
 struct s_env	*create_env(const char **envp)
