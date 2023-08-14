@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 16:51:12 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 16:18:11 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:20:00 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	copy_tab(struct s_tab *newtab, const struct s_tab *oldtab)
 	newtab->tab = newzones;
 	newtab->size = oldtab->size;
 	newtab->len = oldtab->len;
+	return (0);
 }
 
 /*
