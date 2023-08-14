@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:36:07 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 10:35:07 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 10:38:27 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 #include <stdio.h>
 #define MSG "No mo mem bruv, can't reMEMber. Hahaha\nSee ya bruv"
 
+/*
+	This test teaches to remember that when storing a char * element into a
+	struct s_tab object, you have to give the char * by address (thus a
+	char ** pointer). This also means that all the comparison functions and
+	deletions function will have to take into account that they will receive
+	a char **. Cast and dereference if needed
+*/
 _Noreturn void exit_error(const char *message, int error)
 {
 	printf("%s\n", message);
