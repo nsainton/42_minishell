@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/14 11:52:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 12:22:43 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ static char *get_env_var(struct s_tab *env, const char *identifier)
 	if (! identifier)
 		return (NULL);
 	i = 0;
-	env_vars = env->zones;
+	env_vars = env->tab;
 	while (i < env->len)
 	{
-		if (! compare_names(env_vars + i, identifier))
+		if (! compare_names((const char **)env_vars + i, identifier))
 			return (*(env_vars + i));
 		i ++;
 	}
@@ -126,7 +126,7 @@ static int	set_var(struct s_tab *env_list, const char *var)
 	size_t	index;
 
 	index = get_elem_index(env_list, var, compare_names);
-	if (index >= tab->len)
+	if (index >= env_list->len)
 		return (add_tab(env_list, &var));
 	replace_tab_elem(env_list, &var, index, del_string_tab);
 	return (0);
@@ -136,10 +136,10 @@ static int	set_var_value(struct s_tab *env_list, \
 const char *identifier, const char *value)
 {
 	char	*var;
-	size_t	index;
 	size_t	varlen;
 
-	var = gccalloc(ft_strlen(identifier) + ft_strlen(value) + 1);
+	var = gccalloc(ft_strlen(identifier) + ft_strlen(value) + 1, \
+	sizeof * var);
 	if (! var)
 		return (ALLOCATION_ERROR);
 	varlen = ft_strcat(var, identifier);
@@ -152,28 +152,41 @@ const char *identifier, const char *value)
 	We allocate shlvl / 10 + 2 here to have the right number of digits
 	and keep a room for the null terminator.
 */
-static int	set_shlvl(struct s_tab *env_list)
+static int	set_shlvl(struct s_tab *env_list, const int init)
 {
-	char	*tmp;
 	char	*newlvl;
 	int		shlvl;
 	size_t	len;
+	char	*shlvl_value;
 
-	tmp = get_var_value(env_list, "SHLVL");
-	if (! tmp)
-	{
-		tmp = gc_strdup("SHLVL=1");
-		return ((! tmp && add_tab(env_list, &tmp) * ALLOCATION_ERROR));
-	}
-	shlvl=ft_atoi(tmp);
-	if (shlvl < 0)
+	shlvl_value = get_var_value(env_list, "SHLVL");
+	if (! shlvl_value)
 		shlvl = 0;
-	newlvl = gc_calloc(ft_strlen("SHLVL=") + shlvl / 10 + 2);
+	else
+		shlvl=ft_atoi(shlvl_value);
+	if (shlvl < 0 && init)
+		shlvl = 0;
+	newlvl = gccalloc(ft_strlen("SHLVL=") + shlvl / 10 + 2, sizeof * newlvl);
 	if (! newlvl)
 		return (ALLOCATION_ERROR);
 	len = ft_strcat(newlvl, "SHLVL=");
 	put_nb_tab(shlvl, newlvl + len, DEC);
 	return (set_var(env_list, newlvl));
+}
+
+static int	init_shlvl(struct s_tab *env_list)
+{
+	char	*shlvl_value;
+	int		err;
+
+	shlvl_value = get_var_value(env_list, "SHLVL");
+	if (! shlvl_value)
+	{
+		shlvl_value = gc_strdup("SHLVL=1");
+		err = (! shlvl_value && add_tab(env_list, &shlvl_value));
+		return (err * ALLOCATION_ERROR);
+	}
+	return (set_shlvl(env_list, 1));
 }
 
 /*
@@ -199,14 +212,30 @@ static int	default_vars(struct s_tab *env_list)
 {
 	char	*tmp;
 
-	if (set_shlvl(env_list))
+	if (init_shlvl(env_list))
 		return (1);
 	tmp = get_var_value(env_list, "PWD");
 	if (! tmp && set_pwd(env_list))
 		return (1);
 	tmp = get_var_value(env_list, "_");
-	if (! tmp && set_var_value("_", "/usr/bin/env"))
+	if (! tmp && set_var_value(env_list, "_", "/usr/bin/env"))
 		return (1);
+	return (0);
+}
+
+static int	export_list(struct s_tab *env_list, struct s_tab *export_list)
+{
+	char	*var;
+	size_t	i;
+
+	i = 0;
+	while (i < env_list->len)
+	{
+		var = gc_strdup(*(char **)(env_list->tab + i * env_list->elemsize));
+		if (! var || add_tab(export_list, &var))
+			return (1);
+		i ++;
+	}
 	return (0);
 }
 
@@ -222,20 +251,7 @@ struct s_env	*create_env(const char **envp)
 		exit_free_gc(ALLOCATION_ERROR);
 	if (export_list(env->env_list, env->export_list))
 		exit_free_gc(ALLOCATION_ERROR);
-	/*
-	{
-		my_env->list_env = basic_env();
-		add_env_var("PWD=", my_env);
-		add_env_var("OLDPWD=.", my_env);
-		set_new_pwd(my_env);
-	}
-	else
-	{
-		my_env->is_empty = 0;
-		my_env->list_env = copy_env(envp);
-	}
-	*/
-	return (my_env);
+	return (env);
 }
 
 /*
@@ -262,7 +278,7 @@ void	print_env(struct s_tab *env)
 	char	**env_variables;
 	size_t	i;
 
-	env_variables = (char **)env->zones;
+	env_variables = (char **)env->tab;
 	i = 0;
 	while (i < env->len)
 	{
