@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/14 11:30:54 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:44:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ static int	fill_env(struct s_tab *env, const char **envp)
 	i = 0;
 	while (*(envp + i))
 	{
-		if (! (valid_identifier(*(envp + i)) && ft_strchr(*(envp + i), '=')))
+		if (! (valid_identifier(*(envp + i)) && \
+		ft_strchr(*(envp + i), '=')))
 		{
 			i ++;
 			continue ;
@@ -120,7 +121,19 @@ static int	allocate_room(struct s_env **env)
 	sizeof (char *)));
 }
 
-static int	set_var_value(struct s_tab *env_list, const char *identifier, const char *value)
+static int	set_var(struct s_tab *env_list, const char *var)
+{
+	size_t	index;
+
+	index = get_elem_index(env_list, var, compare_names);
+	if (index >= tab->len)
+		return (add_tab(env_list, &var));
+	replace_tab_elem(env_list, &var, index, del_string_tab);
+	return (0);
+}
+
+static int	set_var_value(struct s_tab *env_list, \
+const char *identifier, const char *value)
 {
 	char	*var;
 	size_t	index;
@@ -135,16 +148,6 @@ static int	set_var_value(struct s_tab *env_list, const char *identifier, const c
 	return (set_var(env_list, var));
 }
 
-static int	set_var(struct s_tab *env_list, const char *var)
-{
-	size_t	index;
-
-	index = get_elem_index(env_list, var, compare_names);
-	if (index >= tab->len)
-		return (add_tab(env_list, &var));
-	replace_tab_elem(env_list, &var, index, del_string_tab);
-	return (0);
-}
 /*
 	We allocate shlvl / 10 + 2 here to have the right number of digits
 	and keep a room for the null terminator.
@@ -168,15 +171,37 @@ static int	set_shlvl(struct s_tab *env_list)
 		return (ALLOCATION_ERROR);
 	len = ft_strcat(newlvl, "SHLVL=");
 	put_nb_tab(shlvl, newlvl + len, DEC);
-	return (
+	return (set_var(env_list, newlvl));
+}
+
+/*
+	We allocate PATH_MAX + 5 and give cwd + 4 to getcwd
+	to keep room for the "PWD=" declaration we need at the
+	beginning of the env variable
+*/
+static int	set_pwd(struct s_tab *env_list)
+{
+	char	cwd[PATH_MAX + 5];
+	char	*pwd;
+
+	if (! getcwd(cwd + 4, PATH_MAX + 1))
+		return (1);
+	ft_memcpy(cwd, "PWD=", ft_strlen("PWD="));
+	pwd = gc_strdup(cwd);
+	if (! pwd)
+		return (1);
+	return (set_var(env_list, pwd));
 }
 
 static int	default_vars(struct s_tab *env_list)
 {
 	char	*tmp;
-	int		shlvl;
 
-	tmp = get_var_value(env_list, "SHLVL");
+	if (set_shlvl(env_list))
+		return (1);
+	tmp = get_var_value(env_list, "PWD");
+	if (! tmp && set_pwd(env_list))
+		return (1);
 }
 
 struct s_env	*create_env(const char **envp)
