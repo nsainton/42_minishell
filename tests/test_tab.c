@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:36:07 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 10:38:27 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 10:52:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 	deletions function will have to take into account that they will receive
 	a char **. Cast and dereference if needed
 */
-_Noreturn void exit_error(const char *message, int error)
+static _Noreturn void exit_error(const char *message, int error)
 {
 	printf("%s\n", message);
 	free_gc();
@@ -42,14 +42,49 @@ static void	tab_iter(const struct s_tab *tab, void (*func)())
 	}
 }
 
-void	print_string(const char **s)
+static void	print_string(const char **s)
 {
 	printf("%s\n", *s);
 }
 
-int	compare_strings(const char **s1, const char *s)
+static int	compare_strings(const char **s1, const char *s)
 {
 	return (ft_strcmp(*s1, s));
+}
+
+static void	del_string_tab(void *str)
+{
+	free_node(*(char **)str);
+}
+
+static char	*gc_strmapi(const char *str, int (*f)(int))
+{
+	char			*ns;
+	unsigned int	i;
+
+	ns = gccalloc(ft_strlen(str) + 1, sizeof * str);
+	if (! ns)
+		return (NULL);
+	i = 0;
+	while (*(str + i))
+	{
+		*(ns + i) = f(*(str + i));
+		i ++;
+	}
+	return (ns);
+}
+
+static int	replace_string(struct s_tab *tab, size_t index)
+{
+	char	*ns;
+	char	*s;
+
+	s = *(char **)(tab->tab + index * tab->elemsize);
+	ns = gc_strmapi(s, ft_toupper);
+	if (! ns)
+		return (1);
+	replace_tab_elem(tab, &ns, index, del_string_tab);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -88,6 +123,16 @@ int	main(int argc, char **argv)
 			printf("Everything in place with elem %s at index %ld\n", *(argv + index), index);
 		index ++;
 	}
+	index = 0;
+	while (index < (size_t)argc)
+	{
+		if (replace_string(&tab, index))
+			exit_error(MSG, 1);
+		index ++;
+	}
+	printf("The tab has been replaced\n");
+	tab_iter(&tab, print_string);
+	printf("This was the tab\n");
 	free_gc();
 	return (0);
 }
