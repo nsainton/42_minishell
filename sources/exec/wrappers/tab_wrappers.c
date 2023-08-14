@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 16:51:12 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 16:03:53 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:11:31 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void (*del)(void *))
 	tab->elemsize, (tab->len - index) * tab->elemsize);
 	tab->len --;
 }
+
 void	del_tab_elem(struct s_tab *tab, void *elem, int (*cmp)(), \
 void (*del)(void *))
 {
@@ -90,7 +91,6 @@ int	insertion_sort_tab(struct s_tab *tab, int (*cmp)())
 {
 	size_t	i;
 	size_t	j;
-	int		comp;
 	char	tmp[300];
 
 	if (tab->len < 1)
@@ -102,14 +102,12 @@ int	insertion_sort_tab(struct s_tab *tab, int (*cmp)())
 	{
 		ft_memcpy(tmp, tab->tab + i * tab->elemsize, tab->elemsize);
 		j = i - 1;
-		comp = cmp(tab->tab + i * tab->elemsize, tab->tab + j * tab->elemsize);
 		while (j && cmp(tab->tab + i * tab->elemsize, tab->tab + j * tab->elemsize) < 0)
-		{
 			j --;
-			comp = cmp(tab->tab + i * tab->elemsize, tab->tab + j * tab->elemsize);
-		}
-		i ++;
-		if (comp >= 0 && j == i - 1)
-			continue ;
+		if (j || cmp(tab->tab + i * tab->elemsize, tab->tab + j * tab->elemsize) >= 0)
+			j ++;
+		ft_memmove(tab->tab + i * tab->elemsize, tab->tab + j * tab->elemsize, (i - j) * tab->elemsize);
+		ft_memcpy(tab->tab + j * tab->elemsize, tmp, tab->elemsize);
 	}
+	return (0);
 }
