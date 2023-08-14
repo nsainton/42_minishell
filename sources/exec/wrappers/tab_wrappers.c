@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 16:51:12 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 09:22:44 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 12:10:45 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void (*del)(void *))
 	ft_memcpy(zones + index * tab->elemsize, elem, tab->elemsize);
 }
 
-size_t	get_elem_index(struct s_tab *tab, void *elem, int (*cmp)())
+size_t	get_elem_index(struct s_tab *tab, const void *elem, int (*cmp)())
 {
 	void	*zones;
 	size_t	index;
