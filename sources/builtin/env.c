@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/14 12:22:43 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 12:49:17 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,16 @@ static int	set_var(struct s_tab *env_list, const char *var)
 	return (0);
 }
 
+/*
+	We allocate one more spot for the '=' sign
+*/
 static int	set_var_value(struct s_tab *env_list, \
 const char *identifier, const char *value)
 {
 	char	*var;
 	size_t	varlen;
 
-	var = gccalloc(ft_strlen(identifier) + ft_strlen(value) + 1, \
+	var = gccalloc(ft_strlen(identifier) + ft_strlen(value) + 2, \
 	sizeof * var);
 	if (! var)
 		return (ALLOCATION_ERROR);
@@ -183,7 +186,7 @@ static int	init_shlvl(struct s_tab *env_list)
 	if (! shlvl_value)
 	{
 		shlvl_value = gc_strdup("SHLVL=1");
-		err = (! shlvl_value && add_tab(env_list, &shlvl_value));
+		err = (! shlvl_value || add_tab(env_list, &shlvl_value));
 		return (err * ALLOCATION_ERROR);
 	}
 	return (set_shlvl(env_list, 1));
