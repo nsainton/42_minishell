@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 16:51:12 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 17:00:46 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 09:15:27 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void (*del)(void *))
 {
 	void	*zones;
 
-	zones = tab->zones;
+	zones = tab->tab;
 	if (del)
 		del(zones + index * tab->elemsize);
 	ft_memmove(zones + index * tab->elemsize, zones + (index + 1) * \
@@ -32,8 +32,21 @@ void (*del)(void *))
 	i = 0;
 	while (i < tab->len)
 	{
-		if (cmp(tab->zones + i * tab->elemsize, elem))
+		if (cmp(tab->tab + i * tab->elemsize, elem))
 			return (delone_tab(tab, i, del));
 		i ++;
 	}
+}
+
+void	replace_tab_elem(struct s_tab *tab, void *elem, const size_t index, \
+void (*del)(void *))
+{
+	void	*zones;
+
+	if (index >= tab->len)
+		return ;
+	zones = tab->tab;
+	if (del)
+		del(zones + index * tab->elemsize);
+	ft_memcpy(zones + index * tab->elemsize, elem, tab->elemsize);
 }
