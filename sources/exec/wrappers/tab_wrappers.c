@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 16:51:12 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 12:10:45 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:03:53 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,51 @@ size_t	get_elem_index(struct s_tab *tab, const void *elem, int (*cmp)())
 		index ++;
 	}
 	return (index);
+}
+
+int	copy_tab(struct s_tab *newtab, const struct s_tab *oldtab)
+{
+	void	*newzones;
+
+	newzones = gccalloc(oldtab->size, oldtab->elemsize);
+	if (! newzones)
+		return (1);
+	ft_memcpy(newzones, oldtab->tab, oldtab->len * oldtab->elemsize);
+	newtab->tab = newzones;
+	newtab->size = oldtab->size;
+	newtab->len = oldtab->len;
+}
+
+/*
+static void	insert(
+*/
+/*
+	Arbitrary size to sort the array on the stack
+*/
+int	insertion_sort_tab(struct s_tab *tab, int (*cmp)())
+{
+	size_t	i;
+	size_t	j;
+	int		comp;
+	char	tmp[300];
+
+	if (tab->len < 1)
+		return (0);
+	if (tab->elemsize > 300)
+		return (1);
+	i = 1;
+	while (i < tab->len)
+	{
+		ft_memcpy(tmp, tab->tab + i * tab->elemsize, tab->elemsize);
+		j = i - 1;
+		comp = cmp(tab->tab + i * tab->elemsize, tab->tab + j * tab->elemsize);
+		while (j && cmp(tab->tab + i * tab->elemsize, tab->tab + j * tab->elemsize) < 0)
+		{
+			j --;
+			comp = cmp(tab->tab + i * tab->elemsize, tab->tab + j * tab->elemsize);
+		}
+		i ++;
+		if (comp >= 0 && j == i - 1)
+			continue ;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/14 12:49:17 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:37:52 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,10 @@ static int	set_shlvl(struct s_tab *env_list, const int init)
 		shlvl = 0;
 	else
 		shlvl=ft_atoi(shlvl_value);
-	if (shlvl < 0 && init)
+	if (shlvl <= 0 && init)
 		shlvl = 0;
+	else
+		shlvl ++;
 	newlvl = gccalloc(ft_strlen("SHLVL=") + shlvl / 10 + 2, sizeof * newlvl);
 	if (! newlvl)
 		return (ALLOCATION_ERROR);
@@ -290,6 +292,35 @@ void	print_env(struct s_tab *env)
 	}
 }
 
+static void	fill_var(char *var, const char *exported_var)
+{
+	size_t	i;
+	size_t	len;
+
+	i = 0;
+	while (*(exported_var + i) && *(exported_var + i) != '=')
+		i ++;
+	*var = 0;
+	i += (*(exported_var + i) == '=');
+	len = ft_strncat(var, exported_var, i);
+	if (*(exported_var + i - 1) != '=')
+		return ;
+	len += ft_strcat(var + len, "\"");
+	len += ft_strcat(var + len, exported_var + i);
+	ft_strcat(var + len, "\"");
+}
+
+void	print_exportlist(struct s_tab *export)
+{
+	char			**export_variables;
+	struct s_tab	tab;
+	size_t			i;
+	char			*new_var;
+
+	i = 0;
+	while (i < 
+	new_var = ft_calloc(
+}
 /*
 	if (cmd->args[0])
 	{
