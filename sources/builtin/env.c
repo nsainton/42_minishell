@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/14 11:44:12 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:52:36 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,9 @@ static int	set_shlvl(struct s_tab *env_list)
 		tmp = gc_strdup("SHLVL=1");
 		return ((! tmp && add_tab(env_list, &tmp) * ALLOCATION_ERROR));
 	}
-	shlvl=ft_atoi(tmp) + 1;
+	shlvl=ft_atoi(tmp);
+	if (shlvl < 0)
+		shlvl = 0;
 	newlvl = gc_calloc(ft_strlen("SHLVL=") + shlvl / 10 + 2);
 	if (! newlvl)
 		return (ALLOCATION_ERROR);
@@ -202,6 +204,10 @@ static int	default_vars(struct s_tab *env_list)
 	tmp = get_var_value(env_list, "PWD");
 	if (! tmp && set_pwd(env_list))
 		return (1);
+	tmp = get_var_value(env_list, "_");
+	if (! tmp && set_var_value("_", "/usr/bin/env"))
+		return (1);
+	return (0);
 }
 
 struct s_env	*create_env(const char **envp)
