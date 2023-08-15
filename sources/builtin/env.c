@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 09:57:19 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 10:09:46 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,13 +249,13 @@ struct s_env	*create_env(const char **envp)
 	struct s_env	*env;
 
 	if (allocate_room(&env))
-		exit_free_gc(ALLOCATION_ERROR);
+		return (NULL);
 	if (envp && fill_env(env->env_list, envp))
-		exit_free_gc(ALLOCATION_ERROR);
+		return (NULL);
 	if (default_vars(env->env_list))
-		exit_free_gc(ALLOCATION_ERROR);
+		return (NULL);
 	if (export_list(env->env_list, env->export_list))
-		exit_free_gc(ALLOCATION_ERROR);
+		return (NULL);
 	return (env);
 }
 
