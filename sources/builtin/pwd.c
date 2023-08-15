@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:48:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/08 13:41:00 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:53:21 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 char	*get_env_var(const struct s_env *my_env, char *var)
 {
 	char	*line;
@@ -33,7 +34,48 @@ char	*get_env_var(const struct s_env *my_env, char *var)
 	}
 	return (NULL);
 }
+*/
 
+static int	valid_arg(const char *argument)
+{
+	if (*argument != '-' || ! *(argument + 1))
+		return (1);
+	if (*(argument + 1) == '-' && ! *(argument + 2))
+		return (1);
+	return (0);
+}
+
+static int	print_pwd(void)
+{
+	char	current[PATH_MAX + 1];
+
+	if (! getcwd(current, PATH_MAX + 1))
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: %s\n", strerror(errno));
+		return (1);
+	}
+	ft_putendl_fd(current, STDOUT_FILENO);
+	return (0);
+}
+
+int	pwd(const char **arguments)
+{
+	while (*arguments)
+	{
+		if (**arguments != '-')
+			break ;
+		if (! valid_arg(*arguments))
+		{
+			ft_dprintf(STDERR_FILENO, \
+			"minishell: pwd: %s: invalid option\npwd: usage: pwd\n", \
+			*arguments);
+			return (1);
+		}
+		arguments ++;
+	}
+	return (print_pwd());
+}
+/*
 int	print_pwd(t_command *cmd)
 {
 	char	*line;
@@ -90,7 +132,9 @@ t_list	*get_env_line(t_env *my_env, char *var)
 	}
 	return (NULL);
 }
+*/
 
+/*
 int	is_option(char	*arg)
 {
 	int	i;
@@ -103,3 +147,4 @@ int	is_option(char	*arg)
 	else	
 		return (0);
 }
+*/
