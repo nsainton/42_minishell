@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 17:01:10 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/15 17:35:09 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:47:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	unset(const char **args, struct s_env *env)
 		compare_names, del_string_tab);
 		del_tab_elem(env->export_list, *args, \
 		compare_names, del_string_tab);
+		args ++;
 	}
 	return (0);
 }
