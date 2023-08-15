@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 12:28:36 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/15 13:15:59 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:46:56 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ int	main(int argc, char **argv)
 		exit_message(1, MSG);
 	ft_printf("export returned : %d\n", err);
 	ft_printf("%s|||||||||||||||||||||||||||||||||||||||||||||||||PRINTING EXPORT LIST|||||||||||||||||||||||||||||||||||||||||||||||||||||%s\n", BLU, CRESET);
+	if (export((const char **)null, environment))
+		exit_message(1, MSG);
+	ft_printf("This is the env list\n");
+	print_env(environment->env_list);
+	err = unset((const char **)argv + 1, environment);
+	ft_printf("unset returned : %d\n", err);
+	ft_printf("%s|||||||||||||||||||||||||||||||||||||||||||||||||PRINTING EXPORT LIST|||||||||||||||||||||||||||||||||||||||||||||||||||||%s\n", YELB, CRESET);
 	if (export((const char **)null, environment))
 		exit_message(1, MSG);
 	ft_printf("This is the env list\n");
