@@ -6,11 +6,44 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 11:08:07 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:10:31 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	set_oldpwd(struct s_env *env)
+{
+	const char	*directory;
+
+	directory = get_var_value(env->env_list, "PWD");
+	if (! directory)
+		directory = "";
+	if (set_var_value(env->env_list, "OLDPWD", directory))
+		return (ALLOCATION_ERROR);
+	if (set_var_value(env->export_list, "OLDPWD", directory))
+		return (ALLOCATION_ERROR);
+	return (0);
+}
+
+static int	set_wd(struct s_env *env)
+{
+	char	*owd;
+	char	current[PATH_MAX + 1];
+	int		errnum;
+
+	if (set_oldpwd(env))
+		return (ALLOCATION_ERROR);
+	owd = get_env_var(env, "OLDPWD");
+	if (! getcwd(current, PATH_MAX + 1))
+		return (1);
+	if (! get_env_var("PWD"))
+		return (0);
+	if (set_var_value(env->env_list, "PWD", current) || \
+	set_var_value(env->export_list, "PWD", current))
+		return (ALLOCATION_ERROR);
+	return (0);
+}
 
 static int	change_dir(const char *directory, struct s_env *environment)
 {
@@ -55,37 +88,4 @@ int	cd(const char **args, struct s_env *env)
 	if (! ft_strcmp(*args, "-"))
 		return (go_to_path(env, "OLDPWD"));
 	return (change_dir(*args, env));
-}
-
-static int	set_oldpwd(struct s_env *env)
-{
-	const char	*directory;
-
-	directory = get_var_value(env->env_list, "PWD");
-	if (! directory)
-		directory = "";
-	if (set_var_value(env->env_list, "OLDPWD", directory))
-		return (ALLOCATION_ERROR);
-	if (set_var_value(env->export_list, "OLDPWD", directory))
-		return (ALLOCATION_ERROR);
-	return (0);
-}
-
-int	set_wd(struct s_env *env)
-{
-	char	*owd;
-	char	current[PATH_MAX + 1];
-	int		errnum;
-
-	if (set_oldpwd(env))
-		return (ALLOCATION_ERROR);
-	owd = get_env_var(env, "OLDPWD");
-	if (! getcwd(current, PATH_MAX + 1))
-		return (1);
-	if (! get_env_var("PWD"))
-		return (0);
-	if (set_var_value(env->env_list, "PWD", current) || \
-	set_var_value(env->export_list, "PWD", current))
-		return (ALLOCATION_ERROR);
-	return (0);
 }
