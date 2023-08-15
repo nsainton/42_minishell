@@ -6,13 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 13:10:31 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:29:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	compare_names(const char **var_address, const char *identifier)
+int	compare_names(const char **var_address, const char *identifier)
 {
 	size_t		i;
 	const char	*env_var;
@@ -24,7 +24,7 @@ static int	compare_names(const char **var_address, const char *identifier)
 	return (ft_strncmp(env_var, identifier, i));
 }
 
-static void	del_string_tab(void *str)
+void	del_string_tab(void *str)
 {
 	free_node(*(char **)str);
 }
