@@ -6,12 +6,53 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:42:11 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 09:55:41 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:12:05 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	is_opt(const char *variable)
+{
+	if (*variable != '-')
+		return (0);
+	variable ++;
+	while (*variable)
+	{
+		if (*variable != 'n')
+			return (0);
+		variable ++;
+	}
+	return (1);
+}
+
+int	echo(const char **args)
+{
+	int	endl;
+
+	if (! (args && *args))
+	{
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		return (0);
+	}
+	endl = 1;
+	while (*args && is_opt(*args))
+	{
+		endl = 0;
+		args ++;
+	}
+	while (*args)
+	{
+		ft_printf("%s ", *args);
+		args ++;
+	}
+	ft_putchar_fd('\b', STDOUT_FILENO);
+	if (endl)
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	return (0);
+}
+
+/*
 int	print_echo(t_data *d, t_command *cmd)
 {
 	int	i;
@@ -56,7 +97,9 @@ int	is_true_optn(char *str)
 	}
 	return (1);
 }
+*/
 
+/*
 int	print_exit_status(t_data *d, t_command *cmd)
 {
 	if (cmd->args[0])
@@ -70,3 +113,4 @@ int	print_exit_status(t_data *d, t_command *cmd)
 		return (0);
 	}
 }
+*/
