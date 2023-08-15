@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 23:52:52 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 10:22:17 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:57:06 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ static t_ll	store_status(const t_ll new_status)
 }
 */
 
-static int	check_args(char **args, t_csizet len, int *errnum)
+static int	check_args(const char **args, const size_t len, int *errnum)
 {
-	int		err;
-	t_ll	status;
+	int				err;
+	long long int	status;
 
-	status = (t_ll)strtoll_errors(*args, DEC, &err);
+	status = (long long int)strtoll_errors(*args, DEC, &err);
 	ft_dprintf(STDERR_FILENO, "exit\n");
 	if (err)
 	{
@@ -58,7 +58,7 @@ static int	check_args(char **args, t_csizet len, int *errnum)
 	return (keep_exit_status(-1));
 }
 
-int	exit_builtin(char **args, int *errnum)
+int	exit_builtin(const char **args, int *errnum)
 {
 	size_t	len;
 
