@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/03 19:14:51 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/15 10:52:16 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,67 +16,67 @@ static int	change_dir(const char *directory, struct s_env *environment)
 {
 	if (chdir(directory))
 	{
-		ft_dprintf(2, "cd : %s : %s\n", directory, strerror(errno));
-		keep_exit_status(1);
+		ft_dprintf(STDERR_FILENO, "cd : %s : %s\n", directory, \
+		strerror(errno));
 		return (1);
 	}
-	set_new_pwd(environment);
-	return (0);
+	return (set_wd(environment));
 }
 
-int	cd(t_command *cmd, t_data *d)
+int	cd(const char **args, struct s_env *env)
 {
-	int	len;
+//	int	len;
 
-	if (!cmd->args[0])
-		return (go_home(d->env, 1));
-	len = ft_arrlen((void *) cmd->args);
-	if (len > 1)
+	if (! *args)
+		return (go_home(env, 1));
+	if (*(args + 1))
 	{
 		ft_dprintf(2, "cd : too many arguments\n");
 		return (1);
 	}
+	/*
 	if (cmd->args[0][0] == '~')
 	{
 		go_home(d->env, 0);
 		cmd->args[0][0] = '.';
 	}
-	if (cmd->args[0][0] == '-' && !cmd->args[0][1])
-		return (go_old_pwd(d->env));
-	if (cmd->args[0][0])
-		return (change_dir(cmd->args[0], d->env));
+	*/
+	if (! ft_strcmp(*args, "-"))
+		return (go_old_pwd(env));
+	return (change_dir(*args, env));
+}
+
+static int	set_oldpwd(struct s_env *env)
+{
+	const char	*directory;
+
+	directory = get_var_value(env->env_list, "PWD");
+	if (! directory)
+		directory = "";
+	if (set_var_value(env->env_list, "OLDPWD", directory))
+		return (ALLOCATION_ERROR);
+	if (set_var_value(env->export_list, "OLDPWD", directory))
+		return (ALLOCATION_ERROR);
 	return (0);
 }
 
-int	set_new_pwd(t_env *my_env)
+int	set_wd(struct s_env *env)
 {
-	char	*new_wd;
-	char	*old_wd;
+	char	*owd;
+	char	current[PATH_MAX + 1];
 	int		errnum;
 
-	errnum = 0;
-	old_wd = get_env_var(my_env, "PWD");
-	if (!old_wd)
-	{
-		add_env_var("PWD=.", my_env);
-		old_wd = get_env_var(my_env,"PWD");
-	}
-	new_wd = getcwd(NULL, 0);
-	if (!new_wd)
-	{
-		ft_dprintf(2, "%s\n", strerror(errno));
-		return (errno);
-	}
-	errnum = update_env_line(my_env, "PWD", new_wd);
-	if (get_env_var(my_env, "OLDPWD"))
-		errnum = update_env_line(my_env, "OLDPWD", old_wd);
-	else
-	{
-		add_env_var("OLDPWD=.", my_env);
-		errnum = update_env_line(my_env, "OLDPWD", old_wd);
-	}
-	free(new_wd);
-	return (errnum);
+	if (set_oldpwd(env))
+		return (ALLOCATION_ERROR);
+	owd = get_env_var(env, "OLDPWD");
+	if (! getcwd(current, PATH_MAX + 1))
+		return (1);
+	if (! get_env_var("PWD"))
+		return (0);
+	if (set_var_value(env->env_list, "PWD", current) || \
+	set_var_value(env->export_list, "PWD", current))
+		return (ALLOCATION_ERROR);
+	return (0);
 }
 
 int	go_home(t_env *my_env, int set_old)
@@ -104,7 +104,7 @@ int	go_home(t_env *my_env, int set_old)
 	}
 }
 
-int	go_old_pwd(t_env *env)
+int	go_old_pwd(struct s_env *env)
 {
 	char	*old_wd;
 	
@@ -114,7 +114,5 @@ int	go_old_pwd(t_env *env)
 		ft_dprintf(2, "cd : OLDPWD not set \n");
 		return (1);
 	}
-	if (change_dir(old_wd, env))
-		return (1);
-	return (0);
+	return (change_dir(old_wd, env));
 }
