@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 11:12:11 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 12:24:24 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,13 @@ static int	allocate_room(struct s_env **env)
 	sizeof (char *)));
 }
 
-static int	set_var(struct s_tab *env_list, const char *var)
+/*
+	This function is meant to be used only by the export
+	function directly and by set_var_value.
+	The export function will need it to export a variable
+	whose value is NULL
+*/
+int	set_var(struct s_tab *env_list, const char *var)
 {
 	size_t	index;
 
