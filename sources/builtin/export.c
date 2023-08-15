@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:14:46 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 12:56:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 13:17:06 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static int	export_var(const char *variable, struct s_env *env)
 	ft_memcpy(var_name, variable, i);
 	if (! *(variable + i))
 		return (set_var(env->export_list, var_name));
-	err = (set_var_value(env->env_list, var_name, variable + i) || \
-	set_var_value(env->export_list, var_name, variable + i));
+	err = (set_var_value(env->env_list, var_name, variable + i + 1) || \
+	set_var_value(env->export_list, var_name, variable + i + 1));
 	free_node(var_name);
 	return (err);
 }
