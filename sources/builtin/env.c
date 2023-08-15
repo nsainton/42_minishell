@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 09:53:12 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 09:57:19 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	del_string_tab(void *str)
 	free_node(*(char **)str);
 }
 
-static char	*get_env_var(struct s_tab *env, const char *identifier)
+static char	*get_env_var(const struct s_tab *env, const char *identifier)
 {
 	char	**env_vars;
 	size_t	i;
