@@ -6,14 +6,14 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 09:41:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/04 09:33:00 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 09:55:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 char	*expand_env_var(const char *line, size_t index, \
-size_t length, const struct s_env *env)
+size_t length, const struct s_tab *env)
 {
 	char	*var_name;
 	char	*var;

@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 11:02:53 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/26 17:56:40 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 09:56:29 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ Reminder : A valid name is a name beginning by an alphabetical character
 or an underscore and containing only alphanumerical characters or
 underscores
 */
-static int	handle_dollar(t_str *str, t_cstr *line, int *parser, t_env *env)
+static int	handle_dollar(t_str *str, t_cstr *line, int *parser, \
+const struct s_tab *env)
 {
 	char	current;
 
@@ -71,7 +72,8 @@ static int	handle_dollar(t_str *str, t_cstr *line, int *parser, t_env *env)
 		return (copy_env_variable(str, line, *parser, env));
 }
 
-static int	handle_specials(t_str *str, t_cstr *line, int *parser, t_env *env)
+static int	handle_specials(t_str *str, t_cstr *line, int *parser, \
+const struct s_tab *env)
 {
 	char	current;
 
@@ -88,7 +90,8 @@ static int	handle_specials(t_str *str, t_cstr *line, int *parser, t_env *env)
 	return (t_str_add(str, current));
 }
 
-int	get_raw_line(t_cchar *line, t_str *newline, t_env *env)
+int	get_raw_line(t_cchar *line, t_str *newline, \
+const struct s_tab *env)
 {
 	int		parser;
 	t_cstr	baseline;
