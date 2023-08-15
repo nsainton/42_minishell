@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:14:46 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 12:34:06 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 12:56:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	export(const char **args, struct s_env *env)
 	int		err;
 
 	err = 0;
-	if (! *args)
+	if (! (args && *args))
 		return (print_exportlist(env->export_list));
 	while (*args)
 	{
