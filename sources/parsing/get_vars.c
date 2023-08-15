@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 09:41:43 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/15 09:55:15 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 12:43:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ size_t length, const struct s_tab *env)
 	var_name = gc_substr(line, index, length);
 	if (! var_name)
 		return (NULL);
-	var = get_env_var(env, var_name);
+	var = get_var_value(env, var_name);
 	free_node(var_name);
 	return (var);
 }
@@ -71,7 +71,8 @@ static int	add_var_tstr(struct s_str *str, char *var, int parser)
 	return (NO_ERROR);
 }
 
-int	copy_env_variable(t_str *str, t_cstr *line, int parser, t_env *env)
+int	copy_env_variable(t_str *str, t_cstr *line, int parser, \
+const struct s_tab *env)
 {
 	size_t	base_index;
 	char	current;
