@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 11:10:31 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:15:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,13 @@ static int	set_oldpwd(struct s_env *env)
 
 static int	set_wd(struct s_env *env)
 {
-	char	*owd;
 	char	current[PATH_MAX + 1];
-	int		errnum;
 
 	if (set_oldpwd(env))
 		return (ALLOCATION_ERROR);
-	owd = get_env_var(env, "OLDPWD");
 	if (! getcwd(current, PATH_MAX + 1))
 		return (1);
-	if (! get_env_var("PWD"))
+	if (! get_var_value(env->env_list, "PWD"))
 		return (0);
 	if (set_var_value(env->env_list, "PWD", current) || \
 	set_var_value(env->export_list, "PWD", current))
@@ -56,11 +53,11 @@ static int	change_dir(const char *directory, struct s_env *environment)
 	return (set_wd(environment));
 }
 
-static int	go_to_path(struct s_env *my_env, const char *path_var)
+static int	go_to_path(struct s_env *env, const char *path_var)
 {
 	char	*path;
 
-	path = get_var_value(my_env, path_var);
+	path = get_var_value(env->env_list, path_var);
 	if (!path)
 	{
 		ft_dprintf(2, "minishell : cd: %s not set\n", path_var);
