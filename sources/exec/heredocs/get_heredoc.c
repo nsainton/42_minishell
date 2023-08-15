@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 13:22:58 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:42:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	write_line(char *line, int write_fd, const const struct s_env *env)
 */
 
 static int	read_heredoc(const char *limiter, int write_fd, \
-const struct s_env *env)
+const struct s_tab *env)
 {
 	char				*line;
 	static unsigned int	line_index;
@@ -95,7 +95,7 @@ static void	create_random_name(char *name, const void *address)
 }
 
 int	get_heredoc(struct s_heredoc_infos *hd, struct s_heredoc *heredoc, \
-const struct s_env *env)
+const struct s_tab *env)
 {
 	char	name[100];
 	int		error;

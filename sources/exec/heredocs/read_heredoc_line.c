@@ -6,13 +6,13 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:29:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/04 10:01:27 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:43:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_var(const char *line, const struct s_env *env, \
+static char	*get_var(const char *line, const struct s_tab *env, \
 size_t *line_index)
 {
 	size_t	index;
@@ -45,7 +45,7 @@ static int	realloc_str(struct s_str *string, const size_t newsize)
 	Same as function below, we keep an extra room for '\n'
 */
 static int	add_var(struct s_str *raw_line, const char *line, \
-size_t *line_index, const struct s_env *env)
+size_t *line_index, const struct s_tab *env)
 {
 	char	*env_var;
 	char	*tmp;
@@ -72,7 +72,7 @@ size_t *line_index, const struct s_env *env)
 	that we're going t add in the write_line function.
 */
 static int	parse_heredoc_line(struct s_str *expand, const char *line, \
-const struct s_env *env)
+const struct s_tab *env)
 {
 	size_t	index;
 
@@ -96,7 +96,7 @@ const struct s_env *env)
 	return (0);
 }
 
-int	write_line(const char *line, int write_fd, const struct s_env *env)
+int	write_line(const char *line, int write_fd, const struct s_tab *env)
 {
 	struct s_str	expand;
 	int				err;
