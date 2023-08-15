@@ -33,3 +33,6 @@ minitalk
 
 # NFS ressources at 42 #
 .nfs*
+
+# Test binaries folder #
+test_bins
