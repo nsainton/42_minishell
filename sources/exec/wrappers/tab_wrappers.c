@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 16:51:12 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 17:12:48 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:31:52 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void (*del)(void *))
 	tab->len --;
 }
 
-void	del_tab_elem(struct s_tab *tab, void *elem, int (*cmp)(), \
+void	del_tab_elem(struct s_tab *tab, const void *elem, int (*cmp)(), \
 void (*del)(void *))
 {
 	size_t	i;
