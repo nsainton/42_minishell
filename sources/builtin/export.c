@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:14:46 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 13:17:06 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 13:31:13 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,42 @@ static int	export_var(const char *variable, struct s_env *env)
 	return (err);
 }
 
+static int	is_opt(const char *variable)
+{
+	return ((*variable == '-') && *(variable + 1));
+}
+
+static int	option_error(const char *variable)
+{
+	ft_dprintf(STDERR_FILENO, "minishell: export: %.2s: invalid option\n\
+export: usage: export\n", variable);
+	return (1);
+}
+
 int	export(const char **args, struct s_env *env)
 {
 	int		err;
+	size_t	i;
 
 	err = 0;
+	i = 0;
 	if (! (args && *args))
 		return (print_exportlist(env->export_list));
-	while (*args)
+	while (*(args + i))
 	{
-		if (! valid_identifier(*args))
+		if (is_opt(*(args + i)) && ! i)
+			return (option_error(*(args + i)));
+		if (! valid_identifier(*(args + i)))
 		{
 			ft_dprintf(STDERR_FILENO, \
-			"minishell: export: `%s': not a valid identifier\n", *args);
+			"minishell: export: `%s': not a valid identifier\n", *(args + i));
 			err = 1;
-			args ++;
+			i ++;
 			continue ;
 		}
-		if (export_var(*args, env))
+		if (export_var(*(args + i), env))
 			return (ALLOCATION_ERROR);
-		args ++;
+		i ++;
 	}
 	return (err);
 }
