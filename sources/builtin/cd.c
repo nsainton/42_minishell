@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 10:52:16 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:08:07 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,23 @@ static int	change_dir(const char *directory, struct s_env *environment)
 	return (set_wd(environment));
 }
 
+static int	go_to_path(struct s_env *my_env, const char *path_var)
+{
+	char	*path;
+
+	path = get_var_value(my_env, path_var);
+	if (!path)
+	{
+		ft_dprintf(2, "minishell : cd: %s not set\n", path_var);
+		return (1);
+	}
+	return (change_dir(path, env));
+}
+
 int	cd(const char **args, struct s_env *env)
 {
-//	int	len;
-
 	if (! *args)
-		return (go_home(env, 1));
+		return (go_to_path(env, "HOME"));
 	if (*(args + 1))
 	{
 		ft_dprintf(2, "cd : too many arguments\n");
@@ -42,7 +53,7 @@ int	cd(const char **args, struct s_env *env)
 	}
 	*/
 	if (! ft_strcmp(*args, "-"))
-		return (go_old_pwd(env));
+		return (go_to_path(env, "OLDPWD"));
 	return (change_dir(*args, env));
 }
 
@@ -77,42 +88,4 @@ int	set_wd(struct s_env *env)
 	set_var_value(env->export_list, "PWD", current))
 		return (ALLOCATION_ERROR);
 	return (0);
-}
-
-int	go_home(t_env *my_env, int set_old)
-{
-	char	*home_path;
-	int		errnum;
-
-	errnum = 0;
-	home_path = get_env_var(my_env, "HOME");
-	if (!home_path)
-	{
-		ft_dprintf(2, "error : no home path in env\n");
-		return (errnum --);
-	}
-	else
-	{
-		if (chdir(home_path))
-		{
-			ft_dprintf(2, "%s\n", strerror(errno));
-			return (errno);
-		}
-		if (set_old)
-			errnum = set_new_pwd(my_env);
-		return (errnum);
-	}
-}
-
-int	go_old_pwd(struct s_env *env)
-{
-	char	*old_wd;
-	
-	old_wd = get_env_var(env, "OLDPWD");
-	if (!old_wd)
-	{
-		ft_dprintf(2, "cd : OLDPWD not set \n");
-		return (1);
-	}
-	return (change_dir(old_wd, env));
 }
