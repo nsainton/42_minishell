@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 12:02:22 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 11:15:12 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 12:00:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,6 @@ int	cd(const char **args, struct s_env *env)
 		ft_dprintf(2, "cd : too many arguments\n");
 		return (1);
 	}
-	/*
-	if (cmd->args[0][0] == '~')
-	{
-		go_home(d->env, 0);
-		cmd->args[0][0] = '.';
-	}
-	*/
 	if (! ft_strcmp(*args, "-"))
 		return (go_to_path(env, "OLDPWD"));
 	return (change_dir(*args, env));
