@@ -6,12 +6,60 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:14:46 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/02 11:36:52 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/15 12:34:06 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+	We free_node if using set_var_value because set_var_value allocates
+	memory (which set_var doesn't)
+*/
+static int	export_var(const char *variable, struct s_env *env)
+{
+	char	*var_name;
+	size_t	i;
+	int		err;
+
+	i = 0;
+	while (*(variable + i) && *(variable + i) != '=')
+		i ++;
+	var_name = gccalloc(i + 1, sizeof * var_name);
+	if (! var_name)
+		return (ALLOCATION_ERROR);
+	ft_memcpy(var_name, variable, i);
+	if (! *(variable + i))
+		return (set_var(env->export_list, var_name));
+	err = (set_var_value(env->env_list, var_name, variable + i) || \
+	set_var_value(env->export_list, var_name, variable + i));
+	free_node(var_name);
+	return (err);
+}
+
+int	export(const char **args, struct s_env *env)
+{
+	int		err;
+
+	err = 0;
+	if (! *args)
+		return (print_exportlist(env->export_list));
+	while (*args)
+	{
+		if (! valid_identifier(*args))
+		{
+			ft_dprintf(STDERR_FILENO, \
+			"minishell: export: `%s': not a valid identifier\n", *args);
+			err = 1;
+			args ++;
+			continue ;
+		}
+		if (export_var(*args, env))
+			return (ALLOCATION_ERROR);
+		args ++;
+	}
+	return (err);
+}
 /*
 int	export_env(t_data *d, t_command *cmd)
 {
@@ -44,6 +92,7 @@ int	export_env(t_data *d, t_command *cmd)
 }
 */
 
+/*
 int	is_valid_export(char *arg)
 {
 	if (ft_strchr(arg, '=') == NULL)
@@ -55,11 +104,13 @@ int	is_valid_export(char *arg)
 	}
 	return (20);
 }
+*/
 
 /*    name   A  word  consisting  only  of alphanumeric characters and under‐
               scores, and beginning with an alphabetic character or an  under‐
               score.  Also referred to as an identifier. */
 
+/*
 int	is_valid_name(char *arg)
 {
 	int	i;
@@ -73,13 +124,15 @@ int	is_valid_name(char *arg)
 	}
 	return (1);
 }
+*/
 
-int	modify_env(t_env *my_env, char *export)
+/*
+int	modify_env(struct s_env *my_env, char *export)
 {
-	int		len;
-	t_list	*tmp;
-	char	*end;
-	char	*line;
+	int				len;
+	struct s_list	*tmp;
+	char			*end;
+	char			*line;
 
 	len = 0;
 	end = ft_strchr(export, '=');
@@ -100,3 +153,4 @@ int	modify_env(t_env *my_env, char *export)
 	my_env->list_env = tmp;
 	return (0);
 }
+*/
