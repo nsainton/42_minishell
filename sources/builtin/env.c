@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 10:09:46 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:12:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*get_env_var(const struct s_tab *env, const char *identifier)
 	return (NULL);
 }
 
-static char	*get_var_value(struct s_tab *env, const char *identifier)
+char	*get_var_value(struct s_tab *env, const char *identifier)
 {
 	char	*var;
 
@@ -135,7 +135,7 @@ static int	set_var(struct s_tab *env_list, const char *var)
 /*
 	We allocate one more spot for the '=' sign
 */
-static int	set_var_value(struct s_tab *env_list, \
+int	set_var_value(struct s_tab *env_list, \
 const char *identifier, const char *value)
 {
 	char	*var;
