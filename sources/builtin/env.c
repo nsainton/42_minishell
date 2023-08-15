@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 12:24:24 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/15 12:42:38 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*get_env_var(const struct s_tab *env, const char *identifier)
 	return (NULL);
 }
 
-char	*get_var_value(struct s_tab *env, const char *identifier)
+char	*get_var_value(const struct s_tab *env, const char *identifier)
 {
 	char	*var;
 
@@ -65,7 +65,7 @@ char	*get_var_value(struct s_tab *env, const char *identifier)
 	underscores.
 	We check until the '=' sign if our variable is a valid identifier
 */
-static int	valid_identifier(const char *var)
+int	valid_identifier(const char *var)
 {
 	if (! ft_isalpha(*var) && *var != '_')
 		return (0);
