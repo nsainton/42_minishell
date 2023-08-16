@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:16:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/16 07:57:26 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:12:01 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	*get_cwd_path(const char *command)
 		return (NULL);
 	ft_strcat(path_string, cwd);
 	ft_strcat(path_string + path_len, command);
-	if (! is_regular(path_string, 0))
+	if (is_regular(path_string, 0))
 		return (path_string);
 	free_node(path_string);
 	return (NULL);
@@ -78,7 +78,7 @@ const char *command)
 	if (*(path_string + added - 1) != '/')
 		added += ft_strncat(path_string + added, "/", 1);
 	ft_strcat(path_string + added, command);
-	if (! is_regular(path_string, 0))
+	if (is_regular(path_string, 0))
 		return (path_string);
 	free_node(path_string);
 	return (NULL);
@@ -124,7 +124,7 @@ char	*find_in_path(const char *path, const char *command)
 	{
 		i = pathlen(&path);
 		test_path = get_path_string(path, i, command);
-		if (test_path && ! is_regular(test_path, 1))
+		if (test_path && is_regular(test_path, 1))
 			return (test_path);
 		if (! command_path)
 			command_path = test_path;
