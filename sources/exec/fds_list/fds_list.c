@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 10:41:45 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 13:59:16 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 09:31:12 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	s_open(const char *pathname, int flags, mode_t mode)
 	return (fd);
 }
 
-static int	equal(const int *a, const int *b)
+int	isdifferent_pointer(const int *a, const int *b)
 {
 	return (*a != *b);
 }
@@ -59,7 +59,7 @@ int	s_close(int fd)
 	struct s_list	*fdaddress;
 
 	fdlist = get_fdlist();
-	fdaddress = ft_list_find(*fdlist, &fd, equal);
+	fdaddress = ft_list_find(*fdlist, &fd, isdifferent_pointer);
 	if (! fdaddress)
 		return (0);
 	del_node(fdlist, fdaddress, free_node);
@@ -80,7 +80,7 @@ int	s_dup2(int oldfd, int newfd)
 	if (dup2(oldfd, newfd) == -1)
 		return (-1);
 	fdlist = get_fdlist();
-	newnode = ft_list_find(*fdlist, &newfd, equal);
+	newnode = ft_list_find(*fdlist, &newfd, isdifferent_pointer);
 	if (newnode)
 		return (newfd);
 	newnode = gc_lstnew_cpy(&newfd, sizeof newfd);
