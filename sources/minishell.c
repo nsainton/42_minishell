@@ -6,11 +6,12 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 19:10:05 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 08:27:08 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/ioctl.h>
 
 /*
 static void	init(char **envp, t_data *data)
@@ -22,14 +23,17 @@ static void	init(char **envp, t_data *data)
 }
 */
 
+/*
 void	handle(int sig)
 {
 	g_termsig = sig;
 	//printf("Salut\n");
-	rl_done = 1;
-	rl_pending_input = '\n';
-	write(0, "\n", 1);
+	//rl_done = 1;
+	//rl_pending_input = '\n';
+	//write(0, "\n", 1);
+	ioctl(0, TIOCSTI, "\n");
 }
+*/
 
 volatile sig_atomic_t	g_termsig = 0;
 
@@ -38,6 +42,7 @@ extern char	**environ;
 int	main(int argc, char **argv)
 {
 	char			*line;
+//	char			*name;
 //	struct s_env	*env;
 
 	if (argc != 1)
@@ -47,8 +52,14 @@ int	main(int argc, char **argv)
 	}
 	(void)argv;
 	rl_catch_signals = 0;
-	signal(SIGTERM, SIG_IGN);
-	signal(SIGINT, handle);
+	init_sigs();
+	/*
+	name = ttyname(0);
+	if (! name)
+		printf("No tty\n");
+	else
+		printf("tty name : %s\n", name);
+	*/
 	/*
 	env = create_env((const char **)environ);
 	if (! env)
@@ -59,7 +70,10 @@ int	main(int argc, char **argv)
 	{
 		line = readline("minishell> ");
 		if (g_termsig)
+		{
 			printf("we received : %d\n", g_termsig);
+			g_termsig = 0;
+		}
 		if (!line || gc_add(line))
 		{
 			ft_putendl_fd("exit", 1);
