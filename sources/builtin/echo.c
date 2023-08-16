@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:42:11 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 18:12:05 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 08:45:26 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ static int	is_opt(const char *variable)
 	return (1);
 }
 
-int	echo(const char **args)
+int	echo(const char **args, struct s_env *env)
 {
 	int	endl;
 
+	(void)env;
 	if (! (args && *args))
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
