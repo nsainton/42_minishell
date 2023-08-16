@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 17:29:38 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 08:37:25 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,23 @@ void	print_env(struct s_tab *env)
 	}
 }
 
+int	env(const char **args, struct s_tab *environnement)
+{
+	if (! (args && *args))
+	{
+		print_env(environnement);
+		return (0);
+	}
+	if (**args == '-')
+	{
+		ft_dprintf(STDERR_FILENO, "env: unrecognized option '%s'\n\
+Try 'reading minishell subject' for more information\n", *args);
+		return (125);
+	}
+	ft_dprintf(STDERR_FILENO, "env: no argument allowed\nSorry bruv\n");
+	return (125);
+}
+
 static void	fill_var(char *var, const char *exported_var)
 {
 	size_t	i;
@@ -351,6 +368,7 @@ int	print_exportlist(struct s_tab *export)
 	free_node(tab.tab);
 	return (0);
 }
+
 /*
 	if (cmd->args[0])
 	{
