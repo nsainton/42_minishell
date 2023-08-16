@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 10:48:37 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 12:29:17 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:15:33 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*check_hashmap(struct s_hashmap *map, const char *command)
 	return (path);
 }
 
-int	getpath(struct s_ncommand *command, struct s_env *env)
+int	getpath(char *command, char *command_path, struct s_tab *env)
 {
 	const char			*path;
 	struct s_hashmap	*map;
@@ -70,20 +70,20 @@ int	getpath(struct s_ncommand *command, struct s_env *env)
 	map = getmap(hash, free_node);
 	if (! map)
 		return (ALLOCATION_ERROR);
-	if (ft_strchr(command->command, '/'))
+	if (ft_strchr(command, '/'))
 	{
-		command->path = command->command;
+		command_path = command;
 		return (0);
 	}
-	command->path = check_hashmap(map, command->command);
-	if (command->path)
+	command_path = check_hashmap(map, command);
+	if (command_path)
 		return (0);
-	path = get_env_var(env, "PATH");
+	path = get_var_value(env, "PATH");
 	if (! path)
 		return (127);
-	command->path = find_in_path(path, command->command);
-	if ((command->path && ! access(command->path, X_OK)) && \
-	hash_map_add(map, command->path))
+	command_path = find_in_path(path, command);
+	if ((command_path && ! access(command_path, X_OK)) && \
+	hash_map_add(map, command_path))
 		return (ALLOCATION_ERROR);
 	return (0);
 }
