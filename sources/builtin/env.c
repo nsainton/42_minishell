@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/16 08:37:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 08:48:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,11 +298,11 @@ void	print_env(struct s_tab *env)
 	}
 }
 
-int	env(const char **args, struct s_tab *environnement)
+int	env(const char **args, struct s_env *environnement)
 {
 	if (! (args && *args))
 	{
-		print_env(environnement);
+		print_env(environnement->env_list);
 		return (0);
 	}
 	if (**args == '-')
