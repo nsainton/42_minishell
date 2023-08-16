@@ -6,18 +6,31 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:16:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 12:44:37 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 07:57:26 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <limits.h>
 
+static int	is_regular(const char *filepath, const int check_exec)
+{
+	struct stat	statbuf;
+	int			reg;
+
+	if (stat(filepath, &statbuf))
+		return (0);
+	reg = S_ISREG(statbuf.st_mode);
+	if (! (check_exec && reg))
+		return (reg);
+	return (! access(filepath, X_OK));
+}
+
 /*
 	The array cwd if of size PATH_MAX + 2 to hold a slot for the eventual
 	/ that will come at the end of the array
 */
-static char *get_cwd_path(const char *command)
+static char	*get_cwd_path(const char *command)
 {
 	char	cwd[PATH_MAX + 2];
 	char	*path_string;
@@ -38,7 +51,7 @@ static char *get_cwd_path(const char *command)
 		return (NULL);
 	ft_strcat(path_string, cwd);
 	ft_strcat(path_string + path_len, command);
-	if (! access(path_string, F_OK))
+	if (! is_regular(path_string, 0))
 		return (path_string);
 	free_node(path_string);
 	return (NULL);
@@ -65,15 +78,10 @@ const char *command)
 	if (*(path_string + added - 1) != '/')
 		added += ft_strncat(path_string + added, "/", 1);
 	ft_strcat(path_string + added, command);
-	if (! access(path_string, F_OK))
+	if (! is_regular(path_string, 0))
 		return (path_string);
 	free_node(path_string);
 	return (NULL);
-}
-
-static int	is_exec(const char *filepath)
-{
-	return (! (access(filepath, F_OK) || access(filepath, X_OK)));
 }
 
 static size_t	pathlen(const char **path)
@@ -87,6 +95,7 @@ static size_t	pathlen(const char **path)
 		i ++;
 	return (i);
 }
+
 /*
 	First, if path begins by a semicolumn, we look for an exec in the
 	current directory. Then for each directory in path, we compute
@@ -109,13 +118,13 @@ char	*find_in_path(const char *path, const char *command)
 	command_path = NULL;
 	if (*path == ':')
 		command_path = get_cwd_path(command);
-	if (command_path && is_exec(command_path)) 
+	if (command_path && is_regular(command_path, 1)) 
 		return (command_path);
 	while (*(path + i))
 	{
 		i = pathlen(&path);
 		test_path = get_path_string(path, i, command);
-		if (test_path && ! access(test_path, X_OK))
+		if (test_path && ! is_regular(test_path, 1))
 			return (test_path);
 		if (! command_path)
 			command_path = test_path;
