@@ -13,3 +13,5 @@ gcc -Wall -Wextra -Werror -g tests/echo_test.c sources/"builtin"/"echo".c -I inc
 gcc -Wall -Wextra -Werror tests/hashmap_test.c -lft objects_debug/"exec"/wrappers/fdlist_management.o objects_debug/fake_hash_map/hash_map_find.o objects_debug/fake_hash_map/hash_map_init.o objects_debug/fake_hash_map/hash_map_management.o -I includes -I libs/libft/includes -I libs/libgc/includes -L libs/libft -L libs/libgc -lft -lgc -lft -g -o $tests_bins/hashmap_test
 #------------------------Tests for wrappers for tab structure----------------#
 gcc -Wall -Wextra -Werror tests/tab_test.c -lft sources/"exec"/wrappers/tab_wrappers.c sources/"builtin"/"env".c -I includes -I libs/libft/includes -I libs/libgc/includes -L libs/libft -L libs/libgc -lft -lgc -lft -g -o $tests_bins/tab_test
+#------------------------Tests for stds saving------------------------------#
+gcc -Wall -Wextra -Werror tests/stds_test.c sources/"exec"/save_stds.c sources/"exec"/fds_list/fdlist_management.c sources/"exec"/fds_list/fds_list.c -I includes -I libs/libft/includes -I libs/libgc/includes -L libs/libgc -lgc -L libs/libft -lft -g -o $tests_bins/stds_test
