@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 09:36:07 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/14 17:30:11 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 10:27:08 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ static int	compare_strings_tab(const char **s1, const char **s2)
 	return (ft_strcmp(*s1, *s2));
 }
 
+/*
 static void	del_string_tab(void *str)
 {
 	free_node(*(char **)str);
 }
+*/
 
 static char	*gc_strmapi(const char *str, int (*f)(int))
 {

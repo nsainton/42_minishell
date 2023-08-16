@@ -1,0 +1,15 @@
+#!/bin/sh
+tests_bins=test_bins
+#------------Run those commands at the root of minishell directory----------#
+#------------------------Create tests_bins folder---------------------------#
+mkdir -p $tests_bins
+#------------------------Tests for the environment--------------------------#
+gcc -Wall -Wextra -Werror tests/env_test.c -lft sources/"builtin"/env.c sources/"builtin"/"unset".c sources/"builtin"/"export".c sources/"exec"/wrappers/tab_wrappers.c -I includes -I libs/libft/includes -I libs/libgc/includes -L libs/libft -L libs/libgc -lft -lgc -lft -g -o $tests_bins/env_test
+#------------------------Tests for the cd "builtin"---------------------------#
+gcc -Wall -Wextra -Werror tests/cd_test.c -lft sources/"builtin"/env.c sources/"builtin"/cd.c sources/"builtin"/"pwd".c sources/"exec"/wrappers/tab_wrappers.c -I includes -I libs/libft/includes -I libs/libgc/includes -L libs/libft -L libs/libgc -lft -lgc -lft -g -o $tests_bins/cd_test
+#------------------------Tests for the echo "builtin"-------------------------#
+gcc -Wall -Wextra -Werror -g tests/echo_test.c sources/"builtin"/"echo".c -I includes/ -I libs/libgc/includes -I libs/libft/includes -L libs/libft -lft -o $tests_bins/echo_test
+#------------------------Tests for the hashmap structure--------------------#
+gcc -Wall -Wextra -Werror tests/hashmap_test.c -lft objects_debug/"exec"/wrappers/fdlist_management.o objects_debug/fake_hash_map/hash_map_find.o objects_debug/fake_hash_map/hash_map_init.o objects_debug/fake_hash_map/hash_map_management.o -I includes -I libs/libft/includes -I libs/libgc/includes -L libs/libft -L libs/libgc -lft -lgc -lft -g -o $tests_bins/hashmap_test
+#------------------------Tests for wrappers for tab structure----------------#
+gcc -Wall -Wextra -Werror tests/tab_test.c -lft sources/"exec"/wrappers/tab_wrappers.c sources/"builtin"/"env".c -I includes -I libs/libft/includes -I libs/libgc/includes -L libs/libft -L libs/libgc -lft -lgc -lft -g -o $tests_bins/tab_test

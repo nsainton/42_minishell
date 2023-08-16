@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 11:16:35 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/15 11:54:13 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 10:26:44 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv)
 		exit_message(1, MSG);
 	err = cd((const char **)argv + 1, environment);
 	ft_printf("cd returned : %d\n", err);
-	err = pwd((const char **)argv + 1);
+	err = pwd((const char **)argv + 1, environment);
 	ft_printf("pwd returned : %d\n", err);
 	exit_message(0, "Ol good my G");
 }
