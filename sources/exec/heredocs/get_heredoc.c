@@ -6,37 +6,27 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/15 18:42:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 08:20:06 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-static int	write_line(char *line, int write_fd, const const struct s_env *env)
-{
-	size_t	index;
-	t_str	raw_line;
-
-	raw_line = malloc(sizeof * raw_line);
-	if (tstr_init(&raw_line, BUFFER_SIZE, PARSER_SIZE))
-		return (1);
-	index = 0;
-	while (*(line + index))
-	{
-		index ++;
-		if (*(line + index - 1) == '$' && (index == 1 || \
-		*(line + index - 2) != '\\') && ft_isalpha(*(line + index)))
-		{
-			if (tstrcat_realloc(&raw_line, \
-			get_var(line + index, env, &index)))
-			{
-				tstr_del(&raw_line);
-				return (1);
-			}
-		}
-		if (write(write_fd, raw_line.str,
+	The code should be well structured and this function shouldn't
+	exist. Dakara, I don't know yet how to do
 */
+static int cleanup(char *line, int fd, const unsigned int line_index, \
+const char *limiter)
+{
+	if (! line)
+		ft_dprintf(STDERR_FILENO, HEREDOC_WARNING, line_index, limiter);
+	else
+		free(line);
+	if (s_close(fd))
+		return (1);
+	return ((line != NULL) - 1);
+}
 
 static int	read_heredoc(const char *limiter, int write_fd, \
 const struct s_tab *env)
@@ -50,8 +40,8 @@ const struct s_tab *env)
 	{
 		if (g_termsig == 130 || write_line(line, write_fd, env))
 		{
-			g_termsig = 0;
-			close(write_fd);
+			free(line);
+			s_close(write_fd);
 			return (EXIT_FAILURE);
 		}
 		free(line);
@@ -59,13 +49,7 @@ const struct s_tab *env)
 		line = readline(HEREDOC_PROMPT);
 		line_index ++;
 	}
-	if (! line)
-		ft_dprintf(STDERR_FILENO, HEREDOC_WARNING, line_index, limiter);
-	else
-		free(line);
-	if (s_close(write_fd))
-		return (1);
-	return ((line != NULL) - 1);
+	return (cleanup(line, write_fd, line_index, limiter));
 }
 
 static int	heredoc_open(const char *heredoc_name, struct s_heredoc_infos *hd)
