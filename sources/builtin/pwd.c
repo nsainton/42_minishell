@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:48:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/15 11:53:21 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 08:43:35 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ static int	print_pwd(void)
 	return (0);
 }
 
-int	pwd(const char **arguments)
+int	pwd(const char **arguments, struct s_env *env)
 {
+	(void)env;
 	while (*arguments)
 	{
 		if (**arguments != '-')
@@ -69,7 +70,7 @@ int	pwd(const char **arguments)
 			ft_dprintf(STDERR_FILENO, \
 			"minishell: pwd: %s: invalid option\npwd: usage: pwd\n", \
 			*arguments);
-			return (1);
+			return (SYNTAX_ERROR);
 		}
 		arguments ++;
 	}
