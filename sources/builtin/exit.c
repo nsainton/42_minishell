@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 23:52:52 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/15 17:57:06 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 08:42:13 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_ll	store_status(const t_ll new_status)
 }
 */
 
-static int	check_args(const char **args, const size_t len, int *errnum)
+static int	check_args(const char **args, const size_t len)
 {
 	int				err;
 	long long int	status;
@@ -53,19 +53,19 @@ static int	check_args(const char **args, const size_t len, int *errnum)
 		ft_dprintf(STDERR_FILENO, "minishell: exit: %s\n", \
 		STRING_TOO_MANY);
 		keep_exit_status(TOO_MANY_ARGUMENTS);
-		*errnum = TOO_MANY_ARGUMENTS;
 	}
 	return (keep_exit_status(-1));
 }
 
-int	exit_builtin(const char **args, int *errnum)
+int	exit_builtin(const char **args, struct s_env *env)
 {
 	size_t	len;
 
+	(void)env;
 	if (args == NULL)
 		exit_free_gc(keep_exit_status(-1));
 	len = tablen(args, sizeof * args);
 	if (! len)
 		exit_free_gc(keep_exit_status(-1));
-	return (check_args(args, len, errnum));
+	return (check_args(args, len));
 }
