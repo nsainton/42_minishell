@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:47:59 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 10:28:03 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:30:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static int	make_redirection(struct s_redir *redir)
 {
 	int	fd;
 
+	if (save_stds(redir->fd))
+		return (1);
 	fd = s_open(redir->file, get_flags(redir->mode), 0644);
 	if (! fd)
 		return (1);
@@ -59,6 +61,8 @@ static int	dup_heredoc(struct s_heredoc *heredoc)
 
 	if (heredoc->read_fd == -1)
 		return (0);
+	if (save_stds(heredoc->fd))
+		return (1);
 	err = (s_dup2(heredoc->read_fd, heredoc->fd) == -1 || \
 	s_close(heredoc->read_fd));
 	return (err);
