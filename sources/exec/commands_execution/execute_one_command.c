@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 13:52:22 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:20:00 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,18 @@ static int	handle_exit_status(const int wstatus)
 	return (-1);
 }
 
+/*
+	In this function we give command->args - 1 to execve
+	because command->args is the second element (index 1)
+	of an array that is the result of a split over the spaces
+	during the parsing phase. The command name is thus the
+	first element of this array and the element we should give
+	to execve.
+	See sources/parsing/fill_command.c in case of bug that could
+	occur because of that assignment. However as the memory
+	for commands is freed at the very end, such a bug shouldn't
+	occur.
+*/
 static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 {
 	pid_t	child_pid;
@@ -86,9 +98,11 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		if (make_redirections(command->redirs, command->heredocs))
+			exit_free_gc(1);
 		command->path = find_command_path(command->command, env);
 //		clear_list();
-		if (execve(command->path, command->args, env->tab))
+		if (execve(command->path, command->args - 1, env->tab))
 			exit_free_gc(1);
 	}
 	err = wait(&status);
@@ -97,27 +111,34 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 	return (status);
 }
 
+static int	execute_builtin(t_builtin builtin, \
+struct s_ncommand *command, struct s_env *env)
+{
+	int	err;
+
+	err = pre_execution(command->redirs, command->heredocs);
+	if (err)
+		return (1);
+	err = builtin((const char **)command->args, env);
+	save_stds(-2);
+	return (err);
+}
+
 int	execute_command(struct s_ncommand *command, struct s_env *env)
 {
 	t_builtin	builtin;
 	int			status;
 	int			err;
 
-	if (pre_execution(command->redirs, command->heredocs))
-		return (1);
 	if (! command->command)
 	{
-		save_stds(-2);
-		return (0);
-	}
-	builtin = choose_builtin(command->command);
-	if (builtin)
-	{
-		err = builtin((const char **)command->args, env);
+		err = pre_execution(command->redirs, command->heredocs);
 		save_stds(-2);
 		return (err);
 	}
+	builtin = choose_builtin(command->command);
+	if (builtin)
+		return (execute_builtin(builtin, command, env));
 	status = execute_file(command, env->env_list);
-	save_stds(-2);
 	return (handle_exit_status(status));
 }
