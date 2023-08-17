@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 10:07:18 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/16 10:40:04 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:59:42 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ int	main(int argc, char **argv)
 	}
 	i = 1;
 	err = 0;
+	if (fdlist_init())
+	{
+		ft_printf("Yo bruv, can't even open standard fds\n");
+		free_gc();
+		return (1);
+	}
 	while (i < argc)
 	{
 		fd = ft_atoi(*(argv + i));
