@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:43:50 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 18:21:29 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:28:26 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 # define SIGPROF_MESSAGE "Profiling timer expired"
 # define SIGPOLL_MESSAGE "Power failure"
 # define SIGSYS_MESSAGE "Bad system call"
-# define 
+# define SIGPIPE_MESSAGE ""
+# define SIGINT_MESSAGE "\n"
+# define SIGQUIT_MESSAGE "Quit"
+# define DFL_MESSAGE ""
 
 #endif
