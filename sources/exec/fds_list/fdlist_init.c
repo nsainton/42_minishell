@@ -6,12 +6,18 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:51:27 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 10:55:04 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:58:09 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+	This function initializes the fdlist with the standard file descriptors
+	numbers (which are provided already opened to the executable).
+	It is to be called at the start of the main routine and at no other
+	moment during the lifetime of the program
+*/
 int	fdlist_init()
 {
 	struct s_list	**fdlist;
