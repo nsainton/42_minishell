@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:51:27 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 10:58:09 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:11:25 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 	It is to be called at the start of the main routine and at no other
 	moment during the lifetime of the program
 */
-int	fdlist_init()
+int	fdlist_init(void)
 {
 	struct s_list	**fdlist;
 	struct s_list	*newnode;
