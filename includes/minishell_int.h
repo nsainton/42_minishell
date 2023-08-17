@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/16 09:06:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 12:42:22 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@
 //End of Prepocessor includes
 
 // Preprocessor defines
+# ifndef WCOREDUMP
+#  define WCOREDUMP NULL
+# endif
 # define PARSER_SIZE 50
 # define REDIRS_SIZE 10
 # define SERROR "minishell: syntax error near unexpected token `"
@@ -55,6 +58,9 @@
 # define HEREDOC_PROMPT "> "
 # define HEREDOC_WARNING "minishell: warning: here-document at line %u \
 delimited by end-of-fine (wanted `%s')\n"
+# define MEM_MSG "No mo mem bruv, can't reMEMber. Get it ?\n\
+Hahaha. Anyway see ya bruv"
+
 // End of Preprocessor defines
 
 //Declaration of global variable to catch if a terminating signal has occured
