@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/13 16:15:47 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/16 09:06:36 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,10 @@ struct	s_data
 //End of structures declarations
 
 //Type definitions
+
+typedef int 				(*t_builtin)(const char **, \
+struct s_env *);
+
 typedef enum e_types		t_types;
 
 typedef enum e_minierrors	t_minierrors;
