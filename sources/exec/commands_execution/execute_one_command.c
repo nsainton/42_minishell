@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/16 12:08:35 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:31:14 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static int	pre_execution(struct s_redir *redirs, struct s_heredoc *heredocs)
 	return (0);
 }
 
-static int	find_command_path(char *command, char *command_path, struct s_tab *env)
+static int	find_command_path(char *command, char *command_path, \
+struct s_tab *env)
 {
 	int	err;
 
@@ -43,7 +44,30 @@ static int	find_command_path(char *command, char *command_path, struct s_tab *en
 		exit_free_gc(err);
 	}
 	return (0);
+}
 
+static int	handle_exit_status(const int wstatus)
+{
+	if (WIFEXITED(wstatus))
+	{
+		ft_printf("exited, status=%d\n", WEXITSTATUS(wstatus));
+		return (WEXITSTATUS(wstatus));
+	}
+	else if (WIFSIGNALED(wstatus))
+	{
+		ft_printf("killed by signal %d\n", WTERMSIG(wstatus));
+		return (WTERMSIG(wstatus));
+	}
+	else if (WIFSTOPPED(wstatus))
+	{
+		ft_printf("stopped by signal %d\n", WSTOPSIG(wstatus));
+		return (WSTOPSIG(wstatus));
+	}
+	else if (WIFCONTINUED(wstatus))
+	{
+		ft_printf("continued\n");
+		return (-1);
+	}
 }
 
 static int	execute_file(struct s_ncommand *command, struct s_tab *env)
@@ -54,14 +78,17 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 
 	child_pid = fork();
 	if (child_pid < 0)
-		return (-1);
+		return (1);
 	if (! child_pid)
 	{
 		find_command_path(command->command, command->path, env);
 		if (execve(command->path, command->args, env->tab))
 			exit_free_gc(1);
 	}
-	wait(&status);
+	err = wait(&status);
+	while (err > -1 && ! (WIFEXITED(status) || WIFSIGNALED(status)))
+		err = wait(&status);
+	return (status);
 }
 
 int	execute_command(struct s_ncommand *command, struct s_env *env)
@@ -85,4 +112,7 @@ int	execute_command(struct s_ncommand *command, struct s_env *env)
 		save_stds(-2);
 		return (err);
 	}
+	status = execute_file(command, env->env_list);
+	save_stds(-2);
+	return (handle_exit_status(status));
 }
