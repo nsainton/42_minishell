@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:03:00 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/16 08:27:51 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:53:13 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static void	interrupt(int signum, siginfo_t *info, void *ucontext)
 	(void)info;
 	(void)ucontext;
 	g_termsig = 128 + signum;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	if (! rl_done)
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 }
 
 /*
