@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 13:40:52 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 13:52:22 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,12 @@ static char	*find_command_path(char *command, struct s_tab *env)
 	char	*path;
 
 	err = getpath(command, &path, env);
-	if (err)
+	if (err || ! path)
 	{
 		if (err == 127)
+			ft_printf("minishell: %s: no such file or directory\n", \
+			command);
+		if (! err)
 			ft_printf("minishell: %s: command not found\n", command);
 		exit_free_gc(err);
 	}
@@ -81,8 +84,10 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 		return (1);
 	if (! child_pid)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		command->path = find_command_path(command->command, env);
-		clear_list();
+//		clear_list();
 		if (execve(command->path, command->args, env->tab))
 			exit_free_gc(1);
 	}
