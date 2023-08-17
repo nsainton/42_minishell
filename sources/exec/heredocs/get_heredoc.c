@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/16 08:20:06 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:42:36 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ const struct s_tab *env)
 	char	name[100];
 	int		error;
 
-	reinit_sigs();
 	ft_bzero(hd, sizeof * hd);
 	create_random_name(name, heredoc);
 	if (heredoc_open(name, hd))

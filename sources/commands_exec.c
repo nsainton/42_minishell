@@ -6,20 +6,20 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:00:27 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/11 13:15:47 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:37:29 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	commands_exec(t_cchar *line, struct s_data *data)
+int	commands_exec(const char *line, struct s_env *env)
 {
-	t_ncommand	*commands;
+	struct s_ncommand	*commands;
 
-	if (split_line(line, &commands, data->env))
+	if (split_line(line, &commands, env->env_list))
 	{
 		keep_exit_status(SYNTAX_ERROR);
-		return ;
+		return (SYNTAX_ERROR);
 	}
 	/*
 	data->cmds = get_commands_reference(commands);
@@ -31,5 +31,5 @@ void	commands_exec(t_cchar *line, struct s_data *data)
 	exec_pipeline(data);
 	*/
 	//data->cmds = NULL;
-	execute_commands(commands, data->env);
+	return (execute_commands(commands, env));
 }

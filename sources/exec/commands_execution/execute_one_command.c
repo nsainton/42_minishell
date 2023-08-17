@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 11:31:14 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:42:16 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ struct s_tab *env)
 {
 	int	err;
 
-	err = get_command_path(command, command_path, env);
+	err = getpath(command, command_path, env);
 	if (err)
 	{
 		if (err == 127)
@@ -66,8 +66,8 @@ static int	handle_exit_status(const int wstatus)
 	else if (WIFCONTINUED(wstatus))
 	{
 		ft_printf("continued\n");
-		return (-1);
 	}
+	return (-1);
 }
 
 static int	execute_file(struct s_ncommand *command, struct s_tab *env)
@@ -94,7 +94,6 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 int	execute_command(struct s_ncommand *command, struct s_env *env)
 {
 	t_builtin	builtin;
-	pid_t		child_pid;
 	int			status;
 	int			err;
 
@@ -108,7 +107,7 @@ int	execute_command(struct s_ncommand *command, struct s_env *env)
 	builtin = choose_builtin(command->command);
 	if (builtin)
 	{
-		err = builtin(command->args, env);
+		err = builtin((const char **)command->args, env);
 		save_stds(-2);
 		return (err);
 	}
