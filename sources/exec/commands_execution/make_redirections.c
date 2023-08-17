@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:47:59 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/12 10:42:57 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:28:03 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	dup_heredoc(struct s_heredoc *heredoc)
 
 	if (heredoc->read_fd == -1)
 		return (0);
-	err = (s_dup2(heredoc->read_fd, heredoc->fd == -1) || \
+	err = (s_dup2(heredoc->read_fd, heredoc->fd) == -1 || \
 	s_close(heredoc->read_fd));
 	return (err);
 }
