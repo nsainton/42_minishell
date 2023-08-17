@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:51:21 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/16 09:06:44 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:38:22 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ t_builtin	choose_builtin(const char *str)
 	if (! ft_strcmp(str, "pwd"))
 		return (pwd);
 	if (! ft_strcmp(str, "exit"))
-		return (exit);
+		return (exit_builtin);
 	return (NULL);
 }
