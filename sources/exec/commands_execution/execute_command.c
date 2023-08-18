@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/18 13:04:29 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 13:41:24 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,29 +49,40 @@ static int	pipeline_status(void)
 	return (handle_exit_status(status));
 }
 
+static int	execute_pipeline_command(struct s_ncommand *commands, \
+const size_t command_index, const size_t commands_nb, \
+struct s_env *env)
+{
+	int	err;
+
+	signal(SIGPIPE, SIG_IGN);
+	if (apply_pipe((commands + command_index)->input_fd, \
+	(commands + command_index)->output_fd))
+		exit_free_gc(1);
+	if (cleanup_before_exec(commands, command_index, command_nb))
+		exit_free_gc(1);
+	err = execute_command(commands + command_index, env);
+	clear_fdlist();
+	return (err);
+}
+
 static int	execute_pipeline(struct s_ncommand *commands, \
 const size_t commands_nb, struct s_env *env)
 {
 	size_t	i;
 	int		err;
+	int		child_pid;
 
 	i = 0;
 	err = 1;
 	while (i < commands_nb)
 	{
-		pid = fork();
-		if (pid < 0)
+		child_pid = fork();
+		if (child_pid < 0)
 			break ;
-		if (! pid)
-		{
-			signal(SIGPIPE, SIG_IGN);
-			if (apply_pipe((commands + i)->input_fd, \
-			(commands + i)->output_fd))
-				exit_free_gc(1);
-			err = execute_command(commands + i, env);
-			clear_fdlist();
-			return (0);
-		}
+		if (! child_pid)
+			exit_free_gc(execute_pipeline_command(commands, i, \
+			commands_nb, env));
 		i ++;
 	}
 	clear_fdlist();
