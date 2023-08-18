@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:11:33 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/18 13:39:25 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 13:52:31 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,22 @@ const size_t commands_nb)
 		close_unused_heredocs(commands + i))
 			return (1);
 		i ++;
+	}
+	return (0);
+}
+
+/*
+	This function's goal is to save the standard file descriptors
+	and to make all the redirections (when executing a builtin).
+*/
+int	pre_execution(struct s_redir *redirs, struct s_heredoc *heredocs)
+{
+	if (save_stds(-1))
+		return (1);
+	if (make_redirections(redirs, heredocs))
+	{
+		save_stds(-2);
+		return (1);
 	}
 	return (0);
 }
