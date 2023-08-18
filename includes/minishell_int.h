@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/17 12:42:22 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:00:33 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@
 //End of Prepocessor includes
 
 // Preprocessor defines
-# ifndef WCOREDUMP
-#  define WCOREDUMP NULL
+# ifndef WCOREFLAG
+#  define WCOREFLAG 0
 # endif
 # define PARSER_SIZE 50
 # define REDIRS_SIZE 10
@@ -172,7 +172,6 @@ struct	s_command
 	int					err;
 };
 
-
 struct	s_ncommand
 {
 	char				*command;
@@ -193,8 +192,6 @@ struct s_env
 {
 	struct s_tab	*env_list;
 	struct s_tab	*export_list;
-//	char			*path;
-//	int				is_empty;
 };
 
 struct s_heredoc_infos
@@ -246,35 +243,14 @@ struct	s_data
 
 //Type definitions
 
-typedef int 				(*t_builtin)(const char **, \
+typedef int						(*t_builtin)(const char **, \
 struct s_env *);
 
-typedef enum e_types		t_types;
+typedef struct s_ncommand		t_ncommand;
 
-typedef enum e_minierrors	t_minierrors;
+typedef struct s_redir			t_redirection;
 
-typedef enum e_exit_errors	t_exit_errors;
-
-typedef struct s_command	t_command;
-
-typedef struct s_ncommand	t_ncommand;
-
-typedef struct s_arg		t_arg;
-
-typedef struct s_env		t_env;
-
-typedef struct s_data		t_data;
-
-typedef struct s_metachar	t_metachar;
-
-typedef struct s_parser		t_parser;
-
-typedef struct s_redir		t_redir;
-
-typedef struct s_redir		t_redirection;
-
-typedef struct s_heredoc	t_heredoc;
-
+typedef struct s_heredoc		t_heredoc;
 //End of type definitions
 
 #endif
