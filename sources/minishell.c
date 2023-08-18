@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/18 12:16:42 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:13:21 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int argc, char **argv)
 		}
 		if (*line)
 			add_history(line);
-		commands_exec(line, env);
+		keep_exit_status(commands_exec(line, env));
 		if (g_termsig)
 			reset_termsig();
 		/*
