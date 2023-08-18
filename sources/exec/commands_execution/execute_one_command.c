@@ -6,20 +6,23 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/18 11:12:47 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:33:53 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include "minishell.h"
+#include "signal_messages.h"
 
 /*
 int	execute_file(struct s_ncommand *command, struct s_env *env)
 {}
 */
 
-static int	pre_execution(struct s_redir *redirs, struct s_heredoc *heredocs)
+static int	pre_execution(struct s_redir *redirs, \
+struct s_heredoc *heredocs)
 {
 	if (save_stds(-1))
 		return (1);
@@ -55,25 +58,35 @@ static char	*find_command_path(char *command, struct s_tab *env)
 static int	handle_exit_status(const int wstatus)
 {
 	if (WIFEXITED(wstatus))
-	{
-		ft_printf("exited, status=%d\n", WEXITSTATUS(wstatus));
 		return (WEXITSTATUS(wstatus));
-	}
-	else if (WIFSIGNALED(wstatus))
+	if (WIFCONTINUED(wstatus))
+		return (18);
+	if (WIFSIGNALED(wstatus))
 	{
-		ft_printf("killed by signal %d\n", WTERMSIG(wstatus));
+		ft_putstr_fd(choose_sig(WTERMSIG(wstatus)), STDOUT_FILENO);
+		if (WCOREDUMP(wstatus))
+			ft_putstr_fd(CORE_MESSAGE, STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		return (128 + WTERMSIG(wstatus));
 	}
-	else if (WIFSTOPPED(wstatus))
+	//ft_printf("%s", choose_sig(WIFSIGNALED(wstatus)));
+	ft_putendl_fd(choose_sig(WIFSIGNALED(wstatus)), STDOUT_FILENO);
+	return (128 + WSTOPSIG(wstatus));
+}
+
+static int	apply_pipe(const int fd_in, const int fd_out)
+{
+	if (fd_in != STDIN_FILENO)
 	{
-		ft_printf("stopped by signal %d\n", WSTOPSIG(wstatus));
-		return (128 + WSTOPSIG(wstatus));
+		if ((s_dup2(fd_in, STDIN_FILENO) < 0) || s_close(fd_in))
+			return (1);
 	}
-	else if (WIFCONTINUED(wstatus))
+	if (fd_out != STDOUT_FILENO)
 	{
-		ft_printf("continued\n");
+		if ((s_dup2(fd_out, STDOUT_FILENO) < 0) || s_close(fd_out))
+			return (1);
 	}
-	return (18);
+	return (0);
 }
 
 /*
@@ -100,7 +113,9 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		if (make_redirections(command->redirs, command->heredocs))
+		//signal(SIGPIPE, SIG_DFL);
+		if (apply_pipe(command->input_fd, command->output_fd) || \
+		make_redirections(command->redirs, command->heredocs))
 			exit_free_gc(1);
 		command->path = find_command_path(command->command, env);
 //		clear_list();
