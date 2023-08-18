@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/13 11:48:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/13 11:48:49 by nsainton         ###   ########.fr       */
+/*   Created: 2023/08/18 17:53:43 by nsainton          #+#    #+#             */
+/*   Updated: 2023/08/18 17:53:43 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int					check_o_redir(char *line, size_t *len, t_csizet index);
 
 //Functions from file : get_vars.c
 char				*expand_env_var(const char *line, size_t index, \
-size_t length, const struct s_env *env);
+size_t length, const struct s_tab *env);
 
 int					copy_env_variable(t_str *str, t_cstr *line, int parser, \
-t_env *env);
+const struct s_tab *env);
 
 //Functions from file : invalid_redir.c
 int					invalid_redir(t_cchar *line, t_csizet index, \
@@ -40,8 +40,8 @@ void				decrypt_string(char *s);
 int					ft_ispunct(const int c);
 
 //Functions from file : split_line.c
-int					split_line(t_cchar *line, t_ncommand **command, \
-t_env *env);
+int					split_line(const char *line, \
+struct s_ncommand **command, const struct s_tab *env);
 
 //Functions from file : redirections.c
 int					redirections(t_tab *redirs, t_str *line);
@@ -78,7 +78,7 @@ int					invalid_operator(char *line, size_t *len);
 
 //Functions from file : get_raw_line.c
 int					get_raw_line(t_cchar *line, t_str *newline, \
-t_env *env);
+const struct s_tab *env);
 
 //Functions from file : finders.c
 size_t				find_next(t_cchar *line, size_t index, t_cchar *tofind);
@@ -98,94 +98,65 @@ void				print_bin(void *elem, t_csizet elemsize);
 void				print_tab_bin(t_tab *tab);
 
 //Functions from file : connection.c
-t_command			**get_commands_reference(t_ncommand *original);
-
-//Functions from file : save_state.c
-int					save_state(const int action);
-
 //Functions from file : pipex_utils.c
-void				wait_for_childs(t_data *d);
-
-char				**make_command(t_command *cmd);
-
-void				close_used_pipes(t_data *d, t_command *cmd);
-
-void				safe_close(int fd);
-
 //Functions from file : signals.c
-void				quit_child(int sig);
+char				*choose_sig(int signum);
 
 void				init_sigs(void);
 
-void				reinit_sigs(void);
-
 //Functions from file : heredoc.c
 int					heredocs(const struct s_ncommand *commands, \
-const size_t commands_nb, const struct s_env *env);
+const size_t commands_nb, const struct s_tab *env);
 
 //Functions from file : heredocs_fds_list.c
 //Functions from file : read_heredoc_line.c
 int					write_line(const char *line, int write_fd, \
-const struct s_env *env);
+const struct s_tab *env);
 
 //Functions from file : list_management.c
 int					*getlist(const size_t size, const size_t elemsize);
 
-void				clear_list(void);
-
-void				close_heredoc_fds(void);
-
 //Functions from file : get_heredoc.c
 int					get_heredoc(struct s_heredoc_infos *hd, \
-struct s_heredoc *heredoc, const struct s_env *env);
+struct s_heredoc *heredoc, const struct s_tab *env);
 
 //Functions from file : execute_command.c
 int					execute_commands(struct s_ncommand *commands, \
 struct s_env *env);
 
+//Functions from file : pre_execution.c
+int					cleanup_before_exec(struct s_ncommand *commands, \
+const size_t index, const size_t commands_nb);
+
+int					pre_execution(struct s_redir *redirs, \
+struct s_heredoc *heredocs);
+
 //Functions from file : find_in_path.c
 char				*find_in_path(const char *path, const char *command);
 
 //Functions from file : get_path.c
-int					getpath(struct s_ncommand *command, struct s_env *env);
+int					getpath(char *command, char **command_path, \
+struct s_tab *env);
+
+//Functions from file : execute_one_command.c
+int					handle_exit_status(const int wstatus);
+
+int					execute_command(struct s_ncommand *command, \
+struct s_env *env);
 
 //Functions from file : make_redirections.c
 int					make_redirections(struct s_redir *redirections, \
 struct s_heredoc *heredocs);
 
 //Functions from file : exit_free.c
-void				exit_free_gc(int status);
+void				exit_message(const int status, const char *message);
+
+_Noreturn void		exit_free_gc(const int status);
 
 int					keep_exit_status(const int exit_status);
 
 //Functions from file : redirs.c
 //Functions from file : dups.c
-void				dup_in_out(int fd_in, int fd_out);
-
-void				dup_pipe(t_data *d, const int command_index);
-
-void				dupnclose(int fd1, int fd2);
-
-//Functions from file : files.c
-int					get_infile(t_command *c, t_redir *r);
-
-int					get_outfile(t_command *c, t_redir *r, const int mode);
-
-//Functions from file : save_stds.c
-int					save_stds(const int mode);
-
-//Functions from file : exec_cmds.c
-//Functions from file : exec_one.c
-//Functions from file : make_pipes.c
-int					make_pipes(struct s_ncommand *commands);
-
-//Functions from file : check_path.c
-int					check_path(t_command *cmd, t_env *my_env);
-
-int					is_a_directory(char *path);
-
-int					ft_arrlen(void **arr);
-
 //Functions from file : fdlist_management.c
 struct s_list		**get_fdlist(void);
 
@@ -200,16 +171,46 @@ void				clear_fdlist(void);
 //Functions from file : fds_list.c
 int					s_open(const char *pathname, int flags, mode_t mode);
 
+int					isdifferent_pointer(const int *a, const int *b);
+
 int					s_close(int fd);
 
 int					s_dup2(int oldfd, int newfd);
 
 int					s_pipe(int pipefd[2]);
 
+//Functions from file : fdlist_init.c
+int					fdlist_init(void);
+
+//Functions from file : files.c
+//Functions from file : save_stds.c
+int					save_stds(const int to_open);
+
+//Functions from file : exec_cmds.c
+//Functions from file : exec_one.c
+//Functions from file : make_pipes.c
+int					make_pipes(struct s_ncommand *commands);
+
+//Functions from file : check_path.c
+//Functions from file : tab_wrappers.c
+void				del_tab_elem(struct s_tab *tab, const void *elem, \
+int (*cmp)(), void (*del)(void *));
+
+void				replace_tab_elem(struct s_tab *tab, void *elem, \
+const size_t index, void (*del)(void *));
+
+size_t				get_elem_index(struct s_tab *tab, const void *elem, \
+int (*cmp)());
+
+int					copy_tab(struct s_tab *newtab, \
+const struct s_tab *oldtab);
+
+int					insertion_sort_tab(struct s_tab *tab, int (*cmp)());
+
 //Functions from file : debug.c
 void				print_fd(void *fd);
 
-void				print_fdlist();
+void				print_fdlist(void);
 
 //Functions from file : dup_list.c
 //Functions from file : hash_map_init.c
@@ -232,84 +233,56 @@ void				hash_map_clear(struct s_hashmap *map);
 int					hash_map_add(struct s_hashmap *map, void *elem);
 
 //Functions from file : echo.c
-int					print_echo(t_data *d, t_command *cmd);
-
-int					is_true_optn(char *str);
-
-int					print_exit_status(t_data *d, t_command *cmd);
-
-//Functions from file : utils.c
-void				print_list_prefix(t_list *lst, char *prefix);
-
-t_list				*ft_lstnew_gc(void *content);
-
-char				**envlist_to_arr(t_list *env);
+int					echo(const char **args, struct s_env *env);
 
 //Functions from file : exit.c
-int					exit_builtin(char **args, int *errnum);
+int					exit_builtin(const char **args, struct s_env *env);
 
 //Functions from file : export_env.c
-int					add_env_var(char *arg, struct s_env *environment);
-
-int					add_env_vars(char **args, struct s_env *environment, \
-int *errnum);
-
-int					export_env(t_data *d, t_command *cmd);
-
 //Functions from file : unset_env.c
-int					unset_env(t_data *d, t_command *cmd);
-
-int					is_valid_unset(char *arg);
-
 //Functions from file : pwd.c
-char				*get_env_var(const struct s_env *my_env, char *var);
+int					pwd(const char **arguments, struct s_env *env);
 
-int					print_pwd(t_command *cmd);
-
-int					update_env_line(t_env *my_env, char *name, \
-char *new_line);
-
-t_list				*get_env_line(t_env *my_env, char *var);
-
-int					is_option(char *arg);
+//Functions from file : unset.c
+int					unset(const char **args, struct s_env *env);
 
 //Functions from file : cd.c
-int					cd(t_command *cmd, t_data *d);
-
-int					set_new_pwd(t_env *my_env);
-
-int					go_home(t_env *my_env, int set_old);
-
-int					go_old_pwd(t_env *env);
+int					cd(const char **args, struct s_env *env);
 
 //Functions from file : env.c
-t_env				*get_my_env(char **envp);
+int					compare_names(const char **var_address, \
+const char *identifier);
 
-t_list				*copy_env(char **envp);
+void				del_string_tab(void *str);
 
-int					print_env(t_data *d, t_command *cmd);
+char				*get_var_value(const struct s_tab *env, \
+const char *identifier);
 
-t_list				*create_false_env(void);
+int					valid_identifier(const char *var);
 
-void				delete_env_line(t_list *start, t_list *to_del);
+int					set_var(struct s_tab *env_list, const char *var);
+
+int					set_var_value(struct s_tab *env_list, \
+const char *identifier, const char *value);
+
+struct s_env		*create_env(const char **envp);
+
+void				print_env(struct s_tab *env);
+
+int					env(const char **args, struct s_env *environnement);
+
+int					print_exportlist(struct s_tab *export);
 
 //Functions from file : export.c
-int					is_valid_export(char *arg);
-
-int					is_valid_name(char *arg);
-
-int					modify_env(t_env *my_env, char *export);
+int					export(const char **args, struct s_env *env);
 
 //Functions from file : builtin.c
-int					exec_builtin(t_command *cmd, t_data *d);
-
-int					is_builtin(t_command *cmd, t_data *d);
+t_builtin			choose_builtin(const char *str);
 
 //Functions from file : minishell.c
 //Functions from file : commands_exec.c
-void				commands_exec(t_cchar *line, struct s_data *data);
+int					commands_exec(const char *line, struct s_env *env);
 
-//Functions from file : test_parsing.c
 //Functions from file : ft_list_remove_if.c
 void				ft_list_remove_if(t_list **begin_list, void *data_ref, \
 int (*cmp)(), void (*free_fct)(void *));
