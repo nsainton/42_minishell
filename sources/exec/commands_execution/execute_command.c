@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/18 13:41:24 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 14:04:15 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	pipeline_status(void)
 	pid_t	tmp_pid;
 
 	child_pid = 0;
-	status = 0;
+	status = -1;
 	tmp_pid = wait(&tmp_status);
 	while (tmp_pid > -1)
 	{
@@ -59,7 +59,7 @@ struct s_env *env)
 	if (apply_pipe((commands + command_index)->input_fd, \
 	(commands + command_index)->output_fd))
 		exit_free_gc(1);
-	if (cleanup_before_exec(commands, command_index, command_nb))
+	if (cleanup_before_exec(commands, command_index, commands_nb))
 		exit_free_gc(1);
 	err = execute_command(commands + command_index, env);
 	clear_fdlist();
@@ -70,11 +70,9 @@ static int	execute_pipeline(struct s_ncommand *commands, \
 const size_t commands_nb, struct s_env *env)
 {
 	size_t	i;
-	int		err;
 	int		child_pid;
 
 	i = 0;
-	err = 1;
 	while (i < commands_nb)
 	{
 		child_pid = fork();
