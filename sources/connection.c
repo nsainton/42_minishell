@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 14:04:03 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 11:30:42 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 13:56:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 static void	**get_tab_references(void *original, t_csizet elemsize, int *err)
 {
 	size_t	len;
@@ -90,3 +91,4 @@ t_command	**get_commands_reference(t_ncommand *original)
 	}
 	return (commands);
 }
+*/
