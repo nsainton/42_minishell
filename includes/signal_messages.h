@@ -6,15 +6,22 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:43:50 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 18:28:26 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 11:42:24 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+	We set a default value for SIGSTKFLT because it is not defined on all
+	architectures and we use it for initialization.
+*/
 #ifndef SIGNAL_MESSAGES_H
 # define SIGNAL_MESSAGES_H
+# ifndef SIGSTKFLT
+#  define SIGSTKFLT 0
+# endif
 # define SIGHUP_MESSAGE "Hangup"
-# define SIGINT_MESSAGE ""
 # define SIGQUIT_MESSAGE "Quit"
+# define SIGINT_MESSAGE "\n"
 # define SIGILL_MESSAGE "Illegal instruction"
 # define SIGTRAP_MESSAGE "Trace/breakpoint trap"
 # define SIGABRT_MESSAGE "Aborted"
@@ -33,8 +40,5 @@
 # define SIGPOLL_MESSAGE "Power failure"
 # define SIGSYS_MESSAGE "Bad system call"
 # define SIGPIPE_MESSAGE ""
-# define SIGINT_MESSAGE "\n"
-# define SIGQUIT_MESSAGE "Quit"
 # define DFL_MESSAGE ""
-
 #endif
