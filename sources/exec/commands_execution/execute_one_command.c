@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 14:20:00 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 11:12:47 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ static char	*find_command_path(char *command, struct s_tab *env)
 			ft_printf("minishell: %s: no such file or directory\n", \
 			command);
 		if (! err)
+		{
 			ft_printf("minishell: %s: command not found\n", command);
+			err = 127;
+		}
 		exit_free_gc(err);
 	}
 	return (path);
@@ -59,18 +62,18 @@ static int	handle_exit_status(const int wstatus)
 	else if (WIFSIGNALED(wstatus))
 	{
 		ft_printf("killed by signal %d\n", WTERMSIG(wstatus));
-		return (WTERMSIG(wstatus));
+		return (128 + WTERMSIG(wstatus));
 	}
 	else if (WIFSTOPPED(wstatus))
 	{
 		ft_printf("stopped by signal %d\n", WSTOPSIG(wstatus));
-		return (WSTOPSIG(wstatus));
+		return (128 + WSTOPSIG(wstatus));
 	}
 	else if (WIFCONTINUED(wstatus))
 	{
 		ft_printf("continued\n");
 	}
-	return (-1);
+	return (18);
 }
 
 /*
@@ -89,7 +92,6 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 {
 	pid_t	child_pid;
 	int		status;
-	int		err;
 
 	child_pid = fork();
 	if (child_pid < 0)
@@ -105,9 +107,7 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 		if (execve(command->path, command->args - 1, env->tab))
 			exit_free_gc(1);
 	}
-	err = wait(&status);
-	while (err > -1 && ! (WIFEXITED(status) || WIFSIGNALED(status)))
-		err = wait(&status);
+	wait(&status);
 	return (status);
 }
 
