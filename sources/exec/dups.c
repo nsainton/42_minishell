@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 18:10:51 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/10 12:40:00 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:08:29 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 void	dup_in_out(int fd_in, int fd_out)
 {
 	if (fd_in != STDIN_FILENO)
@@ -35,3 +36,4 @@ void	dupnclose(int fd1, int fd2)
 	dup2(fd1, fd2);
 	safe_close(fd1);
 }
+*/

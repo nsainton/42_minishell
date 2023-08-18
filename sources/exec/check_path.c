@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 16:39:48 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/07/27 14:38:30 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:08:09 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 static int	find_command(char **path, struct s_command *command)
 {
 	size_t	i;
@@ -59,6 +60,7 @@ int	check_path(t_command *cmd, t_env *my_env)
 		return (2);
 	return (find_command(path, cmd));
 }
+*/
 
 /*
 int	check_path(t_command *cmd, t_env *my_env)
@@ -100,6 +102,7 @@ int	check_path(t_command *cmd, t_env *my_env)
 }
 */
 
+/*
 int	is_a_directory(char *path)
 {
 	struct stat	sb;
@@ -123,3 +126,4 @@ int	ft_arrlen(void **arr)
 		i++;
 	return (i);
 }
+*/

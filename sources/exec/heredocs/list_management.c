@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 14:45:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/10 11:00:41 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:52:13 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	*getlist(const size_t size, const size_t elemsize)
 	return (list);
 }
 
+/*
 void	clear_list(void)
 {
 	char			nullelem[20];
@@ -71,3 +72,4 @@ void	close_heredoc_fds(void)
 	free_node(list);
 	getlist(0, 0);
 }
+*/

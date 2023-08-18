@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 11:33:28 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/03 15:43:25 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/16 09:23:37 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 int	get_infile(t_command *c, t_redir *r)
 {
 	if (c->fd_in != 0)
@@ -47,3 +48,4 @@ int	get_outfile(t_command *c, t_redir *r, const int mode)
 		c->fd_out = 1;
 	return (0);
 }
+*/

@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:01:07 by nsainton          #+#    #+#             */
-/*   Updated: 2023/07/27 16:21:43 by avedrenn         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:06:47 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 static int	update_status(int status, const int cmds_number, const int rank)
 {
 	if (WIFEXITED(status))
@@ -97,4 +98,4 @@ void	safe_close(int fd)
 	if (fd > 2)
 		close(fd);
 }
-
+*/
