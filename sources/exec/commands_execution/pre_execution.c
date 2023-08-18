@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 13:11:33 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/18 13:32:29 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 13:39:25 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	close_unused_heredocs(struct s_ncommand *command)
 	connected to the read end of the pipe may wait indefinitely even if the
 	only writter concerned with the pipe is done writting.
 */
-int	cleanup_before_exec(struct s_ncommand *command, const size_t index, \
+int	cleanup_before_exec(struct s_ncommand *commands, const size_t index, \
 const size_t commands_nb)
 {
 	size_t	i;
@@ -68,7 +68,8 @@ const size_t commands_nb)
 			i ++;
 			continue ;
 		}
-		if (close_unused_pipe(command) || close_unused_heredocs(command))
+		if (close_unused_pipe(commands + i) || \
+		close_unused_heredocs(commands + i))
 			return (1);
 		i ++;
 	}
