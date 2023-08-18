@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 11:40:30 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:54:13 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	execute_commands(struct s_ncommand *commands, struct s_env *env)
 	{
 		err = execute_command(commands + i, env);
 		ft_printf("The command number %d returned : %d\n", i + 1, err);
+		keep_exit_status((err < 0) + (err >= 0) * err);
 		i ++;
 	}
 	clear_fdlist();
