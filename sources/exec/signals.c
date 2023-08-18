@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:03:00 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/18 11:45:17 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 11:50:32 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/ioctl.h>
 #include "signal_messages.h"
 
-void	init_firsthalf_sigarray(char **sigarray)
+static void	init_sigarray(char **sigarray)
 {
 	*(sigarray + SIGHUP) = SIGHUP_MESSAGE;
 	*(sigarray + SIGQUIT) = SIGQUIT_MESSAGE;
@@ -38,7 +38,7 @@ void	init_firsthalf_sigarray(char **sigarray)
 	*(sigarray + SIGSYS) = SIGSYS_MESSAGE;
 }
 
-static char	*choose_sig(int signum)
+char	*choose_sig(int signum)
 {
 	int			i;
 	static char	*signals[32];
@@ -46,16 +46,15 @@ static char	*choose_sig(int signum)
 	if (signum > 31)
 		return (DFL_MESSAGE);
 	if (*signals)
-		return (signals + signum);
+		return (*(signals + signum));
 	i = 0;
 	while (i < 32)
 	{
 		*(signals + i) = DFL_MESSAGE;
 		i ++;
 	}
-	init_firsthalf_sigarray(signals);
-	init_secondhalf_sigarray(signals);
-	return (signals + signum);
+	init_sigarray(signals);
+	return (*(signals + signum));
 }
 
 static void	init_sig(int signum, void handler(int, siginfo_t*, void*))
