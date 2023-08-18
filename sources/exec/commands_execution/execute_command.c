@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/18 17:49:37 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:00:08 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ struct s_env *env)
 {
 	int	err;
 
-	signal(SIGPIPE, SIG_DFL);
+	signal(SIGPIPE, SIG_IGN);
 	if (apply_pipe((commands + command_index)->input_fd, \
 	(commands + command_index)->output_fd))
 		exit_free_gc(1);

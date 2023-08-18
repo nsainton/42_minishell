@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/18 13:52:20 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:59:04 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		signal(SIGPIPE, SIG_DFL);
 		if (make_redirections(command->redirs, command->heredocs))
 			exit_free_gc(1);
 		command->path = find_command_path(command->command, env);
