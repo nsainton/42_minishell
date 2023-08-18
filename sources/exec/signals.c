@@ -6,12 +6,57 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:03:00 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 11:53:13 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 11:45:17 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/ioctl.h>
+#include "signal_messages.h"
+
+void	init_firsthalf_sigarray(char **sigarray)
+{
+	*(sigarray + SIGHUP) = SIGHUP_MESSAGE;
+	*(sigarray + SIGQUIT) = SIGQUIT_MESSAGE;
+	*(sigarray + SIGINT) = SIGINT_MESSAGE;
+	*(sigarray + SIGILL) = SIGILL_MESSAGE;
+	*(sigarray + SIGTRAP) = SIGTRAP_MESSAGE;
+	*(sigarray + SIGABRT) = SIGABRT_MESSAGE;
+	*(sigarray + SIGBUS) = SIGBUS_MESSAGE;
+	*(sigarray + SIGFPE) = SIGFPE_MESSAGE;
+	*(sigarray + SIGKILL) = SIGKILL_MESSAGE;
+	*(sigarray + SIGUSR1) = SIGUSR1_MESSAGE;
+	*(sigarray + SIGUSR2) = SIGUSR2_MESSAGE;
+	*(sigarray + SIGSEGV) = SIGSEGV_MESSAGE;
+	*(sigarray + SIGALRM) = SIGALRM_MESSAGE;
+	*(sigarray + SIGSTKFLT) = SIGSTKFLT_MESSAGE;
+	*(sigarray + SIGXCPU) = SIGXCPU_MESSAGE;
+	*(sigarray + SIGXFSZ) = SIGXFSZ_MESSAGE;
+	*(sigarray + SIGVTALRM) = SIGVTALRM_MESSAGE;
+	*(sigarray + SIGPROF) = SIGPROF_MESSAGE;
+	*(sigarray + SIGPOLL) = SIGPOLL_MESSAGE;
+	*(sigarray + SIGSYS) = SIGSYS_MESSAGE;
+}
+
+static char	*choose_sig(int signum)
+{
+	int			i;
+	static char	*signals[32];
+
+	if (signum > 31)
+		return (DFL_MESSAGE);
+	if (*signals)
+		return (signals + signum);
+	i = 0;
+	while (i < 32)
+	{
+		*(signals + i) = DFL_MESSAGE;
+		i ++;
+	}
+	init_firsthalf_sigarray(signals);
+	init_secondhalf_sigarray(signals);
+	return (signals + signum);
+}
 
 static void	init_sig(int signum, void handler(int, siginfo_t*, void*))
 {
@@ -34,39 +79,8 @@ static void	interrupt(int signum, siginfo_t *info, void *ucontext)
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 }
 
-/*
-static void	interrupt_child(int signum, siginfo_t *info, void *ucontext)
-{
-	(void)signum;
-	(void)info;
-	(void)ucontext;
-
-	g_termsig = 128 + signum;
-	keep_exit_status(g_termsig);
-	ft_putstr_fd("\n", 1);
-}
-*/
-
-/*
-void quit_child(int sig)
-{
-	if (sig == SIGQUIT)
-	{
-		ft_printf("Quit (core dumped)\n");
-		keep_exit_status(131);
-	}
-}
-*/
-
 void	init_sigs(void)
 {
 	init_sig(SIGINT, interrupt);
 	signal(SIGQUIT, SIG_IGN);
 }
-
-/*
-void	reinit_sigs(void)
-{
-	init_sig(SIGINT, interrupt_child);
-}
-*/
