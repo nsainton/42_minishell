@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/18 14:04:15 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:49:37 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ static int	pipeline_status(void)
 	pid_t	child_pid;
 	pid_t	tmp_pid;
 
-	child_pid = 0;
-	status = -1;
+	status = 0x100;
+	child_pid = -1;
 	tmp_pid = wait(&tmp_status);
 	while (tmp_pid > -1)
 	{
@@ -55,7 +55,7 @@ struct s_env *env)
 {
 	int	err;
 
-	signal(SIGPIPE, SIG_IGN);
+	signal(SIGPIPE, SIG_DFL);
 	if (apply_pipe((commands + command_index)->input_fd, \
 	(commands + command_index)->output_fd))
 		exit_free_gc(1);
