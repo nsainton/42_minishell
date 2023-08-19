@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/18 17:59:04 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/19 08:11:44 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGPIPE, SIG_DFL);
+		/*
 		if (make_redirections(command->redirs, command->heredocs))
 			exit_free_gc(1);
+		*/
 		command->path = find_command_path(command->command, env);
 		if (execve(command->path, command->args - 1, env->tab))
 			exit_free_gc(1);
@@ -90,6 +92,7 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 	return (status);
 }
 
+/*
 static int	execute_builtin(t_builtin builtin, \
 struct s_ncommand *command, struct s_env *env)
 {
@@ -102,6 +105,7 @@ struct s_ncommand *command, struct s_env *env)
 	save_stds(-2);
 	return (err);
 }
+*/
 
 int	execute_command(struct s_ncommand *command, struct s_env *env)
 {
@@ -109,15 +113,20 @@ int	execute_command(struct s_ncommand *command, struct s_env *env)
 	int			status;
 	int			err;
 
-	if (! command->command)
+	err = make_redirections(command->redirs, command->heredocs);
+	if (err || ! command->command)
 	{
-		err = pre_execution(command->redirs, command->heredocs);
 		save_stds(-2);
 		return (err);
 	}
 	builtin = choose_builtin(command->command);
 	if (builtin)
-		return (execute_builtin(builtin, command, env));
+	{
+		err = builtin((const char **)command->args, env);
+		save_stds(-2);
+		return (err);
+	}
 	status = execute_file(command, env->env_list);
+	save_stds(-2);
 	return (handle_exit_status(status));
 }
