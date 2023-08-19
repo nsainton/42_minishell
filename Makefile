@@ -6,7 +6,7 @@
 #    By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/08/11 14:45:55 by nsainton         ###   ########.fr        #
+#    Updated: 2023/08/19 11:36:45 by nsainto          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,11 @@ FUNCS_HEADER:= $(addprefix $(INCS_DIR)/, $(HEADER_NAME))
 
 GIT_ADD:= --all
 
-VALGRIND_OPTIONS:= --leak-check=full --show-leak-kinds=all --suppressions=rl_suppressions.supp
+VALGRIND_OPTIONS:= --leak-check=full --show-leak-kinds=all \
+					--suppressions=rl_suppressions.supp \
+					--trace-children=yes \
+					--track-fds=all \
+					--track-origins=yes -s
 
 export LIBS_DIR
 export C_INCLUDE_PATH=$(INCS_DIR):$(LFT_DIR)/$(INCS_DIR):$(LGC_DIR)/$(INCS_DIR)
