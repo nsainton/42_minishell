@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/19 08:11:44 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/19 11:38:44 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 	int		status;
 
 	child_pid = fork();
+	status = 0x100;
 	if (child_pid < 0)
 		return (1);
 	if (! child_pid)
