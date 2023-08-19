@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 23:52:52 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/16 08:42:13 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/19 08:25:17 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,15 @@ int	exit_builtin(const char **args, struct s_env *env)
 
 	(void)env;
 	if (args == NULL)
+	{
+		ft_dprintf(STDERR_FILENO, "exit\n");
 		exit_free_gc(keep_exit_status(-1));
+	}
 	len = tablen(args, sizeof * args);
 	if (! len)
+	{
+		ft_dprintf(STDERR_FILENO, "exit\n");
 		exit_free_gc(keep_exit_status(-1));
+	}
 	return (check_args(args, len));
 }
