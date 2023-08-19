@@ -10,7 +10,7 @@ gcc -Wall -Wextra -Werror tests/cd_test.c -lft sources/"builtin"/env.c sources/"
 #------------------------Tests for the echo "builtin"-------------------------#
 gcc -Wall -Wextra -Werror -g tests/echo_test.c sources/"builtin"/"echo".c -I includes/ -I libs/libgc/includes -I libs/libft/includes -L libs/libft -lft -o $tests_bins/echo_test
 #------------------------Tests for the hashmap structure--------------------#
-gcc -Wall -Wextra -Werror tests/hashmap_test.c -lft objects_debug/"exec"/wrappers/fdlist_management.o objects_debug/fake_hash_map/hash_map_find.o objects_debug/fake_hash_map/hash_map_init.o objects_debug/fake_hash_map/hash_map_management.o -I includes -I libs/libft/includes -I libs/libgc/includes -L libs/libft -L libs/libgc -lft -lgc -lft -g -o $tests_bins/hashmap_test
+gcc -Wall -Wextra -Werror tests/hashmap_test.c -lft sources/"exec"/fds_list/fdlist_management.c sources/fake_hash_map/hash_map_find.c sources/fake_hash_map/hash_map_init.c sources/fake_hash_map/hash_map_management.c -I includes -I libs/libft/includes -I libs/libgc/includes -L libs/libft -L libs/libgc -lft -lgc -lft -g -o $tests_bins/hashmap_test
 #------------------------Tests for wrappers for tab structure----------------#
 gcc -Wall -Wextra -Werror tests/tab_test.c -lft sources/"exec"/wrappers/tab_wrappers.c sources/"builtin"/"env".c -I includes -I libs/libft/includes -I libs/libgc/includes -L libs/libft -L libs/libgc -lft -lgc -lft -g -o $tests_bins/tab_test
 #------------------------Tests for stds saving------------------------------#
