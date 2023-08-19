@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 13:03:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/18 18:00:08 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/19 12:21:04 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,22 @@ static int	apply_pipe(const int fd_in, const int fd_out)
 	return (0);
 }
 
-static int	pipeline_status(void)
+static int	pipeline_status(const int last_pid, const int error)
 {
 	int		status;
 	int		tmp_status;
 	pid_t	child_pid;
-	pid_t	tmp_pid;
 
 	status = 0x100;
-	child_pid = -1;
-	tmp_pid = wait(&tmp_status);
-	while (tmp_pid > -1)
+	child_pid = wait(&tmp_status);
+	while (child_pid > -1)
 	{
-		if (tmp_pid > child_pid)
-		{
-			child_pid = tmp_pid;
+		if (child_pid == last_pid)
 			status = tmp_status;
-		}
-		tmp_pid = wait(&tmp_status);
+		child_pid = wait(&tmp_status);
 	}
+	if (error)
+		status = 0x100;
 	return (handle_exit_status(status));
 }
 
@@ -84,7 +81,7 @@ const size_t commands_nb, struct s_env *env)
 		i ++;
 	}
 	clear_fdlist();
-	return (pipeline_status());
+	return (pipeline_status(child_pid, (i != commands_nb)));
 }
 
 /**
