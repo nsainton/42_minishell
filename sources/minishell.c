@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/18 14:13:21 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/20 13:56:49 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,22 @@ void	handle(int sig)
 
 static void	reset_termsig(void)
 {
-	printf("we received : %d\n", g_termsig);
-	keep_exit_status(g_termsig);
+//	printf("we received : %d\n", g_termsig);
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	if (g_termsig)
+		keep_exit_status(g_termsig);
 	g_termsig = 0;
+	/*
 	rl_replace_line("", 0);
 	rl_on_new_line();
+	*/
 }
-	
+
+static int	event_hook(void)
+{
+	return (0);
+}
+
 volatile sig_atomic_t	g_termsig = 0;
 
 extern char	**environ;
@@ -60,7 +69,7 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	(void)argv;
-	rl_catch_signals = 0;
+//	rl_catch_signals = 0;
 	init_sigs();
 	/*
 	name = ttyname(0);
@@ -70,11 +79,13 @@ int	main(int argc, char **argv)
 		printf("tty name : %s\n", name);
 	*/
 	env = create_env((const char **)environ);
+	rl_event_hook = event_hook;
 	if (! env)
 		exit_message(1, MEM_MSG);
 	while (1)
 	{
-		line = readline("minishell> ");
+		ft_putstr_fd("minishell> ", STDERR_FILENO);
+		line = readline("");
 		if (g_termsig)
 		{
 			reset_termsig();
@@ -87,6 +98,8 @@ int	main(int argc, char **argv)
 		}
 		if (*line)
 			add_history(line);
+		else
+			reset_termsig();
 		keep_exit_status(commands_exec(line, env));
 		if (g_termsig)
 			reset_termsig();
