@@ -6,7 +6,6 @@
    ...
    fun:readline
    ...
-   fun:main
 }
 
 {
@@ -17,7 +16,6 @@
    ...
    fun:readline
    ...
-   fun:main
 }
 
 {
@@ -28,7 +26,6 @@
    ...
    fun:readline
    ...
-   fun:main
 }
 
 {
@@ -37,8 +34,6 @@
    match-leak-kinds: reachable
    fun:realloc
    ...
-   fun:readline
-
 }
 
 {
@@ -49,5 +44,4 @@
 	...
 	fun:add_history
 	...
-	fun:main
 }
