@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/21 11:27:02 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 12:08:45 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ static _Noreturn void	exec_interactive(struct s_env *env)
 		if (g_termsig)
 		{
 			reset_termsig();
+			free(line);
 			continue ;
 		}
-		if (!line || gc_add(line))
+		if (! line || gc_add(line))
 			exit_builtin(NULL, NULL);
 		if (*line)
 			add_history(line);
