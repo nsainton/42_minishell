@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:03:00 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/21 12:10:44 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:59:46 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	init_sigarray(char **sigarray)
 {
 	*(sigarray + SIGHUP) = SIGHUP_MESSAGE;
 	*(sigarray + SIGQUIT) = SIGQUIT_MESSAGE;
-	//*(sigarray + SIGINT) = SIGINT_MESSAGE;
 	*(sigarray + SIGILL) = SIGILL_MESSAGE;
 	*(sigarray + SIGTRAP) = SIGTRAP_MESSAGE;
 	*(sigarray + SIGABRT) = SIGABRT_MESSAGE;
@@ -92,7 +91,6 @@ static void	interrupt(int signum, siginfo_t *info, void *ucontext)
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_on_new_line();
 	}
-	//rl_done = 1;
 }
 
 void	init_sigs(void)

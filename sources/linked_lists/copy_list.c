@@ -6,7 +6,7 @@
 /*   By: nsainton <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:40:02 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/02 18:04:28 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:02:31 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ struct s_list	*copy_list(struct s_list *lst)
 		}
 		ft_memcpy(node, lst, sizeof * copy);
 		ft_lstadd_front(&copy, node);
-		//ft_printf("This is the node : %s\n", (char *)node->content);
 		lst = lst->next;
 	}
 	return (copy);

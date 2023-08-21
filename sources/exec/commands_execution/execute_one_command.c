@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/19 11:38:44 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/21 15:00:23 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,6 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGPIPE, SIG_DFL);
-		/*
-		if (make_redirections(command->redirs, command->heredocs))
-			exit_free_gc(1);
-		*/
 		command->path = find_command_path(command->command, env);
 		if (execve(command->path, command->args - 1, env->tab))
 			exit_free_gc(1);
@@ -92,21 +88,6 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 	wait(&status);
 	return (status);
 }
-
-/*
-static int	execute_builtin(t_builtin builtin, \
-struct s_ncommand *command, struct s_env *env)
-{
-	int	err;
-
-	err = pre_execution(command->redirs, command->heredocs);
-	if (err)
-		return (1);
-	err = builtin((const char **)command->args, env);
-	save_stds(-2);
-	return (err);
-}
-*/
 
 int	execute_command(struct s_ncommand *command, struct s_env *env)
 {
