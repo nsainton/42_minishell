@@ -6,12 +6,18 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/21 10:51:56 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 13:49:54 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+	Here, in the return, we check that identifier is the same length as the
+	portion of the var before the '=' sign so that it doesn't return true for
+	special cases like $HOME_A where it in facts returns $HOME because
+	strncmp("HOME", "HOME_A", 4) returns 0.
+*/
 int	compare_names(const char **var_address, const char *identifier)
 {
 	size_t		i;
@@ -21,7 +27,8 @@ int	compare_names(const char **var_address, const char *identifier)
 	env_var = *var_address;
 	while (*(env_var + i) && *(env_var + i) != '=')
 		i ++;
-	return (ft_strncmp(env_var, identifier, i));
+	return (ft_strncmp(env_var, identifier, i) || \
+	(i != ft_strlen(identifier)));
 }
 
 void	del_string_tab(void *str)
