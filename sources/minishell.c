@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/21 12:08:45 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 12:15:43 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ static _Noreturn void	exec_non_interactive(struct s_env *env)
 		line = get_next_line(STDIN_FILENO);
 		if (! line || gc_add(line))
 			exit_builtin(NULL, NULL);
+		if (! *line)
+			continue ;
+		*(line + ft_strlen(line) - 1) = 0;
 		keep_exit_status(commands_exec(line, env));
 	}
 }
