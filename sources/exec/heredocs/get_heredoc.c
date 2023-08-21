@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/21 09:41:32 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:07:01 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,24 @@ static int	read_heredoc(const char *limiter, int write_fd, \
 const struct s_tab *env)
 {
 	char				*line;
+	char				*expanded_line;
 	static unsigned int	line_index;
 
 	line_index++;
 	line = readline(PS2);
-	while (line && ft_strcmp(line, limiter))
+	while (line)
 	{
-		if (g_termsig == 130 || write_line(line, write_fd, env))
+		expanded_line = read_heredoc_line(line, env);
+		if (g_termsig == 130 || ! expanded_line)
 		{
 			free(line);
 			s_close(write_fd);
 			return (EXIT_FAILURE);
 		}
+		if (! ft_strcmp(expanded_line, limiter))
+			break ;
 		free(line);
+		write(write_fd, expanded_line, ft_strlen(expanded_line));
 		line = NULL;
 		line = readline(PS2);
 		line_index ++;
@@ -88,6 +93,7 @@ const struct s_tab *env)
 	create_random_name(name, heredoc);
 	if (heredoc_open(name, hd))
 		return (EXIT_FAILURE);
+	ft_printf("This is the limiter : %s\n", heredoc->limiter);
 	error = read_heredoc(heredoc->limiter, hd->write_fd, env);
 	return ((error > 0) * EXIT_FAILURE + (error < 1) * error);
 }

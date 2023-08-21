@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:29:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/15 18:43:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:03:05 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ size_t *line_index)
 	return (env_var);
 }
 
+/*
 static int	realloc_str(struct s_str *string, const size_t newsize)
 {
 	char	*tmp;
@@ -40,6 +41,7 @@ static int	realloc_str(struct s_str *string, const size_t newsize)
 	string->size = newsize;
 	return (0);
 }
+*/
 
 /*
 	Same as function below, we keep an extra room for '\n'
@@ -48,23 +50,9 @@ static int	add_var(struct s_str *raw_line, const char *line, \
 size_t *line_index, const struct s_tab *env)
 {
 	char	*env_var;
-	char	*tmp;
-	size_t	len;
 
 	env_var = get_var(line, env, line_index);
-	len = ft_strlen(env_var);
-	if (len + raw_line->len + 2 > raw_line->size)
-	{
-		tmp = ft_realloc(raw_line->str, raw_line->len, \
-		len + raw_line->len + 2);
-		if (! tmp)
-			return (1);
-		raw_line->str = tmp;
-		raw_line->size = len + raw_line->len + 2;
-	}
-	*(raw_line->str + raw_line->len) = 0;
-	raw_line->len += ft_strcat(raw_line->str + raw_line->len, env_var);
-	return (0);
+	return (t_str_add_str(raw_line, env_var));
 }
 
 /*
@@ -87,29 +75,25 @@ const struct s_tab *env)
 			if (! *(line + index))
 				break ;
 		}
-		if (expand->len + 2 > expand->size && \
-		realloc_str(expand, 2 * expand->size))
+		if (expand->len + 2 > expand->size && t_str_realloc(expand))
 			return (1);
-		tstr_addchar(expand, *(line + index));
+		t_str_add(expand, *(line + index));
 		index ++;
 	}
 	return (0);
 }
 
-int	write_line(const char *line, int write_fd, const struct s_tab *env)
+char	*read_heredoc_line(const char *line, const struct s_tab *env)
 {
 	struct s_str	expand;
-	int				err;
 
-	if (tstr_init(&expand, PARSER_SIZE))
-		return (1);
+	if (t_str_alloc(&expand, PARSER_SIZE))
+		return (NULL);
 	if (parse_heredoc_line(&expand, line, env))
 	{
-		free(expand.str);
+		free_node(expand.str);
 		return (1);
 	}
 	tstr_addchar(&expand, '\n');
-	err = (write(write_fd, expand.str, expand.len) < 0);
-	free(expand.str);
-	return (err);
+	return (expand.str);
 }
