@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 11:42:36 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 09:41:32 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ const struct s_tab *env)
 	static unsigned int	line_index;
 
 	line_index++;
-	line = readline(HEREDOC_PROMPT);
+	line = readline(PS2);
 	while (line && ft_strcmp(line, limiter))
 	{
 		if (g_termsig == 130 || write_line(line, write_fd, env))
@@ -46,7 +46,7 @@ const struct s_tab *env)
 		}
 		free(line);
 		line = NULL;
-		line = readline(HEREDOC_PROMPT);
+		line = readline(PS2);
 		line_index ++;
 	}
 	return (cleanup(line, write_fd, line_index, limiter));
