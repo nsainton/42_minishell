@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:03:00 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/20 13:57:26 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/21 10:29:40 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	init_sigarray(char **sigarray)
 {
 	*(sigarray + SIGHUP) = SIGHUP_MESSAGE;
 	*(sigarray + SIGQUIT) = SIGQUIT_MESSAGE;
-	*(sigarray + SIGINT) = SIGINT_MESSAGE;
+	//*(sigarray + SIGINT) = SIGINT_MESSAGE;
 	*(sigarray + SIGILL) = SIGILL_MESSAGE;
 	*(sigarray + SIGTRAP) = SIGTRAP_MESSAGE;
 	*(sigarray + SIGABRT) = SIGABRT_MESSAGE;
@@ -57,13 +57,21 @@ char	*choose_sig(int signum)
 	return (*(signals + signum));
 }
 
+/*
+	If you don't use the SA_RESTART flag for your
+	sigaction, the wait call for your child when
+	running execve to execute another file will
+	fail and return without waiting for said child.
+	Thus you won't be able to wait for it and it
+	will basically create a zombie.
+*/
 static void	init_sig(int signum, void handler(int, siginfo_t*, void*))
 {
 	struct sigaction	action;
 
 	ft_bzero(&action, sizeof action);
 	action.sa_sigaction = handler;
-	action.sa_flags = SA_SIGINFO;
+	action.sa_flags = SA_SIGINFO | SA_RESTART;
 	sigemptyset(&action.sa_mask);
 	sigaddset(&action.sa_mask, signum);
 	sigaction(signum, &action, NULL);
@@ -74,15 +82,14 @@ static void	interrupt(int signum, siginfo_t *info, void *ucontext)
 	(void)info;
 	(void)ucontext;
 	g_termsig = 128 + signum;
-	/*
 	if (! rl_done)
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	*/
-	rl_done = 1;
+	//rl_done = 1;
 }
 
 void	init_sigs(void)
 {
 	init_sig(SIGINT, interrupt);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 }
