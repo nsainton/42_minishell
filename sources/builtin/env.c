@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/16 08:48:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 10:51:56 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,15 @@ static int	set_pwd(struct s_tab *env_list)
 	return (set_var(env_list, pwd));
 }
 
+static int	set_default_var(struct s_tab *env_list, const char *var_name, \
+const char *default_value)
+{
+	char	*tmp;
+
+	tmp = get_var_value(env_list, var_name);
+	return (! tmp && set_var_value(env_list, var_name, default_value));
+}
+
 static int	default_vars(struct s_tab *env_list)
 {
 	char	*tmp;
@@ -228,8 +237,11 @@ static int	default_vars(struct s_tab *env_list)
 	tmp = get_var_value(env_list, "PWD");
 	if (! tmp && set_pwd(env_list))
 		return (1);
-	tmp = get_var_value(env_list, "_");
-	if (! tmp && set_var_value(env_list, "_", "/usr/bin/env"))
+	if (set_default_var(env_list, "_", "/usr/bin/env"))
+		return (1);
+	if (set_default_var(env_list, "PS1", PS1))
+		return (1);
+	if (set_default_var(env_list, "PS2", PS2))
 		return (1);
 	return (0);
 }
