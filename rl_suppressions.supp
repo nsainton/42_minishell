@@ -5,6 +5,7 @@
    fun:malloc
    ...
    fun:readline
+   ...
    fun:main
 }
 
@@ -15,6 +16,7 @@
    fun:calloc
    ...
    fun:readline
+   ...
    fun:main
 }
 
@@ -25,6 +27,7 @@
    fun:realloc
    ...
    fun:readline
+   ...
    fun:main
 }
 
@@ -45,5 +48,6 @@
 	fun:malloc
 	...
 	fun:add_history
+	...
 	fun:main
 }
