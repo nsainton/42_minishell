@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/21 11:17:32 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:27:02 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,25 @@ static _Noreturn void	exec_interactive(struct s_env *env)
 	exit_free_gc(1);
 }
 
+static _Noreturn void	exec_non_interactive(struct s_env *env)
+{
+	char	*line;
+
+	signal(SIGINT, SIG_DFL);
+	while(1)
+	{
+		line = get_next_line(STDIN_FILENO);
+		if (! line || gc_add(line))
+			exit_builtin(NULL, NULL);
+		keep_exit_status(commands_exec(line, env));
+	}
+}
+
+/*
+	bash should be launched in interactive mode if its stdin
+	and stderr are connected to a tty (`man 3 isatty`).
+	SEE ALSO: 'INVOCATION' in `man bash`
+*/
 int	main(int argc, char **argv)
 {
 	struct s_env	*env;
@@ -76,30 +95,8 @@ int	main(int argc, char **argv)
 	env = create_env((const char **)environ);
 	if (! env)
 		exit_message(1, MEM_MSG);
-	exec_interactive(env);
-	/*
-	while (1)
-	{
-		line = readline(PS1);
-		if (g_termsig)
-		{
-			reset_termsig();
-			continue ;
-		}
-		if (!line || gc_add(line))
-		{
-			exit_builtin(NULL, NULL);
-			break ;
-		}
-		if (*line)
-			add_history(line);
-		else
-			reset_termsig();
-		keep_exit_status(commands_exec(line, env));
-		if (g_termsig)
-			reset_termsig();
-	}
-	exit_free_gc(1);
-	*/
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+		exec_interactive(env);
+	exec_non_interactive(env);
 	return (errno);
 }

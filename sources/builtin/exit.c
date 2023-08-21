@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 23:52:52 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/19 08:25:17 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/21 11:34:55 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,43 +35,33 @@ static int	check_args(const char **args, const size_t len)
 	long long int	status;
 
 	status = (long long int)strtoll_errors(*args, DEC, &err);
-	ft_dprintf(STDERR_FILENO, "exit\n");
 	if (err)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: exit: %s: %s\n", *args, \
 		STRING_NUMERIC_REQUIRED);
-		keep_exit_status(NUMERIC_REQUIRED);
-		exit_free_gc(keep_exit_status(-1));
+		exit_free_gc(NUMERIC_REQUIRED);
 	}
 	if (len == 1)
-	{
-		keep_exit_status(status % 256);
-		exit_free_gc(keep_exit_status(-1));
-	}
+		exit_free_gc(status % 256);
 	if (len > 1)
-	{
 		ft_dprintf(STDERR_FILENO, "minishell: exit: %s\n", \
 		STRING_TOO_MANY);
-		keep_exit_status(TOO_MANY_ARGUMENTS);
-	}
-	return (keep_exit_status(-1));
+	return (TOO_MANY_ARGUMENTS);
 }
 
 int	exit_builtin(const char **args, struct s_env *env)
 {
 	size_t	len;
+	int		interactive;
 
 	(void)env;
-	if (args == NULL)
-	{
+	interactive = isatty(STDIN_FILENO) && isatty(STDERR_FILENO);
+	if (interactive)
 		ft_dprintf(STDERR_FILENO, "exit\n");
+	if (args == NULL)
 		exit_free_gc(keep_exit_status(-1));
-	}
 	len = tablen(args, sizeof * args);
 	if (! len)
-	{
-		ft_dprintf(STDERR_FILENO, "exit\n");
 		exit_free_gc(keep_exit_status(-1));
-	}
 	return (check_args(args, len));
 }
