@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/18 14:00:33 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 08:44:32 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,10 @@
 # define SEPARATORS " <>"
 # define HD_ELEMS_NUMBER 2
 # define HEREDOC "/tmp/minishell-"
-# define HEREDOC_PROMPT "> "
+# define PS1 "minishell> "
+# define PS2 "> "
 # define HEREDOC_WARNING "minishell: warning: here-document at line %u \
-delimited by end-of-fine (wanted `%s')\n"
+delimited by end-of-file (wanted `%s')\n"
 # define MEM_MSG "No mo mem bruv, can't reMEMber. Get it ?\n\
 Hahaha. Anyway see ya bruv"
 
