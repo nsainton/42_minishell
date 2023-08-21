@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:03:00 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/21 10:29:40 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/21 12:10:44 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,21 @@ static void	init_sig(int signum, void handler(int, siginfo_t*, void*))
 	sigaction(signum, &action, NULL);
 }
 
+/*
+	If you stuff a '\n' into readline buffer without telling it that
+	we moved onto a new line, it will add another newline character and
+	thus you will see two newlines after you hit ^C
+*/
 static void	interrupt(int signum, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
 	g_termsig = 128 + signum;
 	if (! rl_done)
+	{
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_on_new_line();
+	}
 	//rl_done = 1;
 }
 
