@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:02:57 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/23 10:44:06 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 10:47:43 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,73 +315,3 @@ int	print_exportlist(struct s_tab *export)
 	free_node(tab.tab);
 	return (0);
 }
-
-/*
-	if (cmd->args[0])
-	{
-		ft_dprintf(2, "env : minishell doesn't support arguments or options\n");
-		d->errnum = 127;
-	}
-	else
-		print_list_prefix(d->env->list_env, NULL);
-	return (SUCCESS);
-}
-*/
-
-/*
-t_list 	*create_false_env(void)
-{
-	t_list	*my_env;
-	char	*line;
-
-	line = "SHLVL=1";
-	my_env = gc_lstnew((void *) line);
-	if (!my_env)
-		exit_free_gc(ALLOCATION_ERROR);
-	return (my_env);
-}
-*/
-
-/*
-int	unset_env(t_data *d, t_command *cmd)
-{
-	int		i;
-	t_list	*tmp;
-	char	*line;
-
-	d->errnum = 0;
-	if (d->env->is_empty)
-	{
-		ft_dprintf(2, "env : unset : No such file or directory\n");
-		return (127);
-	}
-	if (!cmd->args[0])
-		return (SUCCESS);
-	i = 0;
-	tmp = d->env->list_env;
-	while (cmd->args[i])
-	{
-		while (d->env->list_env)
-		{
-			line = (char *)d->env->list_env->content;
-			if (!ft_strncmp(cmd->args[i], line, ft_strlen(cmd->args[i]))
-				&& line[ft_strlen(cmd->args[i])] == '=')
-				delete_env_line(tmp, d->env->list_env);
-			d->env->list_env = d->env->list_env->next;
-		}
-		i++;
-	}
-	d->env->list_env = tmp;
-	return (SUCCESS);
-}
-*/
-
-/*
-void	delete_env_line(t_list *start, t_list *to_del)
-{
-	while (start->next != to_del)
-		start = start->next;
-	start->next = to_del->next;
-	to_del->content = 0;
-}
-*/
