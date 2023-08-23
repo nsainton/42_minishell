@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/23 10:28:39 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 13:56:01 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ const struct s_tab *env)
 	static unsigned int	line_index;
 
 	line_index++;
-	line = readline(PS2);
+	line = readline(get_prompt(env, "PS2"));
 	while (line)
 	{
 		expanded_line = read_heredoc_line(line, env);
@@ -51,7 +51,7 @@ const struct s_tab *env)
 			break ;
 		free(line);
 		write(write_fd, expanded_line, ft_strlen(expanded_line));
-		line = readline(PS2);
+		line = readline(get_prompt(env, "PS2"));
 		line_index ++;
 	}
 	return (cleanup(line, write_fd, line_index, limiter));

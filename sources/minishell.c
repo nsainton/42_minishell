@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/23 11:07:17 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 13:53:47 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ volatile sig_atomic_t	g_termsig = 0;
 
 extern char				**environ;
 
-static const char	*get_prompt(const struct s_tab *env, \
+const char	*get_prompt(const struct s_tab *env, \
 const char *prompt_var)
 {
 	const char	*prompt;
