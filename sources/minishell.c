@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/21 12:15:43 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/23 08:28:06 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static _Noreturn void	exec_interactive(struct s_env *env)
 			exit_builtin(NULL, NULL);
 		if (*line)
 			add_history(line);
-		prompt = get_prompt(env->env_list, "PS3");
+		prompt = get_prompt(env->env_list, "PS0");
 		if (*prompt)
 			ft_putendl_fd(prompt, STDERR_FILENO);
 		keep_exit_status(commands_exec(line, env));
