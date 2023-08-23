@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 16:03:00 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/23 08:34:09 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 10:06:52 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 static void	init_sigarray(char **sigarray)
 {
 	*(sigarray + SIGHUP) = SIGHUP_MESSAGE;
+	*(sigarray + SIGTERM) = SIGTERM_MESSAGE;
 	*(sigarray + SIGQUIT) = SIGQUIT_MESSAGE;
 	*(sigarray + SIGILL) = SIGILL_MESSAGE;
 	*(sigarray + SIGTRAP) = SIGTRAP_MESSAGE;
