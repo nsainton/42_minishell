@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/23 14:15:48 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:25:45 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ const struct termios *basic_attributes)
 			add_history(line);
 		prompt = get_prompt(env->env_list, "PS0");
 		if (*prompt)
-			ft_putendl_fd(prompt, STDERR_FILENO);
+			ft_putstr_fd(prompt, STDERR_FILENO);
 		keep_exit_status(commands_exec(line, env));
 		reset_termsig();
 	}
