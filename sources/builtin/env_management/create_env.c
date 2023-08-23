@@ -6,7 +6,7 @@
 /*   By: nsainto <nsainton@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 10:56:12 by nsainto           #+#    #+#             */
-/*   Updated: 2023/08/23 10:56:22 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 11:03:43 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static int	allocate_room(struct s_env **env)
 	return (allocate_tab(tmp->export_list, ENV_SIZE, \
 	sizeof (char *)));
 }
-
-
 
 static int	export_list(struct s_tab *env_list, struct s_tab *export_list)
 {
