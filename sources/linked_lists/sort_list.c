@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 22:47:56 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/02 22:58:44 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/23 10:36:43 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static void	swap_elems(t_list *prev_first, t_list *prev_second)
 */
 static void	compare_elems(t_list *begin_list, int (*cmp)())
 {
-	t_list	*outer_iterator;
-	t_list	*inner_iterator;
+	t_list			*outer_iterator;
+	t_list			*inner_iterator;
 	unsigned int	i;
 
 	i = 0;

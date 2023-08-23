@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 13:33:27 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/21 08:44:32 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 10:39:08 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 # define PARSER_SIZE 50
 # define REDIRS_SIZE 10
 # define SERROR "minishell: syntax error near unexpected token `"
-# define USAGE "Usage: ./minishell [-c] [command string]"
+# define USAGE "Usage: ./minishell"
 # define ENTER "Entering function : %s\n"
 # define LEAVE "Leaving function : %s\n"
 # define STRING_TOO_MANY "too many arguments"
