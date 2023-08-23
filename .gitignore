@@ -22,9 +22,6 @@ minishell
 # Debug file #
 .debug
 
-# Libraries directory #
-libs
-
 # Minitalk directory #
 minitalk
 
