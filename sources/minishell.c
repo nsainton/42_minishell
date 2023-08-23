@@ -6,12 +6,13 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/23 13:53:47 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:15:48 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/ioctl.h>
+#include <termios.h>
 
 static void	reset_termsig(void)
 {
@@ -35,7 +36,8 @@ const char *prompt_var)
 	return (prompt);
 }
 
-static _Noreturn void	exec_interactive(struct s_env *env)
+static _Noreturn void	exec_interactive(struct s_env *env, \
+const struct termios *basic_attributes)
 {
 	const char	*prompt;
 	char		*line;
@@ -43,6 +45,7 @@ static _Noreturn void	exec_interactive(struct s_env *env)
 	while (1)
 	{
 		prompt = get_prompt(env->env_list, "PS1");
+		tcsetattr(STDIN_FILENO, 0, basic_attributes);
 		line = readline(prompt);
 		if (g_termsig)
 		{
@@ -88,6 +91,7 @@ static _Noreturn void	exec_non_interactive(struct s_env *env)
 int	main(int argc, char **argv)
 {
 	struct s_env	*env;
+	struct termios	basic_attributes;
 
 	if (argc != 1)
 	{
@@ -96,11 +100,12 @@ int	main(int argc, char **argv)
 	}
 	(void)argv;
 	init_sigs();
+	tcgetattr(STDIN_FILENO, &basic_attributes);
 	env = create_env((const char **)environ);
 	if (! env)
 		exit_message(1, MEM_MSG);
 	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
-		exec_interactive(env);
+		exec_interactive(env, &basic_attributes);
 	exec_non_interactive(env);
 	return (errno);
 }
