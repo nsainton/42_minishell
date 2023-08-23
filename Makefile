@@ -6,7 +6,7 @@
 #    By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/08/19 11:36:45 by nsainto          ###   ########.fr        #
+#    Updated: 2023/08/23 11:10:25 by nsainto          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ CFLAGS:= -Wall -Wextra -Werror
 
 HEADER_URL := git@github.com:nsainton/42_lazy_header.git
 
-HEADER_SCRIPT_DIR:= $(addprefix $(LIBS_DIR)/, header)
+HEADER_SCRIPT_DIR:= Header
 
 HEADER_EXEC:= lazyheader
 
