@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/23 08:34:35 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 09:48:45 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,12 @@ static char	*find_command_path(char *command, struct s_tab *env)
 	err = getpath(command, &path, env);
 	if (err || ! path)
 	{
-		if (err == 127)
+		if (err)
 			ft_printf("minishell: %s: no such file or directory\n", \
 			command);
 		if (! err)
-		{
 			ft_printf("minishell: %s: command not found\n", command);
-			err = 127;
-		}
-		exit_free_gc(err);
+		exit_free_gc(127);
 	}
 	return (path);
 }
@@ -53,6 +50,22 @@ int	handle_exit_status(const int wstatus)
 	}
 	ft_putendl_fd(choose_sig(WIFSIGNALED(wstatus)), STDOUT_FILENO);
 	return (128 + WSTOPSIG(wstatus));
+}
+
+static void	execution_failed(const char *command_path)
+{
+	struct stat	statbuf;
+	int			is_dir;
+
+	is_dir = 1;
+	if (stat(command_path, &statbuf) || ! S_ISDIR(statbuf.st_mode))
+		is_dir = 0;
+	if (is_dir)
+		ft_dprintf(STDERR_FILENO, "minishell: %s: Is a directory\n", \
+		command_path);
+	else
+		ft_dprintf(STDERR_FILENO, "minishell: %s: permission denied\n", \
+		command_path);
 }
 
 /*
@@ -83,8 +96,9 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 		signal(SIGPIPE, SIG_DFL);
 		signal(SIGTERM, SIG_DFL);
 		command->path = find_command_path(command->command, env);
-		if (execve(command->path, command->args - 1, env->tab))
-			exit_free_gc(1);
+		execve(command->path, command->args - 1, env->tab);
+		execution_failed(command->path);
+		exit_free_gc(126);
 	}
 	wait(&status);
 	return (status);

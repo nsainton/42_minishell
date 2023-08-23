@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 10:48:37 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/23 09:27:59 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 09:38:23 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	getpath(char *command, char **command_path, struct s_tab *env)
 	if (ft_strchr(command, '/'))
 	{
 		*command_path = command;
-		return (0);
+		return (access(command, F_OK) * 127);
 	}
 	*command_path = check_hashmap(map, command);
 	if (*command_path)
