@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:47:59 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/23 10:18:13 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 10:19:43 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ static int	make_redirection(struct s_redir *redir)
 		return (1);
 	fd = s_open(redir->file, get_flags(redir->mode), 0644);
 	if (fd < 0)
+	{
+		if (redir->mode == 'r')
+			ft_dprintf(STDERR_FILENO, \
+			"minishell: %s: No such file or directory\n", redir->file);
 		return (1);
+	}
 	if ((s_dup2(fd, redir->fd) < 0) || s_close(fd))
 		return (1);
 	return (0);
