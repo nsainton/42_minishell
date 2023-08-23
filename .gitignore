@@ -33,3 +33,6 @@ minitalk
 
 # Test binaries folder #
 test_bins
+
+# Header Script dir #
+Header
