@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 12:47:55 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/21 15:00:23 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/23 08:34:35 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static int	execute_file(struct s_ncommand *command, struct s_tab *env)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGPIPE, SIG_DFL);
+		signal(SIGTERM, SIG_DFL);
 		command->path = find_command_path(command->command, env);
 		if (execve(command->path, command->args - 1, env->tab))
 			exit_free_gc(1);
