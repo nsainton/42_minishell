@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:29:57 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/21 16:03:05 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/23 07:56:44 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,12 @@ char	*read_heredoc_line(const char *line, const struct s_tab *env)
 	if (parse_heredoc_line(&expand, line, env))
 	{
 		free_node(expand.str);
-		return (1);
+		return (NULL);
 	}
-	tstr_addchar(&expand, '\n');
+	if (t_str_add(&expand, '\n'))
+	{
+		free_node(expand.str);
+		return (NULL);
+	}
 	return (expand.str);
 }
