@@ -1,0 +1,27 @@
+# MacOs generated folders #
+.DS_Store
+*.dSYM
+
+# Objects files #
+*.o
+
+# Vim swap files #
+*.swp
+
+# Executable files #
+*.out
+
+# Test file #
+main.c
+
+# Archive files #
+*.a
+
+# Temporary header files #
+*.th
+
+# Dependancy files #
+*.d
+
+# Library folder #
+libs
