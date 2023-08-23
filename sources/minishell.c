@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 15:08:42 by avedrenn          #+#    #+#             */
-/*   Updated: 2023/08/23 08:28:06 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 11:07:17 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 static void	reset_termsig(void)
 {
-	if (g_termsig)
+	if (g_termsig == 130)
 		keep_exit_status(g_termsig);
 	g_termsig = 0;
 }
 
 volatile sig_atomic_t	g_termsig = 0;
 
-extern char	**environ;
+extern char				**environ;
 
 static const char	*get_prompt(const struct s_tab *env, \
 const char *prompt_var)
@@ -68,7 +68,7 @@ static _Noreturn void	exec_non_interactive(struct s_env *env)
 	char	*line;
 
 	signal(SIGINT, SIG_DFL);
-	while(1)
+	while (1)
 	{
 		line = get_next_line(STDIN_FILENO);
 		if (! line || gc_add(line))
