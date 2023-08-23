@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 10:48:37 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/17 13:37:21 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/23 09:27:59 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*check_hashmap(struct s_hashmap *map, const char *command)
 	if (! path_node)
 		return (NULL);
 	path = path_node->content;
-	if (access(path, F_OK) || access(path, X_OK))
+	if (! is_regular(path, 1))
 	{
 		hash_map_delete(map, path_node);
 		return (NULL);

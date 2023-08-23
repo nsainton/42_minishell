@@ -6,14 +6,14 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:16:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/16 11:12:01 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/23 09:26:43 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <limits.h>
 
-static int	is_regular(const char *filepath, const int check_exec)
+int	is_regular(const char *filepath, const int check_exec)
 {
 	struct stat	statbuf;
 	int			reg;
