@@ -6,7 +6,7 @@
 /*   By: nsainto <nsainton@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 10:49:49 by nsainto           #+#    #+#             */
-/*   Updated: 2023/08/23 10:50:50 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 10:51:20 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ const char *default_value)
 	return (! tmp && set_var_value(env_list, var_name, default_value));
 }
 
-static int	default_vars(struct s_tab *env_list)
+int	default_vars(struct s_tab *env_list)
 {
 	char	*tmp;
 
