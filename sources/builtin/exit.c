@@ -6,7 +6,7 @@
 /*   By: avedrenn <avedrenn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 23:52:52 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/21 11:34:55 by nsainton         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:50:41 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	exit_builtin(const char **args, struct s_env *env)
 	int		interactive;
 
 	(void)env;
-	interactive = isatty(STDIN_FILENO) && isatty(STDERR_FILENO);
+	interactive = (isatty(STDIN_FILENO) && isatty(STDERR_FILENO));
 	if (interactive)
 		ft_dprintf(STDERR_FILENO, "exit\n");
 	if (args == NULL)

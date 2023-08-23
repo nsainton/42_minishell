@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:16:49 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/23 09:26:43 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 13:51:11 by nsainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*find_in_path(const char *path, const char *command)
 	command_path = NULL;
 	if (*path == ':')
 		command_path = get_cwd_path(command);
-	if (command_path && is_regular(command_path, 1)) 
+	if (command_path && is_regular(command_path, 1))
 		return (command_path);
 	while (*(path + i))
 	{
