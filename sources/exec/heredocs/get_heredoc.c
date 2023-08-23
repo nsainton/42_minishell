@@ -6,7 +6,7 @@
 /*   By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:38:38 by nsainton          #+#    #+#             */
-/*   Updated: 2023/08/23 08:07:17 by nsainto          ###   ########.fr       */
+/*   Updated: 2023/08/23 10:28:39 by nsainto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 	The code should be well structured and this function shouldn't
 	exist. Dakara, I don't know yet how to do
 */
-static int cleanup(char *line, int fd, const unsigned int line_index, \
+static int	cleanup(char *line, int fd, const unsigned int line_index, \
 const char *limiter)
 {
 	if (! line)
@@ -46,7 +46,6 @@ const struct s_tab *env)
 			s_close(write_fd);
 			return (EXIT_FAILURE);
 		}
-		ft_printf("This is the retrieved line : `%s'\n");
 		if (! ft_strncmp(expanded_line, limiter, \
 		ft_strlen(expanded_line) - 1) && ft_strlen(expanded_line) > 1)
 			break ;
@@ -96,7 +95,6 @@ const struct s_tab *env)
 	create_random_name(name, heredoc);
 	if (heredoc_open(name, hd))
 		return (EXIT_FAILURE);
-	ft_printf("This is the limiter : `%s'\n", heredoc->limiter);
 	error = read_heredoc(heredoc->limiter, hd->write_fd, env);
 	return ((error > 0) * EXIT_FAILURE + (error < 1) * error);
 }
